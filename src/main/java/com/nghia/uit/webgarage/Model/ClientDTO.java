@@ -93,17 +93,18 @@ public class ClientDTO {
         this.carBrand = carBrand;
     }
 
-    public void doMappingClientCar(Car car) {
-        licensePlate = car.getLicensePlate();
-        carBrand = car.getCarBrand();
-    }
-    public void doMappingClientDTO(Users users) {
+    public void doMappingClientDTO(Users users,Car car) {
+        id = users.getId();
         userID = users.getUserID();
         userName = users.getUserName();
         phoneNumber = users.getPhoneNumber();
         address = users.getAddress();
         email = users.getEmail();
         debt = users.getDebt();
+        if(car!=null) {
+            licensePlate = car.getLicensePlate();
+            carBrand = car.getCarBrand();
+        }
     }
 
 }

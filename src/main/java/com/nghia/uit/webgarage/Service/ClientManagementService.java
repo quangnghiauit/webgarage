@@ -8,5 +8,9 @@ import java.util.List;
 public interface ClientManagementService {
     List<ClientDTO> getInfoClient();
 
-    Users addClient(Users users);
+    Users addClient(ClientDTO users);
+
+    Users updateClient(ClientDTO clientDTO,String userID);
+
+    String deleteClient(String userID);
 }

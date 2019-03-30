@@ -98,12 +98,13 @@ public class Users {
                 '}';
     }
 
-    public void doMappingClient(Users entity) {
-        userID = entity.getUserID();
-        userName = entity.getUserName();
-        phoneNumber = entity.getPhoneNumber();
-        address = entity.getAddress();
-        email = entity.getEmail();
-        debt = entity.getDebt();
+    public void doMappingClientDTO(ClientDTO users) {
+        userID = users.getUserID();
+        userName = users.getUserName();
+        phoneNumber = users.getPhoneNumber();
+        address = users.getAddress();
+        email = users.getEmail();
+        debt = users.getDebt();
     }
+
 }

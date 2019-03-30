@@ -1,5 +1,6 @@
 package com.nghia.uit.webgarage.Service.Impl;
 
+import com.nghia.uit.webgarage.Config.MessagesConstants;
 import com.nghia.uit.webgarage.Model.Car;
 import com.nghia.uit.webgarage.Model.ClientDTO;
 import com.nghia.uit.webgarage.Model.Users;
@@ -31,16 +32,16 @@ public class ClientManagementServiceImpl implements ClientManagementService {
         List<Users> usersList = userRepository.findAllByFilter();
         List<Car> carList = new ArrayList<>();
         List<ClientDTO> clientDTOS = new ArrayList<>();
+        Car car = new Car();
         for (Users users : usersList) {
             ClientDTO client = new ClientDTO();
             carList = carRepository.findCarByUserID(users.getUserID());
             if (carList.size() == 0) {
-                client.doMappingClientDTO(users);
+                client.doMappingClientDTO(users, car);
                 clientDTOS.add(client);
             } else {
-                for (Car car : carList) {
-                    client.doMappingClientDTO(users);
-                    client.doMappingClientCar(car);
+                for (Car car1 : carList) {
+                    client.doMappingClientDTO(users, car1);
                     clientDTOS.add(client);
                 }
             }
@@ -49,11 +50,31 @@ public class ClientManagementServiceImpl implements ClientManagementService {
     }
 
     @Override
-    public Users addClient(Users users) {
+    public Users addClient(ClientDTO users) {
         Users entity = new Users();
-        entity.doMappingClient(users);
+        entity.doMappingClientDTO(users);
         userRepository.save(entity);
         return entity;
     }
+
+    @Override
+    public Users updateClient(ClientDTO clientDTO, String userID) {
+        Users user = userRepository.findByUserID(userID);
+        user.doMappingClientDTO(clientDTO);
+        userRepository.save(user);
+        return user;
+    }
+
+    @Override
+    public String deleteClient(String userID) {
+        try {
+            Users user = userRepository.findByUserID(userID);
+            userRepository.delete(user);
+            return MessagesConstants.DONE_DELETEREQUEST;
+        } catch (Exception ex) {
+            return ex.getMessage();
+        }
+    }
+
 
 }
