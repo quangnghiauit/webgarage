@@ -1,4 +1,4 @@
 package com.nghia.uit.webgarage.Model;
 
-public class PhieuSuaChua {
+public class Material {
 }

@@ -1,4 +1,4 @@
 package com.nghia.uit.webgarage.Model;
 
-public class QuanLyNhapVatTu {
+public class Revenue {
 }

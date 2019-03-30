@@ -1,4 +1,4 @@
 package com.nghia.uit.webgarage.Model;
 
-public class PhieuThuTien {
+public class Car {
 }
