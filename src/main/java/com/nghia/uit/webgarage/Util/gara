@@ -1,0 +1,89 @@
+Drop database if exists `GARA`;
+CREATE SCHEMA GARA;
+#drop SCHEMA GARA;
+USE GARA;
+
+Drop table if exists `car`;
+Drop table if exists `users`;
+Drop table if exists `material`;
+Drop table if exists `revenue`;
+Drop table if exists `repairInvoice`;
+Drop table if exists `detailRepairInvoice`;
+Drop table if exists `inventoryReport`;
+
+
+create table car
+(
+	id int(10) not null auto_increment primary key,
+    licensePlate varchar(10),
+    userID long,
+    carBrand varchar(100)
+);
+#drop table car;
+
+create table users
+(
+	id int(10) not null auto_increment primary key,
+    userID long,
+    userName varchar(100),
+    phoneNumber varchar(12),
+    address varchar(1000),
+    email varchar(50),
+    debt long
+);
+
+create table material
+(
+	id int(10) not null auto_increment primary key,
+    materialID long,
+    materialName varchar(100),
+    price long,
+    mateNum int,
+    numInput int,
+    reqDate date
+);
+
+
+create table revenue
+(
+	id int(10) not null auto_increment primary key,
+    revenueID long,
+    reqDate date,
+    licensePlate varchar(10),
+    reqNumber int,
+    totalMoney long,
+    repairInvoiceID long
+
+);
+
+create table repairInvoice
+(
+	id int(10) not null auto_increment primary key,
+    repairInvoiceID long,
+    licensePlate varchar(10),
+    reqDate date,
+    userID long,
+    totalMoney long
+);
+
+create table detailRepairInvoice
+(
+	id int(10) not null auto_increment primary key,
+    detailReInID long,
+    infoInvoice varchar(1000),
+    materialID long,
+    repNum int,
+    totalMoney long
+);
+
+create table inventoryReport
+(
+	id int(10) not null auto_increment primary key,
+    invReportID long,
+    reqDate date,
+    materialID long,
+    initInv int,
+    invInput int,
+    lastInv int
+);
+
