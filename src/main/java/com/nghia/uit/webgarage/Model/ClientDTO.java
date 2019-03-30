@@ -1,33 +1,25 @@
 package com.nghia.uit.webgarage.Model;
 
-import javax.persistence.*;
 
-@Entity
-@Table(name = "users")
-public class Users {
+public class ClientDTO {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
     private int id;
 
-    @Column(name = "userID")
     private long userID;
 
-    @Column(name = "userName")
     private String userName;
 
-    @Column(name = "phoneNumber")
     private String phoneNumber;
 
-    @Column(name = "address")
     private String address;
 
-    @Column(name = "email")
     private String email;
 
-    @Column(name = "debt")
     private long debt;
+
+    private String licensePlate;
+
+    private String carBrand;
 
     public int getId() {
         return id;
@@ -85,26 +77,34 @@ public class Users {
         this.debt = debt;
     }
 
-    @Override
-    public String toString() {
-        return "Users{" +
-                "id=" + id +
-                ", userID=" + userID +
-                ", userName='" + userName + '\'' +
-                ", phoneNumber='" + phoneNumber + '\'' +
-                ", address='" + address + '\'' +
-                ", email='" + email + '\'' +
-                ", debt=" + debt +
-                '}';
+    public String getLicensePlate() {
+        return licensePlate;
     }
 
-    public void doMappingClientDTO(ClientDTO users) {
+    public void setLicensePlate(String licensePlate) {
+        this.licensePlate = licensePlate;
+    }
+
+    public String getCarBrand() {
+        return carBrand;
+    }
+
+    public void setCarBrand(String carBrand) {
+        this.carBrand = carBrand;
+    }
+
+    public void doMappingClientDTO(Users users,Car car) {
+        id = users.getId();
         userID = users.getUserID();
         userName = users.getUserName();
         phoneNumber = users.getPhoneNumber();
         address = users.getAddress();
         email = users.getEmail();
         debt = users.getDebt();
+        if(car!=null) {
+            licensePlate = car.getLicensePlate();
+            carBrand = car.getCarBrand();
+        }
     }
 
 }
