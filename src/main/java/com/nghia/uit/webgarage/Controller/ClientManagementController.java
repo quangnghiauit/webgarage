@@ -16,10 +16,16 @@ public class ClientManagementController {
     @Autowired
     private ClientManagementService clientManagementService;
 
-    @GetMapping(value = "/getclient")
+    @GetMapping(value = "/getallclient")
     public @ResponseBody
-    ResponseEntity<?> getClient() {
-        return new ResponseEntity<>(clientManagementService.getInfoClient(), HttpStatus.OK);
+    ResponseEntity<?> getAllClient() {
+        return new ResponseEntity<>(clientManagementService.getAllClient(), HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/getinfoclient")
+    public @ResponseBody
+    ResponseEntity<?> getinfoClient(@RequestParam String userID) {
+        return new ResponseEntity<>(clientManagementService.getInfoUser(userID), HttpStatus.OK);
     }
 
     @RequestMapping(value = "/addclient", method = RequestMethod.POST)

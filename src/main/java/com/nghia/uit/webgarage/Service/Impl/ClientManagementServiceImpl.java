@@ -28,7 +28,7 @@ public class ClientManagementServiceImpl implements ClientManagementService {
     private CarRepository carRepository;
 
     @Override
-    public List<ClientDTO> getInfoClient() {
+    public List<ClientDTO> getAllClient() {
         List<Users> usersList = userRepository.findAllByFilter();
         List<Car> carList = new ArrayList<>();
         List<ClientDTO> clientDTOS = new ArrayList<>();
@@ -44,6 +44,26 @@ public class ClientManagementServiceImpl implements ClientManagementService {
                     client.doMappingClientDTO(users, car1);
                     clientDTOS.add(client);
                 }
+            }
+        }
+        return clientDTOS;
+    }
+
+    @Override
+    public List<ClientDTO> getInfoUser(String userID) {
+        Users users = userRepository.findByUserID(userID);
+        List<Car> carList = new ArrayList<>();
+        List<ClientDTO> clientDTOS = new ArrayList<>();
+        Car car = new Car();
+        ClientDTO client = new ClientDTO();
+        carList = carRepository.findCarByUserID(users.getUserID());
+        if (carList.size() == 0) {
+            client.doMappingClientDTO(users, car);
+            clientDTOS.add(client);
+        } else {
+            for (Car car1 : carList) {
+                client.doMappingClientDTO(users, car1);
+                clientDTOS.add(client);
             }
         }
         return clientDTOS;

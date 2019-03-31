@@ -61,4 +61,10 @@ public class Car {
                 ", carBrand='" + carBrand + '\'' +
                 '}';
     }
+
+    public void doMappingCar(ClientDTO clientDTO) {
+        licensePlate = clientDTO.getLicensePlate();
+        userID = clientDTO.getUserID();
+        carBrand = clientDTO.getCarBrand();
+    }
 }
