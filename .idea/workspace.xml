@@ -1,11 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="5ba2cf66-8291-444a-b9d1-1d609f33dcd0" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/nghia/uit/webgarage/Controller/ClientManagementController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/nghia/uit/webgarage/Controller/ClientManagementController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/nghia/uit/webgarage/Service/ClientManagementService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/nghia/uit/webgarage/Service/ClientManagementService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/nghia/uit/webgarage/Service/Impl/ClientManagementServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/nghia/uit/webgarage/Service/Impl/ClientManagementServiceImpl.java" afterDir="false" />
-    </list>
+    <list default="true" id="5ba2cf66-8291-444a-b9d1-1d609f33dcd0" name="Default Changelist" comment="" />
     <ignored path="$PROJECT_DIR$/target/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -30,8 +26,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/nghia/uit/webgarage/Controller/ClientManagementController.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="243">
-              <caret line="27" column="78" selection-start-line="27" selection-start-column="78" selection-end-line="27" selection-end-column="78" />
+            <state relative-caret-position="345">
+              <caret line="24" column="39" selection-start-line="24" selection-start-column="26" selection-end-line="24" selection-end-column="39" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -354,7 +350,7 @@
     <property name="RequestMappingsPanelWidth1" value="75" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1554028279696" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1554028422616" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/../EmployeeManagement" />
     <property name="project.structure.last.edited" value="Modules" />
     <property name="project.structure.proportion" value="0.15" />
@@ -406,18 +402,18 @@
       <workItem from="1553998290399" duration="2382000" />
       <workItem from="1554008055137" duration="1365000" />
       <workItem from="1554023267622" duration="27000" />
-      <workItem from="1554026480734" duration="1788000" />
+      <workItem from="1554026480734" duration="2063000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="33269000" />
+    <option name="totallyTimeSpent" value="33544000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1382" height="754" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.301059" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.301059" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Designer" order="2" />
       <window_info id="Image Layers" order="3" />
@@ -427,8 +423,8 @@
       <window_info id="Web" order="7" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info anchor="bottom" id="Run" order="2" weight="0.4009662" />
-      <window_info anchor="bottom" id="Debug" order="3" visible="true" weight="0.39452496" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.4009662" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.39452496" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" />
@@ -950,8 +946,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/nghia/uit/webgarage/Controller/ClientManagementController.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="243">
-          <caret line="27" column="78" selection-start-line="27" selection-start-column="78" selection-end-line="27" selection-end-column="78" />
+        <state relative-caret-position="345">
+          <caret line="24" column="39" selection-start-line="24" selection-start-column="26" selection-end-line="24" selection-end-column="39" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
