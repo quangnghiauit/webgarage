@@ -6,7 +6,9 @@ import com.nghia.uit.webgarage.Model.Users;
 import java.util.List;
 
 public interface ClientManagementService {
-    List<ClientDTO> getInfoClient();
+    List<ClientDTO> getAllClient();
+
+    List<ClientDTO> getInfoUser(String userID);
 
     Users addClient(ClientDTO users);
 
