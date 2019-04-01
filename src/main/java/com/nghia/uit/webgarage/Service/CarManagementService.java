@@ -4,7 +4,7 @@ import com.nghia.uit.webgarage.Model.ClientDTO;
 
 import java.util.List;
 
-public interface CarService {
+public interface CarManagementService {
 
     List<ClientDTO> getDataCar();
 

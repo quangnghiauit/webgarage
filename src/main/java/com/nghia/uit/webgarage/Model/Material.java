@@ -1,6 +1,10 @@
 package com.nghia.uit.webgarage.Model;
 
 import javax.persistence.*;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 
 @Entity
@@ -13,7 +17,7 @@ public class Material {
     private int id;
 
     @Column(name = "materialID")
-    private long materialID;
+    private String materialID;
 
     @Column(name = "materialName")
     private String materialName;
@@ -28,7 +32,7 @@ public class Material {
     private int numInput;
 
     @Column(name = "reqDate")
-    private Date reqDate;
+    private String reqDate;
 
 
     public int getId() {
@@ -39,11 +43,11 @@ public class Material {
         this.id = id;
     }
 
-    public long getMaterialID() {
+    public String getMaterialID() {
         return materialID;
     }
 
-    public void setMaterialID(long materialID) {
+    public void setMaterialID(String materialID) {
         this.materialID = materialID;
     }
 
@@ -79,11 +83,11 @@ public class Material {
         this.numInput = numInput;
     }
 
-    public Date getReqDate() {
+    public String getReqDate() {
         return reqDate;
     }
 
-    public void setReqDate(Date reqDate) {
+    public void setReqDate(String reqDate) {
         this.reqDate = reqDate;
     }
 
@@ -91,12 +95,51 @@ public class Material {
     public String toString() {
         return "Material{" +
                 "id=" + id +
-                ", materialID=" + materialID +
+                ", materialID='" + materialID + '\'' +
                 ", materialName='" + materialName + '\'' +
                 ", price=" + price +
                 ", mateNum=" + mateNum +
                 ", numInput=" + numInput +
-                ", reqDate=" + reqDate +
+                ", reqDate='" + reqDate + '\'' +
                 '}';
+    }
+
+    public void doMappingMaterial(Material material) {
+        DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+        Date date = new Date();
+        reqDate = dateFormat.format(date); //2019/03/13 20:08:43
+        String strName = dateFormat.format(date);
+
+        StringBuilder stringBuilder = new StringBuilder();
+        String strNameSplit= material.getMaterialName();
+        String[] parts = strNameSplit.split("\\s+");
+
+        if (parts.length != 1) {
+            stringBuilder.append(parts[0].substring(0, 1)).append(parts[1].substring(0, 1));
+        } else {
+            stringBuilder.append(parts[0].substring(0, 1)).append("Z");
+        }
+        stringBuilder.append(convertData(strName));
+        String strMaterialID= String.valueOf(stringBuilder);
+        materialID=strMaterialID;
+        materialName = material.getMaterialName();
+        price = material.getPrice();
+        numInput = material.getNumInput();
+    }
+
+    public String convertData(String strDate) {
+        String[] strArr = strDate.split("\\s+");
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append(strArr[0]).append(strArr[1]);
+        String string1 = String.valueOf(stringBuilder);
+        String[] strArr1 = string1.split("/");
+        StringBuilder stringBuilder1 = new StringBuilder();
+        stringBuilder1.append(strArr1[0]).append(strArr1[1]).append(strArr1[2]);
+        String string2 = String.valueOf(stringBuilder1);
+        String[] strArr2 = string2.split(":");
+        StringBuilder stringBuilder2 = new StringBuilder();
+        stringBuilder2.append(strArr2[0]).append(strArr2[1]).append(strArr2[2]);
+        String dateStr= String.valueOf(stringBuilder2);
+        return dateStr;
     }
 }

@@ -6,7 +6,7 @@ import com.nghia.uit.webgarage.Model.ClientDTO;
 import com.nghia.uit.webgarage.Model.Users;
 import com.nghia.uit.webgarage.Repository.CarRepository;
 import com.nghia.uit.webgarage.Repository.UserRepository;
-import com.nghia.uit.webgarage.Service.CarService;
+import com.nghia.uit.webgarage.Service.CarManagementService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class CarServiceImpl implements CarService {
+public class CarManagementServiceImpl implements CarManagementService {
 
     @Autowired
     private CarRepository carRepository;

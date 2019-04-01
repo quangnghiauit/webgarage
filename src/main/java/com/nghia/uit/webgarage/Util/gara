@@ -19,6 +19,8 @@ create table car
     userID long,
     carBrand varchar(100)
 );
+
+
 #drop table car;
 
 create table users
@@ -40,7 +42,7 @@ create table material
     price long,
     mateNum int,
     numInput int,
-    reqDate date
+    reqDate timestamp
 );
 
 
@@ -86,4 +88,3 @@ create table inventoryReport
     invInput int,
     lastInv int
 );
-
