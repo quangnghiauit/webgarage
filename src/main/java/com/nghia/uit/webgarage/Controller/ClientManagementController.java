@@ -34,7 +34,7 @@ public class ClientManagementController {
         return new ResponseEntity<>(clientManagementService.addClient(users), HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/updateclient", method = RequestMethod.PUT)
+    @RequestMapping(value = "/updateclient", method = RequestMethod.POST)
     public @ResponseBody
     ResponseEntity<Users> updateClient(@RequestBody ClientDTO user, @RequestParam String userID) {
         return new ResponseEntity<>(clientManagementService.updateClient(user, userID), HttpStatus.OK);

@@ -2,13 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="5ba2cf66-8291-444a-b9d1-1d609f33dcd0" name="Default Changelist" comment="done material management">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/nghia/uit/webgarage/Config/MessagesConstants.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/nghia/uit/webgarage/Config/MessagesConstants.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/nghia/uit/webgarage/Controller/MaterialManagementController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/nghia/uit/webgarage/Controller/MaterialManagementController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/nghia/uit/webgarage/Model/Material.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/nghia/uit/webgarage/Model/Material.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/nghia/uit/webgarage/Repository/MaterialRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/nghia/uit/webgarage/Repository/MaterialRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/nghia/uit/webgarage/Service/Impl/MaterialManagementServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/nghia/uit/webgarage/Service/Impl/MaterialManagementServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/nghia/uit/webgarage/Service/MaterialManagementService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/nghia/uit/webgarage/Service/MaterialManagementService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/nghia/uit/webgarage/Controller/CarManagementController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/nghia/uit/webgarage/Controller/CarManagementController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/nghia/uit/webgarage/Controller/ClientManagementController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/nghia/uit/webgarage/Controller/ClientManagementController.java" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/target/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -19,7 +14,32 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/nghia/uit/webgarage/Controller/CarManagementController.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="204">
+              <caret line="29" column="68" selection-start-line="29" selection-start-column="68" selection-end-line="29" selection-end-column="68" />
+              <folding>
+                <element signature="e#669#670#0" expanded="true" />
+                <element signature="e#762#763#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
       <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/nghia/uit/webgarage/Controller/ClientManagementController.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="85">
+              <caret line="18" column="38" selection-start-line="18" selection-start-column="26" selection-end-line="18" selection-end-column="38" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/nghia/uit/webgarage/Controller/MaterialManagementController.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="131">
@@ -95,18 +115,6 @@
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="374">
               <caret line="22" selection-start-line="22" selection-end-line="22" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/com/nghia/uit/webgarage/Service/Impl/ClientManagementServiceImpl.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="816">
-              <caret line="61" column="35" selection-start-line="61" selection-start-column="35" selection-end-line="61" selection-end-column="35" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -192,10 +200,8 @@
         <option value="$PROJECT_DIR$/src/main/java/com/nghia/uit/webgarage/Repository/CarRepository.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/nghia/uit/webgarage/Service/CarService.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/nghia/uit/webgarage/Service/Impl/CarServiceImpl.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/nghia/uit/webgarage/Controller/CarManagementController.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/nghia/uit/webgarage/Service/ClientManagementService.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/nghia/uit/webgarage/Service/Impl/ClientManagementServiceImpl.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/nghia/uit/webgarage/Controller/ClientManagementController.java" />
         <option value="$PROJECT_DIR$/src/main/resources/application.properties" />
         <option value="$PROJECT_DIR$/src/main/java/com/nghia/uit/webgarage/Util/gara" />
         <option value="$PROJECT_DIR$/src/main/java/com/nghia/uit/webgarage/Config/MessagesConstants.java" />
@@ -204,6 +210,8 @@
         <option value="$PROJECT_DIR$/src/main/java/com/nghia/uit/webgarage/Controller/MaterialManagementController.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/nghia/uit/webgarage/Service/Impl/MaterialManagementServiceImpl.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/nghia/uit/webgarage/Model/Material.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/nghia/uit/webgarage/Controller/CarManagementController.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/nghia/uit/webgarage/Controller/ClientManagementController.java" />
       </list>
     </option>
   </component>
@@ -345,7 +353,7 @@
     <property name="RequestMappingsPanelWidth1" value="75" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1555072085412" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1555072800711" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/../EmployeeManagement" />
     <property name="project.structure.last.edited" value="Modules" />
     <property name="project.structure.proportion" value="0.15" />
@@ -403,12 +411,12 @@
       <workItem from="1554133047836" duration="672000" />
       <workItem from="1554537526235" duration="2851000" />
       <workItem from="1555057048134" duration="582000" />
-      <workItem from="1555068014396" duration="4125000" />
+      <workItem from="1555068014396" duration="4895000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="53999000" />
+    <option name="totallyTimeSpent" value="54769000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1382" height="754" extended-state="6" />
@@ -776,16 +784,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/nghia/uit/webgarage/Controller/ClientManagementController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="289">
-          <caret line="24" column="39" selection-start-line="24" selection-start-column="26" selection-end-line="24" selection-end-column="39" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/nghia/uit/webgarage/Repository/UserRepository.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="204">
@@ -842,17 +840,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="117">
           <caret line="101" selection-start-line="101" selection-end-line="101" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/nghia/uit/webgarage/Controller/CarManagementController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="357">
-          <caret line="29" column="4" selection-start-line="29" selection-start-column="4" selection-end-line="38" selection-end-column="5" />
-          <folding>
-            <element signature="e#669#670#0" expanded="true" />
-            <element signature="e#762#763#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -983,6 +970,27 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="131">
           <caret line="33" column="68" lean-forward="true" selection-start-line="33" selection-start-column="68" selection-end-line="33" selection-end-column="68" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/nghia/uit/webgarage/Controller/CarManagementController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="204">
+          <caret line="29" column="68" selection-start-line="29" selection-start-column="68" selection-end-line="29" selection-end-column="68" />
+          <folding>
+            <element signature="e#669#670#0" expanded="true" />
+            <element signature="e#762#763#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/nghia/uit/webgarage/Controller/ClientManagementController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="85">
+          <caret line="18" column="38" selection-start-line="18" selection-start-column="26" selection-end-line="18" selection-end-column="38" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>

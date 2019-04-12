@@ -27,7 +27,7 @@ public class CarManagementController {
         return new ResponseEntity<>(carManagementService.addCar(clientDTO),HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/updatecar",method = RequestMethod.PUT)
+    @RequestMapping(value = "/updatecar",method = RequestMethod.POST)
     public @ResponseBody
     ResponseEntity<?> updateCar(@RequestBody ClientDTO clientDTO,@RequestParam String licensePlate) {
         return new ResponseEntity<>(carManagementService.updateCar(clientDTO,licensePlate),HttpStatus.OK);
