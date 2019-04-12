@@ -104,7 +104,7 @@ public class Material {
                 '}';
     }
 
-    public void doMappingMaterial(Material material) {
+    public void doMappingMaterial(Material material,String strID) {
         DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
         Date date = new Date();
         reqDate = dateFormat.format(date); //2019/03/13 20:08:43
@@ -115,13 +115,21 @@ public class Material {
         String[] parts = strNameSplit.split("\\s+");
 
         if (parts.length != 1) {
-            stringBuilder.append(parts[0].substring(0, 1)).append(parts[1].substring(0, 1));
+            String firstStr = parts[0].substring(0,1).toUpperCase();
+            String lastStr = parts[1].substring(0,1).toUpperCase();
+            stringBuilder.append(firstStr).append(lastStr);
         } else {
-            stringBuilder.append(parts[0].substring(0, 1)).append("Z");
+            stringBuilder.append(parts[0].substring(0, 1).toUpperCase()).append("Z");
         }
         stringBuilder.append(convertData(strName));
         String strMaterialID= String.valueOf(stringBuilder);
-        materialID=strMaterialID;
+
+        if(strID!=null&&strID!="") {
+            materialID=strID;
+        } else {
+            materialID=strMaterialID;
+        }
+
         materialName = material.getMaterialName();
         price = material.getPrice();
         numInput = material.getNumInput();

@@ -8,10 +8,10 @@ public interface MaterialManagementService {
 
     List<Material> getAllMatetial();
 
-    Material addMaterial(Material material);
+    String addMaterial(Material material);
 
-    Material updateMaterial(Material material,String materialID);
+    String updateMaterial(Material material,String id);
 
-    String deleteMaterial(String materialID);
+    String deleteMaterial(String id);
 
 }
