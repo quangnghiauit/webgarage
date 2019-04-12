@@ -20,8 +20,8 @@ public class DetailRepairInvoice {
     @Column(name = "materialID")
     private long materialID;
 
-    @Column(name = "repNum")
-    private int repNum;
+    @Column(name = "reqNum")
+    private int reqNum;
 
     @Column(name = "totalMoney")
     private long totalMoney;
@@ -59,12 +59,12 @@ public class DetailRepairInvoice {
         this.materialID = materialID;
     }
 
-    public int getRepNum() {
-        return repNum;
+    public int getReqNum() {
+        return reqNum;
     }
 
-    public void setRepNum(int repNum) {
-        this.repNum = repNum;
+    public void setReqNum(int reqNum) {
+        this.reqNum = reqNum;
     }
 
     public long getTotalMoney() {
@@ -82,7 +82,7 @@ public class DetailRepairInvoice {
                 ", detailReInID=" + detailReInID +
                 ", infoInvoice='" + infoInvoice + '\'' +
                 ", materialID=" + materialID +
-                ", repNum=" + repNum +
+                ", repNum=" + reqNum +
                 ", totalMoney=" + totalMoney +
                 '}';
     }
