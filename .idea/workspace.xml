@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="5ba2cf66-8291-444a-b9d1-1d609f33dcd0" name="Default Changelist" comment="done material management">
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/nghia/uit/webgarage/Model/DetailRepairInvoice.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/nghia/uit/webgarage/Model/DetailRepairInvoice.java" afterDir="false" />
-    </list>
+    <list default="true" id="5ba2cf66-8291-444a-b9d1-1d609f33dcd0" name="Default Changelist" comment="done material management" />
     <ignored path="$PROJECT_DIR$/target/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -376,7 +374,7 @@
     <property name="RequestMappingsPanelWidth1" value="75" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1555074410104" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1555074632023" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/../EmployeeManagement" />
     <property name="project.structure.last.edited" value="Modules" />
     <property name="project.structure.proportion" value="0.15" />
@@ -434,12 +432,12 @@
       <workItem from="1554133047836" duration="672000" />
       <workItem from="1554537526235" duration="2851000" />
       <workItem from="1555057048134" duration="582000" />
-      <workItem from="1555068014396" duration="6347000" />
+      <workItem from="1555068014396" duration="6604000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="56221000" />
+    <option name="totallyTimeSpent" value="56478000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1382" height="754" extended-state="6" />
