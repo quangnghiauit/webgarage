@@ -28,7 +28,7 @@ public class Revenue {
     private long totalMoney;
 
     @Column(name = "repairInvoiceID")
-    private long repairInvoiceID;
+    private String repairInvoiceID;
 
 
     public int getId() {
@@ -79,24 +79,11 @@ public class Revenue {
         this.totalMoney = totalMoney;
     }
 
-    public long getRepairInvoiceID() {
+    public String getRepairInvoiceID() {
         return repairInvoiceID;
     }
 
-    public void setRepairInvoiceID(long repairInvoiceID) {
+    public void setRepairInvoiceID(String repairInvoiceID) {
         this.repairInvoiceID = repairInvoiceID;
-    }
-
-    @Override
-    public String toString() {
-        return "Revenue{" +
-                "id=" + id +
-                ", revenueID=" + revenueID +
-                ", reqDate=" + reqDate +
-                ", licensePlate='" + licensePlate + '\'' +
-                ", reqNumber=" + reqNumber +
-                ", totalMoney=" + totalMoney +
-                ", repairInvoiceID=" + repairInvoiceID +
-                '}';
     }
 }

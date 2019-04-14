@@ -1,6 +1,7 @@
 package com.nghia.uit.webgarage.Model;
 
 import javax.persistence.*;
+import java.sql.Timestamp;
 
 @Entity
 @Table(name = "detailRepairInvoice")
@@ -11,20 +12,23 @@ public class DetailRepairInvoice {
     @Column(name = "id")
     private int id;
 
-    @Column(name = "detailReInID")
-    private long detailReInID;
+    @Column(name = "repairInvoiceID")
+    private String repairInvoiceID;
 
     @Column(name = "infoInvoice")
     private String infoInvoice;
+
+    @Column(name = "createdDate")
+    private Timestamp createdDate;
+
+    @Column(name = "createdBy")
+    private String createdBy;
 
     @Column(name = "materialID")
     private long materialID;
 
     @Column(name = "reqNum")
     private int reqNum;
-
-    @Column(name = "totalMoney")
-    private long totalMoney;
 
 
     public int getId() {
@@ -35,12 +39,12 @@ public class DetailRepairInvoice {
         this.id = id;
     }
 
-    public long getDetailReInID() {
-        return detailReInID;
+    public String getRepairInvoiceID() {
+        return repairInvoiceID;
     }
 
-    public void setDetailReInID(long detailReInID) {
-        this.detailReInID = detailReInID;
+    public void setRepairInvoiceID(String repairInvoiceID) {
+        this.repairInvoiceID = repairInvoiceID;
     }
 
     public String getInfoInvoice() {
@@ -49,6 +53,22 @@ public class DetailRepairInvoice {
 
     public void setInfoInvoice(String infoInvoice) {
         this.infoInvoice = infoInvoice;
+    }
+
+    public Timestamp getCreatedDate() {
+        return createdDate;
+    }
+
+    public void setCreatedDate(Timestamp createdDate) {
+        this.createdDate = createdDate;
+    }
+
+    public String getCreatedBy() {
+        return createdBy;
+    }
+
+    public void setCreatedBy(String createdBy) {
+        this.createdBy = createdBy;
     }
 
     public long getMaterialID() {
@@ -65,25 +85,5 @@ public class DetailRepairInvoice {
 
     public void setReqNum(int reqNum) {
         this.reqNum = reqNum;
-    }
-
-    public long getTotalMoney() {
-        return totalMoney;
-    }
-
-    public void setTotalMoney(long totalMoney) {
-        this.totalMoney = totalMoney;
-    }
-
-    @Override
-    public String toString() {
-        return "DetailRepairInvoice{" +
-                "id=" + id +
-                ", detailReInID=" + detailReInID +
-                ", infoInvoice='" + infoInvoice + '\'' +
-                ", materialID=" + materialID +
-                ", repNum=" + reqNum +
-                ", totalMoney=" + totalMoney +
-                '}';
     }
 }

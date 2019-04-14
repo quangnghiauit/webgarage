@@ -4,6 +4,7 @@ import org.hibernate.exception.DataException;
 import org.springframework.dao.DataAccessException;
 
 import javax.persistence.*;
+import java.sql.Timestamp;
 import java.util.Date;
 
 @Entity
@@ -16,13 +17,22 @@ public class RepairInvoice {
     private int id;
 
     @Column(name = "repairInvoiceID")
-    private long repairInvoiceID;
+    private String repairInvoiceID;
 
     @Column(name = "licensePlate")
     private String licensePlate;
 
-    @Column(name = "reqDate")
-    private Date reqDate;
+    @Column(name = "createdDate")
+    private Timestamp createdDate;
+
+    @Column(name = "createdBy")
+    private String createdBy;
+
+    @Column(name = "regDate")
+    private Date regDate;
+
+    @Column(name = "regBy")
+    private String regBy;
 
     @Column(name = "userID")
     private long userID;
@@ -39,11 +49,11 @@ public class RepairInvoice {
         this.id = id;
     }
 
-    public long getRepairInvoiceID() {
+    public String getRepairInvoiceID() {
         return repairInvoiceID;
     }
 
-    public void setRepairInvoiceID(long repairInvoiceID) {
+    public void setRepairInvoiceID(String repairInvoiceID) {
         this.repairInvoiceID = repairInvoiceID;
     }
 
@@ -55,12 +65,36 @@ public class RepairInvoice {
         this.licensePlate = licensePlate;
     }
 
-    public Date getReqDate() {
-        return reqDate;
+    public Timestamp getCreatedDate() {
+        return createdDate;
     }
 
-    public void setReqDate(Date reqDate) {
-        this.reqDate = reqDate;
+    public void setCreatedDate(Timestamp createdDate) {
+        this.createdDate = createdDate;
+    }
+
+    public String getCreatedBy() {
+        return createdBy;
+    }
+
+    public void setCreatedBy(String createdBy) {
+        this.createdBy = createdBy;
+    }
+
+    public Date getRegDate() {
+        return regDate;
+    }
+
+    public void setRegDate(Date regDate) {
+        this.regDate = regDate;
+    }
+
+    public String getRegBy() {
+        return regBy;
+    }
+
+    public void setRegBy(String regBy) {
+        this.regBy = regBy;
     }
 
     public long getUserID() {
@@ -77,17 +111,5 @@ public class RepairInvoice {
 
     public void setTotalMoney(long totalMoney) {
         this.totalMoney = totalMoney;
-    }
-
-    @Override
-    public String toString() {
-        return "RepairInvoice{" +
-                "id=" + id +
-                ", repairInvoiceID=" + repairInvoiceID +
-                ", licensePlate='" + licensePlate + '\'' +
-                ", reqDate=" + reqDate +
-                ", userID=" + userID +
-                ", totalMoney=" + totalMoney +
-                '}';
     }
 }

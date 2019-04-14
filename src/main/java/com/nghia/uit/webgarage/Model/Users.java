@@ -1,6 +1,8 @@
 package com.nghia.uit.webgarage.Model;
 
 import javax.persistence.*;
+import java.sql.Timestamp;
+import java.util.Date;
 
 @Entity
 @Table(name = "users")
@@ -16,6 +18,30 @@ public class Users {
 
     @Column(name = "userName")
     private String userName;
+
+    @Column(name = "displayname")
+    private String displayname;
+
+    @Column(name = "password")
+    private String password;
+
+    @Column(name = "isactive")
+    private int isactive;
+
+    @Column(name = "licensePlate")
+    private String licensePlate;
+
+    @Column(name = "createdDate")
+    private Timestamp createdDate;
+
+    @Column(name = "createdBy")
+    private String createdBy;
+
+    @Column(name = "updatedDate")
+    private Date updatedDate;
+
+    @Column(name = "updatedBy")
+    private String updatedBy;
 
     @Column(name = "phoneNumber")
     private String phoneNumber;
@@ -51,6 +77,70 @@ public class Users {
 
     public void setUserName(String userName) {
         this.userName = userName;
+    }
+
+    public String getDisplayname() {
+        return displayname;
+    }
+
+    public void setDisplayname(String displayname) {
+        this.displayname = displayname;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public int getIsactive() {
+        return isactive;
+    }
+
+    public void setIsactive(int isactive) {
+        this.isactive = isactive;
+    }
+
+    public String getLicensePlate() {
+        return licensePlate;
+    }
+
+    public void setLicensePlate(String licensePlate) {
+        this.licensePlate = licensePlate;
+    }
+
+    public Timestamp getCreatedDate() {
+        return createdDate;
+    }
+
+    public void setCreatedDate(Timestamp createdDate) {
+        this.createdDate = createdDate;
+    }
+
+    public String getCreatedBy() {
+        return createdBy;
+    }
+
+    public void setCreatedBy(String createdBy) {
+        this.createdBy = createdBy;
+    }
+
+    public Date getUpdatedDate() {
+        return updatedDate;
+    }
+
+    public void setUpdatedDate(Date updatedDate) {
+        this.updatedDate = updatedDate;
+    }
+
+    public String getUpdatedBy() {
+        return updatedBy;
+    }
+
+    public void setUpdatedBy(String updatedBy) {
+        this.updatedBy = updatedBy;
     }
 
     public String getPhoneNumber() {
@@ -91,6 +181,14 @@ public class Users {
                 "id=" + id +
                 ", userID=" + userID +
                 ", userName='" + userName + '\'' +
+                ", displayname='" + displayname + '\'' +
+                ", password='" + password + '\'' +
+                ", isactive=" + isactive +
+                ", licensePlate='" + licensePlate + '\'' +
+                ", createdDate=" + createdDate +
+                ", createdBy='" + createdBy + '\'' +
+                ", updatedDate=" + updatedDate +
+                ", updatedBy='" + updatedBy + '\'' +
                 ", phoneNumber='" + phoneNumber + '\'' +
                 ", address='" + address + '\'' +
                 ", email='" + email + '\'' +
