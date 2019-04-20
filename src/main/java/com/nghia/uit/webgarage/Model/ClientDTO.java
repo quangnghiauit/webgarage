@@ -1,6 +1,14 @@
 package com.nghia.uit.webgarage.Model;
 
 
+import com.nghia.uit.webgarage.Service.ServiceUtils;
+
+import javax.persistence.Column;
+import java.sql.Timestamp;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 public class ClientDTO {
 
     private int id;
@@ -20,6 +28,20 @@ public class ClientDTO {
     private String licensePlate;
 
     private String carBrand;
+
+    private String displayname;
+
+    private String password;
+
+    private int isactive;
+
+    private String createdDate;
+
+    private String createdBy;
+
+    private Date updatedDate;
+
+    private String updatedBy;
 
     public int getId() {
         return id;
@@ -93,10 +115,77 @@ public class ClientDTO {
         this.carBrand = carBrand;
     }
 
-    public void doMappingClientDTO(Users users,Car car) {
+    public String getDisplayname() {
+        return displayname;
+    }
+
+    public void setDisplayname(String displayname) {
+        this.displayname = displayname;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public int getIsactive() {
+        return isactive;
+    }
+
+    public void setIsactive(int isactive) {
+        this.isactive = isactive;
+    }
+
+    public String getCreatedDate() {
+        return createdDate;
+    }
+
+    public void setCreatedDate(String createdDate) {
+        this.createdDate = createdDate;
+    }
+
+    public String getCreatedBy() {
+        return createdBy;
+    }
+
+    public void setCreatedBy(String createdBy) {
+        this.createdBy = createdBy;
+    }
+
+    public Date getUpdatedDate() {
+        return updatedDate;
+    }
+
+    public void setUpdatedDate(Date updatedDate) {
+        this.updatedDate = updatedDate;
+    }
+
+    public String getUpdatedBy() {
+        return updatedBy;
+    }
+
+    public void setUpdatedBy(String updatedBy) {
+        this.updatedBy = updatedBy;
+    }
+
+    public void doMappingClientDTO(Users users, Car car) {
+
+        DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+        Date date = new Date();
+        createdDate = dateFormat.format(date); //2019/03/13 20:08:43
+        String strName = dateFormat.format(date);
+
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append(ServiceUtils.convertData(strName));
+        String strUserID= String.valueOf(stringBuilder);
+
         id = users.getId();
-        userID = users.getUserID();
+        userID = Long.valueOf(strUserID);
         userName = users.getUserName();
+        displayname= users.getDisplayname();
         phoneNumber = users.getPhoneNumber();
         address = users.getAddress();
         email = users.getEmail();

@@ -1,5 +1,6 @@
 package com.nghia.uit.webgarage.Service;
 
+import com.nghia.uit.webgarage.Bean.ResponseDTO;
 import com.nghia.uit.webgarage.Model.Material;
 
 import java.util.List;
@@ -8,10 +9,10 @@ public interface MaterialManagementService {
 
     List<Material> getAllMatetial();
 
-    String addMaterial(Material material);
+    ResponseDTO addMaterial(Material material);
 
-    String updateMaterial(Material material,String id);
+    ResponseDTO updateMaterial(Material material,String id);
 
-    String deleteMaterial(String id);
+    ResponseDTO deleteMaterial(String id);
 
 }

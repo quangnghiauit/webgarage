@@ -19,7 +19,7 @@ public class DetailRepairInvoice {
     private String infoInvoice;
 
     @Column(name = "createdDate")
-    private Timestamp createdDate;
+    private String createdDate;
 
     @Column(name = "createdBy")
     private String createdBy;
@@ -55,11 +55,11 @@ public class DetailRepairInvoice {
         this.infoInvoice = infoInvoice;
     }
 
-    public Timestamp getCreatedDate() {
+    public String getCreatedDate() {
         return createdDate;
     }
 
-    public void setCreatedDate(Timestamp createdDate) {
+    public void setCreatedDate(String createdDate) {
         this.createdDate = createdDate;
     }
 
@@ -86,4 +86,11 @@ public class DetailRepairInvoice {
     public void setReqNum(int reqNum) {
         this.reqNum = reqNum;
     }
+
+    public void doMappingDetail(DetailRepairInvoice detailRepairInvoice) {
+        this.infoInvoice = detailRepairInvoice.getInfoInvoice();
+        this.materialID = detailRepairInvoice.getMaterialID();
+        this.reqNum = detailRepairInvoice.getReqNum();
+    }
+
 }
