@@ -17,6 +17,7 @@ create table `car`
 	`id` int(10) not null auto_increment primary key,
     `licensePlate` varchar(10),
     `userID` long,
+    `status` int(11) default'0',
     `carBrand` varchar(100)
 );
 
@@ -26,11 +27,11 @@ create table `car`
 create table `users`
 (
 	`id` int(10) not null auto_increment primary key,
-    `userID` long,
+    `userID` long not null,
     `userName` varchar(64) not null,
-    `displayname` varchar(100) not null,
+    `displayname` varchar(100) ,
     `password` varchar(64) not null,
-    `isactive` int(11) not null default'1',
+    `isactive` int(11) default'1',
     `createdDate` timestamp,
     `createdBy` varchar(100),
     `updatedDate` varchar(100),
@@ -61,16 +62,20 @@ create table `revenue`
     `licensePlate` varchar(10),
     `reqNumber` int,
     `totalMoney` long,
-    `repairInvoiceID` long
+    `repairInvoiceID` varchar(64)
 
 );
 
 create table `repairInvoice`
 (
 	`id` int(10) not null auto_increment primary key,
-    `repairInvoiceID` long,
+    `repairInvoiceID` varchar(64),
     `licensePlate` varchar(10),
-    `reqDate` date,
+    `status` int(11) default'0',
+    `createdDate` timestamp,
+    `createdBy` varchar(100),
+    `regDate` varchar(100),
+    `regBy` varchar(100),
     `userID` long,
     `totalMoney` long
 );
@@ -78,11 +83,12 @@ create table `repairInvoice`
 create table `detailRepairInvoice`
 (
 	`id` int(10) not null auto_increment primary key,
-    `detailReInID` long,
+    `repairInvoiceID` varchar(64),
     `infoInvoice` varchar(1000),
     `materialID` varchar(20),
     `reqNum` int,
-    `totalMoney` long
+    `createdDate` timestamp,
+    `createdBy` varchar(100)
 );
 
 create table `inventoryReport`
@@ -98,14 +104,15 @@ create table `inventoryReport`
 
 create table `user_role`
 (
+`id` int(10) not null auto_increment primary key,
 	`username` varchar(64) not null ,
-    `role` varchar(64) not null,
-    primary key(`username`,`role`)
+    `role` varchar(64) not null
 );
 
 create table `roles`
 (
-	`role` varchar(128) not null primary key,
+`id` int(10) not null auto_increment primary key,
+	`role` varchar(128) not null,
     `allow` varchar(128),
     `deni` varchar(128)
 );
