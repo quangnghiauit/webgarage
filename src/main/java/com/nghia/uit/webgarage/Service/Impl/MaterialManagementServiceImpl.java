@@ -1,6 +1,7 @@
 package com.nghia.uit.webgarage.Service.Impl;
 
-import com.nghia.uit.webgarage.Config.MessagesConstants;
+import com.nghia.uit.webgarage.Bean.ResponseDTO;
+import com.nghia.uit.webgarage.Message.MessagesConstants;
 import com.nghia.uit.webgarage.Model.Material;
 import com.nghia.uit.webgarage.Repository.MaterialRepository;
 import com.nghia.uit.webgarage.Service.MaterialManagementService;
@@ -26,7 +27,7 @@ public class MaterialManagementServiceImpl implements MaterialManagementService 
     }
 
     @Override
-    public String addMaterial(Material material) {
+    public ResponseDTO addMaterial(Material material) {
         try {
             String strID= null;
             if(material.getMaterialID()!=null&&material.getMaterialID()!="") {
@@ -38,42 +39,42 @@ public class MaterialManagementServiceImpl implements MaterialManagementService 
             Material material1 = new Material();
             material1.doMappingMaterial(material,strID);
             materialRepository.save(material1);
-            return MessagesConstants.DONE_ADDREQUEST;
+            return new ResponseDTO().success(MessagesConstants.DONE_ADDREQUESTMATERIAL);
         } catch (Exception ex) {
             logger.error(ex.getMessage());
-            return ex.getMessage();
+            return new ResponseDTO().fail(ex.getMessage());
         }
 
     }
 
     @Override
-    public String updateMaterial(Material material, String id) {
+    public ResponseDTO updateMaterial(Material material, String id) {
         try{
             if(id!=null&&id!="") {
                 Material material1 = materialRepository.findById(id);
                 material1.doMappingMaterial(material,material.getMaterialID());
                 materialRepository.save(material1);
-                return MessagesConstants.DONE_UPDATEREQUEST;
+                return new ResponseDTO().success(MessagesConstants.DONE_UPDATEREQUESTMATERIAL);
             }
         }catch (Exception ex){
             logger.error(ex.getMessage());
-            return ex.getMessage();
+            return new ResponseDTO().fail(ex.getMessage());
         }
         return null;
     }
 
     @Override
-    public String deleteMaterial(String id) {
+    public ResponseDTO deleteMaterial(String id) {
         try{
 
             Material material = materialRepository.findById(id);
             if(material!=null) {
                 materialRepository.delete(material);
-                return MessagesConstants.DONE_DELETEREQUEST;
+                return new ResponseDTO().success(MessagesConstants.DONE_DELETEREQUESTMATERIAL);
             }
         }catch (Exception e){
             logger.error(e.getMessage());
-            return e.getMessage();
+            return  new ResponseDTO().fail(e.getMessage());
         }
         return null;
     }

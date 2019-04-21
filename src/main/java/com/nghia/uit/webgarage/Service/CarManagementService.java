@@ -1,5 +1,7 @@
 package com.nghia.uit.webgarage.Service;
 
+import com.nghia.uit.webgarage.Bean.ResponseDTO;
+import com.nghia.uit.webgarage.Model.Car;
 import com.nghia.uit.webgarage.Model.ClientDTO;
 
 import java.util.List;
@@ -8,9 +10,13 @@ public interface CarManagementService {
 
     List<ClientDTO> getDataCar();
 
-    ClientDTO addCar(ClientDTO clientDTO);
+    ResponseDTO addCar(Car car);
 
-    ClientDTO updateCar(ClientDTO clientDTO,String licensePlate);
+    ResponseDTO processStatusCar(String id);
 
-    String deleteCar(String licensePlate);
+    ResponseDTO processDoneStatusCar(String id);
+
+    ResponseDTO updateCar(ClientDTO clientDTO,String licensePlate);
+
+    ResponseDTO deleteCar(String licensePlate);
 }

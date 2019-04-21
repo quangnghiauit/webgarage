@@ -1,7 +1,11 @@
 package com.nghia.uit.webgarage.Model;
 
+import com.nghia.uit.webgarage.Service.ServiceUtils;
+
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 @Entity
@@ -28,11 +32,8 @@ public class Users {
     @Column(name = "isactive")
     private int isactive;
 
-    @Column(name = "licensePlate")
-    private String licensePlate;
-
     @Column(name = "createdDate")
-    private Timestamp createdDate;
+    private String createdDate;
 
     @Column(name = "createdBy")
     private String createdBy;
@@ -103,19 +104,11 @@ public class Users {
         this.isactive = isactive;
     }
 
-    public String getLicensePlate() {
-        return licensePlate;
-    }
-
-    public void setLicensePlate(String licensePlate) {
-        this.licensePlate = licensePlate;
-    }
-
-    public Timestamp getCreatedDate() {
+    public String getCreatedDate() {
         return createdDate;
     }
 
-    public void setCreatedDate(Timestamp createdDate) {
+    public void setCreatedDate(String createdDate) {
         this.createdDate = createdDate;
     }
 
@@ -184,7 +177,6 @@ public class Users {
                 ", displayname='" + displayname + '\'' +
                 ", password='" + password + '\'' +
                 ", isactive=" + isactive +
-                ", licensePlate='" + licensePlate + '\'' +
                 ", createdDate=" + createdDate +
                 ", createdBy='" + createdBy + '\'' +
                 ", updatedDate=" + updatedDate +
@@ -197,8 +189,20 @@ public class Users {
     }
 
     public void doMappingClientDTO(ClientDTO users) {
-        userID = users.getUserID();
+        DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+        Date date = new Date();
+        createdDate = dateFormat.format(date); //2019/03/13 20:08:43
+        String strName = dateFormat.format(date);
+
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append(ServiceUtils.convertData(strName));
+        String strUserID= String.valueOf(stringBuilder);
+
+        id = users.getId();
+        userID = Long.valueOf(strUserID);
         userName = users.getUserName();
+        displayname= users.getDisplayname();
+        password=users.getPassword();
         phoneNumber = users.getPhoneNumber();
         address = users.getAddress();
         email = users.getEmail();

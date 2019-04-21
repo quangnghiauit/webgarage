@@ -16,6 +16,14 @@ public class Car {
     @Column(name = "userID")
     private long userID;
 
+    /*
+    * 0: chua xu ly
+    * 1: dang xu ly
+    * 2: da xu ly
+    * */
+    @Column(name = "status")
+    private int status;
+
     @Column(name = "carBrand")
     private String carBrand;
 
@@ -52,6 +60,14 @@ public class Car {
         this.carBrand = carBrand;
     }
 
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
+    }
+
     @Override
     public String toString() {
         return "Car{" +
@@ -62,9 +78,9 @@ public class Car {
                 '}';
     }
 
-    public void doMappingCar(ClientDTO clientDTO) {
-        licensePlate = clientDTO.getLicensePlate();
-        userID = clientDTO.getUserID();
-        carBrand = clientDTO.getCarBrand();
+    public void doMappingCar(Car car) {
+        licensePlate = car.getLicensePlate();
+        licensePlate = car.getLicensePlate();
+        carBrand = car.getCarBrand();
     }
 }

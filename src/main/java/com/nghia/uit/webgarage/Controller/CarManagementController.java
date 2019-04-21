@@ -1,5 +1,6 @@
 package com.nghia.uit.webgarage.Controller;
 
+import com.nghia.uit.webgarage.Model.Car;
 import com.nghia.uit.webgarage.Model.ClientDTO;
 import com.nghia.uit.webgarage.Service.CarManagementService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,8 +24,20 @@ public class CarManagementController {
 
     @RequestMapping(value = "/addcar",method = RequestMethod.POST)
     public @ResponseBody
-    ResponseEntity<?> addCar(@RequestBody ClientDTO clientDTO) {
-        return new ResponseEntity<>(carManagementService.addCar(clientDTO),HttpStatus.OK);
+    ResponseEntity<?> addCar(@RequestBody Car car) {
+        return new ResponseEntity<>(carManagementService.addCar(car),HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/processstatus",method = RequestMethod.POST)
+    public @ResponseBody
+    ResponseEntity<?> processstatus(@RequestParam String id) {
+        return new ResponseEntity<>(carManagementService.processStatusCar(id),HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/processdonestatus",method = RequestMethod.POST)
+    public @ResponseBody
+    ResponseEntity<?> processdonestatus(@RequestParam String id) {
+        return new ResponseEntity<>(carManagementService.processDoneStatusCar(id),HttpStatus.OK);
     }
 
     @RequestMapping(value = "/updatecar",method = RequestMethod.POST)

@@ -1,10 +1,13 @@
 package com.nghia.uit.webgarage.Model;
 
+import com.nghia.uit.webgarage.Service.ServiceUtils;
 import org.hibernate.exception.DataException;
 import org.springframework.dao.DataAccessException;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 @Entity
@@ -22,8 +25,16 @@ public class RepairInvoice {
     @Column(name = "licensePlate")
     private String licensePlate;
 
+    /*
+     * 0: chua xu ly
+     * 1: dang xu ly
+     * 2: da xu ly
+     * */
+    @Column(name = "status")
+    private int status;
+
     @Column(name = "createdDate")
-    private Timestamp createdDate;
+    private String createdDate;
 
     @Column(name = "createdBy")
     private String createdBy;
@@ -65,11 +76,11 @@ public class RepairInvoice {
         this.licensePlate = licensePlate;
     }
 
-    public Timestamp getCreatedDate() {
+    public String getCreatedDate() {
         return createdDate;
     }
 
-    public void setCreatedDate(Timestamp createdDate) {
+    public void setCreatedDate(String createdDate) {
         this.createdDate = createdDate;
     }
 
@@ -111,5 +122,28 @@ public class RepairInvoice {
 
     public void setTotalMoney(long totalMoney) {
         this.totalMoney = totalMoney;
+    }
+
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
+    }
+
+    public void doMappingRepairInvoice(String strLicensePlate, long strUserID ) {
+        DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+        Date date = new Date();
+        createdDate = dateFormat.format(date); //2019/03/13 20:08:43
+        String strName = dateFormat.format(date);
+
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append("NN");
+        stringBuilder.append(ServiceUtils.convertData(strName));
+
+        repairInvoiceID = String.valueOf(stringBuilder);
+        licensePlate = strLicensePlate;
+        userID = strUserID;
     }
 }

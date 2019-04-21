@@ -30,13 +30,13 @@ public class ClientManagementController {
 
     @RequestMapping(value = "/addclient", method = RequestMethod.POST)
     public @ResponseBody
-    ResponseEntity<Users> addclient(@RequestBody ClientDTO users) {
+    ResponseEntity<?> addclient(@RequestBody ClientDTO users) {
         return new ResponseEntity<>(clientManagementService.addClient(users), HttpStatus.OK);
     }
 
     @RequestMapping(value = "/updateclient", method = RequestMethod.POST)
     public @ResponseBody
-    ResponseEntity<Users> updateClient(@RequestBody ClientDTO user, @RequestParam String userID) {
+    ResponseEntity<?> updateClient(@RequestBody ClientDTO user, @RequestParam String userID) {
         return new ResponseEntity<>(clientManagementService.updateClient(user, userID), HttpStatus.OK);
     }
 
