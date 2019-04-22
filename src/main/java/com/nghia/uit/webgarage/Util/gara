@@ -1,5 +1,5 @@
 Drop database if exists `GARA`;
-CREATE SCHEMA `GARA`;
+CREATE SCHEMA `GARA`;	
 #drop SCHEMA GARA;
 USE `GARA`;
 
@@ -29,7 +29,7 @@ create table `users`
 	`id` int(10) not null auto_increment primary key,
     `userID` long not null,
     `userName` varchar(64) not null,
-    `displayname` varchar(100) ,
+    `displayname` varchar(100) ,    
     `password` varchar(64) not null,
     `isactive` int(11) default'1',
     `createdDate` timestamp,
@@ -39,10 +39,10 @@ create table `users`
     `phoneNumber` varchar(12),
     `address` varchar(1000),
     `email` varchar(50),
-    `debt` long
+    `debt` long    
 );
 
-create table `material`
+create table `material` 
 (
 	`id` int(10) not null auto_increment primary key,
     `materialID` varchar(20),
@@ -63,7 +63,7 @@ create table `revenue`
     `reqNumber` int,
     `totalMoney` long,
     `repairInvoiceID` varchar(64)
-
+    
 );
 
 create table `repairInvoice`
@@ -88,7 +88,7 @@ create table `detailRepairInvoice`
     `materialID` varchar(20),
     `reqNum` int,
     `createdDate` timestamp,
-    `createdBy` varchar(100)
+    `createdBy` varchar(100)       
 );
 
 create table `inventoryReport`
@@ -114,5 +114,5 @@ create table `roles`
 `id` int(10) not null auto_increment primary key,
 	`role` varchar(128) not null,
     `allow` varchar(128),
-    `deni` varchar(128)
+    `deni` varchar(128) 
 );
