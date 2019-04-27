@@ -1,7 +1,7 @@
 package com.nghia.uit.webgarage.Service.Impl;
 
 import com.nghia.uit.webgarage.Bean.ResponseDTO;
-import com.nghia.uit.webgarage.Message.MessagesConstants;
+import com.nghia.uit.webgarage.Message.Constants;
 import com.nghia.uit.webgarage.Model.Material;
 import com.nghia.uit.webgarage.Repository.MaterialRepository;
 import com.nghia.uit.webgarage.Service.MaterialManagementService;
@@ -39,7 +39,7 @@ public class MaterialManagementServiceImpl implements MaterialManagementService 
             Material material1 = new Material();
             material1.doMappingMaterial(material,strID);
             materialRepository.save(material1);
-            return new ResponseDTO().success(MessagesConstants.DONE_ADDREQUESTMATERIAL);
+            return new ResponseDTO().success(Constants.DONE_ADDREQUESTMATERIAL);
         } catch (Exception ex) {
             logger.error(ex.getMessage());
             return new ResponseDTO().fail(ex.getMessage());
@@ -54,7 +54,7 @@ public class MaterialManagementServiceImpl implements MaterialManagementService 
                 Material material1 = materialRepository.findById(id);
                 material1.doMappingMaterial(material,material.getMaterialID());
                 materialRepository.save(material1);
-                return new ResponseDTO().success(MessagesConstants.DONE_UPDATEREQUESTMATERIAL);
+                return new ResponseDTO().success(Constants.DONE_UPDATEREQUESTMATERIAL);
             }
         }catch (Exception ex){
             logger.error(ex.getMessage());
@@ -70,7 +70,7 @@ public class MaterialManagementServiceImpl implements MaterialManagementService 
             Material material = materialRepository.findById(id);
             if(material!=null) {
                 materialRepository.delete(material);
-                return new ResponseDTO().success(MessagesConstants.DONE_DELETEREQUESTMATERIAL);
+                return new ResponseDTO().success(Constants.DONE_DELETEREQUESTMATERIAL);
             }
         }catch (Exception e){
             logger.error(e.getMessage());

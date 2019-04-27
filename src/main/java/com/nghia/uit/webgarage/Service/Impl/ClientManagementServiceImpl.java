@@ -1,7 +1,7 @@
 package com.nghia.uit.webgarage.Service.Impl;
 
 import com.nghia.uit.webgarage.Bean.ResponseDTO;
-import com.nghia.uit.webgarage.Message.MessagesConstants;
+import com.nghia.uit.webgarage.Message.Constants;
 import com.nghia.uit.webgarage.Model.Car;
 import com.nghia.uit.webgarage.Model.ClientDTO;
 import com.nghia.uit.webgarage.Model.Users;
@@ -77,12 +77,12 @@ public class ClientManagementServiceImpl implements ClientManagementService {
             if(userName!=null) {
                 Users users1 = userRepository.findByUserName(userName);
                 if(users1!=null) {
-                    return new ResponseDTO().fail(MessagesConstants.FAIL_EXISTSUSERS);
+                    return new ResponseDTO().fail(Constants.FAIL_EXISTSUSERS);
                 }
                 Users entity = new Users();
                 entity.doMappingClientDTO(users);
                 userRepository.save(entity);
-                return new ResponseDTO().success(MessagesConstants.DONE_ADDREQUESTUSERS);
+                return new ResponseDTO().success(Constants.DONE_ADDREQUESTUSERS);
             }
 
         } catch (Exception ex) {
@@ -98,7 +98,7 @@ public class ClientManagementServiceImpl implements ClientManagementService {
             Users user = userRepository.findByUserID(userID);
             user.doMappingClientDTO(clientDTO);
             userRepository.save(user);
-            return new ResponseDTO().success(MessagesConstants.DONE_UPDATEREQUESTUSERS);
+            return new ResponseDTO().success(Constants.DONE_UPDATEREQUESTUSERS);
         } catch (Exception ex) {
             logger.error(ex.getMessage());
             return  new ResponseDTO().fail(ex.getMessage());
@@ -110,7 +110,7 @@ public class ClientManagementServiceImpl implements ClientManagementService {
         try {
             Users user = userRepository.findByUserID(userID);
             userRepository.delete(user);
-            return  new ResponseDTO().success(MessagesConstants.DONE_DELETEREQUESTUSERS);
+            return  new ResponseDTO().success(Constants.DONE_DELETEREQUESTUSERS);
         } catch (Exception ex) {
             return new ResponseDTO().fail(ex.getMessage());
         }

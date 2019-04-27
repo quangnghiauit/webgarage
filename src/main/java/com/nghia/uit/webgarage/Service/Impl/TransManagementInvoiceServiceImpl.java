@@ -1,9 +1,8 @@
 package com.nghia.uit.webgarage.Service.Impl;
 
 import com.nghia.uit.webgarage.Bean.ResponseDTO;
-import com.nghia.uit.webgarage.Message.MessagesConstants;
+import com.nghia.uit.webgarage.Message.Constants;
 import com.nghia.uit.webgarage.Model.DetailRepairInvoice;
-import com.nghia.uit.webgarage.Model.Users;
 import com.nghia.uit.webgarage.Repository.DetailRepairInvoiceRepository;
 import com.nghia.uit.webgarage.Service.TransManagementInvoiceService;
 import org.slf4j.Logger;
@@ -50,7 +49,7 @@ public class TransManagementInvoiceServiceImpl implements TransManagementInvoice
             detailRepairInvoice1.setCreatedDate(dateFormat.format(date));
             detailRepairInvoice1.doMappingDetail(detailRepairInvoice);
             detailRepairInvoiceRepository.save(detailRepairInvoice1);
-            return new ResponseDTO().success(MessagesConstants.DONE_ADDMATERIALSERVICE);
+            return new ResponseDTO().success(Constants.DONE_ADDMATERIALSERVICE);
         } catch (Exception ex) {
             logger.error(ex.getMessage());
             return new ResponseDTO().fail(ex.getMessage());
@@ -63,7 +62,7 @@ public class TransManagementInvoiceServiceImpl implements TransManagementInvoice
             DetailRepairInvoice detailRepairInvoice1 = detailRepairInvoiceRepository.findById(id);
             detailRepairInvoice1.doMappingDetail(detailRepairInvoice);
             detailRepairInvoiceRepository.save(detailRepairInvoice1);
-            return new ResponseDTO().success(MessagesConstants.DONE_UPDATEMATERIALSERVICE);
+            return new ResponseDTO().success(Constants.DONE_UPDATEMATERIALSERVICE);
         } catch (Exception ex) {
             logger.error(ex.getMessage());
             return new ResponseDTO().fail(ex.getMessage());
@@ -75,7 +74,7 @@ public class TransManagementInvoiceServiceImpl implements TransManagementInvoice
         try {
             DetailRepairInvoice detailRepairInvoice1 = detailRepairInvoiceRepository.findById(id);
             detailRepairInvoiceRepository.delete(detailRepairInvoice1);
-            return new ResponseDTO().success(MessagesConstants.DONE_DELETEMATERIALSERVICE);
+            return new ResponseDTO().success(Constants.DONE_DELETEMATERIALSERVICE);
         } catch (Exception ex) {
             logger.error(ex.getMessage());
             return new ResponseDTO().fail(ex.getMessage());

@@ -1,7 +1,7 @@
 package com.nghia.uit.webgarage.Service.Impl;
 
 import com.nghia.uit.webgarage.Bean.ResponseDTO;
-import com.nghia.uit.webgarage.Message.MessagesConstants;
+import com.nghia.uit.webgarage.Message.Constants;
 import com.nghia.uit.webgarage.Model.Car;
 import com.nghia.uit.webgarage.Model.ClientDTO;
 import com.nghia.uit.webgarage.Model.RepairInvoice;
@@ -60,9 +60,9 @@ public class CarManagementServiceImpl implements CarManagementService {
         try {
             long userID = car.getUserID();
             if(String.valueOf(userID)!=null) {
-                car.setStatus(MessagesConstants.INIT_PROCESS);
+                car.setStatus(Constants.INIT_PROCESS);
                 carRepository.save(car);
-                return new ResponseDTO().success(MessagesConstants.DONE_ADDREQUESTCAR);
+                return new ResponseDTO().success(Constants.DONE_ADDREQUESTCAR);
             }
 
         } catch (Exception ex) {
@@ -77,13 +77,13 @@ public class CarManagementServiceImpl implements CarManagementService {
         try {
 
             Car car = carRepository.findCarById(id);
-            car.setStatus(MessagesConstants.PROCESSING);
+            car.setStatus(Constants.PROCESSING);
             carRepository.save(car);
             RepairInvoice repairInvoice = new RepairInvoice();
             repairInvoice.doMappingRepairInvoice(car.getLicensePlate(),car.getUserID());
-            repairInvoice.setStatus(MessagesConstants.PROCESSING);
+            repairInvoice.setStatus(Constants.PROCESSING);
             repairInvoiceRepository.save(repairInvoice);
-            return new ResponseDTO().success(MessagesConstants.PROCESSING_MESSAGE);
+            return new ResponseDTO().success(Constants.PROCESSING_MESSAGE);
         } catch (Exception ex) {
             logger.error(ex.getMessage());
             return new ResponseDTO().fail(ex.getMessage());
@@ -95,9 +95,9 @@ public class CarManagementServiceImpl implements CarManagementService {
         try {
 
             Car car = carRepository.findCarById(id);
-            car.setStatus(MessagesConstants.DONE_PROCESS);
+            car.setStatus(Constants.DONE_PROCESS);
             carRepository.save(car);
-            return new ResponseDTO().success(MessagesConstants.DONE_PROCESSMESSAGE);
+            return new ResponseDTO().success(Constants.DONE_PROCESSMESSAGE);
         } catch (Exception ex) {
             logger.error(ex.getMessage());
             return new ResponseDTO().fail(ex.getMessage());
@@ -110,7 +110,7 @@ public class CarManagementServiceImpl implements CarManagementService {
             Car car = carRepository.findCarByLicensePlate(licensePlate);
             Users user = userRepository.findByUserID(String.valueOf(car.getUserID()));
             //saveCarMapping(clientDTO, user, car);
-            return new ResponseDTO().success(MessagesConstants.DONE_UPDATEREQUESTCAR);
+            return new ResponseDTO().success(Constants.DONE_UPDATEREQUESTCAR);
         } catch (Exception ex) {
             logger.error(ex.getMessage());
             return new ResponseDTO().fail(ex.getMessage());
@@ -123,7 +123,7 @@ public class CarManagementServiceImpl implements CarManagementService {
         try {
             Car car = carRepository.findCarByLicensePlate(licensePlate);
             carRepository.delete(car);
-            return new ResponseDTO().success(MessagesConstants.DONE_DELETEREQUESTCAR);
+            return new ResponseDTO().success(Constants.DONE_DELETEREQUESTCAR);
         } catch (Exception ex) {
             return new ResponseDTO().fail(ex.getMessage());
         }

@@ -1,10 +1,12 @@
 package com.nghia.uit.webgarage.RestAPI;
 
 import com.nghia.uit.webgarage.Config.CustomWebAuthenticationDetails;
+import com.nghia.uit.webgarage.Message.Constants;
 import com.nghia.uit.webgarage.Model.UserRole;
 import com.nghia.uit.webgarage.Model.Users;
 import com.nghia.uit.webgarage.Repository.UserRepository;
 import com.nghia.uit.webgarage.Repository.UserRoleRepository;
+import com.nghia.uit.webgarage.Service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,6 +25,9 @@ public class LoginAPI {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private UserService userService;
+
 
 
     protected CustomWebAuthenticationDetails getUserSession() {
@@ -32,7 +37,7 @@ public class LoginAPI {
 
 
     @CrossOrigin
-    @RequestMapping(value = "/api/getID", method = RequestMethod.GET)
+    @RequestMapping(value = "/api/auth/getID", method = RequestMethod.GET)
     public ResponseEntity<?> getUserID() {
         CustomWebAuthenticationDetails user = getUserSession();
         String userName = "";
@@ -47,11 +52,21 @@ public class LoginAPI {
 
 
     @CrossOrigin
-    @RequestMapping(value = "/api/role",method = RequestMethod.GET)
+    @RequestMapping(value = "/api/auth/role",method = RequestMethod.GET)
     public ResponseEntity<String>  roles() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         return  new ResponseEntity<>(authentication.getAuthorities().toString(), HttpStatus.OK);
     }
+
+    @CrossOrigin
+    @RequestMapping(value = "/api/auth/get-roles-of-current-user", method = RequestMethod.GET)
+    public ResponseEntity<?> getConfigForCreateTicketPage() {
+        CustomWebAuthenticationDetails user = getUserSession();
+        String userName = user != null ? user.getUsername() : Constants.DEV_USER;
+        return new ResponseEntity<>(userService.getRolesByUserName(userName), HttpStatus.OK);
+    }
+
+
 
     @CrossOrigin
     @GetMapping(value = "/api/auth")

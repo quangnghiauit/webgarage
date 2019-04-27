@@ -33,19 +33,19 @@ public class DataSeedingListener implements ApplicationListener<ContextRefreshed
     @Override
     public void onApplicationEvent(ContextRefreshedEvent contextRefreshedEvent) {
         // Roles
-        if (roleRepository.findByRole("ROLE_ADMIN") == null) {
-            roleRepository.save(new Roles("ROLE_ADMIN"));
+        if (roleRepository.findByRole("ADMIN") == null) {
+            roleRepository.save(new Roles("ADMIN"));
         }
 
-        if (roleRepository.findByRole("ROLE_CLIENT") == null) {
-            roleRepository.save(new Roles("ROLE_CLIENT"));
+        if (roleRepository.findByRole("CLIENT") == null) {
+            roleRepository.save(new Roles("CLIENT"));
         }
 
-        if (roleRepository.findByRole("ROLE_OPERATOR") == null) {
-            roleRepository.save(new Roles("ROLE_OPERATOR"));
+        if (roleRepository.findByRole("OPERATOR") == null) {
+            roleRepository.save(new Roles("OPERATOR"));
         }
-        if (roleRepository.findByRole("ROLE_MECHANIC") == null) {
-            roleRepository.save(new Roles("ROLE_MECHANIC"));
+        if (roleRepository.findByRole("MECHANIC") == null) {
+            roleRepository.save(new Roles("MECHANIC"));
         }
 
                 // Admin account
@@ -55,7 +55,7 @@ public class DataSeedingListener implements ApplicationListener<ContextRefreshed
             admin.setUserName("quangnghiauit");
             userRole.setUsername("quangnghiauit");
             admin.setPassword(passwordEncoder.encode("123456"));
-            userRole.setRole("ROLE_ADMIN");
+            userRole.setRole("ADMIN");
             userRepository.save(admin);
             userRoleRepository.save(userRole);
         }
