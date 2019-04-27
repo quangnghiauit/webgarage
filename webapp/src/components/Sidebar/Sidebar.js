@@ -13,48 +13,45 @@ class Sidebar extends Component {
 
     constructor(props) {
         super(props);
-        this.state = {
-            items: [],
-        }
 
         this.handleClick = this.handleClick.bind(this);
         this.activeRoute = this.activeRoute.bind(this);
         this.hideMobile = this.hideMobile.bind(this);
     }
 
-    componentDidMount() {
-        // fetch("http://localhost:8080/api/role",{
-        //     method:"GET",
-        // })
-        axios({
-            method: 'GET',
-            url: 'http://localhost:8080/api/role',
-            withCredentials: true,
-            headers: {
-                Cookies: document.cookie
-            }
-
-
-        })
-            .then(response => {
-                //console.log("slide barrrrr",response.data)
-                this.setState({roles: response.data});
-
-
-
-                if (this.state.roles === '[ROLE_ADMIN]') {
-                    this.state.items = nav.items1;
-
-                    return true;
-                }
-                else return false;
-            })
-
-
-            .catch(error => console.log(error));
-
-
-    }
+    // componentDidMount() {
+    //     // fetch("http://localhost:8080/api/role",{
+    //     //     method:"GET",
+    //     // })
+    //     axios({
+    //         method: 'GET',
+    //         url: 'http://localhost:8080/api/role',
+    //         withCredentials: true,
+    //         headers: {
+    //             Cookies: document.cookie
+    //         }
+    //
+    //
+    //     })
+    //         .then(response => {
+    //             //console.log("slide barrrrr",response.data)
+    //             this.setState({roles: response.data});
+    //
+    //
+    //
+    //             if (this.state.roles === '[ROLE_ADMIN]') {
+    //                 this.state.items = nav.items1;
+    //
+    //                 return true;
+    //             }
+    //             else return false;
+    //         })
+    //
+    //
+    //         .catch(error => console.log(error));
+    //
+    //
+    // }
 
     handleClick(e) {
         e.preventDefault();
@@ -79,6 +76,23 @@ class Sidebar extends Component {
     // }
 
 
+    isValidRole = (userRole,rolesValid) => {
+        let isValid = false;
+        if(!rolesValid) {
+            return true;
+        }
+        if(!userRole) {
+            console.log("Role invalid");
+            return false;
+        }
+        for(let i=0; i < rolesValid.length;i++) {
+            if(userRole.indexOf(rolesValid[i]) > -1) {
+                console.log("valid",rolesValid[i]);
+                return true;
+            }
+        }
+        return false;
+    };
     render() {
 
         const props = this.props;
@@ -159,7 +173,8 @@ class Sidebar extends Component {
 
         // nav list
         const navList = (items) => {
-            return items.map((item, index) => navType(item, index));
+            // return items.map((item, index) => navType(item, index));
+            return items.filter(item => (this.isValidRole(this.props.roles,item.roles))).map((item, index) => navType(item, index));
         };
 
         const isExternal = (url) => {
