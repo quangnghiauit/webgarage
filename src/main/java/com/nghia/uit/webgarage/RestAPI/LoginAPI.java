@@ -52,7 +52,7 @@ public class LoginAPI {
 
 
     @CrossOrigin
-    @RequestMapping(value = "/api/auth/role",method = RequestMethod.GET)
+    @RequestMapping(value = "/api/role",method = RequestMethod.GET)
     public ResponseEntity<String>  roles() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         return  new ResponseEntity<>(authentication.getAuthorities().toString(), HttpStatus.OK);
