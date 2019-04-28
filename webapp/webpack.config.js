@@ -28,7 +28,7 @@ module.exports = (env = {}) => {
       contentBase: BUILD_DIR,
       proxy: {
 
-        '*': 'http://[::1]:8080',
+        '*': 'http://[::1]:9811',
 
       },
       compress: true,
