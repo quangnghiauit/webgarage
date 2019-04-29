@@ -10,6 +10,8 @@ public interface CarManagementService {
 
     List<ClientDTO> getDataCar();
 
+    List<Car> getListCarByUserID(String userID);
+
     ResponseDTO addCar(Car car);
 
     ResponseDTO processStatusCar(String id);

@@ -24,6 +24,7 @@ import {
 import ScrollArea from 'react-scrollbar'
 import { TextMask, InputAdapter } from 'react-text-mask-hoc';
 import {addClient, getInfoClient, updateClient} from "../../../api/UserManagement/userManagement";
+import {getListCarByUserID} from "../../../api/CarManagement/carmanagement";
 
 class HistoryTransUser extends Component {
     constructor(props){
@@ -40,6 +41,7 @@ class HistoryTransUser extends Component {
             nestedModalUpdateUser: false,
             closeAllUpdateUser: false,
             modalUpdate:false,
+            listCar:[],
             modalAddCar:false,
             modalImportCar:false,
             collapseBill:false
@@ -56,7 +58,9 @@ class HistoryTransUser extends Component {
         this.setState({
             userID:this.props.match.params.id
         },()=>this.handleGetInfoUser(this.state.userID));
-        console.log("userIDDDDD",this.state.userID)
+        console.log("userIDDDDDlistcar",this.state.userID)
+        // this.handleGetListCarByUserID(this.state.userID)
+        // console.log("userIDDDDD",this.state.userID)
     }
 
     handleGetInfoUser(userID) {
@@ -70,7 +74,17 @@ class HistoryTransUser extends Component {
                 user : res.data
             })
         })
+
+        getListCarByUserID(userID).then(res => {
+            this.setState({
+                listCar:res.data
+            },()=>console.log("list car: ",this.state.listCar))
+        })
     }
+
+    // handleGetListCarByUserID(userID) {
+    //
+    // }
 
     handleUpdateUser(userID) {
         console.log("jfutruytytrtyeytr")
@@ -120,7 +134,7 @@ class HistoryTransUser extends Component {
         this.setState({collapseBill:!this.state.collapseBill});
     }
     render() {
-        const {user,resultUpdateUser} = this.state;
+        const {user,resultUpdateUser,listCar} = this.state;
         return (
             <div className="animated fadeIn manage-customer">
                 <Row>
@@ -183,47 +197,96 @@ class HistoryTransUser extends Component {
                             <CardBody>
                                 <ScrollArea
                                     className="manage-customer-listcar">
-                                    <Table>
+                                    <Table responsive striped>
                                         <thead>
                                         <tr>
+                                            <th>ID</th>
                                             <th>Biển số xe</th>
                                             <th>Trạng thái</th>
-                                            <th>Active</th>
+                                            <th>Action</th>
                                         </tr>
                                         </thead>
                                         <tbody>
-                                        <tr>
-                                            <td>HE54631</td>
-                                            <td><Badge color="success" pill>success</Badge></td>
-                                            <td><Button color="link" onClick={this.toggleImportCar}>Tiếp nhận xe</Button></td>
-                                        </tr>
-                                        <tr>
-                                            <td>BR24234</td>
-                                            <td><Badge color="warning" pill>Đang xử lý</Badge></td>
-                                            <td scope="row"></td>
-                                        </tr>
-                                        <tr>
-                                            <td>HE54631</td>
-                                            <td><Badge color="success" pill>success</Badge></td>
-                                            <td><Button color="link" onClick={this.toggleImportCar}>Tiếp nhận xe</Button></td>
-                                        </tr>
-                                        <tr>
-                                            <td>BR24234</td>
-                                            <td><Badge color="warning" pill>Đang xử lý</Badge></td>
-                                            <td scope="row"></td>
-                                        </tr>
-                                        <tr>
-                                            <td>HE54631</td>
-                                            <td><Badge color="success" pill>success</Badge></td>
-                                            <td><Button color="link" onClick={this.toggleImportCar}>Tiếp nhận xe</Button></td>
-                                        </tr>
-                                        <tr>
-                                            <td>BR24234</td>
-                                            <td><Badge color="warning" pill>Đang xử lý</Badge></td>
-                                            <td scope="row"></td>
-                                        </tr>
+                                        {
+                                            listCar ? listCar.map((item, index) => {
+                                                return (
+                                                    <tr key={index}>
+                                                        <td>{item.id}</td>
+                                                        <td>{item.licensePlate}</td>
+                                                        <td>{ (item.status == 0)
+                                                            ?(
+                                                                (item.status == 1)
+                                                            ?
+                                                                    <Badge color="danger">Đang xử lý</Badge>
+                                                                    :
+                                                                    <Badge color="success">Đã xử lý</Badge>
+                                                            )
+                                                            :
+                                                            <Badge color="secondary">Chưa xử lý</Badge>
+                                                        }</td>
+                                                        <td>
+                                                            {
+                                                                (item.status == 0)
+                                                                    ?(
+                                                                        (item.status == 1)
+                                                                            ?
+                                                                            <Button color="success" >Không có</Button>
+                                                                            :
+                                                                            <Button color="success" >Không có</Button>
+                                                                    )
+                                                                    :
+                                                                    <Button color="success" >Không có</Button>
+                                                            }
+                                                        </td>
+                                                    </tr>
+                                                )
+
+                                            }) : null
+
+                                        }
                                         </tbody>
                                     </Table>
+                                    {/*<Table>*/}
+                                        {/*<thead>*/}
+                                        {/*<tr>*/}
+                                            {/*<th>Biển số xe</th>*/}
+                                            {/*<th>Trạng thái</th>*/}
+                                            {/*<th>Active</th>*/}
+                                        {/*</tr>*/}
+                                        {/*</thead>*/}
+                                        {/*<tbody>*/}
+                                        {/*<tr>*/}
+                                            {/*<td>HE54631</td>*/}
+                                            {/*<td><Badge color="success" pill>success</Badge></td>*/}
+                                            {/*<td><Button color="link" onClick={this.toggleImportCar}>Tiếp nhận xe</Button></td>*/}
+                                        {/*</tr>*/}
+                                        {/*<tr>*/}
+                                            {/*<td>BR24234</td>*/}
+                                            {/*<td><Badge color="warning" pill>Đang xử lý</Badge></td>*/}
+                                            {/*<td scope="row"></td>*/}
+                                        {/*</tr>*/}
+                                        {/*<tr>*/}
+                                            {/*<td>HE54631</td>*/}
+                                            {/*<td><Badge color="success" pill>success</Badge></td>*/}
+                                            {/*<td><Button color="link" onClick={this.toggleImportCar}>Tiếp nhận xe</Button></td>*/}
+                                        {/*</tr>*/}
+                                        {/*<tr>*/}
+                                            {/*<td>BR24234</td>*/}
+                                            {/*<td><Badge color="warning" pill>Đang xử lý</Badge></td>*/}
+                                            {/*<td scope="row"></td>*/}
+                                        {/*</tr>*/}
+                                        {/*<tr>*/}
+                                            {/*<td>HE54631</td>*/}
+                                            {/*<td><Badge color="success" pill>success</Badge></td>*/}
+                                            {/*<td><Button color="link" onClick={this.toggleImportCar}>Tiếp nhận xe</Button></td>*/}
+                                        {/*</tr>*/}
+                                        {/*<tr>*/}
+                                            {/*<td>BR24234</td>*/}
+                                            {/*<td><Badge color="warning" pill>Đang xử lý</Badge></td>*/}
+                                            {/*<td scope="row"></td>*/}
+                                        {/*</tr>*/}
+                                        {/*</tbody>*/}
+                                    {/*</Table>*/}
                                 </ScrollArea>
                                 <Modal isOpen={this.state.modalImportCar} toggle={this.toggleImportCar}
                                        className='modal-info'>

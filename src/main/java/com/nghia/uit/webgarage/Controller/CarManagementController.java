@@ -10,7 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
-@RequestMapping(value = "/carmanagement")
+@RequestMapping(value = "/api/carmanagement")
 public class CarManagementController {
 
     @Autowired
@@ -21,6 +21,13 @@ public class CarManagementController {
     ResponseEntity<?> getAllCar() {
         return new ResponseEntity<>(carManagementService.getDataCar(), HttpStatus.OK);
     }
+
+    @GetMapping(value = "/get-list-car-by-userID")
+    public @ResponseBody
+    ResponseEntity<?> getAllCar(@RequestParam String userID) {
+        return new ResponseEntity<>(carManagementService.getListCarByUserID(userID), HttpStatus.OK);
+    }
+
 
     @RequestMapping(value = "/addcar",method = RequestMethod.POST)
     public @ResponseBody

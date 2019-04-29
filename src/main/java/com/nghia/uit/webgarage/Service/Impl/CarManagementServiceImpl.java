@@ -56,6 +56,24 @@ public class CarManagementServiceImpl implements CarManagementService {
     }
 
     @Override
+    public List<Car> getListCarByUserID(String userID) {
+        try {
+            if(userID.isEmpty()) {
+                return new ArrayList<>();
+
+            }
+            List<Car> list = carRepository.findCarByUserID(Long.valueOf(userID));
+            if(list.size()==0) {
+                return new ArrayList<>();
+
+            }
+            return list;
+        }catch (Exception ex) {
+            return new ArrayList<>();
+        }
+    }
+
+    @Override
     public ResponseDTO addCar(Car car) {
         try {
             long userID = car.getUserID();
