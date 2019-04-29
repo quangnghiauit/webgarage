@@ -142,7 +142,46 @@ export default {
             ]
         }
 
+    ],
+
+    items2: [
+        {
+            name: "Dashboard",
+            url: "/dashboard",
+            icon: "icon-speedometer",
+            badge: {
+                variant: 'info',
+                text: 'NEW'
+            }
+        },
+        {
+            name : "THÔNG TIN KHÁCH HÀNG",
+            url:"/user-management",
+            icon: "icon-puzzle",
+            // roles:["ADMIN"],
+            children: [
+                {
+                    name: "Thông tin khách hàng",
+                    url :"/user-management/user-info",
+                    icon:"icon-puzzle",
+                    // roles: ["ADMIN"]
+                },
+                {
+                    name: "Thông tin xe xử lý",
+                    url :"/car-management/car-handle-info",
+                    icon:"icon-star",
+                    // roles: ["ADMIN"]
+                },
+                {
+                    name: "Lịch sử giao dịch",
+                    url :"/user-management/history",
+                    icon:"icon-puzzle",
+                    // roles: ["ADMIN"]
+                }
+            ]
+        },
     ]
+
 
 
 

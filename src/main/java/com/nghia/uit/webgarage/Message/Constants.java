@@ -3,6 +3,8 @@ package com.nghia.uit.webgarage.Message;
 public final class Constants {
 
     public static final String DEV_USER = "DEV_TEST";
+    public static final String CLIENT = "CLIENT";
+
 
     //Client
     public static final String DONE_DELETEREQUESTUSERS = "Xóa user thành công";
@@ -32,5 +34,10 @@ public final class Constants {
     public static final String DONE_ADDMATERIALSERVICE = "Thêm phụ tùng thành công";
     public static final String DONE_UPDATEMATERIALSERVICE = "Cập nhật phụ tùng thành công";
     public static final String DONE_DELETEMATERIALSERVICE = "Xóa phụ tùng thành công";
+
+    //Bill
+    public static final int BILL_NO_HANDLE = 0;
+    public static final int BILL_PROCESSING = 1;
+
 
 }

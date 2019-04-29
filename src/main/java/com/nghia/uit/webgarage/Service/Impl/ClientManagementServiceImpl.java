@@ -4,9 +4,11 @@ import com.nghia.uit.webgarage.Bean.ResponseDTO;
 import com.nghia.uit.webgarage.Message.Constants;
 import com.nghia.uit.webgarage.Model.Car;
 import com.nghia.uit.webgarage.Model.ClientDTO;
+import com.nghia.uit.webgarage.Model.UserRole;
 import com.nghia.uit.webgarage.Model.Users;
 import com.nghia.uit.webgarage.Repository.CarRepository;
 import com.nghia.uit.webgarage.Repository.UserRepository;
+import com.nghia.uit.webgarage.Repository.UserRoleRepository;
 import com.nghia.uit.webgarage.Service.ClientManagementService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,62 +28,72 @@ public class ClientManagementServiceImpl implements ClientManagementService {
     private UserRepository userRepository;
 
     @Autowired
+    private UserRoleRepository userRoleRepository;
+
+    @Autowired
     private CarRepository carRepository;
 
     @Override
     public List<ClientDTO> getAllClient() {
-        List<Users> usersList = userRepository.findAllByFilter();
-        List<Car> carList = new ArrayList<>();
-        List<ClientDTO> clientDTOS = new ArrayList<>();
-        Car car = new Car();
-        for (Users users : usersList) {
-            ClientDTO client = new ClientDTO();
-            carList = carRepository.findCarByUserID(users.getUserID());
-            if (carList.size() == 0) {
-                client.doMappingClientDTO(users, car);
-                clientDTOS.add(client);
-            } else {
-                for (Car car1 : carList) {
-                    client.doMappingClientDTO(users, car1);
-                    clientDTOS.add(client);
+        try {
+            List<UserRole> userRoleList = userRoleRepository.findUserNameByRoleClient();
+            if (userRoleList.size() == 0) {
+                return new ArrayList<>();
+            }
+            List<String> userNameClient = new ArrayList<>();
+            for (UserRole userRole : userRoleList) {
+                if (!userRole.getUsername().isEmpty()) {
+                    userNameClient.add(userRole.getUsername());
                 }
             }
+            List<Users> usersList = userRepository.findAllByListUserName(userNameClient);
+            if (usersList.size() == 0) {
+                return new ArrayList<>();
+            }
+
+            List<ClientDTO> clientDTOS = new ArrayList<>();
+            for (Users users : usersList) {
+                ClientDTO client = new ClientDTO();
+                client.doMappingUsers(users);
+                clientDTOS.add(client);
+            }
+            return clientDTOS;
+        } catch (Exception ex) {
+            return new ArrayList<>();
         }
-        return clientDTOS;
+
     }
 
     @Override
-    public List<ClientDTO> getInfoUser(String userID) {
-        Users users = userRepository.findByUserID(userID);
-        List<Car> carList = new ArrayList<>();
-        List<ClientDTO> clientDTOS = new ArrayList<>();
-        Car car = new Car();
-        ClientDTO client = new ClientDTO();
-        carList = carRepository.findCarByUserID(users.getUserID());
-        if (carList.size() == 0) {
-            client.doMappingClientDTO(users, car);
-            clientDTOS.add(client);
-        } else {
-            for (Car car1 : carList) {
-                client.doMappingClientDTO(users, car1);
-                clientDTOS.add(client);
-            }
+    public Users getInfoUser(String userID) {
+        if(userID.isEmpty()) {
+            return null;
         }
-        return clientDTOS;
+        Users users = userRepository.findByUserID(userID);
+        return users;
     }
+
+
 
     @Override
     public ResponseDTO addClient(ClientDTO users) {
         try {
-            String userName=users.getUserName();
-            if(userName!=null) {
+            String userName = users.getUserName();
+            if (userName != null) {
                 Users users1 = userRepository.findByUserName(userName);
-                if(users1!=null) {
+                if (users1 != null) {
                     return new ResponseDTO().fail(Constants.FAIL_EXISTSUSERS);
                 }
+
                 Users entity = new Users();
                 entity.doMappingClientDTO(users);
+                entity.setStatus(Constants.BILL_NO_HANDLE);
+
+                UserRole userRole = new UserRole();
+                userRole.setUsername(userName);
+                userRole.setRole(Constants.CLIENT);
                 userRepository.save(entity);
+                userRoleRepository.save(userRole);
                 return new ResponseDTO().success(Constants.DONE_ADDREQUESTUSERS);
             }
 
@@ -96,12 +108,12 @@ public class ClientManagementServiceImpl implements ClientManagementService {
     public ResponseDTO updateClient(ClientDTO clientDTO, String userID) {
         try {
             Users user = userRepository.findByUserID(userID);
-            user.doMappingClientDTO(clientDTO);
+            user.doMappingUsers(clientDTO);
             userRepository.save(user);
             return new ResponseDTO().success(Constants.DONE_UPDATEREQUESTUSERS);
         } catch (Exception ex) {
             logger.error(ex.getMessage());
-            return  new ResponseDTO().fail(ex.getMessage());
+            return new ResponseDTO().fail(ex.getMessage());
         }
     }
 
@@ -110,7 +122,7 @@ public class ClientManagementServiceImpl implements ClientManagementService {
         try {
             Users user = userRepository.findByUserID(userID);
             userRepository.delete(user);
-            return  new ResponseDTO().success(Constants.DONE_DELETEREQUESTUSERS);
+            return new ResponseDTO().success(Constants.DONE_DELETEREQUESTUSERS);
         } catch (Exception ex) {
             return new ResponseDTO().fail(ex.getMessage());
         }

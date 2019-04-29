@@ -81,9 +81,11 @@ class Full extends Component {
                                         <Route path="/dashboard" name="Dashboard" component={Dashboard}/>,
 
                                         <Route path="/user-management/search" name="SearchUser" component={SearchUser}/>,
-                                        <Route path="/user-management/history" name="HistoryTransUser" component={HistoryTransUser}/>,
+                                        <Route path="/user-management/history/:id" name="HistoryTransUser" component={HistoryTransUser}/>,
+                                        <Route path="/user-management/user-info" name="UserInfo" component={UserInfo}/>,
 
                                         <Route path="/car-management/car-handle-list" name="CarHandleList" component={CarHandleList}/>,
+                                        <Route path="/car-management/car-handle-info" name="CarHandleInfo" component={CarHandleInfo}/>,
 
 
                                         <Redirect from="/" to="/dashboard"/>

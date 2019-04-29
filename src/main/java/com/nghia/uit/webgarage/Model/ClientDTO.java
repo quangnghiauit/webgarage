@@ -196,4 +196,17 @@ public class ClientDTO {
         }
     }
 
+    public void doMappingUsers(Users users) {
+        createdDate = users.getCreatedDate(); //2019/03/13 20:08:43
+        id = users.getId();
+        userID = Long.valueOf(users.getUserID());
+        userName = users.getUserName();
+        displayname= users.getDisplayname();
+        phoneNumber = users.getPhoneNumber();
+        address = users.getAddress();
+        email = users.getEmail();
+        debt = users.getDebt();
+    }
+
+
 }

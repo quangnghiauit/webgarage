@@ -69,6 +69,17 @@ public class DataSeedingListener implements ApplicationListener<ContextRefreshed
             userRepository.save(admin);
             userRoleRepository.save(userRole);
         }
+        if (userRepository.findByUserName("nu") == null&&userRoleRepository.findByUserName("nu").size()==0) {
+            Users admin = new Users();
+            UserRole userRole = new UserRole();
+            admin.setUserName("nu");
+            userRole.setUsername("nu");
+            admin.setPassword(passwordEncoder.encode("1"));
+            userRole.setRole("CLIENT");
+            userRepository.save(admin);
+            userRoleRepository.save(userRole);
+        }
+
 
         // Member account
 //        if (userRoleRepository.findByUserName("executive") == null) {

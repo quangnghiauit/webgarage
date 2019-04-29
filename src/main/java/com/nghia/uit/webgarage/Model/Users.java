@@ -32,6 +32,13 @@ public class Users {
     @Column(name = "isactive")
     private int isactive;
 
+    /*
+     * 0: khong co hoa don cho
+     * 1: co hoa don dang xu ly
+     * */
+    @Column(name = "status")
+    private int status;
+
     @Column(name = "createdDate")
     private String createdDate;
 
@@ -168,6 +175,14 @@ public class Users {
         this.debt = debt;
     }
 
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
+    }
+
     @Override
     public String toString() {
         return "Users{" +
@@ -207,6 +222,13 @@ public class Users {
         address = users.getAddress();
         email = users.getEmail();
         debt = users.getDebt();
+    }
+
+    public void doMappingUsers(ClientDTO users) {
+        displayname= users.getDisplayname();
+        phoneNumber = users.getPhoneNumber();
+        address = users.getAddress();
+        email = users.getEmail();
     }
 
 }

@@ -23,12 +23,22 @@ import {
 } from 'reactstrap';
 import ScrollArea from 'react-scrollbar'
 import { TextMask, InputAdapter } from 'react-text-mask-hoc';
+import {addClient, getInfoClient, updateClient} from "../../../api/UserManagement/userManagement";
 
 class HistoryTransUser extends Component {
     constructor(props){
         super(props);
 
         this.state={
+            userID :'',
+            displayname:'' ,
+            address:'',
+            email:'',
+            phoneNumber:'',
+            user:[],
+            resultUpdateUser: null,
+            nestedModalUpdateUser: false,
+            closeAllUpdateUser: false,
             modalUpdate:false,
             modalAddCar:false,
             modalImportCar:false,
@@ -38,6 +48,63 @@ class HistoryTransUser extends Component {
         this.toggleImportCar=this.toggleImportCar.bind(this);
         this.toggleUpdate=this.toggleUpdate.bind(this);
         this.toggleBill=this.toggleBill.bind(this);
+        this.toggleNestedUpdateUser = this.toggleNestedUpdateUser.bind(this);
+
+    }
+
+    componentDidMount() {
+        this.setState({
+            userID:this.props.match.params.id
+        },()=>this.handleGetInfoUser(this.state.userID));
+        console.log("userIDDDDD",this.state.userID)
+    }
+
+    handleGetInfoUser(userID) {
+        getInfoClient(userID).then(res=>{
+            this.setState({
+                userID :res.data.userID,
+                displayname:res.data.displayname ,
+                address:res.data.address,
+                email:res.data.email,
+                phoneNumber:res.data.phoneNumber,
+                user : res.data
+            })
+        })
+    }
+
+    handleUpdateUser(userID) {
+        console.log("jfutruytytrtyeytr")
+        const requestParams ={
+            displayname : this.state.displayname,
+            address:this.state.address,
+            email:this.state.email,
+            phoneNumber:this.state.phoneNumber
+
+        }
+        if (this.state.displayname && this.state.phoneNumber) {
+            updateClient(userID,requestParams).then(res => {
+                console.log("wesdufyusig",res)
+                this.setState({
+                    resultUpdateUser: res.data
+                },()=>this.toggleNestedUpdateUser())
+
+            })
+        } else {
+            alert("Vui lòng điền đầy đủ tên và số điện thoại.")
+        }
+
+    }
+
+    toggleNestedUpdateUser() {
+        this.setState({
+            nestedModalUpdateUser: !this.state.nestedModalUpdateUser,
+        });
+    }
+    toggleAllUpdateUser() {
+        this.setState({
+            nestedModalUpdateUser: !this.state.nestedModalUpdateUser,
+        });
+        window.location.reload();
     }
 
     toggleAddCar(){
@@ -53,6 +120,7 @@ class HistoryTransUser extends Component {
         this.setState({collapseBill:!this.state.collapseBill});
     }
     render() {
+        const {user,resultUpdateUser} = this.state;
         return (
             <div className="animated fadeIn manage-customer">
                 <Row>
@@ -66,40 +134,43 @@ class HistoryTransUser extends Component {
                                     className="manage-customer-info">
                                     <FormGroup>
                                         <Label htmlFor="id">Mã khách hàng</Label>
-                                        <Input type="text" id="id" placeholder="Enter your id" disabled/>
+                                        <Input type="text" id="id" placeholder="Enter your id"
+                                               onChange={(e) => this.setState({userID: e.target.value}, () => console.log(this.state.userID))}
+                                               value={this.state.userID}
+                                                disabled/>
                                     </FormGroup>
                                     <FormGroup>
                                         <Label htmlFor="name">Tên khách hàng</Label>
-                                        <Input type="text" id="name" placeholder="Enter your name" />
+                                        <Input type="text" id="name" placeholder="Enter your name"
+                                               onChange={(e) => this.setState({displayname: e.target.value}, () => console.log(this.state.displayname))}
+                                               value={this.state.displayname}
+                                                />
                                     </FormGroup>
                                     <FormGroup>
                                         <Label htmlFor="address">Địa chỉ</Label>
-                                        <Input type="text" id="address" placeholder="Enter your address" />
+                                        <Input type="text" id="address" placeholder="Enter your address"
+                                               onChange={(e) => this.setState({address: e.target.value}, () => console.log(this.state.address))}
+                                               value={this.state.address}
+                                                />
                                     </FormGroup>
                                     <FormGroup>
                                         <Label htmlFor="email">Email</Label>
-                                        <Input type="email" id="email" name="email" placeholder="Enter Email.." />
+                                        <Input type="email" id="email" name="email" placeholder="Enter Email.."
+                                               onChange={(e) => this.setState({email: e.target.value}, () => console.log(this.state.email))}
+                                               value={this.state.email}
+                                                />
                                     </FormGroup>
                                     <FormGroup>
                                         <Label htmlFor="phone">Số điện thoại</Label>
-                                        <Input type="text" id="phone" placeholder="Enter your phone" />
-                                    </FormGroup>
-                                    <FormGroup>
-                                        <Label htmlFor="bill-handling">Hóa đơn chờ</Label>
-                                        <Input type="text" id="bill-handling" placeholder="Enter your bill-handling" disabled/>
+                                        <Input type="text" id="phone" placeholder="Enter your phone"
+                                               onChange={(e) => this.setState({phoneNumber: e.target.value}, () => console.log(this.state.phoneNumber))}
+                                               value={this.state.phoneNumber}
+                                                />
                                     </FormGroup>
                                 </ScrollArea>
                             </CardBody>
                             <CardFooter>
-                                <Button className="float-right" color="success"  onClick={this.toggleUpdate}>Cập nhật</Button>
-                                <Modal isOpen={this.state.modalUpdate} toggle={this.toggleUpdate}
-                                       className='modal-info'>
-                                    <ModalHeader toggle={this.toggleUpdate}>Thông báo</ModalHeader>
-                                    <ModalBody>Cập nhật thành công !</ModalBody>
-                                    <ModalFooter>
-                                        <Button color="secondary" onClick={this.toggleUpdate}>Thoát</Button>
-                                    </ModalFooter>
-                                </Modal>
+                                <Button className="float-right" color="success"  onClick={()=>this.handleUpdateUser(this.state.userID)}>Cập nhật</Button>
                             </CardFooter>
                         </Card>
                     </Col>
@@ -257,6 +328,18 @@ class HistoryTransUser extends Component {
                         </Collapse>
                     </CardBody>
                 </Card>
+                <Modal isOpen={this.state.nestedModalUpdateUser}
+                       toggle={() => this.toggleNestedUpdateUser()}
+                       onClosed={() => this.toggleAllUpdateUser()}
+                       className={'modal-info ' + this.props.className} centered>
+                    <ModalHeader toggle={() => this.toggleNestedUpdateUser()}>Thông
+                        báo</ModalHeader>
+                    <ModalBody>
+                        {resultUpdateUser ?
+                            resultUpdateUser.returnMessage : null
+                        }
+                    </ModalBody>
+                </Modal>
             </div>
 
         )
