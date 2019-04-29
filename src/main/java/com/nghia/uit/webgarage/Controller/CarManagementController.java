@@ -31,8 +31,8 @@ public class CarManagementController {
 
     @RequestMapping(value = "/addcar",method = RequestMethod.POST)
     public @ResponseBody
-    ResponseEntity<?> addCar(@RequestBody Car car) {
-        return new ResponseEntity<>(carManagementService.addCar(car),HttpStatus.OK);
+    ResponseEntity<?> addCar(@RequestBody Car car,@RequestParam String userID) {
+        return new ResponseEntity<>(carManagementService.addCar(car,userID),HttpStatus.OK);
     }
 
     @RequestMapping(value = "/processstatus",method = RequestMethod.POST)

@@ -74,11 +74,11 @@ public class CarManagementServiceImpl implements CarManagementService {
     }
 
     @Override
-    public ResponseDTO addCar(Car car) {
+    public ResponseDTO addCar(Car car, String userID) {
         try {
-            long userID = car.getUserID();
             if(String.valueOf(userID)!=null) {
                 car.setStatus(Constants.INIT_PROCESS);
+                car.setUserID(Long.valueOf(userID));
                 carRepository.save(car);
                 return new ResponseDTO().success(Constants.DONE_ADDREQUESTCAR);
             }

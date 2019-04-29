@@ -24,7 +24,7 @@ import {
 import ScrollArea from 'react-scrollbar'
 import { TextMask, InputAdapter } from 'react-text-mask-hoc';
 import {addClient, getInfoClient, updateClient} from "../../../api/UserManagement/userManagement";
-import {getListCarByUserID} from "../../../api/CarManagement/carmanagement";
+import {addCar, getListCarByUserID} from "../../../api/CarManagement/carmanagement";
 
 class HistoryTransUser extends Component {
     constructor(props){
@@ -42,16 +42,23 @@ class HistoryTransUser extends Component {
             closeAllUpdateUser: false,
             modalUpdate:false,
             listCar:[],
+            licensePlate:'',
+            modalAdd: false,
+            nestedModalAdd: false,
+            closeAllAdd: false,
+            resultAdd: null,
             modalAddCar:false,
-            modalImportCar:false,
             collapseBill:false
         };
         this.toggleAddCar=this.toggleAddCar.bind(this);
-        this.toggleImportCar=this.toggleImportCar.bind(this);
         this.toggleUpdate=this.toggleUpdate.bind(this);
         this.toggleBill=this.toggleBill.bind(this);
         this.toggleNestedUpdateUser = this.toggleNestedUpdateUser.bind(this);
 
+        this.toggleAdd = this.toggleAdd.bind(this);
+        this.toggleNestedAdd = this.toggleNestedAdd.bind(this);
+        this.toggleAllAdd = this.toggleAllAdd.bind(this);
+        this.handleAddCar = this.handleAddCar.bind(this);
     }
 
     componentDidMount() {
@@ -59,8 +66,6 @@ class HistoryTransUser extends Component {
             userID:this.props.match.params.id
         },()=>this.handleGetInfoUser(this.state.userID));
         console.log("userIDDDDDlistcar",this.state.userID)
-        // this.handleGetListCarByUserID(this.state.userID)
-        // console.log("userIDDDDD",this.state.userID)
     }
 
     handleGetInfoUser(userID) {
@@ -81,10 +86,6 @@ class HistoryTransUser extends Component {
             },()=>console.log("list car: ",this.state.listCar))
         })
     }
-
-    // handleGetListCarByUserID(userID) {
-    //
-    // }
 
     handleUpdateUser(userID) {
         console.log("jfutruytytrtyeytr")
@@ -109,6 +110,8 @@ class HistoryTransUser extends Component {
 
     }
 
+
+
     toggleNestedUpdateUser() {
         this.setState({
             nestedModalUpdateUser: !this.state.nestedModalUpdateUser,
@@ -121,11 +124,48 @@ class HistoryTransUser extends Component {
         window.location.reload();
     }
 
+
+    handleAddCar() {
+        const params = {
+            userID: this.state.userID,
+            licensePlate: this.state.licensePlate,
+        };
+        console.log("param", params);
+        if (this.state.licensePlate) {
+            addCar(this.state.userID,params).then(res => {
+                console.log('truoc add', res)
+                this.setState({
+                    resultAdd: res.data
+                }, () => this.toggleNestedAdd())
+
+            })
+        } else {
+            alert("Vui lòng điền đầy đủ thông tin.")
+        }
+    }
+
+    toggleAdd() {
+        this.setState(prevState => ({
+            modalAdd: !prevState.modalAdd
+        }));
+    }
+
+    toggleNestedAdd() {
+        this.setState({
+            nestedModalAdd: !this.state.nestedModalAdd,
+            closeAllAdd: false
+        });
+    }
+
+    toggleAllAdd() {
+        this.setState({
+            nestedModalAdd: !this.state.nestedModalAdd,
+            closeAllAdd: true
+        });
+        window.location.reload();
+    }
     toggleAddCar(){
         this.setState({modalAddCar:!this.state.modalAddCar});
-    }
-    toggleImportCar(){
-        this.setState({modalImportCar:!this.state.modalImportCar});
     }
     toggleUpdate(){
         this.setState({modalUpdate:!this.state.modalUpdate});
@@ -134,7 +174,7 @@ class HistoryTransUser extends Component {
         this.setState({collapseBill:!this.state.collapseBill});
     }
     render() {
-        const {user,resultUpdateUser,listCar} = this.state;
+        const {resultAdd,resultUpdateUser,listCar} = this.state;
         return (
             <div className="animated fadeIn manage-customer">
                 <Row>
@@ -214,28 +254,34 @@ class HistoryTransUser extends Component {
                                                         <td>{item.id}</td>
                                                         <td>{item.licensePlate}</td>
                                                         <td>{ (item.status == 0)
-                                                            ?(
+                                                            ?
+                                                            <Badge color="secondary">Chưa xử lý</Badge>
+                                                                :
+                                                            (
                                                                 (item.status == 1)
                                                             ?
                                                                     <Badge color="danger">Đang xử lý</Badge>
                                                                     :
                                                                     <Badge color="success">Đã xử lý</Badge>
                                                             )
-                                                            :
-                                                            <Badge color="secondary">Chưa xử lý</Badge>
+
                                                         }</td>
                                                         <td>
                                                             {
                                                                 (item.status == 0)
-                                                                    ?(
+                                                                    ?
+                                                                    <Button color="primary" size="sm">Tiếp nhận xe</Button>
+                                                                        :
+                                                                    (
                                                                         (item.status == 1)
-                                                                            ?
-                                                                            <Button color="success" >Không có</Button>
+                                                                            ?(
+                                                                                <Button color="primary" size="sm">Xem</Button>
+                                                                            )
+
                                                                             :
-                                                                            <Button color="success" >Không có</Button>
+                                                                            <Button color="primary" size="sm">Xem</Button>
                                                                     )
-                                                                    :
-                                                                    <Button color="success" >Không có</Button>
+
                                                             }
                                                         </td>
                                                     </tr>
@@ -246,85 +292,11 @@ class HistoryTransUser extends Component {
                                         }
                                         </tbody>
                                     </Table>
-                                    {/*<Table>*/}
-                                        {/*<thead>*/}
-                                        {/*<tr>*/}
-                                            {/*<th>Biển số xe</th>*/}
-                                            {/*<th>Trạng thái</th>*/}
-                                            {/*<th>Active</th>*/}
-                                        {/*</tr>*/}
-                                        {/*</thead>*/}
-                                        {/*<tbody>*/}
-                                        {/*<tr>*/}
-                                            {/*<td>HE54631</td>*/}
-                                            {/*<td><Badge color="success" pill>success</Badge></td>*/}
-                                            {/*<td><Button color="link" onClick={this.toggleImportCar}>Tiếp nhận xe</Button></td>*/}
-                                        {/*</tr>*/}
-                                        {/*<tr>*/}
-                                            {/*<td>BR24234</td>*/}
-                                            {/*<td><Badge color="warning" pill>Đang xử lý</Badge></td>*/}
-                                            {/*<td scope="row"></td>*/}
-                                        {/*</tr>*/}
-                                        {/*<tr>*/}
-                                            {/*<td>HE54631</td>*/}
-                                            {/*<td><Badge color="success" pill>success</Badge></td>*/}
-                                            {/*<td><Button color="link" onClick={this.toggleImportCar}>Tiếp nhận xe</Button></td>*/}
-                                        {/*</tr>*/}
-                                        {/*<tr>*/}
-                                            {/*<td>BR24234</td>*/}
-                                            {/*<td><Badge color="warning" pill>Đang xử lý</Badge></td>*/}
-                                            {/*<td scope="row"></td>*/}
-                                        {/*</tr>*/}
-                                        {/*<tr>*/}
-                                            {/*<td>HE54631</td>*/}
-                                            {/*<td><Badge color="success" pill>success</Badge></td>*/}
-                                            {/*<td><Button color="link" onClick={this.toggleImportCar}>Tiếp nhận xe</Button></td>*/}
-                                        {/*</tr>*/}
-                                        {/*<tr>*/}
-                                            {/*<td>BR24234</td>*/}
-                                            {/*<td><Badge color="warning" pill>Đang xử lý</Badge></td>*/}
-                                            {/*<td scope="row"></td>*/}
-                                        {/*</tr>*/}
-                                        {/*</tbody>*/}
-                                    {/*</Table>*/}
                                 </ScrollArea>
-                                <Modal isOpen={this.state.modalImportCar} toggle={this.toggleImportCar}
-                                       className='modal-info'>
-                                    <ModalHeader toggle={this.toggleImportCar}>Tiếp nhận xe</ModalHeader>
-                                    <ModalBody>
-                                        <FormGroup>
-                                            <Label htmlFor="customer-id">Mã khách hàng</Label>
-                                            <Input type="text" id="customer-id" placeholder="Enter your customer-id" disabled/>
-                                        </FormGroup>
-                                        <FormGroup>
-                                            <Label htmlFor="car-id">Biển số xe</Label>
-                                            <Input type="text" id="car-id" placeholder="Enter your car-id" disabled/>
-                                        </FormGroup>
-                                        <FormGroup>
-                                            <Label>Ngày tiếp nhận</Label>
-                                            <InputGroup>
-                                                <div className="input-group-prepend">
-                                                    <span className="input-group-text"><i className="fa fa-calendar"></i></span>
-                                                </div>
-                                                <TextMask
-                                                    mask={[/\d/, /\d/, '/', /\d/, /\d/, '/', /\d/, /\d/, /\d/, /\d/]}
-                                                    Component={InputAdapter}
-                                                    className="form-control"
-                                                />
-                                            </InputGroup>
-                                            <FormText color="muted">
-                                                ex. 99/99/9999
-                                            </FormText>
-                                        </FormGroup>
-                                    </ModalBody>
-                                    <ModalFooter>
-                                        <Button color="primary" onClick={this.toggleImportCar}>Xác nhận</Button>{' '}
-                                        <Button color="secondary" onClick={this.toggleImportCar}>Thoát</Button>
-                                    </ModalFooter>
-                                </Modal>
+
                             </CardBody>
                             <CardFooter>
-                                <Button className="float-right" color="success" onClick={this.toggleAddCar}>Thêm xe</Button>
+                                <Button className="float-right" color="success" onClick={this.toggleAdd}>Thêm xe</Button>
                                 <Modal isOpen={this.state.modalAddCar} toggle={this.toggleAddCar}
                                        className='modal-info'>
                                     <ModalHeader toggle={this.toggleAddCar}>Thêm xe</ModalHeader>
@@ -339,7 +311,7 @@ class HistoryTransUser extends Component {
                                         </FormGroup>
                                     </ModalBody>
                                     <ModalFooter>
-                                        <Button color="primary" onClick={this.toggleAddCar}>Thêm</Button>{' '}
+                                        <Button color="primary" onClick={()=>this.handleAddCar()}>Thêm</Button>{' '}
                                         <Button color="secondary" onClick={this.toggleAddCar}>Thoát</Button>
                                     </ModalFooter>
                                 </Modal>
@@ -400,6 +372,48 @@ class HistoryTransUser extends Component {
                     <ModalBody>
                         {resultUpdateUser ?
                             resultUpdateUser.returnMessage : null
+                        }
+                    </ModalBody>
+                </Modal>
+
+
+
+                <Modal isOpen={this.state.modalAdd} toggle={this.toggleAdd}
+                       className='modal-info'>
+                    <ModalHeader toggle={this.toggleAdd}>Tiếp nhận xe</ModalHeader>
+                    <ModalBody>
+                        <FormGroup>
+                            <Label htmlFor="customer-id">Mã khách hàng</Label>
+                            <Input type="text" id="customer-id" placeholder="Enter your customer-id"
+                                   value={this.state.userID}
+                                   disabled/>
+                        </FormGroup>
+
+                        <FormGroup>
+                            <Label htmlFor="car-id">Biển số xe</Label>
+                            <Input type="text" id="car-id" placeholder="Enter your car-id"
+                                   value={this.state.licensePlate}
+                                   onChange={(e) => this.setState({licensePlate: e.target.value}, () => console.log(this.state.licensePlate))}
+                            />
+                        </FormGroup>
+                    </ModalBody>
+                    <ModalFooter>
+                        <Button color="primary"
+                                onClick={this.handleAddCar}>Submit</Button>{' '}
+                        <Button color="secondary" onClick={this.toggleAdd}>Cancel</Button>
+                    </ModalFooter>
+                </Modal>
+
+                <Modal isOpen={this.state.nestedModalAdd}
+                       toggle={() => this.toggleNestedAdd()}
+                       onClosed={this.state.closeAllAdd ? () => this.toggleAdd()
+                           : undefined}
+                       className={'modal-info ' + this.props.className} centered>
+                    <ModalHeader toggle={() => this.toggleAllAdd()}>Thông
+                        báo</ModalHeader>
+                    <ModalBody>
+                        {resultAdd ?
+                            resultAdd.returnMessage : null
                         }
                     </ModalBody>
                 </Modal>

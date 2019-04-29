@@ -12,7 +12,7 @@ public interface CarManagementService {
 
     List<Car> getListCarByUserID(String userID);
 
-    ResponseDTO addCar(Car car);
+    ResponseDTO addCar(Car car,String userID);
 
     ResponseDTO processStatusCar(String id);
 

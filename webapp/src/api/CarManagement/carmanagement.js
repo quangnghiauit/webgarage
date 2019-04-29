@@ -10,8 +10,8 @@ export function getListCarByUserID(userID) {
     return httpGet(BASE_URL + '/get-list-car-by-userID?userID=' + userID);
 }
 
-export function addCar(requestParam) {
-    return httpPost(BASE_URL + '/addcar',requestParam)
+export function addCar(userID,requestParam) {
+    return httpPost(BASE_URL + '/addcar?userID=' + userID,requestParam)
 
 }
 
