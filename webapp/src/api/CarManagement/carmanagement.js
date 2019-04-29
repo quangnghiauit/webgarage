@@ -15,6 +15,12 @@ export function addCar(userID,requestParam) {
 
 }
 
+export function processStatusHandleCar(id) {
+    return httpPost(BASE_URL + '/processstatus?id=' + id)
+
+}
+
+
 // export function updateClient(userID,requestParam) {
 //     return httpPost(BASE_URL + '/updateclient?userID=' + userID,requestParam)
 //

@@ -24,13 +24,14 @@ import {
 import ScrollArea from 'react-scrollbar'
 import { TextMask, InputAdapter } from 'react-text-mask-hoc';
 import {addClient, getInfoClient, updateClient} from "../../../api/UserManagement/userManagement";
-import {addCar, getListCarByUserID} from "../../../api/CarManagement/carmanagement";
+import {addCar, getListCarByUserID, processStatusHandleCar} from "../../../api/CarManagement/carmanagement";
 
 class HistoryTransUser extends Component {
     constructor(props){
         super(props);
 
         this.state={
+            id:'',
             userID :'',
             displayname:'' ,
             address:'',
@@ -48,9 +49,13 @@ class HistoryTransUser extends Component {
             closeAllAdd: false,
             resultAdd: null,
             modalAddCar:false,
+
+            resultProcessStatusHandleCar:null,
+            modalProcessStatusHandleCar: false,
+            nestedModalProcessStatusHandleCar: false,
+            closeAllProcessStatusHandleCar: false,
             collapseBill:false
         };
-        this.toggleAddCar=this.toggleAddCar.bind(this);
         this.toggleUpdate=this.toggleUpdate.bind(this);
         this.toggleBill=this.toggleBill.bind(this);
         this.toggleNestedUpdateUser = this.toggleNestedUpdateUser.bind(this);
@@ -59,6 +64,14 @@ class HistoryTransUser extends Component {
         this.toggleNestedAdd = this.toggleNestedAdd.bind(this);
         this.toggleAllAdd = this.toggleAllAdd.bind(this);
         this.handleAddCar = this.handleAddCar.bind(this);
+
+        this.toggleNestedProcessStatusHandleCar = this.toggleNestedProcessStatusHandleCar.bind(this);
+        this.toggleAllProcessStatusHandleCar = this.toggleAllProcessStatusHandleCar.bind(this);
+        this.toggleProcessStatusHandleCar = this.toggleProcessStatusHandleCar.bind(this);
+        this.toggleProcess = this.toggleProcess.bind(this);
+
+
+
     }
 
     componentDidMount() {
@@ -164,9 +177,44 @@ class HistoryTransUser extends Component {
         });
         window.location.reload();
     }
-    toggleAddCar(){
-        this.setState({modalAddCar:!this.state.modalAddCar});
+
+    handleProcessStatusHandleCar() {
+        processStatusHandleCar(this.state.id).then(res =>{
+            this.setState({
+                resultProcessStatusHandleCar:res.data
+
+            },()=> this.toggleNestedProcessStatusHandleCar())
+        })
     }
+
+    toggleNestedProcessStatusHandleCar() {
+        this.setState({
+            nestedModalProcessStatusHandleCar: !this.state.nestedModalProcessStatusHandleCar,
+            closeAllProcessStatusHandleCar: false
+        });
+    }
+
+    toggleAllProcessStatusHandleCar() {
+        this.setState({
+            nestedModalProcessStatusHandleCar: !this.state.nestedModalProcessStatusHandleCar,
+            closeAllProcessStatusHandleCar: true
+        });
+        window.location.reload();
+    }
+
+    toggleProcessStatusHandleCar() {
+        this.setState(prevState => ({
+            modalProcessStatusHandleCar: !prevState.modalProcessStatusHandleCar
+        }));
+    }
+
+    toggleProcess(logid) {
+        this.setState(prevState => ({
+            id:logid,
+            modalProcessStatusHandleCar: !prevState.modalProcessStatusHandleCar
+        }));
+    }
+
     toggleUpdate(){
         this.setState({modalUpdate:!this.state.modalUpdate});
     }
@@ -174,7 +222,7 @@ class HistoryTransUser extends Component {
         this.setState({collapseBill:!this.state.collapseBill});
     }
     render() {
-        const {resultAdd,resultUpdateUser,listCar} = this.state;
+        const {resultAdd,resultUpdateUser,listCar,resultProcessStatusHandleCar} = this.state;
         return (
             <div className="animated fadeIn manage-customer">
                 <Row>
@@ -270,7 +318,7 @@ class HistoryTransUser extends Component {
                                                             {
                                                                 (item.status == 0)
                                                                     ?
-                                                                    <Button color="primary" size="sm">Tiếp nhận xe</Button>
+                                                                    <Button color="primary" size="sm" onClick={()=>this.toggleProcess(item.id)}>Tiếp nhận xe</Button>
                                                                         :
                                                                     (
                                                                         (item.status == 1)
@@ -297,24 +345,6 @@ class HistoryTransUser extends Component {
                             </CardBody>
                             <CardFooter>
                                 <Button className="float-right" color="success" onClick={this.toggleAdd}>Thêm xe</Button>
-                                <Modal isOpen={this.state.modalAddCar} toggle={this.toggleAddCar}
-                                       className='modal-info'>
-                                    <ModalHeader toggle={this.toggleAddCar}>Thêm xe</ModalHeader>
-                                    <ModalBody>
-                                        <FormGroup>
-                                            <Label htmlFor="id">Mã khách hàng</Label>
-                                            <Input type="text" id="id" placeholder="Enter your id" disabled/>
-                                        </FormGroup>
-                                        <FormGroup>
-                                            <Label htmlFor="car-id">Biển số xe</Label>
-                                            <Input type="text" id="car-id" placeholder="Enter your car-id"/>
-                                        </FormGroup>
-                                    </ModalBody>
-                                    <ModalFooter>
-                                        <Button color="primary" onClick={()=>this.handleAddCar()}>Thêm</Button>{' '}
-                                        <Button color="secondary" onClick={this.toggleAddCar}>Thoát</Button>
-                                    </ModalFooter>
-                                </Modal>
                             </CardFooter>
                         </Card>
                     </Col>
@@ -414,6 +444,35 @@ class HistoryTransUser extends Component {
                     <ModalBody>
                         {resultAdd ?
                             resultAdd.returnMessage : null
+                        }
+                    </ModalBody>
+                </Modal>
+
+
+                <Modal isOpen={this.state.modalProcessStatusHandleCar} toggle={this.toggleProcessStatusHandleCar}
+                       className={'modal-info '
+                       + this.props.className}>
+                    <ModalHeader toggle={this.toggleAdd}>Xác nhận xử lý </ModalHeader>
+                    <ModalBody>
+                        Bạn muốn tiếp nhận xử lý xe này ?
+                    </ModalBody>
+                    <ModalFooter>
+                        <Button color="primary"
+                                onClick={() => this.handleProcessStatusHandleCar()}>Submit</Button>{' '}
+                        <Button color="secondary" onClick={this.toggleProcessStatusHandleCar}>Cancel</Button>
+                    </ModalFooter>
+                </Modal>
+
+                <Modal isOpen={this.state.nestedModalProcessStatusHandleCar}
+                       toggle={() => this.toggleNestedProcessStatusHandleCar()}
+                       onClosed={this.state.closeAllProcessStatusHandleCar ? () => this.toggleProcessStatusHandleCar()
+                           : undefined}
+                       className={'modal-info ' + this.props.className} centered>
+                    <ModalHeader toggle={() => this.toggleAllProcessStatusHandleCar()}>Thông
+                        báo</ModalHeader>
+                    <ModalBody>
+                        {resultProcessStatusHandleCar ?
+                            resultProcessStatusHandleCar.returnMessage : null
                         }
                     </ModalBody>
                 </Modal>

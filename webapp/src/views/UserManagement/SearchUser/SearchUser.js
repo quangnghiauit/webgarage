@@ -226,40 +226,6 @@ class SearchUser extends Component {
                             }
                             </tbody>
                         </Table>
-                        {/*<ul className="pagination">*/}
-                            {/*<PaginationItem>*/}
-                                {/*<PaginationLink previous*/}
-                                                {/*href="javascript:void(0)"></PaginationLink>*/}
-                            {/*</PaginationItem>*/}
-                            {/*{totalPages ? Array.from({length: totalPages},*/}
-                                {/*(item, index) => (*/}
-                                    {/*<li className={this.state.offset === index*/}
-                                        {/*? "page-item active" : "page-item"}*/}
-                                        {/*key={index}*/}
-                                        {/*onClick={() => this.handleSearch(index)}>*/}
-                                        {/*<a className="page-link" href="#">*/}
-                                            {/*{index + 1}*/}
-                                        {/*</a>*/}
-                                    {/*</li>*/}
-                                {/*))*/}
-                                {/*: ""}*/}
-                            {/*<PaginationItem>*/}
-                                {/*<PaginationLink next*/}
-                                                {/*href="javascript:void(0)"></PaginationLink>*/}
-                            {/*</PaginationItem>*/}
-                        {/*</ul>*/}
-
-
-                        {/*<BootstrapTable data={this.state.listTable} version="4" striped hover pagination search options={this.options}>*/}
-                        {/*<TableHeaderColumn isKey dataField="userID" dataSort>Mã khách hàng</TableHeaderColumn>*/}
-                        {/*<TableHeaderColumn dataField="displayname">Tên khách hàng</TableHeaderColumn>*/}
-                        {/*<TableHeaderColumn dataField="phoneNumber" >Số điện thoại</TableHeaderColumn>*/}
-                        {/*<TableHeaderColumn dataField="email" >Email</TableHeaderColumn>*/}
-                        {/*<TableHeaderColumn dataField="address" >Địa chỉ</TableHeaderColumn>*/}
-                        {/*<TableHeaderColumn dataField="createdDate" >Ngày tạo TK</TableHeaderColumn>*/}
-                        {/*<TableHeaderColumn dataField="licensePlate" >Biển số xe</TableHeaderColumn>*/}
-                        {/*<TableHeaderColumn dataField="isactive" dataSort >Hóa đơn chờ</TableHeaderColumn>*/}
-                        {/*</BootstrapTable>*/}
                     </CardBody>
                 </Card>
                 <Modal isOpen={this.state.modalAdd} toggle={this.toggleAdd}
