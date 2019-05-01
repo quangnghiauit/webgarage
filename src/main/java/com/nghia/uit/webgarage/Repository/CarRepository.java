@@ -20,6 +20,9 @@ public interface CarRepository extends CrudRepository<Car, Integer> {
     @Query(value = "select * from car as c where c.id =?1",nativeQuery = true)
     Car findCarById(String id);
 
+    @Query(value = "select * from car as c where c.status =1",nativeQuery = true)
+    List<Car> findCarHandling();
+
 
     @Query(value = "select * from car as c where c.licensePlate =?1",nativeQuery = true)
     Car findCarByLicensePlate(String licensePlate);

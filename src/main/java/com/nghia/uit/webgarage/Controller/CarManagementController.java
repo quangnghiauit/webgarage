@@ -28,6 +28,12 @@ public class CarManagementController {
         return new ResponseEntity<>(carManagementService.getListCarByUserID(userID), HttpStatus.OK);
     }
 
+    @GetMapping(value = "/getcarhandling")
+    public @ResponseBody
+    ResponseEntity<?> getAllCarHandling() {
+        return new ResponseEntity<>(carManagementService.getCarHandling(), HttpStatus.OK);
+    }
+
 
     @RequestMapping(value = "/addcar",method = RequestMethod.POST)
     public @ResponseBody

@@ -2,10 +2,7 @@ package com.nghia.uit.webgarage.Service.Impl;
 
 import com.nghia.uit.webgarage.Bean.ResponseDTO;
 import com.nghia.uit.webgarage.Message.Constants;
-import com.nghia.uit.webgarage.Model.Car;
-import com.nghia.uit.webgarage.Model.ClientDTO;
-import com.nghia.uit.webgarage.Model.RepairBill;
-import com.nghia.uit.webgarage.Model.Users;
+import com.nghia.uit.webgarage.Model.*;
 import com.nghia.uit.webgarage.Repository.CarRepository;
 import com.nghia.uit.webgarage.Repository.RepairBillRepository;
 import com.nghia.uit.webgarage.Repository.UserRepository;
@@ -56,19 +53,47 @@ public class CarManagementServiceImpl implements CarManagementService {
     }
 
     @Override
+    public List<CarDTO> getCarHandling() {
+        try {
+            List<CarDTO> carDTOList = new ArrayList<>();
+            List<Car> list = carRepository.findCarHandling();
+
+            if(list.size()==0) {
+                return new ArrayList<>();
+            }
+
+            Users users = new Users();
+            for(Car car : list) {
+                CarDTO carDTO = new CarDTO();
+                carDTO.setId(car.getId());
+                carDTO.setLicensePlate(car.getLicensePlate());
+                carDTO.setStatus(car.getStatus());
+                users = userRepository.findByUserID(String.valueOf(car.getUserID()));
+                if(users!=null) {
+                    carDTO.setDisplayName(users.getDisplayname());
+                }
+                carDTOList.add(carDTO);
+            }
+            return carDTOList;
+        } catch (Exception ex) {
+            return new ArrayList<>();
+        }
+    }
+
+    @Override
     public List<Car> getListCarByUserID(String userID) {
         try {
-            if(userID.isEmpty()) {
+            if (userID.isEmpty()) {
                 return new ArrayList<>();
 
             }
             List<Car> list = carRepository.findCarByUserID(Long.valueOf(userID));
-            if(list.size()==0) {
+            if (list.size() == 0) {
                 return new ArrayList<>();
 
             }
             return list;
-        }catch (Exception ex) {
+        } catch (Exception ex) {
             return new ArrayList<>();
         }
     }
@@ -76,7 +101,7 @@ public class CarManagementServiceImpl implements CarManagementService {
     @Override
     public ResponseDTO addCar(Car car, String userID) {
         try {
-            if(String.valueOf(userID)!=null) {
+            if (String.valueOf(userID) != null) {
                 car.setStatus(Constants.INIT_PROCESS);
                 car.setUserID(Long.valueOf(userID));
                 carRepository.save(car);
@@ -98,7 +123,7 @@ public class CarManagementServiceImpl implements CarManagementService {
             car.setStatus(Constants.PROCESSING);
             carRepository.save(car);
             RepairBill repairBill = new RepairBill();
-            repairBill.doMappingRepairBill(car.getLicensePlate(),car.getUserID());
+            repairBill.doMappingRepairBill(car.getLicensePlate(), car.getUserID());
             repairBill.setStatus(Constants.PROCESSING);
             repairBillRepository.save(repairBill);
             return new ResponseDTO().success(Constants.PROCESSING_MESSAGE);

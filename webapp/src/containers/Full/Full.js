@@ -18,8 +18,8 @@ import  HistoryTransUser from '../../views/UserManagement/HistoryTransUser/Histo
 // CarManagement
 import  SearchCar from '../../views/CarManagement/SearchCar/SearchCar';
 import  CarHandleInfo from '../../views/CarManagement/CarHandleInfo/CarHandleInfo';
-import  CarHandleList from '../../views/CarManagement/CarHandleList/CarHandleList';
-import  CarListHandling from '../../views/CarManagement/CarListHandling/CarListHandling';
+import  HandlingCar from '../../views/CarManagement/HandlingCar/HandlingCar';
+import  ListCarHandling from '../../views/CarManagement/ListCarHandling/ListCarHandling';
 
 
 // MaterialManagement
@@ -86,9 +86,9 @@ class Full extends Component {
                                         <Route path="/user-management/history/:id" name="HistoryTransUser" component={HistoryTransUser}/>,
                                         <Route path="/user-management/user-info" name="UserInfo" component={UserInfo}/>,
 
-                                        <Route path="/car-management/car-handle-list" name="CarHandleList" component={CarHandleList}/>,
+                                        <Route path="/car-management/car-handle-list/:id" name="HandlingCar" component={HandlingCar}/>,
                                         <Route path="/car-management/car-handle-info/:id" name="CarHandleInfo" component={CarHandleInfo}/>,
-                                        <Route path="/car-management/list-car-handling" name="CarListHandling" component={CarListHandling}/>,
+                                        <Route path="/car-management/list-car-handling" name="ListCarHandling" component={ListCarHandling}/>,
 
 
                                         <Redirect from="/" to="/dashboard"/>

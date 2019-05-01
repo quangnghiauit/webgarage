@@ -2,6 +2,7 @@ package com.nghia.uit.webgarage.Service;
 
 import com.nghia.uit.webgarage.Bean.ResponseDTO;
 import com.nghia.uit.webgarage.Model.Car;
+import com.nghia.uit.webgarage.Model.CarDTO;
 import com.nghia.uit.webgarage.Model.ClientDTO;
 
 import java.util.List;
@@ -9,6 +10,8 @@ import java.util.List;
 public interface CarManagementService {
 
     List<ClientDTO> getDataCar();
+
+    List<CarDTO> getCarHandling();
 
     List<Car> getListCarByUserID(String userID);
 

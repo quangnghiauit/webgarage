@@ -10,6 +10,12 @@ export function getListCarByUserID(userID) {
     return httpGet(BASE_URL + '/get-list-car-by-userID?userID=' + userID);
 }
 
+
+export function getListCarHandling() {
+    return httpGet(BASE_URL + '/getcarhandling');
+}
+
+
 export function addCar(userID,requestParam) {
     return httpPost(BASE_URL + '/addcar?userID=' + userID,requestParam)
 

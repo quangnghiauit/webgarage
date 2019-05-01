@@ -10,10 +10,10 @@ export function getInfoMaterialUser(licensePlate) {
     return httpGet(BASE_URL + '/get-info-material-user?licensePlate=' + licensePlate);
 }
 
-// export function addCar(userID,requestParam) {
-//     return httpPost(BASE_URL + '/addcar?userID=' + userID,requestParam)
-//
-// }
+export function addTransMaterial(repairBillID,requestParam) {
+    return httpPost(BASE_URL + '/addmaterial?repairBillID=' + repairBillID,requestParam)
+
+}
 //
 // export function processStatusHandleCar(id) {
 //     return httpPost(BASE_URL + '/processstatus?id=' + id)

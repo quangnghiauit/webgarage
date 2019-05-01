@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {BootstrapTable, TableHeaderColumn} from 'react-bootstrap-table';
 import 'react-bootstrap-table/dist/react-bootstrap-table-all.min.css';
-import {TextMask, InputAdapter} from 'react-text-mask-hoc';
+import { TextMask, InputAdapter } from 'react-text-mask-hoc';
 import {
     Card,
     CardHeader,
@@ -17,12 +17,10 @@ import {
     FormGroup,
     FormText,
     Button,
-    Col,
-    Badge,
-    Table
+    Col, Badge, Table
 } from 'reactstrap';
-import {getAllClient} from "../../../api/UserManagement/userManagement";
-import {getInfoMaterialUser, getInfoRepairBillID} from "../../../api/TransManagement/transmanagement";
+import {addTransMaterial, getInfoMaterialUser} from "../../../api/TransManagement/transmanagement";
+import {addClient} from "../../../api/UserManagement/userManagement";
 
 
 const cellEditProp = {
@@ -30,17 +28,23 @@ const cellEditProp = {
     blurToSave: true
 };
 
-const materials = ['bánh xe', 'lốp xe', 'kính'];
+const materials=['bánh xe','lốp xe','kính'];
 
-class CarHandleInfo extends Component {
+class HandlingCar extends Component {
     constructor(props) {
         super(props);
+
         this.state = {
             licensePlate: '',
             status: '',
             repairBillID: '',
             createdDate: '',
             list: [],
+
+            modalAdd: false,
+            nestedModalAdd: false,
+            closeAllAdd: false,
+            resultAdd: null,
         }
 
         this.options = {
@@ -51,10 +55,15 @@ class CarHandleInfo extends Component {
             clearSearch: true,
             alwaysShowAllBtns: false,
             withFirstAndLast: false,
-            onRowClick: function (row) {
+            onRowClick: function(row) {
                 alert(`You click row id: ${row.id}`);
             }
         }
+
+
+        this.toggleAdd = this.toggleAdd.bind(this);
+        this.toggleNestedAdd = this.toggleNestedAdd.bind(this);
+        this.toggleAllAdd = this.toggleAllAdd.bind(this);
     }
 
     componentDidMount() {
@@ -78,8 +87,49 @@ class CarHandleInfo extends Component {
         })
     }
 
+    toggleNestedAdd() {
+        this.setState({
+            nestedModalAdd: !this.state.nestedModalAdd,
+            closeAllAdd: false
+        });
+    }
+
+    toggleAllAdd() {
+        this.setState({
+            nestedModalAdd: !this.state.nestedModalAdd,
+            closeAllAdd: true
+        });
+        window.location.reload();
+    }
+
+    handleAddMaterial() {
+        const params = {
+            infoBill: this.state.displayname,
+            materialID: this.state.phoneNumber,
+            reqNum: this.state.address,
+        };
+        console.log("param", params);
+        if (this.state.materialID && this.state.reqNum) {
+            addTransMaterial(this.state.repairBillID,params).then(res => {
+                console.log('truoc add', res)
+                this.setState({
+                    resultAdd: res.data
+                }, () => this.toggleNestedAdd())
+
+            })
+        } else {
+            alert("Vui lòng điền đầy đủ thông tin.")
+        }
+    }
+
+    toggleAdd() {
+        this.setState(prevState => ({
+            modalAdd: !prevState.modalAdd
+        }));
+    }
+
     render() {
-        const {list} = this.state;
+        const {list,resultAdd} = this.state;
         return (
             <div className="animated handle-car">
                 <Card>
@@ -114,14 +164,13 @@ class CarHandleInfo extends Component {
                                        disabled/>
                             </Col>
                         </FormGroup>
+                        <Button color="danger" onClick={this.toggleAdd}>Thêm mới</Button>
                         <Table responsive striped>
                             <thead>
                             <tr>
                                 <th>ID</th>
                                 <th>Tên phụ tùng</th>
                                 <th>Số lượng</th>
-                                <th>Đơn giá</th>
-                                <th>Thành tiền</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -132,21 +181,6 @@ class CarHandleInfo extends Component {
                                             <td>{item.id}</td>
                                             <td>{item.materialName}</td>
                                             <td>{item.reqNum}</td>
-                                            <td>{item.price}</td>
-                                            <td>{item.totalMoney}</td>
-                                            <td>{item.createdDate}</td>
-                                            <td>
-                                                {item.isactive == 0
-                                                    ?
-                                                    <Button color="success"
-                                                            onClick={() => this.handleUserBill(item.userID)}>Không
-                                                        có</Button>
-                                                    :
-                                                    <Button color="warning"
-                                                            onClick={() => this.handleUserBill(item.userID)}>Đang xử
-                                                        lý</Button>
-                                                }
-                                            </td>
                                         </tr>
                                     )
 
@@ -157,6 +191,7 @@ class CarHandleInfo extends Component {
                         </Table>
                     </CardBody>
                     <CardFooter>
+                        <Button className="float-right" color="success">Lưu</Button>
                         Trạng thái :
                         {
                             (this.state.status == 0)
@@ -177,9 +212,59 @@ class CarHandleInfo extends Component {
 
                     </CardFooter>
                 </Card>
+
+                <Modal isOpen={this.state.modalAdd} toggle={this.toggleAdd}
+                       className={'modal-info modal-lg modal-lg-custom'
+                       + this.props.className}>
+                    <ModalHeader toggle={this.toggleAdd}>Thêm phụ tùng</ModalHeader>
+                    <ModalBody>
+                        {/*<FormGroup>*/}
+                            {/*<Label htmlFor="name">Tên khách hàng</Label>*/}
+                            {/*<Input type="text" id="name" value={this.state.displayname}*/}
+                                   {/*onChange={(e) => this.setState({displayname: e.target.value}, () => console.log(this.state.displayname))}*/}
+                                   {/*placeholder="Enter your name" required/>*/}
+                            {/*<FormText className="help-block">Please enter your name</FormText>*/}
+                        {/*</FormGroup>*/}
+
+                        <FormGroup>
+                            <Label htmlFor="address">Thông tin sửa chữa</Label>
+                            <Input type="text" id="infoBill" value={this.state.infoBill}
+                                   onChange={(e) => this.setState({infoBill: e.target.value}, () => console.log(this.state.infoBill))}
+                                   placeholder="Enter your info bill" required/>
+                            <FormText className="help-block">Please enter your infoBill</FormText>
+                        </FormGroup>
+                        <FormGroup>
+                            <Label htmlFor="reqNum">Số lượng</Label>
+                            <Input type="text" id="reqNum" value={this.state.reqNum}
+                                   onChange={(e) => this.setState({reqNum: e.target.value}, () => console.log(this.state.reqNum))}
+                                   placeholder="Enter your reqNum" required/>
+                            <FormText className="help-block">Please enter your reqNum</FormText>
+                        </FormGroup>
+
+                    </ModalBody>
+                    <ModalFooter>
+                        <Button color="primary"
+                                onClick={() => this.handleAddUser()}>Submit</Button>{' '}
+                        <Button color="secondary" onClick={this.toggleAdd}>Cancel</Button>
+                    </ModalFooter>
+                </Modal>
+
+                <Modal isOpen={this.state.nestedModalAdd}
+                       toggle={() => this.toggleNestedAdd()}
+                       onClosed={this.state.closeAllAdd ? () => this.toggleAdd()
+                           : undefined}
+                       className={'modal-info ' + this.props.className} centered>
+                    <ModalHeader toggle={() => this.toggleAllAdd()}>Thông
+                        báo</ModalHeader>
+                    <ModalBody>
+                        {resultAdd ?
+                            resultAdd.returnMessage : null
+                        }
+                    </ModalBody>
+                </Modal>
             </div>
         );
     }
 }
 
-export default CarHandleInfo;
+export default HandlingCar;

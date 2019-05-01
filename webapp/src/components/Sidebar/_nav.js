@@ -48,18 +48,6 @@ export default {
                     // roles: ["ADMIN"]
                 },
                 {
-                    name: "Thông tin xe xử lý",
-                    url :"/car-management/car-handle-info",
-                    icon:"icon-star",
-                    // roles: ["ADMIN"]
-                },
-                {
-                    name: "Xử lý xe",
-                    url :"/car-management/car-handle-list",
-                    icon:"icon-star",
-                    // roles: ["ADMIN"]
-                },
-                {
                     name: "Danh sách xe đang xử lý",
                     url :"/car-management/list-car-handling",
                     icon:"icon-star",

@@ -16,19 +16,46 @@ import {
     Input,
     FormGroup,
     Form,
-    Label
+    Label, Badge
 } from 'reactstrap';
+import {getInfoMaterialUser} from "../../../api/TransManagement/transmanagement";
+import {getListCarHandling} from "../../../api/CarManagement/carmanagement";
 
 
 
-class CarListHandling extends Component {
+class ListCarHandling extends Component {
     constructor(props) {
         super(props);
+        this.state = {
+            list: [],
+        }
 
         this.state={ collapseCar:false, modalAddMaterials:false };
         this.toggleCar=this.toggleCar.bind(this);
         this.toggleMaterials=this.toggleMaterials.bind(this);
+
+        this.handleGetListCarHandling = this.handleGetListCarHandling.bind(this);
     }
+
+    componentDidMount() {
+        this.handleGetListCarHandling()
+    }
+
+    handleGetListCarHandling() {
+        getListCarHandling().then(response => {
+            console.log('bleeeeee', response)
+            this.setState({
+                listTable: response.data,
+                list: response.data,
+            }, () => console.log('hihihihi', this.state.list))
+
+        })
+    }
+
+    handleCar(id) {
+        window.location.replace("http://localhost:8080/#/car-management/car-handle-list/"+id);
+    }
+
     toggleCar(){
         this.setState({collapseCar:!this.state.collapseCar});
     }
@@ -36,6 +63,7 @@ class CarListHandling extends Component {
         this.setState({modalAddMaterials:!this.state.modalAddMaterials});
     }
     render() {
+        const {list} = this.state;
         return (
             <div className="animated search-car-handling">
                 <Card>
@@ -43,22 +71,48 @@ class CarListHandling extends Component {
                         <i className="icon-menu"></i>Danh sách xe đang xử lý
                     </CardHeader>
                     <CardBody>
-                        <Table responsive>
+                        <Table responsive striped>
                             <thead>
                             <tr>
+                                <th>ID</th>
                                 <th>Biển số xe</th>
-                                <th>Khách hàng</th>
-                                <th>Số điện thoại</th>
+                                <th>Tên khách hàng</th>
                                 <th>Trạng thái</th>
+                                <th>Action</th>
                             </tr>
                             </thead>
                             <tbody>
-                            <tr>
-                                <td>HE343</td>
-                                <td>A</td>
-                                <td>0123456789</td>
-                                <td><Button color="success" onClick={this.toggleCar}>Đang xử lý</Button></td>
-                            </tr>
+                            {
+                                list ? list.map((item, index) => {
+                                    return (
+                                        <tr key={index}>
+                                            <td>{item.id}</td>
+                                            <td>{item.licensePlate}</td>
+                                            <td>{item.displayName}</td>
+                                            <td>
+                                                {item.status == 1
+                                                    ?
+                                                    <Badge color="warning" >Đang chờ xử lý</Badge>
+                                                    :
+                                                    <Badge color="success" >Xử lý</Badge>
+
+                                                }
+                                            </td>
+                                            <td>
+                                                {item.status == 1
+                                                    ?
+                                                    <Button color="danger" onClick={()=>this.handleCar(item.licensePlate)}>Xử lý</Button>
+                                                    :
+                                                    <Button color="success" onClick={this.toggleCar}>Xử lý</Button>
+
+                                                }
+                                            </td>
+                                        </tr>
+                                    )
+
+                                }) : null
+
+                            }
                             </tbody>
                         </Table>
                     </CardBody>
@@ -118,4 +172,4 @@ class CarListHandling extends Component {
     }
 }
 
-export default CarListHandling;
+export default ListCarHandling;
