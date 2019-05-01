@@ -19,7 +19,7 @@ import {
     Button,
     Col,
     Badge,
-    Table
+    Table, Row
 } from 'reactstrap';
 import {getAllClient} from "../../../api/UserManagement/userManagement";
 import {getInfoMaterialUser, getInfoRepairBillID} from "../../../api/TransManagement/transmanagement";
@@ -87,33 +87,40 @@ class CarHandleInfo extends Component {
                         <i className="icon-menu"></i>Xử lý xe
                     </CardHeader>
                     <CardBody>
-                        <FormGroup row>
-                            <Label htmlFor="licensePlate" sm={1}>Biển Số</Label>
-                            <Col sm={3}>
-                                <Input type="text" id="id"
-                                       onChange={(e) => this.setState({licensePlate: e.target.value}, () => console.log(this.state.licensePlate))}
-                                       value={this.state.licensePlate}
-                                       disabled/>
+
+                        <Row>
+                            <Col xs="12" lg="6">
+                                <FormGroup row>
+                                    <Label htmlFor="licensePlate" sm={2}>Biển Số</Label>
+                                    <Col sm={6}>
+                                        <Input type="text" id="id"
+                                               onChange={(e) => this.setState({licensePlate: e.target.value}, () => console.log(this.state.licensePlate))}
+                                               value={this.state.licensePlate}
+                                               disabled/>
+                                    </Col>
+                                </FormGroup>
+                                <FormGroup row>
+                                    <Label htmlFor="createdDate" sm={2}>Ngày lập hóa đơn</Label>
+                                    <Col sm={6}>
+                                        <Input type="text" id="id"
+                                               onChange={(e) => this.setState({createdDate: e.target.value}, () => console.log(this.state.createdDate))}
+                                               value={this.state.createdDate}
+                                               disabled/>
+                                    </Col>
+                                </FormGroup>
                             </Col>
-                        </FormGroup>
-                        <FormGroup row>
-                            <Label htmlFor="repairBillID" sm={1}>Hóa đơn giao dịch</Label>
-                            <Col sm={3}>
-                                <Input type="text" id="id"
-                                       onChange={(e) => this.setState({getInfoRepairBillID: e.target.value}, () => console.log(this.state.repairBillID))}
-                                       value={this.state.repairBillID}
-                                       disabled/>
+                            <Col xs="12" lg="6">
+                                <FormGroup row>
+                                    <Label htmlFor="repairBillID" sm={2}>Hóa đơn giao dịch</Label>
+                                    <Col sm={7}>
+                                        <Input type="text" id="id"
+                                               onChange={(e) => this.setState({repairBillID: e.target.value}, () => console.log(this.state.repairBillID))}
+                                               value={this.state.repairBillID}
+                                               disabled/>
+                                    </Col>
+                                </FormGroup>
                             </Col>
-                        </FormGroup>
-                        <FormGroup row>
-                            <Label htmlFor="createdDate" sm={1}>Ngày lập hóa đơn</Label>
-                            <Col sm={3}>
-                                <Input type="text" id="id"
-                                       onChange={(e) => this.setState({createdDate: e.target.value}, () => console.log(this.state.createdDate))}
-                                       value={this.state.createdDate}
-                                       disabled/>
-                            </Col>
-                        </FormGroup>
+                        </Row>
                         <Table responsive striped>
                             <thead>
                             <tr>
