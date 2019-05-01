@@ -1,4 +1,4 @@
-import { httpGet, httpPost} from "../index";
+import {httpDelete, httpGet, httpPost} from "../index";
 
 const BASE_URL = 'api/transmanagementbill';
 
@@ -13,6 +13,15 @@ export function getInfoMaterialUser(licensePlate) {
 export function addTransMaterial(repairBillID,requestParam) {
     return httpPost(BASE_URL + '/addmaterial?repairBillID=' + repairBillID,requestParam)
 
+}
+
+
+export function updateMaterial(id,requestParam) {
+    return httpPost(BASE_URL + '/updatematerial?id='+id,requestParam);
+}
+
+export function deleteMaterial(id) {
+    return httpDelete(BASE_URL + '/updatematerial?id='+id);
 }
 //
 // export function processStatusHandleCar(id) {

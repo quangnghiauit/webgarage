@@ -19,8 +19,9 @@ import {
     Button,
     Col, Badge, Table
 } from 'reactstrap';
-import {addTransMaterial, getInfoMaterialUser} from "../../../api/TransManagement/transmanagement";
+import {addTransMaterial, getInfoMaterialUser, updateMaterial} from "../../../api/TransManagement/transmanagement";
 import {addClient} from "../../../api/UserManagement/userManagement";
+import {getListMaterial} from "../../../api/materialManagement/materialManagement";
 
 
 const cellEditProp = {
@@ -35,16 +36,33 @@ class HandlingCar extends Component {
         super(props);
 
         this.state = {
+            id:'',
             licensePlate: '',
             status: '',
             repairBillID: '',
             createdDate: '',
             list: [],
 
+            infoBill: '',
+            materialID: '',
+            reqNum: '',
+
+            listMaterial:[],
+
             modalAdd: false,
             nestedModalAdd: false,
             closeAllAdd: false,
             resultAdd: null,
+
+            modalUpdate: false,
+            nestedModalUpdate: false,
+            closeAllUpdate: false,
+            resultUpdate: null,
+
+            modalDelete: false,
+            nestedModalDelete: false,
+            closeAllDelete: false,
+            resultDelete: null,
         }
 
         this.options = {
@@ -64,9 +82,22 @@ class HandlingCar extends Component {
         this.toggleAdd = this.toggleAdd.bind(this);
         this.toggleNestedAdd = this.toggleNestedAdd.bind(this);
         this.toggleAllAdd = this.toggleAllAdd.bind(this);
+
+        this.toggleUpdate = this.toggleUpdate.bind(this);
+        this.toggleNestedUpdate = this.toggleNestedUpdate.bind(this);
+        this.toggleAllUpdate = this.toggleAllUpdate.bind(this);
+
+        this.toggleDelete = this.toggleDelete.bind(this);
+        this.toggleNestedDelete = this.toggleNestedDelete.bind(this);
+        this.toggleAllDelete = this.toggleAllDelete.bind(this);
     }
 
     componentDidMount() {
+        getListMaterial().then(res => {
+            this.setState({
+                listMaterial:res.data
+            },()=>console.log(this.state.listMaterial))
+        })
         this.setState({
             licensePlate: this.props.match.params.id
         }, () => this.handleGetInfoMaterialUser(this.state.licensePlate));
@@ -87,6 +118,12 @@ class HandlingCar extends Component {
         })
     }
 
+    toggleAdd() {
+        this.setState(prevState => ({
+            modalAdd: !prevState.modalAdd
+        }));
+    }
+
     toggleNestedAdd() {
         this.setState({
             nestedModalAdd: !this.state.nestedModalAdd,
@@ -104,12 +141,12 @@ class HandlingCar extends Component {
 
     handleAddMaterial() {
         const params = {
-            infoBill: this.state.displayname,
-            materialID: this.state.phoneNumber,
-            reqNum: this.state.address,
+            infoBill: this.state.infoBill,
+            materialID: this.state.materialID,
+            reqNum: this.state.reqNum,
         };
         console.log("param", params);
-        if (this.state.materialID && this.state.reqNum) {
+        if (this.state.materialID&&this.state.reqNum) {
             addTransMaterial(this.state.repairBillID,params).then(res => {
                 console.log('truoc add', res)
                 this.setState({
@@ -122,14 +159,83 @@ class HandlingCar extends Component {
         }
     }
 
-    toggleAdd() {
+    handleUpdateMaterial() {
+        const params = {
+            infoBill: this.state.infoBill,
+            materialID: this.state.materialID,
+            reqNum: this.state.reqNum,
+        };
+        console.log("param", params);
+        if (this.state.materialID&&this.state.reqNum) {
+            updateMaterial(this.state.id,params).then(res => {
+                console.log('truoc add', res)
+                this.setState({
+                    resultUpdate: res.data
+                }, () => this.toggleNestedUpdate())
+
+            })
+        } else {
+            alert("Vui lòng điền đầy đủ thông tin.")
+        }
+    }
+
+    toggleUpdate() {
         this.setState(prevState => ({
-            modalAdd: !prevState.modalAdd
+            modalUpdate: !prevState.modalUpdate
         }));
     }
 
+    toggleProcessUpdate(logid) {
+        this.setState(prevState => ({
+            id:logid,
+            modalUpdate: !prevState.modalUpdate
+        }));
+    }
+
+    toggleNestedUpdate() {
+        this.setState({
+            nestedModalUpdate: !this.state.nestedModalUpdate,
+            closeAllUpdate: false
+        });
+    }
+
+    toggleAllUpdate() {
+        this.setState({
+            nestedModalUpdate: !this.state.nestedModalUpdate,
+            closeAllUpdate: true
+        });
+        window.location.reload();
+    }
+
+    handleDeleteMaterial(id) {
+
+    }
+
+    toggleDelete() {
+        this.setState(prevState => ({
+            modalDelete: !prevState.modalDelete
+        }));
+    }
+
+    toggleNestedDelete() {
+        this.setState({
+            nestedModalDelete: !this.state.nestedModalDelete,
+            closeAllDelete: false
+        });
+    }
+
+    toggleAllDelete() {
+        this.setState({
+            nestedModalDelete: !this.state.nestedModalDelete,
+            closeAllDelete: true
+        });
+        window.location.reload();
+    }
+
+
+
     render() {
-        const {list,resultAdd} = this.state;
+        const {list,resultAdd,resultUpdate,resultDelete,listMaterial} = this.state;
         return (
             <div className="animated handle-car">
                 <Card>
@@ -164,13 +270,15 @@ class HandlingCar extends Component {
                                        disabled/>
                             </Col>
                         </FormGroup>
-                        <Button color="danger" onClick={this.toggleAdd}>Thêm mới</Button>
+                        <Button color="success" onClick={this.toggleAdd}>Thêm mới</Button>
                         <Table responsive striped>
                             <thead>
                             <tr>
                                 <th>ID</th>
                                 <th>Tên phụ tùng</th>
+                                <th>Chi tiết sửa chữa</th>
                                 <th>Số lượng</th>
+                                <th>Action</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -180,7 +288,13 @@ class HandlingCar extends Component {
                                         <tr key={index}>
                                             <td>{item.id}</td>
                                             <td>{item.materialName}</td>
+                                            <td>{item.infoBill}</td>
                                             <td>{item.reqNum}</td>
+                                            <td>
+                                                <Button color="warning"  onClick={()=>this.toggleProcessUpdate(item.id)}>Cập nhật</Button> {' '}
+                                                <Button color="danger" onClick={this.toggleDelete}>Xóa</Button>
+
+                                            </td>
                                         </tr>
                                     )
 
@@ -191,7 +305,6 @@ class HandlingCar extends Component {
                         </Table>
                     </CardBody>
                     <CardFooter>
-                        <Button className="float-right" color="success">Lưu</Button>
                         Trạng thái :
                         {
                             (this.state.status == 0)
@@ -214,17 +327,98 @@ class HandlingCar extends Component {
                 </Card>
 
                 <Modal isOpen={this.state.modalAdd} toggle={this.toggleAdd}
+                               className={'modal-info modal-lg modal-lg-custom'
+                               + this.props.className}>
+                <ModalHeader toggle={this.toggleAdd}>Thêm phụ tùng</ModalHeader>
+                <ModalBody>
+                    <FormGroup>
+                        <Label htmlFor="name">Tên phụ tùng</Label>
+                        <select
+                            className="form-control"
+                            id={"listMaterial"}
+                            onChange={(e) => this.setState({materialID: e.target.value},
+                                () => console.log('materialID: '+this.state.materialID))}>
+                            <option value={null}>Chọn loại phụ tùng</option>
+                            {listMaterial.map(item => {
+                                return (
+                                    <option key={item.id} value={item.materialID}>
+                                        {
+                                            item.materialName
+                                        }
+                                    </option>
+                                );
+                            })}
+                        </select>
+                    </FormGroup>
+
+
+
+                    <FormGroup>
+                        <Label htmlFor="address">Thông tin sửa chữa</Label>
+                        <Input type="text" id="infoBill" value={this.state.infoBill}
+                               onChange={(e) => this.setState({infoBill: e.target.value}, () => console.log(this.state.infoBill))}
+                               placeholder="Enter your info bill" required/>
+                        <FormText className="help-block">Please enter your infoBill</FormText>
+                    </FormGroup>
+                    <FormGroup>
+                        <Label htmlFor="reqNum">Số lượng</Label>
+                        <Input type="text" id="reqNum" value={this.state.reqNum}
+                               onChange={(e) => this.setState({reqNum: e.target.value}, () => console.log(this.state.reqNum))}
+                               placeholder="Enter your reqNum" required/>
+                        <FormText className="help-block">Please enter your reqNum</FormText>
+                    </FormGroup>
+
+                </ModalBody>
+                <ModalFooter>
+                    <Button color="primary"
+                            onClick={() => this.handleAddMaterial()}>Submit</Button>{' '}
+                    <Button color="secondary" onClick={this.toggleAdd}>Cancel</Button>
+                </ModalFooter>
+            </Modal>
+
+                <Modal isOpen={this.state.nestedModalAdd}
+                       toggle={() => this.toggleNestedAdd()}
+                       onClosed={this.state.closeAllAdd ? () => this.toggleAdd()
+                           : undefined}
+                       className={'modal-info ' + this.props.className} centered>
+                    <ModalHeader toggle={() => this.toggleAllAdd()}>Thông
+                        báo</ModalHeader>
+                    <ModalBody>
+                        {resultAdd ?
+                            resultAdd.returnMessage : null
+                        }
+                    </ModalBody>
+                </Modal>
+
+
+
+
+                <Modal isOpen={this.state.modalUpdate} toggle={this.toggleUpdate}
                        className={'modal-info modal-lg modal-lg-custom'
                        + this.props.className}>
-                    <ModalHeader toggle={this.toggleAdd}>Thêm phụ tùng</ModalHeader>
+                    <ModalHeader toggle={this.toggleUpdate}>Cập nhật phụ tùng</ModalHeader>
                     <ModalBody>
-                        {/*<FormGroup>*/}
-                            {/*<Label htmlFor="name">Tên khách hàng</Label>*/}
-                            {/*<Input type="text" id="name" value={this.state.displayname}*/}
-                                   {/*onChange={(e) => this.setState({displayname: e.target.value}, () => console.log(this.state.displayname))}*/}
-                                   {/*placeholder="Enter your name" required/>*/}
-                            {/*<FormText className="help-block">Please enter your name</FormText>*/}
-                        {/*</FormGroup>*/}
+                        <FormGroup>
+                            <Label htmlFor="name">Tên phụ tùng</Label>
+                            <select
+                                className="form-control"
+                                id={"listMaterial"}
+                                onChange={(e) => this.setState({materialID: e.target.value},
+                                    () => console.log('materialID: '+this.state.materialID))}>
+                                <option value={null}>Chọn loại phụ tùng</option>
+                                {listMaterial.map(item => {
+                                    return (
+                                        <option key={item.id} value={item.materialID}>
+                                            {
+                                                item.materialName
+                                            }
+                                        </option>
+                                    );
+                                })}
+                            </select>
+                        </FormGroup>
+
+
 
                         <FormGroup>
                             <Label htmlFor="address">Thông tin sửa chữa</Label>
@@ -244,21 +438,49 @@ class HandlingCar extends Component {
                     </ModalBody>
                     <ModalFooter>
                         <Button color="primary"
-                                onClick={() => this.handleAddUser()}>Submit</Button>{' '}
-                        <Button color="secondary" onClick={this.toggleAdd}>Cancel</Button>
+                                onClick={() => this.handleUpdateMaterial()}>Submit</Button>{' '}
+                        <Button color="secondary" onClick={this.toggleUpdate}>Cancel</Button>
                     </ModalFooter>
                 </Modal>
 
-                <Modal isOpen={this.state.nestedModalAdd}
-                       toggle={() => this.toggleNestedAdd()}
-                       onClosed={this.state.closeAllAdd ? () => this.toggleAdd()
+                <Modal isOpen={this.state.nestedModalUpdate}
+                       toggle={() => this.toggleNestedUpdate()}
+                       onClosed={this.state.closeAllUpdate ? () => this.toggleUpdate()
                            : undefined}
                        className={'modal-info ' + this.props.className} centered>
-                    <ModalHeader toggle={() => this.toggleAllAdd()}>Thông
+                    <ModalHeader toggle={() => this.toggleAllUpdate()}>Thông
                         báo</ModalHeader>
                     <ModalBody>
-                        {resultAdd ?
-                            resultAdd.returnMessage : null
+                        {resultUpdate ?
+                            resultUpdate.returnMessage : null
+                        }
+                    </ModalBody>
+                </Modal>
+
+                <Modal isOpen={this.state.modalDelete} toggle={this.toggleDelete}
+                       className={'modal-info modal-lg modal-lg-custom'
+                       + this.props.className}>
+                    <ModalHeader toggle={this.toggleDelete}>Xóa phụ tùng</ModalHeader>
+                    <ModalBody>
+                        Bạn có muốn xóa không?
+                    </ModalBody>
+                    <ModalFooter>
+                        <Button color="primary"
+                                onClick={() => this.handleAddMaterial()}>Submit</Button>{' '}
+                        <Button color="secondary" onClick={this.toggleDelete}>Cancel</Button>
+                    </ModalFooter>
+                </Modal>
+
+                <Modal isOpen={this.state.nestedModalDelete}
+                       toggle={() => this.toggleNestedDelete()}
+                       onClosed={this.state.closeAllDelete ? () => this.toggleDelete()
+                           : undefined}
+                       className={'modal-info ' + this.props.className} centered>
+                    <ModalHeader toggle={() => this.toggleAllDelete()}>Thông
+                        báo</ModalHeader>
+                    <ModalBody>
+                        {resultDelete ?
+                            resultDelete.returnMessage : null
                         }
                     </ModalBody>
                 </Modal>

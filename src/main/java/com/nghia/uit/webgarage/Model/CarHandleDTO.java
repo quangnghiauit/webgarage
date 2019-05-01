@@ -17,6 +17,8 @@ public class CarHandleDTO {
      * */
     private int status;
 
+    private String infoBill;
+
     private String createdDate;
 
     private String createdBy;
@@ -137,5 +139,13 @@ public class CarHandleDTO {
 
     public void setPrice(long price) {
         this.price = price;
+    }
+
+    public String getInfoBill() {
+        return infoBill;
+    }
+
+    public void setInfoBill(String infoBill) {
+        this.infoBill = infoBill;
     }
 }
