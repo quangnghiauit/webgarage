@@ -1184,7 +1184,7 @@ class Dashboard extends Component {
                   <tr>
                     <td className="text-center">
                       <div className="avatar">
-                        <img src={'img/avatars/6.jpg'} className="img-avatar" alt="admin@bootstrapmaster.com"/>
+                        <img src={'img/avatars/8.jpg'} className="img-avatar" alt="admin@bootstrapmaster.com"/>
                         <span className="avatar-status badge-danger"></span>
                       </div>
                     </td>

@@ -96,7 +96,7 @@ class HeaderDropdown extends Component {
         return (
             <Dropdown nav isOpen={this.state.dropdownOpen} toggle={this.toggle}>
                 <DropdownToggle nav>
-                    <img src={'img/avatars/6.jpg'} className="img-avatar" alt="admin@bootstrapmaster.com"/>
+                    <img src={'img/avatars/8.jpg'} className="img-avatar" alt="admin@bootstrapmaster.com"/>
                 </DropdownToggle>
                 <DropdownMenu right>
 
@@ -190,7 +190,7 @@ class HeaderDropdown extends Component {
                         <div className="message">
                             <div className="py-3 mr-3 float-left">
                                 <div className="avatar">
-                                    <img src={'img/avatars/6.jpg'} className="img-avatar"
+                                    <img src={'img/avatars/8.jpg'} className="img-avatar"
                                          alt="admin@bootstrapmaster.com"/>
                                     <Badge className="avatar-status" color="warning"></Badge>
                                 </div>
