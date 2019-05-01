@@ -74,6 +74,7 @@ public class TransManagementBillServiceImpl implements TransManagementBillServic
             carHandleDTOList.setLicensePlate(repairBill.getLicensePlate());
             carHandleDTOList.setCreatedDate(repairBill.getCreatedDate());
 
+
             List<DetailRepairBill> list = detailRepairBillRepository.findAllByRepairBillID(repairBill.getRepairBillID());
 
             if(list.size()==0) {
@@ -88,6 +89,7 @@ public class TransManagementBillServiceImpl implements TransManagementBillServic
                 carHandleDTO.setLicensePlate(licensePlate);
                 carHandleDTO.setStatus(repairBill.getStatus());
                 carHandleDTO.setReqNum(detailRepairBill.getReqNum());
+                carHandleDTO.setInfoBill(detailRepairBill.getInfoBill());
                 materialList = materialRepository.findAllByMaterialID(String.valueOf(detailRepairBill.getMaterialID()));
                 if(materialList.size()!=0) {
                     carHandleDTO.setMaterialName(materialList.get(0).getMaterialName());
