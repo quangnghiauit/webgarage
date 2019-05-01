@@ -122,6 +122,7 @@ class CarHandleInfo extends Component {
                                 <th>Số lượng</th>
                                 <th>Đơn giá</th>
                                 <th>Thành tiền</th>
+                                <th>Action</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -134,7 +135,6 @@ class CarHandleInfo extends Component {
                                             <td>{item.reqNum}</td>
                                             <td>{item.price}</td>
                                             <td>{item.totalMoney}</td>
-                                            <td>{item.createdDate}</td>
                                             <td>
                                                 {item.isactive == 0
                                                     ?
@@ -170,7 +170,7 @@ class CarHandleInfo extends Component {
                                         )
 
                                         :
-                                        <Badge color="success" pill>Đã hoàn thành</Badge>
+                                        <Badge color="success" pill></Badge>
                                 )
 
                         }
