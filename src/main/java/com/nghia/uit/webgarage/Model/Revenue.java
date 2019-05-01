@@ -27,8 +27,8 @@ public class Revenue {
     @Column(name = "totalMoney")
     private long totalMoney;
 
-    @Column(name = "repairInvoiceID")
-    private String repairInvoiceID;
+    @Column(name = "repairBillID")
+    private String repairBillID;
 
 
     public int getId() {
@@ -79,11 +79,11 @@ public class Revenue {
         this.totalMoney = totalMoney;
     }
 
-    public String getRepairInvoiceID() {
-        return repairInvoiceID;
+    public String getRepairBillID() {
+        return repairBillID;
     }
 
-    public void setRepairInvoiceID(String repairInvoiceID) {
-        this.repairInvoiceID = repairInvoiceID;
+    public void setRepairBillID(String repairBillID) {
+        this.repairBillID = repairBillID;
     }
 }

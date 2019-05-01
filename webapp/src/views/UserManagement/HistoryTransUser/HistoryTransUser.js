@@ -221,6 +221,11 @@ class HistoryTransUser extends Component {
     toggleBill(){
         this.setState({collapseBill:!this.state.collapseBill});
     }
+
+
+    handleReviewTrans(id) {
+        window.location.replace("http://localhost:8080/#/car-management/car-handle-info/"+id);
+    }
     render() {
         const {resultAdd,resultUpdateUser,listCar,resultProcessStatusHandleCar} = this.state;
         return (
@@ -323,11 +328,11 @@ class HistoryTransUser extends Component {
                                                                     (
                                                                         (item.status == 1)
                                                                             ?(
-                                                                                <Button color="primary" size="sm">Xem</Button>
+                                                                                <Button color="primary" size="sm" onClick={()=> this.handleReviewTrans(item.licensePlate)}>Xem</Button>
                                                                             )
 
                                                                             :
-                                                                            <Button color="primary" size="sm">Xem</Button>
+                                                                            <Button color="primary" size="sm">Tiếp nhận lại</Button>
                                                                     )
 
                                                             }

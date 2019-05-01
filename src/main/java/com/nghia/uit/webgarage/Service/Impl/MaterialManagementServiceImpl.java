@@ -20,7 +20,6 @@ public class MaterialManagementServiceImpl implements MaterialManagementService 
     @Autowired
     private MaterialRepository materialRepository;
 
-
     @Override
     public List<Material> getAllMatetial() {
         return materialRepository.findAllByFilter();

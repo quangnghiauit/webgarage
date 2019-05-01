@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {BootstrapTable, TableHeaderColumn} from 'react-bootstrap-table';
 import 'react-bootstrap-table/dist/react-bootstrap-table-all.min.css';
-import { TextMask, InputAdapter } from 'react-text-mask-hoc';
+import {TextMask, InputAdapter} from 'react-text-mask-hoc';
 import {
     Card,
     CardHeader,
@@ -21,6 +21,8 @@ import {
     Badge,
     Table
 } from 'reactstrap';
+import {getAllClient} from "../../../api/UserManagement/userManagement";
+import {getInfoMaterialUser, getInfoRepairBillID} from "../../../api/TransManagement/transmanagement";
 
 
 const cellEditProp = {
@@ -28,11 +30,18 @@ const cellEditProp = {
     blurToSave: true
 };
 
-const materials=['bánh xe','lốp xe','kính'];
+const materials = ['bánh xe', 'lốp xe', 'kính'];
 
 class CarHandleInfo extends Component {
     constructor(props) {
         super(props);
+        this.state = {
+            licensePlate: '',
+            status: '',
+            repairBillID: '',
+            createdDate: '',
+            list: [],
+        }
 
         this.options = {
             sortIndicator: true,
@@ -42,13 +51,35 @@ class CarHandleInfo extends Component {
             clearSearch: true,
             alwaysShowAllBtns: false,
             withFirstAndLast: false,
-            onRowClick: function(row) {
+            onRowClick: function (row) {
                 alert(`You click row id: ${row.id}`);
             }
         }
     }
 
+    componentDidMount() {
+        this.setState({
+            licensePlate: this.props.match.params.id
+        }, () => this.handleGetInfoMaterialUser(this.state.licensePlate));
+        console.log("userIDDDDDlistcar", this.state.licensePlate)
+    }
+
+    handleGetInfoMaterialUser(licensePlate) {
+        getInfoMaterialUser(licensePlate).then(response => {
+            console.log('bleeeeee', response)
+            this.setState({
+                listTable: response.data,
+                list: response.data.carHandleDTOList,
+                repairBillID: response.data.repairBillID,
+                createdDate: response.data.createdDate,
+                status: response.data.status
+            }, () => console.log('hihihihi', this.state.listTable))
+
+        })
+    }
+
     render() {
+        const {list} = this.state;
         return (
             <div className="animated handle-car">
                 <Card>
@@ -57,40 +88,93 @@ class CarHandleInfo extends Component {
                     </CardHeader>
                     <CardBody>
                         <FormGroup row>
-                            <Label htmlFor="select-car" sm={1}>Chọn xe</Label>
+                            <Label htmlFor="licensePlate" sm={1}>Biển Số</Label>
                             <Col sm={3}>
-                                <Input type="select" id="select-car" >
-                                    <option value="0">Please select</option>
-                                    <option value="1">HD2342</option>
-                                    <option value="2">BM3455</option>
-                                    <option value="3">KI4545</option>
-                                </Input>
+                                <Input type="text" id="id"
+                                       onChange={(e) => this.setState({licensePlate: e.target.value}, () => console.log(this.state.licensePlate))}
+                                       value={this.state.licensePlate}
+                                       disabled/>
                             </Col>
                         </FormGroup>
-                        <Table>
+                        <FormGroup row>
+                            <Label htmlFor="repairBillID" sm={1}>Hóa đơn giao dịch</Label>
+                            <Col sm={3}>
+                                <Input type="text" id="id"
+                                       onChange={(e) => this.setState({getInfoRepairBillID: e.target.value}, () => console.log(this.state.repairBillID))}
+                                       value={this.state.repairBillID}
+                                       disabled/>
+                            </Col>
+                        </FormGroup>
+                        <FormGroup row>
+                            <Label htmlFor="createdDate" sm={1}>Ngày lập hóa đơn</Label>
+                            <Col sm={3}>
+                                <Input type="text" id="id"
+                                       onChange={(e) => this.setState({createdDate: e.target.value}, () => console.log(this.state.createdDate))}
+                                       value={this.state.createdDate}
+                                       disabled/>
+                            </Col>
+                        </FormGroup>
+                        <Table responsive striped>
                             <thead>
                             <tr>
-                                <th>Phụ tùng</th>
+                                <th>ID</th>
+                                <th>Tên phụ tùng</th>
                                 <th>Số lượng</th>
                                 <th>Đơn giá</th>
                                 <th>Thành tiền</th>
                             </tr>
                             </thead>
                             <tbody>
+                            {
+                                list ? list.map((item, index) => {
+                                    return (
+                                        <tr key={index}>
+                                            <td>{item.id}</td>
+                                            <td>{item.materialName}</td>
+                                            <td>{item.reqNum}</td>
+                                            <td>{item.price}</td>
+                                            <td>{item.totalMoney}</td>
+                                            <td>{item.createdDate}</td>
+                                            <td>
+                                                {item.isactive == 0
+                                                    ?
+                                                    <Button color="success"
+                                                            onClick={() => this.handleUserBill(item.userID)}>Không
+                                                        có</Button>
+                                                    :
+                                                    <Button color="warning"
+                                                            onClick={() => this.handleUserBill(item.userID)}>Đang xử
+                                                        lý</Button>
+                                                }
+                                            </td>
+                                        </tr>
+                                    )
 
+                                }) : null
+
+                            }
                             </tbody>
-                            <tfoot>
-                            <tr>
-                                <th>Tổng</th>
-                                <td scope="row"></td>
-                                <td scope="row"></td>
-                                <th>25000</th>
-                            </tr>
-                            </tfoot>
                         </Table>
                     </CardBody>
                     <CardFooter>
-                        Trạng thái : <Badge color="warning" pill>Đang xử lý</Badge> or <Badge color="success" pill>Đã hoàn thành</Badge>
+                        Trạng thái :    
+                        {
+                            (this.state.status == 0)
+                                ?
+                                <Badge color="primary" pill>Chẳng có gì hihi</Badge>
+                                :
+                                (
+                                    (this.state.status == 1)
+                                        ? (
+                                            <Badge color="warning" pill>Đang xử lý</Badge>
+                                        )
+
+                                        :
+                                        <Badge color="success" pill>Đã hoàn thành</Badge>
+                                )
+
+                        }
+
                     </CardFooter>
                 </Card>
             </div>

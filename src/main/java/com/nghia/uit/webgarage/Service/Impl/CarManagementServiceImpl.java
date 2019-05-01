@@ -4,10 +4,10 @@ import com.nghia.uit.webgarage.Bean.ResponseDTO;
 import com.nghia.uit.webgarage.Message.Constants;
 import com.nghia.uit.webgarage.Model.Car;
 import com.nghia.uit.webgarage.Model.ClientDTO;
-import com.nghia.uit.webgarage.Model.RepairInvoice;
+import com.nghia.uit.webgarage.Model.RepairBill;
 import com.nghia.uit.webgarage.Model.Users;
 import com.nghia.uit.webgarage.Repository.CarRepository;
-import com.nghia.uit.webgarage.Repository.RepairInvoiceRepository;
+import com.nghia.uit.webgarage.Repository.RepairBillRepository;
 import com.nghia.uit.webgarage.Repository.UserRepository;
 import com.nghia.uit.webgarage.Service.CarManagementService;
 import org.slf4j.Logger;
@@ -30,7 +30,7 @@ public class CarManagementServiceImpl implements CarManagementService {
     private UserRepository userRepository;
 
     @Autowired
-    private RepairInvoiceRepository repairInvoiceRepository;
+    private RepairBillRepository repairBillRepository;
 
 
     @Override
@@ -97,10 +97,10 @@ public class CarManagementServiceImpl implements CarManagementService {
             Car car = carRepository.findCarById(id);
             car.setStatus(Constants.PROCESSING);
             carRepository.save(car);
-            RepairInvoice repairInvoice = new RepairInvoice();
-            repairInvoice.doMappingRepairInvoice(car.getLicensePlate(),car.getUserID());
-            repairInvoice.setStatus(Constants.PROCESSING);
-            repairInvoiceRepository.save(repairInvoice);
+            RepairBill repairBill = new RepairBill();
+            repairBill.doMappingRepairBill(car.getLicensePlate(),car.getUserID());
+            repairBill.setStatus(Constants.PROCESSING);
+            repairBillRepository.save(repairBill);
             return new ResponseDTO().success(Constants.PROCESSING_MESSAGE);
         } catch (Exception ex) {
             logger.error(ex.getMessage());

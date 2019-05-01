@@ -7,8 +7,8 @@ Drop table if exists `car`;
 Drop table if exists `users`;
 Drop table if exists `material`;
 Drop table if exists `revenue`;
-Drop table if exists `repairInvoice`;
-Drop table if exists `detailRepairInvoice`;
+Drop table if exists `repairBill`;
+Drop table if exists `detailRepairBill`;
 Drop table if exists `inventoryReport`;
 
 
@@ -63,14 +63,14 @@ create table `revenue`
     `licensePlate` varchar(10),
     `reqNumber` int,
     `totalMoney` long,
-    `repairInvoiceID` varchar(64)
+    `repairBillID` varchar(64)
     
 );
 
-create table `repairInvoice`
+create table `repairBill`
 (
 	`id` int(10) not null auto_increment primary key,
-    `repairInvoiceID` varchar(64),
+    `repairBillID` varchar(64),
     `licensePlate` varchar(10),
     `status` int(11) default'0',
     `createdDate` timestamp,
@@ -81,11 +81,11 @@ create table `repairInvoice`
     `totalMoney` long
 );
 
-create table `detailRepairInvoice`
+create table `detailRepairBill`
 (
 	`id` int(10) not null auto_increment primary key,
-    `repairInvoiceID` varchar(64),
-    `infoInvoice` varchar(1000),
+    `repairBillID` varchar(64),
+    `infoBill` varchar(1000),
     `materialID` varchar(20),
     `reqNum` int,
     `createdDate` timestamp,

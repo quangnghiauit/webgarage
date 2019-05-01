@@ -21,18 +21,18 @@ export default {
                     icon: "icon-puzzle",
                     // roles: ["ADMIN"]
                 },
-                {
-                    name: "Thông tin khách hàng",
-                    url :"/user-management/user-info",
-                    icon:"icon-puzzle",
-                    // roles: ["ADMIN"]
-                },
-                {
-                    name: "Lịch sử giao dịch",
-                    url :"/user-management/history",
-                    icon:"icon-puzzle",
-                    // roles: ["ADMIN"]
-                }
+                // {
+                //     name: "Thông tin khách hàng",
+                //     url :"/user-management/user-info",
+                //     icon:"icon-puzzle",
+                //     // roles: ["ADMIN"]
+                // },
+                // {
+                //     name: "Lịch sử giao dịch",
+                //     url :"/user-management/history",
+                //     icon:"icon-puzzle",
+                //     // roles: ["ADMIN"]
+                // }
             ]
         },
         {
@@ -58,7 +58,14 @@ export default {
                     url :"/car-management/car-handle-list",
                     icon:"icon-star",
                     // roles: ["ADMIN"]
+                },
+                {
+                    name: "Danh sách xe đang xử lý",
+                    url :"/car-management/list-car-handling",
+                    icon:"icon-star",
+                    // roles: ["ADMIN"]
                 }
+
             ]
         },
         {
@@ -180,7 +187,46 @@ export default {
                 }
             ]
         },
+    ],
+
+    items3: [
+        {
+            name: "Dashboard",
+            url: "/dashboard",
+            icon: "icon-speedometer",
+            badge: {
+                variant: 'info',
+                text: 'NEW'
+            }
+        },
+        {
+            name : "QUẢN LÝ XE",
+            url:"/car-management",
+            icon: "icon-star",
+            // roles:["ADMIN"],
+            children: [
+                {
+                    name: "Tra cứu xe",
+                    url:"/car-management/search",
+                    icon: "icon-star",
+                    // roles: ["ADMIN"]
+                },
+                {
+                    name: "Thông tin xe xử lý",
+                    url :"/car-management/car-handle-info",
+                    icon:"icon-star",
+                    // roles: ["ADMIN"]
+                },
+                {
+                    name: "Xử lý xe",
+                    url :"/car-management/car-handle-list",
+                    icon:"icon-star",
+                    // roles: ["ADMIN"]
+                }
+            ]
+        },
     ]
+
 
 
 

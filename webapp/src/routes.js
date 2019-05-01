@@ -30,7 +30,6 @@ const routes = {
   '/google-maps': 'Google Maps',
   '/ui-kits': 'UI Kits',
   '/ui-kits/invoicing': 'Invoicing',
-  '/ui-kits/invoicing/invoice': 'Invoice',
   '/ui-kits/email/compose': 'Compose',
   '/ui-kits/email/inbox': 'Inbox',
   '/ui-kits/email/message': 'Message'

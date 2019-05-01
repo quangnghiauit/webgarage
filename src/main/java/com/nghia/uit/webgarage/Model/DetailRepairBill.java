@@ -1,22 +1,21 @@
 package com.nghia.uit.webgarage.Model;
 
 import javax.persistence.*;
-import java.sql.Timestamp;
 
 @Entity
-@Table(name = "detailRepairInvoice")
-public class DetailRepairInvoice {
+@Table(name = "detailRepairBill")
+public class DetailRepairBill {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private int id;
 
-    @Column(name = "repairInvoiceID")
-    private String repairInvoiceID;
+    @Column(name = "repairBillID")
+    private String repairBillID;
 
-    @Column(name = "infoInvoice")
-    private String infoInvoice;
+    @Column(name = "infoBill")
+    private String infoBill;
 
     @Column(name = "createdDate")
     private String createdDate;
@@ -25,7 +24,7 @@ public class DetailRepairInvoice {
     private String createdBy;
 
     @Column(name = "materialID")
-    private long materialID;
+    private String materialID;
 
     @Column(name = "reqNum")
     private int reqNum;
@@ -39,20 +38,20 @@ public class DetailRepairInvoice {
         this.id = id;
     }
 
-    public String getRepairInvoiceID() {
-        return repairInvoiceID;
+    public String getRepairBillID() {
+        return repairBillID;
     }
 
-    public void setRepairInvoiceID(String repairInvoiceID) {
-        this.repairInvoiceID = repairInvoiceID;
+    public void setRepairBillID(String repairBillID) {
+        this.repairBillID = repairBillID;
     }
 
-    public String getInfoInvoice() {
-        return infoInvoice;
+    public String getInfoBill() {
+        return infoBill;
     }
 
-    public void setInfoInvoice(String infoInvoice) {
-        this.infoInvoice = infoInvoice;
+    public void setInfoBill(String infoBill) {
+        this.infoBill = infoBill;
     }
 
     public String getCreatedDate() {
@@ -71,11 +70,11 @@ public class DetailRepairInvoice {
         this.createdBy = createdBy;
     }
 
-    public long getMaterialID() {
+    public String getMaterialID() {
         return materialID;
     }
 
-    public void setMaterialID(long materialID) {
+    public void setMaterialID(String materialID) {
         this.materialID = materialID;
     }
 
@@ -87,10 +86,10 @@ public class DetailRepairInvoice {
         this.reqNum = reqNum;
     }
 
-    public void doMappingDetail(DetailRepairInvoice detailRepairInvoice) {
-        this.infoInvoice = detailRepairInvoice.getInfoInvoice();
-        this.materialID = detailRepairInvoice.getMaterialID();
-        this.reqNum = detailRepairInvoice.getReqNum();
+    public void doMappingDetail(DetailRepairBill detailRepairBill) {
+        this.infoBill = detailRepairBill.getInfoBill();
+        this.materialID = detailRepairBill.getMaterialID();
+        this.reqNum = detailRepairBill.getReqNum();
     }
 
 }

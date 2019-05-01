@@ -1,26 +1,23 @@
 package com.nghia.uit.webgarage.Model;
 
 import com.nghia.uit.webgarage.Service.ServiceUtils;
-import org.hibernate.exception.DataException;
-import org.springframework.dao.DataAccessException;
 
 import javax.persistence.*;
-import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
 @Entity
-@Table(name = "repairInvoice")
-public class RepairInvoice {
+@Table(name = "repairBill")
+public class RepairBill {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private int id;
 
-    @Column(name = "repairInvoiceID")
-    private String repairInvoiceID;
+    @Column(name = "repairBillID")
+    private String repairBillID;
 
     @Column(name = "licensePlate")
     private String licensePlate;
@@ -60,12 +57,12 @@ public class RepairInvoice {
         this.id = id;
     }
 
-    public String getRepairInvoiceID() {
-        return repairInvoiceID;
+    public String getRepairBillID() {
+        return repairBillID;
     }
 
-    public void setRepairInvoiceID(String repairInvoiceID) {
-        this.repairInvoiceID = repairInvoiceID;
+    public void setRepairBillID(String repairBillID) {
+        this.repairBillID = repairBillID;
     }
 
     public String getLicensePlate() {
@@ -132,7 +129,7 @@ public class RepairInvoice {
         this.status = status;
     }
 
-    public void doMappingRepairInvoice(String strLicensePlate, long strUserID ) {
+    public void doMappingRepairBill(String strLicensePlate, long strUserID ) {
         DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
         Date date = new Date();
         createdDate = dateFormat.format(date); //2019/03/13 20:08:43
@@ -142,7 +139,7 @@ public class RepairInvoice {
         stringBuilder.append("NN");
         stringBuilder.append(ServiceUtils.convertData(strName));
 
-        repairInvoiceID = String.valueOf(stringBuilder);
+        repairBillID = String.valueOf(stringBuilder);
         licensePlate = strLicensePlate;
         userID = strUserID;
     }
