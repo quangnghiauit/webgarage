@@ -46,7 +46,7 @@ public class Users {
     private String createdBy;
 
     @Column(name = "updatedDate")
-    private Date updatedDate;
+    private String updatedDate;
 
     @Column(name = "updatedBy")
     private String updatedBy;
@@ -127,11 +127,11 @@ public class Users {
         this.createdBy = createdBy;
     }
 
-    public Date getUpdatedDate() {
+    public String getUpdatedDate() {
         return updatedDate;
     }
 
-    public void setUpdatedDate(Date updatedDate) {
+    public void setUpdatedDate(String updatedDate) {
         this.updatedDate = updatedDate;
     }
 
@@ -217,7 +217,6 @@ public class Users {
         userID = Long.valueOf(strUserID);
         userName = users.getUserName();
         displayname= users.getDisplayname();
-        password=users.getPassword();
         phoneNumber = users.getPhoneNumber();
         address = users.getAddress();
         email = users.getEmail();
@@ -225,6 +224,9 @@ public class Users {
     }
 
     public void doMappingUsers(ClientDTO users) {
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date date = new Date();
+        updatedDate = dateFormat.format(date); //2019/03/13 20:08:43
         displayname= users.getDisplayname();
         phoneNumber = users.getPhoneNumber();
         address = users.getAddress();

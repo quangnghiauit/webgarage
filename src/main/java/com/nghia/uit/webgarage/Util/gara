@@ -39,8 +39,7 @@ create table `users`
     `updatedBy` varchar(100),
     `phoneNumber` varchar(20),
     `address` varchar(1000),
-    `email` varchar(50),
-    `debt` long    
+    `email` varchar(50)
 );
 
 create table `material` 

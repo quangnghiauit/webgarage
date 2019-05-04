@@ -111,13 +111,14 @@ public class TransManagementBillServiceImpl implements TransManagementBillServic
 
 
     @Override
-    public ResponseDTO addMaterial(DetailRepairBill detailRepairBill, String repairBillID) {
+    public ResponseDTO addMaterial(DetailRepairBill detailRepairBill, String repairBillID,String currentUser) {
         try {
             DetailRepairBill detailRepairBill1 = new DetailRepairBill();
             detailRepairBill1.setRepairBillID(repairBillID);
             DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
             Date date = new Date();
             detailRepairBill1.setCreatedDate(dateFormat.format(date));
+            detailRepairBill.setCreatedBy(currentUser);
             detailRepairBill1.doMappingDetail(detailRepairBill);
             detailRepairBillRepository.save(detailRepairBill1);
             return new ResponseDTO().success(Constants.DONE_ADDMATERIALSERVICE);

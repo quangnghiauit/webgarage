@@ -17,7 +17,7 @@ public interface CarManagementService {
 
     ResponseDTO addCar(Car car,String userID);
 
-    ResponseDTO processStatusCar(String id);
+    ResponseDTO processStatusCar(String id,String currentUser);
 
     ResponseDTO processDoneStatusCar(String id);
 

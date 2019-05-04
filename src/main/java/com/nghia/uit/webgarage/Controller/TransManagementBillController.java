@@ -5,6 +5,8 @@ import com.nghia.uit.webgarage.Service.TransManagementBillService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -31,7 +33,9 @@ public class TransManagementBillController {
     @RequestMapping(value = "/addmaterial", method = RequestMethod.POST)
     public @ResponseBody
     ResponseEntity<?> addmaterial(@RequestBody DetailRepairBill detailRepairBill, @RequestParam String repairBillID) {
-        return new ResponseEntity<>(transManagementBillService.addMaterial(detailRepairBill,repairBillID), HttpStatus.OK);
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String currentUser= auth.getName();
+        return new ResponseEntity<>(transManagementBillService.addMaterial(detailRepairBill,repairBillID,currentUser), HttpStatus.OK);
     }
 
     @RequestMapping(value = "/updatematerial", method = RequestMethod.POST)

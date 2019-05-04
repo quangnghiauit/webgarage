@@ -11,9 +11,9 @@ public interface ClientManagementService {
 
     Users getInfoUser(String userID);
 
-    ResponseDTO addClient(ClientDTO users);
+    ResponseDTO addClient(ClientDTO users,String userName);
 
-    ResponseDTO updateClient(ClientDTO clientDTO, String userID);
+    ResponseDTO updateClient(ClientDTO clientDTO, String userID,String userName);
 
     ResponseDTO deleteClient(String userID);
 }

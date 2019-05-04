@@ -6,6 +6,8 @@ import com.nghia.uit.webgarage.Service.ClientManagementService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -31,13 +33,17 @@ public class ClientManagementController {
     @RequestMapping(value = "/addclient", method = RequestMethod.POST)
     public @ResponseBody
     ResponseEntity<?> addclient(@RequestBody ClientDTO users) {
-        return new ResponseEntity<>(clientManagementService.addClient(users), HttpStatus.OK);
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String currentUser= auth.getName();
+        return new ResponseEntity<>(clientManagementService.addClient(users,currentUser), HttpStatus.OK);
     }
 
     @RequestMapping(value = "/updateclient", method = RequestMethod.POST)
     public @ResponseBody
     ResponseEntity<?> updateClient(@RequestBody ClientDTO user, @RequestParam String userID) {
-        return new ResponseEntity<>(clientManagementService.updateClient(user, userID), HttpStatus.OK);
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String currentUser= auth.getName();
+        return new ResponseEntity<>(clientManagementService.updateClient(user, userID,currentUser), HttpStatus.OK);
     }
 
     @RequestMapping(value = "/deleteclient", method = RequestMethod.DELETE)

@@ -12,7 +12,7 @@ public interface TransManagementBillService {
 
     ResultCarHandleDTO getInfoMaterialUser(String licensePlate);
 
-    ResponseDTO addMaterial(DetailRepairBill detailRepairBill, String repairBillID);
+    ResponseDTO addMaterial(DetailRepairBill detailRepairBill, String repairBillID,String currentUser);
 
     ResponseDTO updateMaterial(DetailRepairBill detailRepairBill, String id);
 

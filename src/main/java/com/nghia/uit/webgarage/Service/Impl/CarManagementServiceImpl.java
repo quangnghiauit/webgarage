@@ -116,13 +116,14 @@ public class CarManagementServiceImpl implements CarManagementService {
     }
 
     @Override
-    public ResponseDTO processStatusCar(String id) {
+    public ResponseDTO processStatusCar(String id,String currentUser) {
         try {
 
             Car car = carRepository.findCarById(id);
             car.setStatus(Constants.PROCESSING);
             carRepository.save(car);
             RepairBill repairBill = new RepairBill();
+            repairBill.setCreatedBy(currentUser);
             repairBill.doMappingRepairBill(car.getLicensePlate(), car.getUserID());
             repairBill.setStatus(Constants.PROCESSING);
             repairBillRepository.save(repairBill);

@@ -13,6 +13,7 @@ import com.nghia.uit.webgarage.Service.ClientManagementService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -32,6 +33,9 @@ public class ClientManagementServiceImpl implements ClientManagementService {
 
     @Autowired
     private CarRepository carRepository;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @Override
     public List<ClientDTO> getAllClient() {
@@ -76,7 +80,7 @@ public class ClientManagementServiceImpl implements ClientManagementService {
 
 
     @Override
-    public ResponseDTO addClient(ClientDTO users) {
+    public ResponseDTO addClient(ClientDTO users,String userNameSec) {
         try {
             String userName = users.getUserName();
             if (userName != null) {
@@ -86,6 +90,8 @@ public class ClientManagementServiceImpl implements ClientManagementService {
                 }
 
                 Users entity = new Users();
+                entity.setPassword(passwordEncoder.encode(users.getPassword()));
+                entity.setCreatedBy(userNameSec);
                 entity.doMappingClientDTO(users);
                 entity.setStatus(Constants.BILL_NO_HANDLE);
 
@@ -105,9 +111,10 @@ public class ClientManagementServiceImpl implements ClientManagementService {
     }
 
     @Override
-    public ResponseDTO updateClient(ClientDTO clientDTO, String userID) {
+    public ResponseDTO updateClient(ClientDTO clientDTO, String userID,String userNameSec) {
         try {
             Users user = userRepository.findByUserID(userID);
+            user.setUpdatedBy(userNameSec);
             user.doMappingUsers(clientDTO);
             userRepository.save(user);
             return new ResponseDTO().success(Constants.DONE_UPDATEREQUESTUSERS);
