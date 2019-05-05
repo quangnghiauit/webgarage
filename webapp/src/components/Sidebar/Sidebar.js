@@ -25,18 +25,13 @@ class Sidebar extends Component {
     componentDidMount() {
         getRole()
             .then(response => {
-                //console.log("slide barrrrr",response.data)
                 this.setState({roles: response.data});
-
-
                 if (this.state.roles === '[ROLE_ADMIN]') {
                     this.state.items = nav.items1;
 
                     return true;
                 } else return false;
             })
-
-
             .catch(error => console.log(error));
 
 

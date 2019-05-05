@@ -40,14 +40,11 @@ class Login extends Component {
             .then(response => response.json()
             )
             .then((body) => {
-                //console.log(body)
                 this.setState({
                     checklogin: body
                 }, () => {
                     this.redirectCheckLogin()
                 })
-
-                // console.log(this.state.checklogin)
             })
 
     }
@@ -71,7 +68,7 @@ class Login extends Component {
     componentDidMount() {
         getRole()
             .then(response => {
-                console.log("login role bleeeee",response)
+                console.log("login role bleeeee", response)
                 this.setState({
                         auth: response.data
 

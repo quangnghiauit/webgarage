@@ -11,36 +11,34 @@ import axios from 'axios';
 import Dashboard from '../../views/Dashboard/';
 
 // UserManagement
-import  SearchUser from '../../views/UserManagement/SearchUser/SearchUser';
-import  UserInfo from '../../views/UserManagement/UserInfo/UserInfo';
-import  HistoryTransUser from '../../views/UserManagement/HistoryTransUser/HistoryTransUser';
+import SearchUser from '../../views/UserManagement/SearchUser/SearchUser';
+import UserInfo from '../../views/UserManagement/UserInfo/UserInfo';
+import HistoryTransUser from '../../views/UserManagement/HistoryTransUser/HistoryTransUser';
 
 // CarManagement
-import  SearchCar from '../../views/CarManagement/SearchCar/SearchCar';
-import  CarHandleInfo from '../../views/CarManagement/CarHandleInfo/CarHandleInfo';
-import  HandlingCar from '../../views/CarManagement/HandlingCar/HandlingCar';
-import  ListCarHandling from '../../views/CarManagement/ListCarHandling/ListCarHandling';
+import SearchCar from '../../views/CarManagement/SearchCar/SearchCar';
+import CarHandleInfo from '../../views/CarManagement/CarHandleInfo/CarHandleInfo';
+import HandlingCar from '../../views/CarManagement/HandlingCar/HandlingCar';
+import ListCarHandling from '../../views/CarManagement/ListCarHandling/ListCarHandling';
 
 
 // MaterialManagement
-import  SearchMaterial from '../../views/MaterialManagement/SearchMaterial/SearchMaterial';
-import  HistoryMaterial from '../../views/MaterialManagement/HistoryMaterial/HistoryMaterial';
-import  ImportMaterial from '../../views/MaterialManagement/ImportMaterial/ImportMaterial';
+import SearchMaterial from '../../views/MaterialManagement/SearchMaterial/SearchMaterial';
+import HistoryMaterial from '../../views/MaterialManagement/HistoryMaterial/HistoryMaterial';
+import ImportMaterial from '../../views/MaterialManagement/ImportMaterial/ImportMaterial';
 
 // BillManagement
-import  CreateBill from '../../views/BillManagement/CreateBill/CreateBill';
-import  HistoryTransBill from '../../views/BillManagement/HistoryTransBill/HistoryTransBill';
+import CreateBill from '../../views/BillManagement/CreateBill/CreateBill';
+import HistoryTransBill from '../../views/BillManagement/HistoryTransBill/HistoryTransBill';
 
 // ReportManagement
-import  CreateReportInventory from '../../views/ReportManagement/CreateReportInventory/CreateReportInventory';
-import  CreateReportRevenue from '../../views/ReportManagement/CreateReportRevenue/CreateReportRevenue';
+import CreateReportInventory from '../../views/ReportManagement/CreateReportInventory/CreateReportInventory';
+import CreateReportRevenue from '../../views/ReportManagement/CreateReportRevenue/CreateReportRevenue';
 
 
 // AdminManagement
-import  UserManagement from '../../views/AdminManagement/UserManagement/UserManagement';
-import  RoleManagement from '../../views/AdminManagement/RoleManagement/RoleManagement';
-
-
+import UserManagement from '../../views/AdminManagement/UserManagement/UserManagement';
+import RoleManagement from '../../views/AdminManagement/RoleManagement/RoleManagement';
 
 
 import {getRole} from "../../api/Role/role";
@@ -57,14 +55,9 @@ class Full extends Component {
     componentDidMount() {
         getRole()
             .then(response => {
-
-                console.log("Fullllllljsss",response.data);
                 this.setState({roles: response.data});
-
             })
             .catch(error => console.log(error));
-
-
     }
 
     render() {
@@ -82,13 +75,18 @@ class Full extends Component {
 
                                         <Route path="/dashboard" name="Dashboard" component={Dashboard}/>,
 
-                                        <Route path="/user-management/search" name="SearchUser" component={SearchUser}/>,
-                                        <Route path="/user-management/history/:id" name="HistoryTransUser" component={HistoryTransUser}/>,
+                                        <Route path="/user-management/search" name="SearchUser"
+                                               component={SearchUser}/>,
+                                        <Route path="/user-management/history/:id" name="HistoryTransUser"
+                                               component={HistoryTransUser}/>,
                                         <Route path="/user-management/user-info" name="UserInfo" component={UserInfo}/>,
 
-                                        <Route path="/car-management/car-handle-list/:id" name="HandlingCar" component={HandlingCar}/>,
-                                        <Route path="/car-management/car-handle-info/:id" name="CarHandleInfo" component={CarHandleInfo}/>,
-                                        <Route path="/car-management/list-car-handling" name="ListCarHandling" component={ListCarHandling}/>,
+                                        <Route path="/car-management/car-handle-list/:id" name="HandlingCar"
+                                               component={HandlingCar}/>,
+                                        <Route path="/car-management/car-handle-info/:id" name="CarHandleInfo"
+                                               component={CarHandleInfo}/>,
+                                        <Route path="/car-management/list-car-handling" name="ListCarHandling"
+                                               component={ListCarHandling}/>,
 
 
                                         <Redirect from="/" to="/dashboard"/>
