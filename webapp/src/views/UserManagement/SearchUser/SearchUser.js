@@ -1,26 +1,23 @@
 import React, {Component} from 'react';
-import {TextMask, InputAdapter} from 'react-text-mask-hoc';
-import {BootstrapTable, TableHeaderColumn} from 'react-bootstrap-table';
+import {InputAdapter, TextMask} from 'react-text-mask-hoc';
 import 'react-bootstrap-table/dist/react-bootstrap-table-all.min.css';
-import data from './_data';
 import {
-    Card,
-    CardHeader,
-    CardBody,
     Button,
+    Card,
+    CardBody,
+    CardHeader,
+    FormGroup,
+    FormText,
+    Input,
+    InputGroup,
+    Label,
     Modal,
-    ModalHeader,
     ModalBody,
     ModalFooter,
-    Label,
-    FormGroup,
-    Input,
-    FormText,
-    InputGroup, Badge, Table
+    ModalHeader,
+    Table
 } from 'reactstrap';
 import {addClient, getAllClient} from "../../../api/UserManagement/userManagement";
-import {toast} from "react-toastify";
-import { Alert } from 'reactstrap';
 
 class SearchUser extends Component {
     constructor(props) {
@@ -49,7 +46,6 @@ class SearchUser extends Component {
             modalAdd: false,
             nestedModalAdd: false,
             closeAllAdd: false,
-            resultAddPmc: null,
             offset: '0'
 
         };

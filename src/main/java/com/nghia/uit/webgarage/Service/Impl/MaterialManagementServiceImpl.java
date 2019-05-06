@@ -3,6 +3,8 @@ package com.nghia.uit.webgarage.Service.Impl;
 import com.nghia.uit.webgarage.Bean.ResponseDTO;
 import com.nghia.uit.webgarage.Message.Constants;
 import com.nghia.uit.webgarage.Model.Material;
+import com.nghia.uit.webgarage.Model.MaterialName;
+import com.nghia.uit.webgarage.Repository.MaterialNameRepository;
 import com.nghia.uit.webgarage.Repository.MaterialRepository;
 import com.nghia.uit.webgarage.Service.MaterialManagementService;
 import org.slf4j.Logger;
@@ -20,13 +22,43 @@ public class MaterialManagementServiceImpl implements MaterialManagementService 
     @Autowired
     private MaterialRepository materialRepository;
 
+    @Autowired
+    private MaterialNameRepository materialNameRepository;
+
     @Override
     public List<Material> getAllMatetial() {
         return materialRepository.findAllByFilter();
     }
 
     @Override
-    public ResponseDTO addMaterial(Material material) {
+    public List<MaterialName> getAllNameMatetial() {
+        return materialNameRepository.findAllByFilter();
+    }
+
+    @Override
+    public ResponseDTO addMateName(String mateName, String currentUser) {
+        try {
+            if(!mateName.isEmpty()) {
+                MaterialName checkDuplicateMateID = materialNameRepository.findByName(mateName);
+                if(checkDuplicateMateID!=null) {
+                    return new ResponseDTO().fail("Dữ liệu bị trùng lặp.");
+                }
+                MaterialName materialName = new MaterialName();
+                materialName.setCreatedBy(currentUser);
+                materialName.doMappingMaterial(mateName);
+                materialNameRepository.save(materialName);
+                return new ResponseDTO().success(Constants.DONE_ADDREQUESTMATERIAL);
+            }
+            return new ResponseDTO().fail("No message");
+
+        } catch (Exception ex) {
+            logger.error(ex.getMessage());
+            return new ResponseDTO().fail(ex.getMessage());
+        }
+    }
+
+    @Override
+    public ResponseDTO addMaterial(Material material,String currentUser) {
         try {
             String strID= null;
             if(material.getMaterialID()!=null&&material.getMaterialID()!="") {
@@ -36,6 +68,7 @@ public class MaterialManagementServiceImpl implements MaterialManagementService 
                 }
             }
             Material material1 = new Material();
+            material.setCreatedBy(currentUser);
             material1.doMappingMaterial(material,strID);
             materialRepository.save(material1);
             return new ResponseDTO().success(Constants.DONE_ADDREQUESTMATERIAL);

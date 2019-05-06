@@ -173,7 +173,7 @@ public class ClientDTO {
 
     public void doMappingClientDTO(Users users, Car car) {
 
-        DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         Date date = new Date();
         createdDate = dateFormat.format(date); //2019/03/13 20:08:43
         String strName = dateFormat.format(date);

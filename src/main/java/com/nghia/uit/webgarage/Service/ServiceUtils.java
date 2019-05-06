@@ -6,7 +6,7 @@ public class ServiceUtils {
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append(strArr[0]).append(strArr[1]);
         String string1 = String.valueOf(stringBuilder);
-        String[] strArr1 = string1.split("/");
+        String[] strArr1 = string1.split("-");
         StringBuilder stringBuilder1 = new StringBuilder();
         stringBuilder1.append(strArr1[0]).append(strArr1[1]).append(strArr1[2]);
         String string2 = String.valueOf(stringBuilder1);
