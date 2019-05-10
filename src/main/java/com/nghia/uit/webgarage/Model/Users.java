@@ -223,7 +223,36 @@ public class Users {
         debt = users.getDebt();
     }
 
+    public void doMappingAdminUsersDTO(AdminUsersDTO users) {
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date date = new Date();
+        createdDate = dateFormat.format(date); //2019/03/13 20:08:43
+        String strName = dateFormat.format(date);
+
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append(ServiceUtils.convertData(strName));
+        String strUserID= String.valueOf(stringBuilder);
+
+        id = users.getId();
+        userID = Long.valueOf(strUserID);
+        userName = users.getUserName();
+        displayname= users.getDisplayname();
+        phoneNumber = users.getPhoneNumber();
+        address = users.getAddress();
+        email = users.getEmail();
+    }
+
     public void doMappingUsers(ClientDTO users) {
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date date = new Date();
+        updatedDate = dateFormat.format(date); //2019/03/13 20:08:43
+        displayname= users.getDisplayname();
+        phoneNumber = users.getPhoneNumber();
+        address = users.getAddress();
+        email = users.getEmail();
+    }
+
+    public void doMappingUsersAdminUsersDTO(AdminUsersDTO users) {
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         Date date = new Date();
         updatedDate = dateFormat.format(date); //2019/03/13 20:08:43

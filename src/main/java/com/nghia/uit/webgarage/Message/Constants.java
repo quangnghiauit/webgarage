@@ -4,6 +4,9 @@ public final class Constants {
 
     public static final String DEV_USER = "DEV_TEST";
     public static final String CLIENT = "CLIENT";
+    public static final String ADMIN = "ADMIN";
+    public static final String ACCOUNTANT = "ACCOUNTANT";
+    public static final String MECHANIC = "MECHANIC";
 
 
     //Client
