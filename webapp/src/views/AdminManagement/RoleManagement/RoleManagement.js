@@ -20,40 +20,104 @@ import {
     Col,
     Table
 } from 'reactstrap';
-import Select from 'react-select';
-import '../../../../scss/vendors/react-select/react-select.scss';
+import {getRole,addRole, deleteRole} from '../../../api/AdminManagement/RoleManagement/roleManagement'
 
-const options=[
-    {value:"/marketing-staff/search-customer",label: ' Tra cứu khách hàng'},
-    {value:"/marketing-staff/search-car",label: ' Tra cứu xe'},
-]
 
 class RoleManagement extends Component {
     constructor(props) {
         super(props);
 
-
         this.state={
+            listRole:null,
+            role:'',
+            roleSelected:null,
+            resultAdd:null,
+            resultDelete:null,
             modalAddRole:false,
-            modalRole:false,
-            value:[],
+            modalDeleteRole:false,
+            nestedModalAdd:false,
+            closeAllAdd:false,
+            nestedModalDelete:false,
+
         };
         this.toggleAddRole=this.toggleAddRole.bind(this);
-        this.toggleRole=this.toggleRole.bind(this);
-        this.saveChanges = this.saveChanges.bind(this);
-
+        this.toggleDeleteRole=this.toggleDeleteRole.bind(this);
+        this.loadRoles=this.loadRoles.bind(this);
+        this.handleAddRole=this.handleAddRole.bind(this);
+        this.toggleNestedAdd=this.toggleNestedAdd.bind(this);
+        this.toggleAllAdd=this.toggleAllAdd.bind(this);
+        this.toggleNestDelete=this.toggleNestDelete.bind(this);
+        this.handleDeleteRole=this.handleDeleteRole.bind(this);
     }
-
+    componentDidMount(){
+        this.loadRoles();
+    }
+    loadRoles(){
+        getRole().then(res=>{
+            console.log(`getRole ${res}`);
+            this.setState({
+                listRole:res.data
+            },()=>console.log(`listRole ${this.state.listRole}`)
+            );
+        })
+    }
     toggleAddRole(){
         this.setState({modalAddRole:!this.state.modalAddRole});
     }
-    toggleRole(){
-        this.setState({modalRole:!this.state.modalRole});
+    
+    handleAddRole(){
+        const params = this.state.role;
+        console.log("param", params);
+        if (this.state.role) {
+            addRole(params).then(res => {
+                console.log('res addRole', res)
+                this.setState({
+                    resultAdd: res
+                }, () => this.toggleNestedAdd())
+
+            })
+        } else {
+            alert("Vui lòng điền đầy đủ thông tin.")
+        }
     }
-    saveChanges(value) {
-        this.setState({ value });
+    toggleNestedAdd() {
+        this.setState({
+            nestedModalAdd: !this.state.nestedModalAdd,
+            closeAllAdd: false
+        });
+    }
+    toggleAllAdd() {
+        this.setState({
+            nestedModalAdd: !this.state.nestedModalAdd,
+            closeAllAdd: true
+        });
+        window.location.reload();
+    }
+    toggleDeleteRole(role){
+        this.setState({
+            modalDeleteRole:!this.state.modalDeleteRole,
+            roleSelected:role
+            },()=>{console.log("role delete ",this.state.roleSelected)}
+        );
+    }
+    handleDeleteRole(){
+        const params=this.state.roleSelected;
+        console.log("params",params);
+        deleteRole(params).then(res=>{
+            console.log('res deleteRole',res);
+            this.setState({
+                resultDelete:res
+            },()=>this.toggleNestDelete())
+        })
+    }
+    toggleNestDelete(){
+        this.setState({
+            nestedModalDelete: !this.state.nestedModalDelete,
+            closeAllAdd: false
+        });
     }
     render() {
+        const {listRole,resultAdd,resultDelete}=this.state;console.log("render() " +listRole);
         return (
             <div className="animated manage-account">
                 <Card>
@@ -65,24 +129,15 @@ class RoleManagement extends Component {
                             <ModalHeader toggle={this.toggleAddRole}>Thêm role</ModalHeader>
                             <ModalBody>
                                 <FormGroup>
-                                    <Label htmlFor="name">Tên role</Label>
-                                    <Input type="text" id="name" placeholder="Enter your name" required/>
-                                    <FormText className="help-block">Please enter name</FormText>
-                                </FormGroup>
-                                <FormGroup>
-                                    <Label htmlFor="name">Authorities</Label>
-                                    <Select className='authorities'
-                                            name="form-field-name2"
-                                            value={this.state.value}
-                                            options={options}
-                                            onChange={this.saveChanges}
-                                            multi
-                                    />
-                                    <FormText className="help-block">Please enter authorities</FormText>
+                                    <Label htmlFor="role">Tên role</Label>
+                                    <Input type="text" id="role" value={this.state.role}
+                                    onChange={(e)=>this.setState({role:e.target.value}, () => console.log(this.state.role))}
+                                    placeholder="Enter role" required/>
+                                    <FormText className="help-block">Please enter role</FormText>
                                 </FormGroup>
                             </ModalBody>
                             <ModalFooter>
-                                <Button color="primary" onClick={this.toggleAddRole}>Thêm</Button>{' '}
+                                <Button color="primary" onClick={this.handleAddRole}>Thêm</Button>{' '}
                                 <Button color="secondary" onClick={this.toggleAddRole}>Thoát</Button>
                             </ModalFooter>
                         </Modal>
@@ -90,53 +145,61 @@ class RoleManagement extends Component {
                     <CardBody>
                         <Table responsive>
                             <thead>
-                            <tr>
-                                <th>Role</th>
-                                <th>Authorities</th>
-                                <th>Action</th>
-                            </tr>
+                                <tr>
+                                    <th>Role</th>
+                                    <th>Action</th>
+                                </tr>
                             </thead>
                             <tbody>
-                            <td>Khách hàng</td>
-                            <td>
-                                <Select
-                                    name="form-field-name2"
-                                    value={this.state.value}
-                                    options={options}
-                                    onChange={this.saveChanges}
-                                    multi
-                                />
-                            </td>
-                            <td><Button color="link" onClick={this.toggleRole}>settings</Button></td>
+                                {
+                                    listRole ? listRole.map((item,index)=>{
+                                        return(
+                                            <tr key={index}>
+                                                <td>{item.role}</td>
+                                                <td><Button color="primary" onClick={()=>{this.toggleDeleteRole(item.role);console.log("item",item.role)}}>Xóa</Button></td>
+                                            </tr>
+                                        )
+                                    }):null 
+                                }
                             </tbody>
                         </Table>
-                        <Modal isOpen={this.state.modalRole} toggle={this.toggleRole}
-                               className='modal-info'>
-                            <ModalHeader toggle={this.toggleRole}>Settings</ModalHeader>
+                        <Modal isOpen={this.state.modalDeleteRole} toggle={this.toggleDeleteRole}
+                               className='modal-warning'>
+                            <ModalHeader toggle={this.toggleDeleteRole}>Warning!</ModalHeader>
                             <ModalBody>
-                                <FormGroup>
-                                    <Label htmlFor="name">Tên role</Label>
-                                    <Input type="text" id="name" placeholder="Enter your name" required/>
-                                </FormGroup>
-                                <FormGroup>
-                                    <Label htmlFor="name">Authorities</Label>
-                                    <Select className='authorities'
-                                            name="form-field-name2"
-                                            value={this.state.value}
-                                            options={options}
-                                            onChange={this.saveChanges}
-                                            multi
-                                    />
-                                </FormGroup>
+                                Bạn có chắc muốn xóa role {this.state.roleSelected} ?
                             </ModalBody>
                             <ModalFooter>
-                                <Button color="primary" onClick={this.toggleRole}>Xóa role</Button>{' '}
-                                <Button color="primary" onClick={this.toggleRole}>Cập nhật</Button>{' '}
-                                <Button color="secondary" onClick={this.toggleRole}>Thoát</Button>
+                                <Button color="primary" onClick={this.handleDeleteRole}>OK</Button>{' '}
+                                <Button color="secondary" onClick={this.toggleDeleteRole}>Thoát</Button>{' '}
                             </ModalFooter>
                         </Modal>
                     </CardBody>
                 </Card>
+                <Modal isOpen={this.state.nestedModalAdd}
+                       toggle={() => this.toggleNestedAdd()}
+                       
+                       className={'modal-info ' + this.props.className} centered>
+                    <ModalHeader toggle={() => this.toggleAllAdd()}>Thông
+                        báo</ModalHeader>
+                    <ModalBody>
+                        {resultAdd ?
+                            <p>Thêm thành công !</p> : <p>Thêm thất bại !</p>
+                        }
+                    </ModalBody>
+                </Modal>
+                <Modal isOpen={this.state.nestedModalDelete}
+                       toggle={() => this.toggleNestDelete()}
+                       
+                       className={'modal-info ' + this.props.className} centered>
+                    <ModalHeader toggle={() => this.toggleAllAdd()}>Thông
+                        báo</ModalHeader>
+                    <ModalBody>
+                        {resultDelete ?
+                            "Xóa thành công !" : "Xóa thất bại !"
+                        }
+                    </ModalBody>
+                </Modal>
             </div>
         );
     }

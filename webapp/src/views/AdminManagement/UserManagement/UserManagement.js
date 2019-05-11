@@ -20,48 +20,145 @@ import {
     Col,
     Table
 } from 'reactstrap';
+import {getRole}from '../../../api/AdminManagement/RoleManagement/roleManagement'
+import {getUsers, getUsersRole, addUser} from '../../../api/AdminManagement/UserManagement/userManagement'
 
 
 class UserManagement extends Component {
     constructor(props) {
         super(props);
-
-
-        this.state={modalAddAccount:false,modalAccount:false};
-        this.toggleAddAccount=this.toggleAddAccount.bind(this);
-        this.toggleAccount=this.toggleAccount.bind(this);
+        
+        this.state={
+            listRole:null,
+            listUser:null,
+            user:null,
+            displayname:'',
+            address:'',
+            email:'',
+            phonenumber: '84',
+            role:'',
+            resultAdd:null,
+            modalAddUser:false,
+            modalUser:false,
+            nestedModalAdd:false,
+            closeAllAdd:false,
+        };
+        this.toggleAddUser=this.toggleAddUser.bind(this);
+        this.toggleUser=this.toggleUser.bind(this);
+        this.loadRole=this.loadRole.bind(this);
+        this.loadUser=this.loadUser.bind(this);
+        this.handleAddUser=this.handleAddUser.bind(this);
+        this.toggleNestedAdd=this.toggleNestedAdd.bind(this);
+        this.toggleAllAdd=this.toggleAllAdd.bind(this);
     }
-
-    toggleAddAccount(){
-        this.setState({modalAddAccount:!this.state.modalAddAccount});
+    
+    componentDidMount(){
+        this.loadRole();
+        this.loadUser();
     }
-    toggleAccount(){
-        this.setState({modalAccount:!this.state.modalAccount});
+    loadRole(){
+        getRole().then(res=>{
+            this.setState({
+                listRole:res.data
+            },()=>{console.log("listRole",this.state.listRole)});
+        })
+    }
+    loadUser(){
+        getUsers().then(resGetUsers=>{
+            getUsersRole().then(resGetUserRole=>{
+                console.log('resGetUsers',resGetUsers);
+                console.log('resGetUserRole',resGetUserRole);
+                let listUser=resGetUsers.data;console.log('listUser',listUser);
+                listUser.forEach(user=>{
+                    resGetUserRole.data.forEach(userrole=>{
+                        if(user.userName===userrole.username)
+                        {
+                            user.role=userrole.role;
+                            return true;
+                        }
+                    })
+                })                
+                console.log('after listUser',listUser);
+                this.setState({
+                    listUser:listUser
+                    },()=>{console.log('this.state.listUser',this.state.listUser)}
+                );
+            })
+        })
+        
+    }
+    handleAddUser(){
+        const params={
+            displayname:this.state.displayname,
+            address:this.state.address,
+            email:this.state.email,
+            phonenumber: this.state.phonenumber,
+            role:this.state.role
+        }
+        if (this.state.displayname && this.state.address && this.state.phonenumber && this.state.role) {
+            addUser(params).then(res => {
+                console.log('res addUser', res)
+                this.setState({
+                    resultAdd: res
+                }, () => this.toggleNestedAdd())
+            })
+        } else {
+            alert("Vui lòng điền đầy đủ thông tin.")
+        }
+    }
+    toggleNestedAdd() {
+        this.setState({
+            nestedModalAdd: !this.state.nestedModalAdd,
+            closeAllAdd: false
+        });
+    }
+    toggleAllAdd() {
+        this.setState({
+            nestedModalAdd: !this.state.nestedModalAdd,
+            closeAllAdd: true
+        });
+        window.location.reload();
+    }
+    toggleAddUser(){
+        this.setState({modalAddUser:!this.state.modalAddUser});
+    }
+    toggleUser(user){
+        this.setState({
+            user:user,
+            modalUser:!this.state.modalUser
+        });
     }
     render() {
+        const {listRole,listUser,user,resultAdd}=this.state;console.log("listUser render",listUser);
         return (
             <div className="animated manage-account">
                 <Card>
                     <CardHeader>
                         <i className="icon-menu"></i>Quản lý tài khoản
-                        <Button onClick={this.toggleAddAccount} color="link" size="sm">Thêm tài khoản</Button>
-                        <Modal isOpen={this.state.modalAddAccount} toggle={this.toggleAddAccount}
+                        <Button onClick={this.toggleAddUser} color="link" size="sm">Thêm tài khoản</Button>
+                        <Modal isOpen={this.state.modalAddUser} toggle={this.toggleAddUser}
                                className={'modal-info ' + this.props.className}>
-                            <ModalHeader toggle={this.toggleAddAccount}>Thêm tài khoản</ModalHeader>
+                            <ModalHeader toggle={this.toggleAddUser}>Thêm tài khoản</ModalHeader>
                             <ModalBody>
                                 <FormGroup>
                                     <Label htmlFor="name">Tên người dùng</Label>
-                                    <Input type="text" id="name" placeholder="Enter your name" required/>
+                                    <Input type="text" id="name" value={this.state.displayname}
+                                        onChange={e=>this.setState({displayname:e.target.value},()=>console.log(this.state.displayname))}
+                                        placeholder="Enter your name" required/>
                                     <FormText className="help-block">Please enter your name</FormText>
                                 </FormGroup>
                                 <FormGroup>
                                     <Label htmlFor="address">Địa chỉ</Label>
-                                    <Input type="text" id="address" placeholder="Enter your address" required/>
+                                    <Input type="text" id="address" value={this.state.address}
+                                        onChange={e=>this.setState({address:e.target.value},()=>console.log(this.state.address))}
+                                        placeholder="Enter your address" required/>
                                     <FormText className="help-block">Please enter your address</FormText>
                                 </FormGroup>
                                 <FormGroup>
                                     <Label htmlFor="email">Email</Label>
-                                    <Input type="email" id="email" name="email" placeholder="Enter Email.."/>
+                                    <Input type="email" id="email" name="email" value={this.state.email}
+                                        onChange={e=>this.setState({email:e.target.value},()=>console.log(this.state.email))}
+                                        placeholder="Enter Email.."/>
                                     <FormText className="help-block">Please enter your email</FormText>
                                 </FormGroup>
                                 <FormGroup>
@@ -71,8 +168,11 @@ class UserManagement extends Component {
                                             <span className="input-group-text"><i className="fa fa-phone"></i></span>
                                         </div>
                                         <TextMask
-                                            mask={['(','+', /[1-9]/, /\d/,')', ' ', /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/]}
                                             Component={InputAdapter}
+                                            value={this.state.phonenumber}
+                                            mask={['(','+', /[1-9]/, /\d/,')', ' ', /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/]}
+                                            guide={false}
+                                            onChange={e => {this.setState({phonenumber: e.target.value})}}
                                             className="form-control"
                                         />
                                     </InputGroup>
@@ -81,103 +181,134 @@ class UserManagement extends Component {
                                     </FormText>
                                 </FormGroup>
                                 <FormGroup>
-                                    <Label htmlFor="select-car">Role</Label>
-                                    <Input type="select" id="select-car" >
-                                        <option value="0">Select role</option>
-                                        <option value="1">Khách hàng</option>
-                                        <option value="2">Nhân viên tiếp tân</option>
-                                        <option value="3">Nhân viên kỹ thuật</option>
-                                        <option value="4">Nhân viên kế toán</option>
+                                    <Label htmlFor="select-role">Role</Label>
+                                    <Input type="select" id="select-role" value={this.state.role} onChange={e=>this.setState({role:e.target.value},()=>console.log(this.state.role))}>
+                                        <option value="">Select Role</option>
+                                        {
+                                            listRole ? listRole.map((item,index)=>
+                                                <option value={item.role} key={index}>{item.role}</option>
+                                            ):null
+                                        }
                                     </Input>
                                 </FormGroup>
                             </ModalBody>
                             <ModalFooter>
-                                <Button color="primary" onClick={this.toggleAddAccount}>Thêm</Button>{' '}
-                                <Button color="secondary" onClick={this.toggleAddAccount}>Thoát</Button>
+                                <Button color="primary" onClick={this.handleAddUser}>Thêm</Button>{' '}
+                                <Button color="secondary" onClick={this.toggleAddUser}>Thoát</Button>
                             </ModalFooter>
                         </Modal>
                     </CardHeader>
                     <CardBody>
-                        <Table>
+                        <Table responsive>
                             <thead>
-                            <tr>
-                                <th>Tên đăng nhập</th>
-                                <th>Tên hiển thị</th>
-                                <th>Mật khẩu</th>
-                                <th>Địa chỉ</th>
-                                <th>Email</th>
-                                <th>Số điện thoại</th>
-                                <th>Role</th>
-                                <th>Action</th>
-                            </tr>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Tên đăng nhập</th>
+                                    <th>Tên hiển thị</th>
+                                    {/* <th>Mật khẩu</th>
+                                    <th>Địa chỉ</th>
+                                    <th>Email</th> */}
+                                    <th>Số điện thoại</th>
+                                    <th>Role</th>
+                                    <th>Action</th>
+                                </tr>
                             </thead>
                             <tbody>
-                            <td>tnd</td>
-                            <td>Nguyen A</td>
-                            <td>560651</td>
-                            <td>A B C</td>
-                            <td>A@gmail.com</td>
-                            <td>0132456789</td>
-                            <td>Nhân viên kỹ thuật</td>
-                            <td><Button color="link" onClick={this.toggleAccount}>settings</Button></td>
+                                {
+                                    listUser ? listUser.map((item,index)=>
+                                        <tr key={index}>
+                                            <td>{item.userID}</td>
+                                            <td>{item.userName}</td>
+                                            <td>{item.displayname}</td>
+                                            {/* <td>{item.password}</td>
+                                            <td>{item.address}</td>
+                                            <td>{item.email}</td> */}
+                                            <td>{item.phoneNumber}</td>
+                                            <td>{item.role}</td>
+                                            <td>{<Button color="primary" onClick={()=>{this.toggleUser(item);console.log("toggleUser",item)}}>setting</Button>}</td>
+                                        </tr>
+                                    ):null
+                                }
                             </tbody>
                         </Table>
-                        <Modal isOpen={this.state.modalAccount} toggle={this.toggleAccount}
+                        <Modal isOpen={this.state.modalUser} toggle={this.toggleUser}
                                className='modal-info'>
-                            <ModalHeader toggle={this.toggleAccount}>Settings</ModalHeader>
-                            <ModalBody>
-                                <FormGroup>
-                                    <Label htmlFor="username">Tên đăng nhập</Label>
-                                    <Input type="text" id="username" placeholder="Enter your name" disabled/>
-                                </FormGroup>
-                                <FormGroup>
-                                    <Label htmlFor="display-name">Tên hiển thị</Label>
-                                    <Input type="text" id="display-name" placeholder="Enter your name" disabled/>
-                                </FormGroup>
-                                <FormGroup>
-                                    <Label htmlFor="password">Mật khẩu</Label>
-                                    <Input type="text" id="password" placeholder="Enter your password" required/>
-                                </FormGroup>
-                                <FormGroup>
-                                    <Label htmlFor="address">Địa chỉ</Label>
-                                    <Input type="text" id="address" placeholder="Enter your address" required/>
-                                </FormGroup>
-                                <FormGroup>
-                                    <Label htmlFor="email">Email</Label>
-                                    <Input type="email" id="email" name="email" placeholder="Enter Email.."/>
-                                </FormGroup>
-                                <FormGroup>
-                                    <Label>Số điện thoại</Label>
-                                    <InputGroup>
-                                        <div className="input-group-prepend">
-                                            <span className="input-group-text"><i className="fa fa-phone"></i></span>
-                                        </div>
-                                        <TextMask
-                                            mask={['(','+', /[1-9]/, /\d/,')', ' ', /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/]}
-                                            Component={InputAdapter}
-                                            className="form-control"
-                                        />
-                                    </InputGroup>
-                                </FormGroup>
-                                <FormGroup>
-                                    <Label htmlFor="select-car">Role</Label>
-                                    <Input type="select" id="select-car" >
-                                        <option value="0">Select role</option>
-                                        <option value="1">Khách hàng</option>
-                                        <option value="2">Nhân viên tiếp tân</option>
-                                        <option value="3">Nhân viên kỹ thuật</option>
-                                        <option value="4">Nhân viên kế toán</option>
-                                    </Input>
-                                </FormGroup>
-                            </ModalBody>
+                            <ModalHeader toggle={this.toggleUser}>Settings</ModalHeader>
+                            {
+                                user&&
+                                <ModalBody>
+                                    <FormGroup>
+                                        <Label htmlFor="userID">ID</Label>
+                                        <Input type="text" id="user-id" placeholder={user.userID} disabled/>
+                                    </FormGroup>
+                                    <FormGroup>
+                                        <Label htmlFor="username">Tên đăng nhập</Label>
+                                        <Input type="text" id="username" placeholder={user.userName} disabled/>
+                                    </FormGroup>
+                                    <FormGroup>
+                                        <Label htmlFor="display-name">Tên hiển thị</Label>
+                                        <Input type="text" id="display-name" placeholder={user.displayname} required/>
+                                    </FormGroup>
+                                    <FormGroup>
+                                        <Label htmlFor="password">Mật khẩu</Label>
+                                        <Input type="text" id="password" placeholder={user.password} required/>
+                                    </FormGroup>
+                                    <FormGroup>
+                                        <Label htmlFor="address">Địa chỉ</Label>
+                                        <Input type="text" id="address" placeholder={user.address} required/>
+                                    </FormGroup>
+                                    <FormGroup>
+                                        <Label htmlFor="email">Email</Label>
+                                        <Input type="email" id="email" name="email" placeholder={user.email}/>
+                                    </FormGroup>
+                                    <FormGroup>
+                                        <Label>Số điện thoại</Label>
+                                        <InputGroup>
+                                            <div className="input-group-prepend">
+                                                <span className="input-group-text"><i className="fa fa-phone"></i></span>
+                                            </div>
+                                            <TextMask
+                                                mask={['(','+', /[1-9]/, /\d/,')', ' ', /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/]}
+                                                Component={InputAdapter}
+                                                className="form-control"
+                                                placeholder={user.phoneNumber}
+                                                required
+                                            />
+                                        </InputGroup>
+                                    </FormGroup>
+                                    <FormGroup>
+                                        <Label htmlFor="select-role">Role</Label>
+                                        <Input type="select" id="select-role" >
+                                            {
+                                                listRole ? listRole.map((item,index)=>
+                                                    item.role===user.role?<option value={item.id} key={index} selected>{item.role}</option>
+                                                    :<option value={item.id} key={index}>{item.role}</option>
+                                                ):null
+                                            }
+                                        </Input>
+                                    </FormGroup>
+                                </ModalBody>
+                            }
                             <ModalFooter>
-                                <Button color="primary" onClick={this.toggleAccount}>Xóa tài khoản</Button>{' '}
-                                <Button color="primary" onClick={this.toggleAccount}>Cập nhật</Button>{' '}
-                                <Button color="secondary" onClick={this.toggleAccount}>Thoát</Button>
+                                <Button color="primary" onClick={this.toggleDeleteUser}>Xóa tài khoản</Button>{' '}
+                                <Button color="primary" onClick={this.toggleUpdateUser}>Cập nhật</Button>{' '}
+                                <Button color="secondary" onClick={this.toggleUser}>Thoát</Button>
                             </ModalFooter>
                         </Modal>
                     </CardBody>
                 </Card>
+                <Modal isOpen={this.state.nestedModalAdd}
+                       toggle={() => this.toggleNestedAdd()}
+                       
+                       className={'modal-info ' + this.props.className} centered>
+                    <ModalHeader toggle={() => this.toggleAllAdd()}>Thông
+                        báo</ModalHeader>
+                    <ModalBody>
+                        {resultAdd ?
+                            resultAdd.returnMessage : null
+                        }
+                    </ModalBody>
+                </Modal>
             </div>
         );
     }
