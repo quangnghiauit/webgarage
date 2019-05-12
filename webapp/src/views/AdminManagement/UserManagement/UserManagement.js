@@ -21,7 +21,7 @@ import {
     Table
 } from 'reactstrap';
 import {getRole}from '../../../api/AdminManagement/RoleManagement/roleManagement'
-import {getUsers, getUsersRole, addUser} from '../../../api/AdminManagement/UserManagement/userManagement'
+import {getUsers, getUsersRole, addUser, deleteUser} from '../../../api/AdminManagement/UserManagement/userManagement'
 
 
 class UserManagement extends Component {
@@ -35,8 +35,10 @@ class UserManagement extends Component {
             displayname:'',
             address:'',
             email:'',
-            phonenumber: '84',
+            phoneNumber: '84',
             role:'',
+            userName:'',
+            password:'',
             resultAdd:null,
             modalAddUser:false,
             modalUser:false,
@@ -50,6 +52,7 @@ class UserManagement extends Component {
         this.handleAddUser=this.handleAddUser.bind(this);
         this.toggleNestedAdd=this.toggleNestedAdd.bind(this);
         this.toggleAllAdd=this.toggleAllAdd.bind(this);
+        this.toggleDeleteUser=this.toggleDeleteUser.bind(this);
     }
     
     componentDidMount(){
@@ -92,14 +95,19 @@ class UserManagement extends Component {
             displayname:this.state.displayname,
             address:this.state.address,
             email:this.state.email,
-            phonenumber: this.state.phonenumber,
-            role:this.state.role
+            phoneNumber: this.state.phoneNumber,
+            role:this.state.role,
+            userName:this.state.userName,
+            password:this.state.password
         }
-        if (this.state.displayname && this.state.address && this.state.phonenumber && this.state.role) {
+        console.log('params adduser',params);
+        if (this.state.displayname && this.state.address 
+            && this.state.phoneNumber && this.state.role 
+            && this.state.userName && this.state.password) {
             addUser(params).then(res => {
                 console.log('res addUser', res)
                 this.setState({
-                    resultAdd: res
+                    resultAdd: res.data
                 }, () => this.toggleNestedAdd())
             })
         } else {
@@ -127,6 +135,14 @@ class UserManagement extends Component {
             user:user,
             modalUser:!this.state.modalUser
         });
+    }
+    toggleDeleteUser(){ 
+        const params=this.state.user.userID;
+        console.log('params',params);
+        deleteUser(params).then(res=>{
+            console.log('res deleteuser',res);
+            
+        })
     }
     render() {
         const {listRole,listUser,user,resultAdd}=this.state;console.log("listUser render",listUser);
@@ -169,10 +185,10 @@ class UserManagement extends Component {
                                         </div>
                                         <TextMask
                                             Component={InputAdapter}
-                                            value={this.state.phonenumber}
+                                            value={this.state.phoneNumber}
                                             mask={['(','+', /[1-9]/, /\d/,')', ' ', /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/]}
                                             guide={false}
-                                            onChange={e => {this.setState({phonenumber: e.target.value})}}
+                                            onChange={e => {this.setState({phoneNumber: e.target.value})}}
                                             className="form-control"
                                         />
                                     </InputGroup>
@@ -190,6 +206,21 @@ class UserManagement extends Component {
                                             ):null
                                         }
                                     </Input>
+                                </FormGroup>
+                                <FormGroup>
+                                    <Label htmlFor="username">Tên đăng nhập (UserName)</Label>
+                                    <Input type="text" id="username" value={this.state.userName}
+                                        onChange={(e) => this.setState({userName: e.target.value}, () => console.log(this.state.userName))}
+                                        placeholder="Enter your username" required/>
+                                    <FormText className="help-block">Please enter your username</FormText>
+                                </FormGroup>
+                                <FormGroup>
+                                    <Label htmlFor="password">Mật khẩu (Password)</Label>
+                                    <Input type="password" id="password" name="password"
+                                        value={this.state.password}
+                                        onChange={(e) => this.setState({password: e.target.value}, () => console.log(this.state.password))}
+                                        placeholder="Enter password.."/>
+                                    <FormText className="help-block">Please enter password</FormText>
                                 </FormGroup>
                             </ModalBody>
                             <ModalFooter>
@@ -305,7 +336,7 @@ class UserManagement extends Component {
                         báo</ModalHeader>
                     <ModalBody>
                         {resultAdd ?
-                            resultAdd.returnMessage : null
+                            resultAdd.returnMessage:null
                         }
                     </ModalBody>
                 </Modal>
