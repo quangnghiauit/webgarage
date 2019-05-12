@@ -7,8 +7,8 @@ export function getRole() {
 }
 
 export function addRole(reqPara) {
-    return httpPost(BASE_URL+"/add-role",reqPara);
+    return httpPost(BASE_URL+"/add-role?role=" + reqPara);
 }
 export function deleteRole(reqPara){
-    return httpDelete(BASE_URL+"/delete-role",reqPara);
+    return httpDelete(BASE_URL+"/delete-role?role=" + reqPara);
 }
