@@ -30,6 +30,16 @@ class Sidebar extends Component {
                     this.state.items = nav.items1;
 
                     return true;
+                } else
+                if (this.state.roles === '[ROLE_CLIENT]') {
+                    this.state.items = nav.items2;
+
+                    return true;
+                } else
+                if (this.state.roles === '[ROLE_ACCOUNTANT]') {
+                    this.state.items = nav.items3;
+
+                    return true;
                 } else return false;
             })
             .catch(error => console.log(error));
