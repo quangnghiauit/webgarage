@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import javax.management.relation.Role;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -37,6 +38,18 @@ public class AdminManagementServiceImpl implements AdminManagementService {
     private PasswordEncoder passwordEncoder;
 
 
+    @Override
+    public List<Roles> getRole() {
+        try {
+            List<Roles> list = roleRepository.getAllRoles();
+            if (list.size() == 0) {
+                return new ArrayList<>();
+            }
+            return list;
+        } catch (Exception ex) {
+            return new ArrayList<>();
+        }
+    }
 
     @Override
     public ResponseDTO addRole(String role) {
@@ -106,7 +119,7 @@ public class AdminManagementServiceImpl implements AdminManagementService {
     }
 
     @Override
-    public ResponseDTO addUsers(AdminUsersDTO adminUsersDTO,String currentUser) {
+    public ResponseDTO addUsers(AdminUsersDTO adminUsersDTO, String currentUser) {
         try {
             String userName = adminUsersDTO.getUserName();
             if (userName != null) {
@@ -135,11 +148,11 @@ public class AdminManagementServiceImpl implements AdminManagementService {
     }
 
     @Override
-    public ResponseDTO updateUsers(AdminUsersDTO adminUsersDTO, String userID,String currentUser) {
+    public ResponseDTO updateUsers(AdminUsersDTO adminUsersDTO, String userID, String currentUser) {
         try {
             Users user = userRepository.findByUserID(userID);
             UserRole userRole = userRoleRepository.findByUserName(user.getUserName()).get(0);
-            if(!adminUsersDTO.getRole().isEmpty()) {
+            if (!adminUsersDTO.getRole().isEmpty()) {
                 userRole.setRole(adminUsersDTO.getRole());
                 userRoleRepository.save(userRole);
             }

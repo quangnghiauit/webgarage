@@ -101,8 +101,7 @@ class UserManagement extends Component {
             password:this.state.password
         }
         console.log('params adduser',params);
-        if (this.state.displayname && this.state.address 
-            && this.state.phoneNumber && this.state.role 
+        if (this.state.displayname && this.state.role
             && this.state.userName && this.state.password) {
             addUser(params).then(res => {
                 console.log('res addUser', res)
@@ -164,39 +163,6 @@ class UserManagement extends Component {
                                     <FormText className="help-block">Please enter your name</FormText>
                                 </FormGroup>
                                 <FormGroup>
-                                    <Label htmlFor="address">Địa chỉ</Label>
-                                    <Input type="text" id="address" value={this.state.address}
-                                        onChange={e=>this.setState({address:e.target.value},()=>console.log(this.state.address))}
-                                        placeholder="Enter your address" required/>
-                                    <FormText className="help-block">Please enter your address</FormText>
-                                </FormGroup>
-                                <FormGroup>
-                                    <Label htmlFor="email">Email</Label>
-                                    <Input type="email" id="email" name="email" value={this.state.email}
-                                        onChange={e=>this.setState({email:e.target.value},()=>console.log(this.state.email))}
-                                        placeholder="Enter Email.."/>
-                                    <FormText className="help-block">Please enter your email</FormText>
-                                </FormGroup>
-                                <FormGroup>
-                                    <Label>Số điện thoại</Label>
-                                    <InputGroup>
-                                        <div className="input-group-prepend">
-                                            <span className="input-group-text"><i className="fa fa-phone"></i></span>
-                                        </div>
-                                        <TextMask
-                                            Component={InputAdapter}
-                                            value={this.state.phoneNumber}
-                                            mask={['(','+', /[1-9]/, /\d/,')', ' ', /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/]}
-                                            guide={false}
-                                            onChange={e => {this.setState({phoneNumber: e.target.value})}}
-                                            className="form-control"
-                                        />
-                                    </InputGroup>
-                                    <FormText color="muted">
-                                        ex. (+84) 978-301-442
-                                    </FormText>
-                                </FormGroup>
-                                <FormGroup>
                                     <Label htmlFor="select-role">Role</Label>
                                     <Input type="select" id="select-role" value={this.state.role} onChange={e=>this.setState({role:e.target.value},()=>console.log(this.state.role))}>
                                         <option value="">Select Role</option>
@@ -256,7 +222,10 @@ class UserManagement extends Component {
                                             <td>{item.email}</td> */}
                                             <td>{item.phoneNumber}</td>
                                             <td>{item.role}</td>
-                                            <td>{<Button color="primary" onClick={()=>{this.toggleUser(item);console.log("toggleUser",item)}}>setting</Button>}</td>
+                                            <td>
+                                                <Button color="primary" onClick={()=>{this.toggleUser(item);console.log("toggleUser",item)}}>Update</Button> {' '}
+                                                <Button color="danger" onClick={()=>{this.toggleUser(item);console.log("toggleUser",item)}}>Delete</Button>
+                                            </td>
                                         </tr>
                                     ):null
                                 }
@@ -281,33 +250,6 @@ class UserManagement extends Component {
                                         <Input type="text" id="display-name" placeholder={user.displayname} required/>
                                     </FormGroup>
                                     <FormGroup>
-                                        <Label htmlFor="password">Mật khẩu</Label>
-                                        <Input type="text" id="password" placeholder={user.password} required/>
-                                    </FormGroup>
-                                    <FormGroup>
-                                        <Label htmlFor="address">Địa chỉ</Label>
-                                        <Input type="text" id="address" placeholder={user.address} required/>
-                                    </FormGroup>
-                                    <FormGroup>
-                                        <Label htmlFor="email">Email</Label>
-                                        <Input type="email" id="email" name="email" placeholder={user.email}/>
-                                    </FormGroup>
-                                    <FormGroup>
-                                        <Label>Số điện thoại</Label>
-                                        <InputGroup>
-                                            <div className="input-group-prepend">
-                                                <span className="input-group-text"><i className="fa fa-phone"></i></span>
-                                            </div>
-                                            <TextMask
-                                                mask={['(','+', /[1-9]/, /\d/,')', ' ', /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/]}
-                                                Component={InputAdapter}
-                                                className="form-control"
-                                                placeholder={user.phoneNumber}
-                                                required
-                                            />
-                                        </InputGroup>
-                                    </FormGroup>
-                                    <FormGroup>
                                         <Label htmlFor="select-role">Role</Label>
                                         <Input type="select" id="select-role" >
                                             {
@@ -321,7 +263,6 @@ class UserManagement extends Component {
                                 </ModalBody>
                             }
                             <ModalFooter>
-                                <Button color="primary" onClick={this.toggleDeleteUser}>Xóa tài khoản</Button>{' '}
                                 <Button color="primary" onClick={this.toggleUpdateUser}>Cập nhật</Button>{' '}
                                 <Button color="secondary" onClick={this.toggleUser}>Thoát</Button>
                             </ModalFooter>

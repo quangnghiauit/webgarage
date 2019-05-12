@@ -34,7 +34,7 @@ public class AdminManagementController {
     @GetMapping(value = "/get-role")
     public @ResponseBody
     ResponseEntity<?> getRole() {
-        return new ResponseEntity<>(roleRepository.findAll(), HttpStatus.OK);
+        return new ResponseEntity<>(adminManagementService.getRole(), HttpStatus.OK);
     }
 
     @RequestMapping(value = "/add-role",method = RequestMethod.POST)
