@@ -51,7 +51,7 @@ class SearchUser extends Component {
             closeAllAdd: false,
             offset: '0',
             curPage:1,
-            maxRows: 5,
+            maxRows: 10,
             definePa:[]
         };
 
@@ -68,11 +68,9 @@ class SearchUser extends Component {
         this.handleSearch();
     }
     shouldComponentUpdate(){
-        console.log('shouldComponentUpdate');
         return true;
       }
       getSnapshotBeforeUpdate(){
-        console.log('getSnapshotBeforeUpdate');
         return null;
       }
     handleUserBill(id) {
@@ -83,7 +81,6 @@ class SearchUser extends Component {
         const page = this.state.offset ? this.state.offset : '0';
         let data = [];
         getAllClient().then(response => {
-            console.log('bleeeeee', response)
             this.setState({
                 listTable: response.data,
                 resultList: response.data
@@ -103,39 +100,8 @@ class SearchUser extends Component {
                 this.filterPa();
             })
         })
-        // getListPmc(page).then(res => {
-        //         this.setState({
-        //             data: res.data.content,
-        //             resultListPmc: res.data.content,
-        //             masterData: res.data.content,
-        //             totalPages: res.data.totalPages,
-        //             offset: offset ? offset : 0
-        //         })
-        //     }
-        // )
     }
 
-    // searchInResult = (input) => {
-    //     let dataFilters = [];
-    //     if (this.state.resultListPmc && input && input.target.value) {
-    //         for (let i = 0; i < this.state.resultListPmc.length; i++) {
-    //             if (this.state.resultListPmc[i].pmcCode.toLowerCase().indexOf(input.target.value.toLowerCase()) > -1) {
-    //                 dataFilters.push(this.state.resultListPmc[i]);
-    //             }
-    //         }
-    //         if (dataFilters) {
-    //             this.setState({
-    //                 resultListPmc: dataFilters
-    //             });
-    //         }
-    //     }
-    //
-    //     if (!input || !input.target.value) {
-    //         this.setState({
-    //             resultListPmc: this.state.masterData
-    //         });
-    //     }
-    // }
     filterTable(){
         let td,txtValue,display;
         const filter = document.getElementById("search").value.toUpperCase();
@@ -213,10 +179,8 @@ class SearchUser extends Component {
             userName: this.state.userName,
             password: this.state.password,
         };
-        console.log("param", params);
         if (this.state.displayname && this.state.phoneNumber && this.state.address && this.state.userName && this.state.password) {
             addClient(params).then(res => {
-                console.log('truoc add', res)
                 this.setState({
                     resultAdd: res.data
                 }, () => this.toggleNestedAdd())
@@ -234,7 +198,7 @@ class SearchUser extends Component {
     }
 
     render() {
-        const {resultList, resultAdd, totalPages} = this.state;console.log('cur render',this.state.curPage);
+        const {resultList, resultAdd} = this.state;
         const listPaItems=this.state.definePa.map(function(i,index){
             return this.state.curPage===i?
                 <PaginationItem key={index} active id={'paItem'+i}>
@@ -318,7 +282,7 @@ class SearchUser extends Component {
                         <FormGroup>
                             <Label htmlFor="name">Tên khách hàng</Label>
                             <Input type="text" id="name" value={this.state.displayname}
-                                   onChange={(e) => this.setState({displayname: e.target.value}, () => console.log(this.state.displayname))}
+                                   onChange={(e) => this.setState({displayname: e.target.value})}
                                    placeholder="Enter your name" required/>
                             <FormText className="help-block">Please enter your name</FormText>
                         </FormGroup>
@@ -332,7 +296,7 @@ class SearchUser extends Component {
                                     mask={['(', '+', /[1-9]/, /\d/, ')', ' ', /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/]}
                                     Component={InputAdapter}
                                     value={this.state.phoneNumber}
-                                    onChange={(e) => this.setState({phoneNumber: e.target.value}, () => console.log(this.state.phoneNumber))}
+                                    onChange={(e) => this.setState({phoneNumber: e.target.value})}
                                     className="form-control"
                                 />
                             </InputGroup>
@@ -343,14 +307,14 @@ class SearchUser extends Component {
                         <FormGroup>
                             <Label htmlFor="address">Địa chỉ</Label>
                             <Input type="text" id="address" value={this.state.address}
-                                   onChange={(e) => this.setState({address: e.target.value}, () => console.log(this.state.address))}
+                                   onChange={(e) => this.setState({address: e.target.value})}
                                    placeholder="Enter your address" required/>
                             <FormText className="help-block">Please enter your address</FormText>
                         </FormGroup>
                         <FormGroup>
                             <Label htmlFor="address">Tên đăng nhập (UserName)</Label>
                             <Input type="text" id="username" value={this.state.userName}
-                                   onChange={(e) => this.setState({userName: e.target.value}, () => console.log(this.state.userName))}
+                                   onChange={(e) => this.setState({userName: e.target.value})}
                                    placeholder="Enter your username" required/>
                             <FormText className="help-block">Please enter your username</FormText>
                         </FormGroup>
@@ -358,7 +322,7 @@ class SearchUser extends Component {
                             <Label htmlFor="email">Mật khẩu (Password)</Label>
                             <Input type="password" id="password" name="password"
                                    value={this.state.password}
-                                   onChange={(e) => this.setState({password: e.target.value}, () => console.log(this.state.password))}
+                                   onChange={(e) => this.setState({password: e.target.value})}
                                    placeholder="Enter password.."/>
                             <FormText className="help-block">Please enter password</FormText>
                         </FormGroup>
