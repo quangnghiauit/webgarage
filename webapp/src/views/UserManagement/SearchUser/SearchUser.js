@@ -50,9 +50,11 @@ class SearchUser extends Component {
             nestedModalAdd: false,
             closeAllAdd: false,
             offset: '0',
-            curPage:1,
+            curPaItem:1,
             maxRows: 10,
-            definePa:[]
+            maxPaItems: 3,
+            definePa:[],
+            filterPa:[]
         };
 
         this.toggleAdd = this.toggleAdd.bind(this);
@@ -92,11 +94,35 @@ class SearchUser extends Component {
                     let temp=[];
                     for(let i=1;i<=Math.ceil((tr.length-1)/this.state.maxRows);i++)
                         temp.push(i);
-                    this.setState({definePa:temp});
+                    this.setState({definePa:temp},
+                        ()=>{
+                            if(this.state.definePa.length-this.state.curPaItem+1>=this.state.maxPaItems)
+                            {
+                                let temp=[];
+                                for(let i=this.state.curPaItem-1;i<this.state.curPaItem+this.state.maxPaItems-1;i++)
+                                {
+                                    temp.push(this.state.definePa[i]);
+                                }
+                                this.setState({filterPa:temp});
+                            }
+                            else
+                            {
+                                let temp=[];
+                                if(this.state.definePa.length-this.state.maxPaItems>=0)
+                                    for(let i=this.state.definePa.length-this.state.maxPaItems;i<this.state.definePa.length;i++)
+                                        temp.push(this.state.definePa[i]);
+                                else{
+                                    temp=[...this.state.definePa];
+                                }
+                                this.setState({filterPa:temp});
+                            }
+                        });
                 }
                 else
-                    this.setState({definePa:[1]});
-
+                    this.setState({definePa:[1]},
+                        ()=>{
+                            this.setState({filterPa:this.state.definePa});
+                        });
                 this.filterPa();
             })
         })
@@ -132,27 +158,75 @@ class SearchUser extends Component {
         const tr=table.getElementsByTagName('tr');
         for(let i=1;i<tr.length;i++)
         {
-            if((i>=(this.state.curPage-1)*this.state.maxRows+1) && (i<=this.state.curPage*this.state.maxRows))
+            if((i>=(this.state.curPaItem-1)*this.state.maxRows+1) && (i<=this.state.curPaItem*this.state.maxRows))
                 tr[i].style.display='';
             else
                 tr[i].style.display='none';
         }
     }
     togglePre(){
-        if(this.state.curPage > 1)
+        if(this.state.curPaItem > 1)
         {
-            this.setState({curPage:this.state.curPage-1},()=>{this.filterPa()});
+            this.setState({
+                curPaItem:this.state.curPaItem-1
+            },()=>{
+                this.filterPa();
+                if(this.state.definePa.length-this.state.curPaItem+1>=this.state.maxPaItems)
+                {
+                    let temp=[];
+                    for(let i=this.state.curPaItem-1;i<this.state.curPaItem+this.state.maxPaItems-1;i++)
+                    {
+                        temp.push(this.state.definePa[i]);
+                    }
+                    this.setState({filterPa:temp});
+                }
+                else
+                {
+                    let temp=[];
+                    if(this.state.definePa.length-this.state.maxPaItems>=0)
+                        for(let i=this.state.definePa.length-this.state.maxPaItems;i<this.state.definePa.length;i++)
+                            temp.push(this.state.definePa[i]);
+                    else{
+                        temp=[...this.state.definePa];
+                    }
+                    this.setState({filterPa:temp});
+                }
+            });
         }
     }
     toggleNext(){
-        if(this.state.curPage*this.state.maxRows<this.state.listTable.length)
+        if(this.state.curPaItem*this.state.maxRows<this.state.listTable.length)
         {
-            this.setState({curPage:this.state.curPage+1},()=>{this.filterPa()});
+            this.setState({
+                curPaItem:this.state.curPaItem+1
+            },()=>{
+                this.filterPa();
+                if(this.state.definePa.length-this.state.curPaItem+1>=this.state.maxPaItems)
+                {
+                    let temp=[];
+                    for(let i=this.state.curPaItem-1;i<this.state.curPaItem+this.state.maxPaItems-1;i++)
+                    {
+                        temp.push(this.state.definePa[i]);
+                    }
+                    this.setState({filterPa:temp});
+                }
+                else
+                {
+                    let temp=[];
+                    if(this.state.definePa.length-this.state.maxPaItems>=0)
+                        for(let i=this.state.definePa.length-this.state.maxPaItems;i<this.state.definePa.length;i++)
+                            temp.push(this.state.definePa[i]);
+                    else{
+                        temp=[...this.state.definePa];
+                    }
+                    this.setState({filterPa:temp});
+                }
+            });
         }
     }
     togglePa(i){
         this.setState({
-            curPage:i
+            curPaItem:i
         },()=>{this.filterPa()}
         );
     }
@@ -198,9 +272,9 @@ class SearchUser extends Component {
     }
 
     render() {
-        const {resultList, resultAdd} = this.state;
-        const listPaItems=this.state.definePa.map(function(i,index){
-            return this.state.curPage===i?
+        const {resultList, resultAdd} = this.state;console.log('render',this.state.filterPa);
+        const listPaItems=this.state.filterPa.map(function(i,index){
+            return this.state.curPaItem===i?
                 <PaginationItem key={index} active id={'paItem'+i}>
                     <PaginationLink onClick={()=>this.togglePa(i)}>{i}</PaginationLink>
                 </PaginationItem>
