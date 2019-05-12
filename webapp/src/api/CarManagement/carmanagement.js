@@ -5,6 +5,9 @@ const BASE_URL = 'api/carmanagement';
 // export function getAllClient() {
 //     return httpGet(BASE_URL + '/getallclient');
 // }
+export function getAllCar() {
+    return httpGet(BASE_URL+'/get-all-car')
+}
 
 export function getListCarByUserID(userID) {
     return httpGet(BASE_URL + '/get-list-car-by-userID?userID=' + userID);

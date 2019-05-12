@@ -32,24 +32,30 @@ public class CarManagementServiceImpl implements CarManagementService {
 
     @Override
     public List<ClientDTO> getDataCar() {
-        List<Users> usersList = userRepository.findAllByFilter();
-        List<Car> carList = new ArrayList<>();
-        List<ClientDTO> clientDTOS = new ArrayList<>();
-        Car car = new Car();
-        for (Users users : usersList) {
-            ClientDTO client = new ClientDTO();
-            carList = carRepository.findCarByUserID(users.getUserID());
-            if (carList.size() == 0) {
-                client.doMappingClientDTO(users, car);
-                clientDTOS.add(client);
-            } else {
-                for (Car car1 : carList) {
-                    client.doMappingClientDTO(users, car1);
-                    clientDTOS.add(client);
-                }
+        try{
+            List<Car> carList = carRepository.findAllByFilter();
+            if(carList.size()==0) {
+                return new ArrayList<>();
             }
+            Users users;
+            List<ClientDTO> clientDTOList = new ArrayList<>();
+            for(Car car :carList) {
+                ClientDTO clientDTO = new ClientDTO();
+                users = userRepository.findByUserID(String.valueOf(car.getUserID()));
+                if(users!=null) {
+                    clientDTO.setDisplayname(users.getDisplayname());
+                    clientDTO.setPhoneNumber(users.getPhoneNumber());
+                }
+                clientDTO.setStatus(String.valueOf(car.getStatus()));
+                clientDTO.setLicensePlate(car.getLicensePlate());
+                clientDTO.setId(car.getId());
+                clientDTO.setUserID(car.getUserID());
+                clientDTOList.add(clientDTO);
+            }
+            return clientDTOList;
+        }catch (Exception ex) {
+            return new ArrayList<>();
         }
-        return clientDTOS;
     }
 
     @Override

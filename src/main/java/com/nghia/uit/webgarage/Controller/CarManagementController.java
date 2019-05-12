@@ -18,7 +18,7 @@ public class CarManagementController {
     @Autowired
     private CarManagementService carManagementService;
 
-    @GetMapping(value = "/getcar")
+    @GetMapping(value = "/get-all-car")
     public @ResponseBody
     ResponseEntity<?> getAllCar() {
         return new ResponseEntity<>(carManagementService.getDataCar(), HttpStatus.OK);

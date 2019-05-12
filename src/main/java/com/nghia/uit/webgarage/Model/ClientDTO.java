@@ -43,6 +43,8 @@ public class ClientDTO {
 
     private String updatedBy;
 
+    private String status;
+
     public int getId() {
         return id;
     }
@@ -169,6 +171,15 @@ public class ClientDTO {
 
     public void setUpdatedBy(String updatedBy) {
         this.updatedBy = updatedBy;
+    }
+
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     public void doMappingClientDTO(Users users, Car car) {
