@@ -164,8 +164,8 @@ class RoleManagement extends Component {
                             </tbody>
                         </Table>
                         <Modal isOpen={this.state.modalDeleteRole} toggle={this.toggleDeleteRole}
-                               className='modal-warning'>
-                            <ModalHeader toggle={this.toggleDeleteRole}>Warning!</ModalHeader>
+                               className='modal-primary'>
+                            <ModalHeader toggle={this.toggleDeleteRole}>Xóa Role</ModalHeader>
                             <ModalBody>
                                 Bạn có chắc muốn xóa role {this.state.roleSelected} ?
                             </ModalBody>

@@ -43,11 +43,10 @@ class ListCarHandling extends Component {
 
     handleGetListCarHandling() {
         getListCarHandling().then(response => {
-            console.log('bleeeeee', response)
             this.setState({
                 listTable: response.data,
                 list: response.data,
-            }, () => console.log('hihihihi', this.state.list))
+            })
 
         })
     }

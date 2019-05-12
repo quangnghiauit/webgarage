@@ -168,14 +168,20 @@ public class AdminUsersDTO {
         email = users.getEmail();
 
         if (userRole != null) {
-            if (userRole.getRole() == "ADMIN") {
+            if(!userRole.getRole().equals("ADMIN")&&!userRole.getRole().equals("ACCOUNTANT")&&!userRole.getRole().equals("MECHANIC")){
                 role = userRole.getRole();
             }
-            if (userRole.getRole() == "ACCOUNTANT") {
-                role = "Nhân viên kế toán,lễ tân";
+            if (userRole.getRole().equals("ADMIN")) {
+                role = userRole.getRole();
+                return;
             }
-            if (userRole.getRole() == "MECHANIC") {
+            if (userRole.getRole().equals("ACCOUNTANT")) {
+                role = "Nhân viên kế toán,lễ tân";
+                return;
+            }
+            if (userRole.getRole().equals("MECHANIC")) {
                 role = "Nhân viên sữa chữa";
+                return;
             }
         }
     }

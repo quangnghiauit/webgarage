@@ -17,6 +17,8 @@ public interface AdminManagementService {
 
     List<AdminUsersDTO> getUsers();
 
+    AdminUsersDTO getInfoUser(String userID);
+
     ResponseDTO addUsers(AdminUsersDTO adminUsersDTO,String currentUser);
 
     ResponseDTO updateUsers(AdminUsersDTO adminUsersDTO,String userID,String currentUser);

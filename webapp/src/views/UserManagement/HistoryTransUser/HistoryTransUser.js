@@ -78,7 +78,6 @@ class HistoryTransUser extends Component {
         this.setState({
             userID:this.props.match.params.id
         },()=>this.handleGetInfoUser(this.state.userID));
-        console.log("userIDDDDDlistcar",this.state.userID)
     }
 
     handleGetInfoUser(userID) {
@@ -96,12 +95,11 @@ class HistoryTransUser extends Component {
         getListCarByUserID(userID).then(res => {
             this.setState({
                 listCar:res.data
-            },()=>console.log("list car: ",this.state.listCar))
+            })
         })
     }
 
     handleUpdateUser(userID) {
-        console.log("jfutruytytrtyeytr")
         const requestParams ={
             displayname : this.state.displayname,
             address:this.state.address,
@@ -111,7 +109,6 @@ class HistoryTransUser extends Component {
         }
         if (this.state.displayname && this.state.phoneNumber) {
             updateClient(userID,requestParams).then(res => {
-                console.log("wesdufyusig",res)
                 this.setState({
                     resultUpdateUser: res.data
                 },()=>this.toggleNestedUpdateUser())
@@ -143,10 +140,8 @@ class HistoryTransUser extends Component {
             userID: this.state.userID,
             licensePlate: this.state.licensePlate,
         };
-        console.log("param", params);
         if (this.state.licensePlate) {
             addCar(this.state.userID,params).then(res => {
-                console.log('truoc add', res)
                 this.setState({
                     resultAdd: res.data
                 }, () => this.toggleNestedAdd())
@@ -242,35 +237,35 @@ class HistoryTransUser extends Component {
                                     <FormGroup>
                                         <Label htmlFor="id">Mã khách hàng</Label>
                                         <Input type="text" id="id" placeholder="Enter your id"
-                                               onChange={(e) => this.setState({userID: e.target.value}, () => console.log(this.state.userID))}
+                                               onChange={(e) => this.setState({userID: e.target.value})}
                                                value={this.state.userID}
                                                 disabled/>
                                     </FormGroup>
                                     <FormGroup>
                                         <Label htmlFor="name">Tên khách hàng</Label>
                                         <Input type="text" id="name" placeholder="Enter your name"
-                                               onChange={(e) => this.setState({displayname: e.target.value}, () => console.log(this.state.displayname))}
+                                               onChange={(e) => this.setState({displayname: e.target.value})}
                                                value={this.state.displayname}
                                                 />
                                     </FormGroup>
                                     <FormGroup>
                                         <Label htmlFor="address">Địa chỉ</Label>
                                         <Input type="text" id="address" placeholder="Enter your address"
-                                               onChange={(e) => this.setState({address: e.target.value}, () => console.log(this.state.address))}
+                                               onChange={(e) => this.setState({address: e.target.value})}
                                                value={this.state.address}
                                                 />
                                     </FormGroup>
                                     <FormGroup>
                                         <Label htmlFor="email">Email</Label>
                                         <Input type="email" id="email" name="email" placeholder="Enter Email.."
-                                               onChange={(e) => this.setState({email: e.target.value}, () => console.log(this.state.email))}
+                                               onChange={(e) => this.setState({email: e.target.value})}
                                                value={this.state.email}
                                                 />
                                     </FormGroup>
                                     <FormGroup>
                                         <Label htmlFor="phone">Số điện thoại</Label>
                                         <Input type="text" id="phone" placeholder="Enter your phone"
-                                               onChange={(e) => this.setState({phoneNumber: e.target.value}, () => console.log(this.state.phoneNumber))}
+                                               onChange={(e) => this.setState({phoneNumber: e.target.value})}
                                                value={this.state.phoneNumber}
                                                 />
                                     </FormGroup>

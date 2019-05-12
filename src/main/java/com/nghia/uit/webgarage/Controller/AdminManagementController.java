@@ -50,13 +50,13 @@ public class AdminManagementController {
     @GetMapping(value = "/get-users")
     public @ResponseBody
     ResponseEntity<?> getUsers() {
-        return new ResponseEntity<>(userRepository.findAll(), HttpStatus.OK);
+        return new ResponseEntity<>(adminManagementService.getUsers(), HttpStatus.OK);
     }
-    
-    @GetMapping(value = "/get-users-role")
+
+    @GetMapping(value = "/get-info-users")
     public @ResponseBody
-    ResponseEntity<?> getUsersRole() {
-        return new ResponseEntity<>(userRoleRepository.findAll(), HttpStatus.OK);
+    ResponseEntity<?> getinfoUsers(@RequestParam String userID) {
+        return new ResponseEntity<>(adminManagementService.getInfoUser(userID), HttpStatus.OK);
     }
 
     @RequestMapping(value = "/add-user", method = RequestMethod.POST)

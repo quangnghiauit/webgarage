@@ -1,60 +1,76 @@
 import React, {Component} from 'react';
-import {BootstrapTable, TableHeaderColumn} from 'react-bootstrap-table';
 import 'react-bootstrap-table/dist/react-bootstrap-table-all.min.css';
-import { TextMask, InputAdapter } from 'react-text-mask-hoc';
 import {
+    Button,
     Card,
-    CardHeader,
     CardBody,
-    CardFooter,
-    Modal,
-    ModalHeader,
-    ModalBody,
-    ModalFooter,
-    Label,
-    Input,
-    InputGroup,
+    CardHeader,
     FormGroup,
     FormText,
-    Button,
-    Col,
+    Input,
+    Label,
+    Modal,
+    ModalBody,
+    ModalFooter,
+    ModalHeader,
     Table
 } from 'reactstrap';
-import {getRole}from '../../../api/AdminManagement/RoleManagement/roleManagement'
-import {getUsers, getUsersRole, addUser, deleteUser} from '../../../api/AdminManagement/UserManagement/userManagement'
+import {getRole} from '../../../api/AdminManagement/RoleManagement/roleManagement'
+import {
+    addUser,
+    deleteUser,
+    getInfoUser,
+    getUsers,
+    getUsersRole,
+    updateUser
+} from '../../../api/AdminManagement/UserManagement/userManagement'
 
 
 class UserManagement extends Component {
     constructor(props) {
         super(props);
-        
+
         this.state={
+            userID:'',
             listRole:null,
             listUser:null,
             user:null,
             displayname:'',
-            address:'',
-            email:'',
-            phoneNumber: '84',
             role:'',
             userName:'',
             password:'',
+
             resultAdd:null,
             modalAddUser:false,
             modalUser:false,
             nestedModalAdd:false,
             closeAllAdd:false,
+
+            modalUpdate:false,
+            nestedModalUpdate:false,
+            closeAllUpdate:false,
+            resultUpdate:null,
+
+            modalDelete:false,
+            nestedModalDelete:false,
+            closeAllDelete:false,
+            resultDelete:null,
+
         };
         this.toggleAddUser=this.toggleAddUser.bind(this);
         this.toggleUser=this.toggleUser.bind(this);
-        this.loadRole=this.loadRole.bind(this);
-        this.loadUser=this.loadUser.bind(this);
-        this.handleAddUser=this.handleAddUser.bind(this);
         this.toggleNestedAdd=this.toggleNestedAdd.bind(this);
         this.toggleAllAdd=this.toggleAllAdd.bind(this);
-        this.toggleDeleteUser=this.toggleDeleteUser.bind(this);
+
+        this.toggleUpdate = this.toggleUpdate.bind(this);
+        this.toggleNestedUpdate = this.toggleNestedUpdate.bind(this);
+        this.toggleAllUpdate = this.toggleAllUpdate.bind(this);
+
+        this.toggleDelete = this.toggleDelete.bind(this);
+        this.toggleNestedDelete = this.toggleNestedDelete.bind(this);
+        this.toggleAllDelete = this.toggleAllDelete.bind(this);
     }
-    
+
     componentDidMount(){
         this.loadRole();
         this.loadUser();
@@ -63,48 +79,28 @@ class UserManagement extends Component {
         getRole().then(res=>{
             this.setState({
                 listRole:res.data
-            },()=>{console.log("listRole",this.state.listRole)});
+            });
         })
     }
     loadUser(){
-        getUsers().then(resGetUsers=>{
-            getUsersRole().then(resGetUserRole=>{
-                console.log('resGetUsers',resGetUsers);
-                console.log('resGetUserRole',resGetUserRole);
-                let listUser=resGetUsers.data;console.log('listUser',listUser);
-                listUser.forEach(user=>{
-                    resGetUserRole.data.forEach(userrole=>{
-                        if(user.userName===userrole.username)
-                        {
-                            user.role=userrole.role;
-                            return true;
-                        }
-                    })
-                })                
-                console.log('after listUser',listUser);
-                this.setState({
-                    listUser:listUser
-                    },()=>{console.log('this.state.listUser',this.state.listUser)}
-                );
+        getUsers().then(res=>{
+            this.setState({
+                listUser:res.data
             })
+
         })
-        
+
     }
     handleAddUser(){
         const params={
             displayname:this.state.displayname,
-            address:this.state.address,
-            email:this.state.email,
-            phoneNumber: this.state.phoneNumber,
             role:this.state.role,
             userName:this.state.userName,
             password:this.state.password
         }
-        console.log('params adduser',params);
         if (this.state.displayname && this.state.role
             && this.state.userName && this.state.password) {
             addUser(params).then(res => {
-                console.log('res addUser', res)
                 this.setState({
                     resultAdd: res.data
                 }, () => this.toggleNestedAdd())
@@ -135,65 +131,111 @@ class UserManagement extends Component {
             modalUser:!this.state.modalUser
         });
     }
-    toggleDeleteUser(){ 
-        const params=this.state.user.userID;
-        console.log('params',params);
-        deleteUser(params).then(res=>{
-            console.log('res deleteuser',res);
-            
+
+
+    toggleDelete() {
+        this.setState(prevState => ({
+            modalDelete: !prevState.modalDelete
+        }));
+    }
+
+    toggleDeleteUser(id) {
+        this.setState({
+            modalDelete: !this.state.modalDelete,
+            userID:id
+        });
+    }
+
+    toggleNestedDelete() {
+        this.setState({
+            nestedModalDelete: !this.state.nestedModalDelete,
+            closeAllDelete: false
+        });
+    }
+
+    toggleAllDelete() {
+        this.setState({
+            nestedModalDelete: !this.state.nestedModalDelete,
+            closeAllDelete: true
+        });
+        window.location.reload();
+    }
+
+    handleDeleteUser() {
+        deleteUser(this.state.userID).then(res=>{
+            this.setState({
+                resultDelete:res.data
+            },()=>this.toggleNestedDelete())
         })
     }
+
+
+
+    toggleUpdate() {
+        this.setState(prevState => ({
+            modalUpdate: !prevState.modalUpdate
+        }));
+    }
+
+    updateUser(id) {
+        getInfoUser(id).then(res=>{
+            this.setState({
+                userID : res.data.userID,
+                userName:res.data.userName,
+                displayname:res.data.displayname,
+                role:res.data.role,
+
+            },()=>this.toggleUpdateUser())
+        })
+
+    }
+    toggleUpdateUser() {
+        this.setState({
+            modalUpdate: !this.state.modalUpdate,
+        });
+    }
+
+    toggleNestedUpdate() {
+        this.setState({
+            nestedModalUpdate: !this.state.nestedModalUpdate,
+            closeAllUpdate: false
+        });
+    }
+
+    toggleAllUpdate() {
+        this.setState({
+            nestedModalUpdate: !this.state.nestedModalUpdate,
+            closeAllUpdate: true
+        });
+        window.location.reload();
+    }
+
+    handleUpdateUser() {
+        const params={
+            displayname:this.state.displayname,
+            role:this.state.role,
+        }
+        if (this.state.displayname && this.state.role) {
+            updateUser(this.state.userID,params).then(res => {
+                this.setState({
+                    resultUpdate: res.data
+                }, () => this.toggleNestedUpdate())
+            })
+        } else {
+            alert("Vui lòng điền đầy đủ thông tin.")
+        }
+    }
+
+
+
     render() {
-        const {listRole,listUser,user,resultAdd}=this.state;console.log("listUser render",listUser);
+        const {listRole,listUser,user,resultAdd,resultDelete,resultUpdate}=this.state;
         return (
             <div className="animated manage-account">
                 <Card>
                     <CardHeader>
                         <i className="icon-menu"></i>Quản lý tài khoản
                         <Button onClick={this.toggleAddUser} color="link" size="sm">Thêm tài khoản</Button>
-                        <Modal isOpen={this.state.modalAddUser} toggle={this.toggleAddUser}
-                               className={'modal-info ' + this.props.className}>
-                            <ModalHeader toggle={this.toggleAddUser}>Thêm tài khoản</ModalHeader>
-                            <ModalBody>
-                                <FormGroup>
-                                    <Label htmlFor="name">Tên người dùng</Label>
-                                    <Input type="text" id="name" value={this.state.displayname}
-                                        onChange={e=>this.setState({displayname:e.target.value},()=>console.log(this.state.displayname))}
-                                        placeholder="Enter your name" required/>
-                                    <FormText className="help-block">Please enter your name</FormText>
-                                </FormGroup>
-                                <FormGroup>
-                                    <Label htmlFor="select-role">Role</Label>
-                                    <Input type="select" id="select-role" value={this.state.role} onChange={e=>this.setState({role:e.target.value},()=>console.log(this.state.role))}>
-                                        <option value="">Select Role</option>
-                                        {
-                                            listRole ? listRole.map((item,index)=>
-                                                <option value={item.role} key={index}>{item.role}</option>
-                                            ):null
-                                        }
-                                    </Input>
-                                </FormGroup>
-                                <FormGroup>
-                                    <Label htmlFor="username">Tên đăng nhập (UserName)</Label>
-                                    <Input type="text" id="username" value={this.state.userName}
-                                        onChange={(e) => this.setState({userName: e.target.value}, () => console.log(this.state.userName))}
-                                        placeholder="Enter your username" required/>
-                                    <FormText className="help-block">Please enter your username</FormText>
-                                </FormGroup>
-                                <FormGroup>
-                                    <Label htmlFor="password">Mật khẩu (Password)</Label>
-                                    <Input type="password" id="password" name="password"
-                                        value={this.state.password}
-                                        onChange={(e) => this.setState({password: e.target.value}, () => console.log(this.state.password))}
-                                        placeholder="Enter password.."/>
-                                    <FormText className="help-block">Please enter password</FormText>
-                                </FormGroup>
-                            </ModalBody>
-                            <ModalFooter>
-                                <Button color="primary" onClick={this.handleAddUser}>Thêm</Button>{' '}
-                                <Button color="secondary" onClick={this.toggleAddUser}>Thoát</Button>
-                            </ModalFooter>
-                        </Modal>
                     </CardHeader>
                     <CardBody>
                         <Table responsive>
@@ -202,10 +244,6 @@ class UserManagement extends Component {
                                     <th>ID</th>
                                     <th>Tên đăng nhập</th>
                                     <th>Tên hiển thị</th>
-                                    {/* <th>Mật khẩu</th>
-                                    <th>Địa chỉ</th>
-                                    <th>Email</th> */}
-                                    <th>Số điện thoại</th>
                                     <th>Role</th>
                                     <th>Action</th>
                                 </tr>
@@ -217,61 +255,68 @@ class UserManagement extends Component {
                                             <td>{item.userID}</td>
                                             <td>{item.userName}</td>
                                             <td>{item.displayname}</td>
-                                            {/* <td>{item.password}</td>
-                                            <td>{item.address}</td>
-                                            <td>{item.email}</td> */}
-                                            <td>{item.phoneNumber}</td>
                                             <td>{item.role}</td>
                                             <td>
-                                                <Button color="primary" onClick={()=>{this.toggleUser(item);console.log("toggleUser",item)}}>Update</Button> {' '}
-                                                <Button color="danger" onClick={()=>{this.toggleUser(item);console.log("toggleUser",item)}}>Delete</Button>
+                                                <Button color="primary" onClick={()=>{this.updateUser(item.userID)}}>Update</Button> {' '}
+                                                <Button color="danger" onClick={()=>this.toggleDeleteUser(item.userID)}>Delete</Button>
                                             </td>
                                         </tr>
                                     ):null
                                 }
                             </tbody>
                         </Table>
-                        <Modal isOpen={this.state.modalUser} toggle={this.toggleUser}
-                               className='modal-info'>
-                            <ModalHeader toggle={this.toggleUser}>Settings</ModalHeader>
-                            {
-                                user&&
-                                <ModalBody>
-                                    <FormGroup>
-                                        <Label htmlFor="userID">ID</Label>
-                                        <Input type="text" id="user-id" placeholder={user.userID} disabled/>
-                                    </FormGroup>
-                                    <FormGroup>
-                                        <Label htmlFor="username">Tên đăng nhập</Label>
-                                        <Input type="text" id="username" placeholder={user.userName} disabled/>
-                                    </FormGroup>
-                                    <FormGroup>
-                                        <Label htmlFor="display-name">Tên hiển thị</Label>
-                                        <Input type="text" id="display-name" placeholder={user.displayname} required/>
-                                    </FormGroup>
-                                    <FormGroup>
-                                        <Label htmlFor="select-role">Role</Label>
-                                        <Input type="select" id="select-role" >
-                                            {
-                                                listRole ? listRole.map((item,index)=>
-                                                    item.role===user.role?<option value={item.id} key={index} selected>{item.role}</option>
-                                                    :<option value={item.id} key={index}>{item.role}</option>
-                                                ):null
-                                            }
-                                        </Input>
-                                    </FormGroup>
-                                </ModalBody>
-                            }
-                            <ModalFooter>
-                                <Button color="primary" onClick={this.toggleUpdateUser}>Cập nhật</Button>{' '}
-                                <Button color="secondary" onClick={this.toggleUser}>Thoát</Button>
-                            </ModalFooter>
-                        </Modal>
+
                     </CardBody>
                 </Card>
+
+                <Modal isOpen={this.state.modalAddUser} toggle={this.toggleAddUser}
+                       className={'modal-info ' + this.props.className}>
+                    <ModalHeader toggle={this.toggleAddUser}>Thêm tài khoản</ModalHeader>
+                    <ModalBody>
+                        <FormGroup>
+                            <Label htmlFor="name">Tên người dùng</Label>
+                            <Input type="text" id="name" value={this.state.displayname}
+                                   onChange={e=>this.setState({displayname:e.target.value})}
+                                   placeholder="Enter your name" required/>
+                            <FormText className="help-block">Please enter your name</FormText>
+                        </FormGroup>
+                        <FormGroup>
+                            <Label htmlFor="select-role">Role</Label>
+                            <Input type="select" id="select-role" value={this.state.role} onChange={e=>this.setState({role:e.target.value})}>
+                                <option value="">Select Role</option>
+                                {
+                                    listRole ? listRole.map((item,index)=>
+                                        <option value={item.role} key={index}>{item.role}</option>
+                                    ):null
+                                }
+                            </Input>
+                        </FormGroup>
+                        <FormGroup>
+                            <Label htmlFor="username">Tên đăng nhập (UserName)</Label>
+                            <Input type="text" id="username" value={this.state.userName}
+                                   onChange={(e) => this.setState({userName: e.target.value})}
+                                   placeholder="Enter your username" required/>
+                            <FormText className="help-block">Please enter your username</FormText>
+                        </FormGroup>
+                        <FormGroup>
+                            <Label htmlFor="password">Mật khẩu (Password)</Label>
+                            <Input type="password" id="password" name="password"
+                                   value={this.state.password}
+                                   onChange={(e) => this.setState({password: e.target.value})}
+                                   placeholder="Enter password.."/>
+                            <FormText className="help-block">Please enter password</FormText>
+                        </FormGroup>
+                    </ModalBody>
+                    <ModalFooter>
+                        <Button color="primary" onClick={()=>this.handleAddUser()}>Thêm</Button>{' '}
+                        <Button color="secondary" onClick={this.toggleAddUser}>Thoát</Button>
+                    </ModalFooter>
+                </Modal>
+
+
                 <Modal isOpen={this.state.nestedModalAdd}
                        toggle={() => this.toggleNestedAdd()}
-                       
+
                        className={'modal-info ' + this.props.className} centered>
                     <ModalHeader toggle={() => this.toggleAllAdd()}>Thông
                         báo</ModalHeader>
@@ -281,6 +326,92 @@ class UserManagement extends Component {
                         }
                     </ModalBody>
                 </Modal>
+
+                <Modal isOpen={this.state.modalDelete} toggle={this.toggleDelete}
+                       className={'modal-info ' + this.props.className}>
+                    <ModalHeader toggle={this.toggleDelete}>Xóa nhân viên</ModalHeader>
+                    <ModalBody>
+                        Bạn có muốn xóa nhân viên này ?
+
+                    </ModalBody>
+                    <ModalFooter>
+                        <Button color="primary"
+                                onClick={() => this.handleDeleteUser()}>Delete</Button>{' '}
+                        <Button color="secondary" onClick={this.toggleDelete}>Cancel</Button>
+                    </ModalFooter>
+                </Modal>
+
+                <Modal isOpen={this.state.nestedModalDelete}
+                       toggle={() => this.toggleNestedDelete()}
+                       onClosed={this.state.closeAllDelete ? () => this.toggleDelete()
+                           : undefined}
+                       className={'modal-info ' + this.props.className} centered>
+                    <ModalHeader toggle={() => this.toggleAllAdd()}>Thông
+                        báo</ModalHeader>
+                    <ModalBody>
+                        {resultDelete ?
+                            resultDelete.returnMessage : null
+                        }
+                    </ModalBody>
+                </Modal>
+
+
+
+
+
+                <Modal isOpen={this.state.modalUpdate} toggle={this.toggleUpdate}
+                className='modal-info'>
+                <ModalHeader toggle={this.toggleUpdate}>Settings</ModalHeader>
+                {
+                <ModalBody>
+                <FormGroup>
+                <Label htmlFor="userID">ID</Label>
+                <Input type="text" id="user-id" placeholder={this.state.userID} disabled/>
+                </FormGroup>
+                <FormGroup>
+                <Label htmlFor="username">Tên đăng nhập</Label>
+                <Input type="text" id="username" placeholder={this.state.userName} disabled/>
+                </FormGroup>
+                <FormGroup>
+                <Label htmlFor="display-name">Tên hiển thị</Label>
+                <Input type="text" id="display-name"
+                       value={this.state.displayname}
+                       onChange={(e) => this.setState({displayname: e.target.value})}
+                       placeholder={this.state.displayname} required/>
+                </FormGroup>
+                <FormGroup>
+                <Label htmlFor="select-role">Role</Label>
+                    <Input type="select" id="select-role" value={this.state.role} onChange={e=>this.setState({role:e.target.value})}>
+                        <option value="">Select Role</option>
+                        {
+                            listRole ? listRole.map((item,index)=>
+                                <option value={item.role} key={index}>{item.role}</option>
+                            ):null
+                        }
+                    </Input>
+                </FormGroup>
+                </ModalBody>
+                }
+                <ModalFooter>
+                <Button color="primary" onClick={()=>this.handleUpdateUser()}>Cập nhật</Button>{' '}
+                <Button color="secondary" onClick={this.toggleUpdate}>Thoát</Button>
+                </ModalFooter>
+                </Modal>
+
+                <Modal isOpen={this.state.nestedModalUpdate}
+                       toggle={() => this.toggleNestedUpdate()}
+                       onClosed={this.state.closeAllUpdate ? () => this.toggleUpdate()
+                           : undefined}
+                       className={'modal-info ' + this.props.className} centered>
+                    <ModalHeader toggle={() => this.toggleAllUpdate()}>Thông
+                        báo</ModalHeader>
+                    <ModalBody>
+                        {resultUpdate ?
+                            resultUpdate.returnMessage : null
+                        }
+                    </ModalBody>
+                </Modal>
+
             </div>
         );
     }

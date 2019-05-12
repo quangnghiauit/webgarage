@@ -119,6 +119,20 @@ public class AdminManagementServiceImpl implements AdminManagementService {
     }
 
     @Override
+    public AdminUsersDTO getInfoUser(String userID) {
+        if(userID.isEmpty()) {
+            return null;
+        }
+        Users users = userRepository.findByUserID(userID);
+        AdminUsersDTO adminUsersDTO = new AdminUsersDTO();
+        UserRole userRole = userRoleRepository.findByUserName(users.getUserName()).get(0);
+        adminUsersDTO.doMappingUsers(users, userRole);
+        adminUsersDTO.setRole(userRole.getRole());
+        return adminUsersDTO;
+
+    }
+
+    @Override
     public ResponseDTO addUsers(AdminUsersDTO adminUsersDTO, String currentUser) {
         try {
             String userName = adminUsersDTO.getUserName();

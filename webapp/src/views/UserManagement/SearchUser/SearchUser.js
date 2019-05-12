@@ -62,8 +62,6 @@ class SearchUser extends Component {
                 window.location.replace("http://localhost:8080/#/marketing-staff/manage-customer");
             }
         }
-        // this.state={ modelAddCustomer:false };
-        this.toggleAddCustomer = this.toggleAddCustomer.bind(this);
         this.toggleAdd = this.toggleAdd.bind(this);
         this.toggleNestedAdd = this.toggleNestedAdd.bind(this);
         this.toggleAllAdd = this.toggleAllAdd.bind(this);
@@ -165,12 +163,6 @@ class SearchUser extends Component {
         this.setState(prevState => ({
             modalAdd: !prevState.modalAdd
         }));
-    }
-
-    toggleAddCustomer() {
-        this.setState({
-            modelAddCustomer: !this.state.modelAddCustomer
-        });
     }
 
     render() {
