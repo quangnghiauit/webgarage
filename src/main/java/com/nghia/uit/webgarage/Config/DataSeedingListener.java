@@ -13,6 +13,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import java.util.HashSet;
+import java.util.Random;
 
 @Component
 public class DataSeedingListener implements ApplicationListener<ContextRefreshedEvent> {
@@ -59,6 +60,21 @@ public class DataSeedingListener implements ApplicationListener<ContextRefreshed
             userRepository.save(admin);
             userRoleRepository.save(userRole);
         }
+
+        for(int i = 0 ; i<100;i++) {
+            if (userRepository.findByUserName("Nghia client"+String.valueOf(i)) == null&&userRoleRepository.findByUserName("Nghia client"+String.valueOf(i)).size()==0) {
+                Users admin = new Users();
+                UserRole userRole = new UserRole();
+                admin.setUserName("Nghia client"+String.valueOf(i));
+                admin.setDisplayname("Nghia client"+String.valueOf(i));
+                userRole.setUsername("Nghia client"+String.valueOf(i));
+                admin.setPassword(passwordEncoder.encode("123456"));
+                userRole.setRole("CLIENT");
+                userRepository.save(admin);
+                userRoleRepository.save(userRole);
+            }
+        }
+
 
 
     }

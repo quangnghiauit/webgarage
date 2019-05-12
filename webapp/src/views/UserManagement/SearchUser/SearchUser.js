@@ -15,7 +15,10 @@ import {
     ModalBody,
     ModalFooter,
     ModalHeader,
-    Table
+    Table,
+    Pagination,
+    PaginationItem,
+    PaginationLink
 } from 'reactstrap';
 import {addClient, getAllClient} from "../../../api/UserManagement/userManagement";
 
@@ -46,33 +49,32 @@ class SearchUser extends Component {
             modalAdd: false,
             nestedModalAdd: false,
             closeAllAdd: false,
-            offset: '0'
-
+            offset: '0',
+            curPage:1,
+            maxRows: 5,
+            definePa:[]
         };
 
-        this.options = {
-            sortIndicator: true,
-            hideSizePerPage: true,
-            paginationSize: 3,
-            hidePageListOnlyOnePage: true,
-            clearSearch: true,
-            alwaysShowAllBtns: false,
-            withFirstAndLast: false,
-            onRowClick: function (row) {
-                window.location.replace("http://localhost:8080/#/marketing-staff/manage-customer");
-            }
-        }
         this.toggleAdd = this.toggleAdd.bind(this);
         this.toggleNestedAdd = this.toggleNestedAdd.bind(this);
         this.toggleAllAdd = this.toggleAllAdd.bind(this);
+        this.filterPa=this.filterPa.bind(this);
+        this.togglePa=this.togglePa.bind(this);
+        this.toggleNext=this.toggleNext.bind(this);
+        this.togglePre=this.togglePre.bind(this);
     }
 
     componentDidMount() {
-
-        this.handleSearch()
-
+        this.handleSearch();
     }
-
+    shouldComponentUpdate(){
+        console.log('shouldComponentUpdate');
+        return true;
+      }
+      getSnapshotBeforeUpdate(){
+        console.log('getSnapshotBeforeUpdate');
+        return null;
+      }
     handleUserBill(id) {
         window.location.replace("http://localhost:8080/#/user-management/history/"+id);
     }
@@ -85,8 +87,21 @@ class SearchUser extends Component {
             this.setState({
                 listTable: response.data,
                 resultList: response.data
-            }, () => console.log('hihihihi', this.state.listTable))
+            }, () => {
+                const table=document.getElementById('table-users');
+                const tr=table.getElementsByTagName('tr');
+                if(tr.length-1>this.state.maxRows)
+                {
+                    let temp=[];
+                    for(let i=1;i<=Math.ceil((tr.length-1)/this.state.maxRows);i++)
+                        temp.push(i);
+                    this.setState({definePa:temp});
+                }
+                else
+                    this.setState({definePa:[1]});
 
+                this.filterPa();
+            })
         })
         // getListPmc(page).then(res => {
         //         this.setState({
@@ -121,7 +136,60 @@ class SearchUser extends Component {
     //         });
     //     }
     // }
+    filterTable(){
+        let td,txtValue,display;
+        const filter = document.getElementById("search").value.toUpperCase();
+        const table = document.getElementById("table-users");
+        const tr = table.getElementsByTagName("tr");
+        for (let i = 0; i < tr.length; i++) {
+            td = tr[i].getElementsByTagName("td");
+            display=false;
+            for(let j=0;j<td.length;j++){
+                txtValue = td[j].textContent || td[j].innerText;
+                if (txtValue.toUpperCase().indexOf(filter) > -1)
+                {
+                    display=true;
+                    break;
+                }
+            }
+            if (display) {
+                tr[i].style.display = "";
+            } else {
+                tr[i].style.display = "none";
+            }
 
+        }
+    }
+
+    filterPa(){
+        const table=document.getElementById('table-users');
+        const tr=table.getElementsByTagName('tr');
+        for(let i=1;i<tr.length;i++)
+        {
+            if((i>=(this.state.curPage-1)*this.state.maxRows+1) && (i<=this.state.curPage*this.state.maxRows))
+                tr[i].style.display='';
+            else
+                tr[i].style.display='none';
+        }
+    }
+    togglePre(){
+        if(this.state.curPage > 1)
+        {
+            this.setState({curPage:this.state.curPage-1},()=>{this.filterPa()});
+        }
+    }
+    toggleNext(){
+        if(this.state.curPage*this.state.maxRows<this.state.listTable.length)
+        {
+            this.setState({curPage:this.state.curPage+1},()=>{this.filterPa()});
+        }
+    }
+    togglePa(i){
+        this.setState({
+            curPage:i
+        },()=>{this.filterPa()}
+        );
+    }
     toggleNestedAdd() {
         this.setState({
             nestedModalAdd: !this.state.nestedModalAdd,
@@ -166,7 +234,18 @@ class SearchUser extends Component {
     }
 
     render() {
-        const {resultList, resultAdd, totalPages} = this.state;
+        const {resultList, resultAdd, totalPages} = this.state;console.log('cur render',this.state.curPage);
+        const listPaItems=this.state.definePa.map(function(i,index){
+            return this.state.curPage===i?
+                <PaginationItem key={index} active id={'paItem'+i}>
+                    <PaginationLink onClick={()=>this.togglePa(i)}>{i}</PaginationLink>
+                </PaginationItem>
+                :
+                <PaginationItem key={index} id={'paItem'+i}>
+                    <PaginationLink onClick={()=>this.togglePa(i)}>{i}</PaginationLink>
+                </PaginationItem>;
+
+        }.bind(this));
         return (
             <div className="animated search-customer">
                 <Card>
@@ -175,7 +254,13 @@ class SearchUser extends Component {
                         <Button onClick={this.toggleAdd} color="link" size="sm">Thêm khách hàng</Button>
                     </CardHeader>
                     <CardBody>
-                        <Table responsive striped>
+                        <InputGroup className="search">
+                            <Input type="text" id="search" onKeyUp={this.filterTable} placeholder="Search..." title="Enter a search info" />
+                            <div className="input-group-append">
+                                <i className="fa fa-search form-control" aria-hidden="true"></i>
+                            </div>
+                        </InputGroup>
+                        <Table id="table-users" responsive striped>
                             <thead>
                             <tr>
                                 <th>LogID</th>
@@ -214,6 +299,15 @@ class SearchUser extends Component {
                             }
                             </tbody>
                         </Table>
+                        <Pagination id="pagination">
+                        <PaginationItem>
+                            <PaginationLink previous onClick={this.togglePre}/>
+                        </PaginationItem>
+                            {listPaItems}
+                        <PaginationItem>
+                            <PaginationLink next onClick={this.toggleNext}/>
+                        </PaginationItem>
+                        </Pagination>
                     </CardBody>
                 </Card>
                 <Modal isOpen={this.state.modalAdd} toggle={this.toggleAdd}
