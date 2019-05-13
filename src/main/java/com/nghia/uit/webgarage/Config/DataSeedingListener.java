@@ -59,10 +59,24 @@ public class DataSeedingListener implements ApplicationListener<ContextRefreshed
         if (userRepository.findByUserName("quangnghiauit") == null&&userRoleRepository.findByUserName("quangnghiauit").size()==0) {
             Users admin = new Users();
             UserRole userRole = new UserRole();
+            admin.setUserID(Long.valueOf("20190311181159"));
             admin.setUserName("quangnghiauit");
             userRole.setUsername("quangnghiauit");
             admin.setPassword(passwordEncoder.encode("123456"));
             userRole.setRole("ADMIN");
+            userRepository.save(admin);
+            userRoleRepository.save(userRole);
+        }
+
+        // Admin account
+        if (userRepository.findByUserName("quangnghiaclient") == null&&userRoleRepository.findByUserName("quangnghiaclient").size()==0) {
+            Users admin = new Users();
+            UserRole userRole = new UserRole();
+            admin.setUserID(Long.valueOf("201904111812239"));
+            admin.setUserName("quangnghiaclient");
+            userRole.setUsername("quangnghiaclient");
+            admin.setPassword(passwordEncoder.encode("123456"));
+            userRole.setRole("CLIENT");
             userRepository.save(admin);
             userRoleRepository.save(userRole);
         }
@@ -82,18 +96,18 @@ public class DataSeedingListener implements ApplicationListener<ContextRefreshed
 //        }
 
 
-//        for(int i = 0 ; i<200;i++) {
-//            Car car = new Car();
-//            car.setLicensePlate("ABC"+i+3);
-//            if(i%3==0){
-//                car.setStatus(Constants.INIT_PROCESS);
-//            } else {
-//                car.setStatus(Constants.PROCESSING);
-//            }
-//
-//            car.setUserID(Long.valueOf("20190511181159"));
-//            carRepository.save(car);
-//        }
+        for(int i = 0 ; i<200;i++) {
+            Car car = new Car();
+            car.setLicensePlate("ABC"+i+3);
+            if(i%3==0){
+                car.setStatus(Constants.INIT_PROCESS);
+            } else {
+                car.setStatus(Constants.PROCESSING);
+            }
+
+            car.setUserID(Long.valueOf("201904111812239"));
+            carRepository.save(car);
+        }
 
     }
 }
