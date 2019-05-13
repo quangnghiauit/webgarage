@@ -254,6 +254,9 @@ class HandlingCar extends Component {
                                                disabled/>
                                     </Col>
                                 </FormGroup>
+
+                            </Col>
+                            <Col xs="12" lg="6">
                                 <FormGroup row>
                                     <Label htmlFor="createdDate" sm={2}>Ngày lập hóa đơn</Label>
                                     <Col sm={6}>
@@ -263,17 +266,15 @@ class HandlingCar extends Component {
                                                disabled/>
                                     </Col>
                                 </FormGroup>
-                            </Col>
-                            <Col xs="12" lg="6">
-                                <FormGroup row>
-                                    <Label htmlFor="repairBillID" sm={2}>Hóa đơn giao dịch</Label>
-                                    <Col sm={7}>
-                                        <Input type="text" id="id"
-                                               onChange={(e) => this.setState({repairBillID: e.target.value}, () => console.log(this.state.repairBillID))}
-                                               value={this.state.repairBillID}
-                                               disabled/>
-                                    </Col>
-                                </FormGroup>
+                                {/*<FormGroup row>*/}
+                                    {/*<Label htmlFor="repairBillID" sm={2}>Hóa đơn giao dịch</Label>*/}
+                                    {/*<Col sm={7}>*/}
+                                        {/*<Input type="text" id="id"*/}
+                                               {/*onChange={(e) => this.setState({repairBillID: e.target.value}, () => console.log(this.state.repairBillID))}*/}
+                                               {/*value={this.state.repairBillID}*/}
+                                               {/*disabled/>*/}
+                                    {/*</Col>*/}
+                                {/*</FormGroup>*/}
                             </Col>
                         </Row>
                         <Button color="success" onClick={this.toggleAdd}>Thêm mới</Button>
