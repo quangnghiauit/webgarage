@@ -1,11 +1,15 @@
 package com.nghia.uit.webgarage.Config;
 
+import com.nghia.uit.webgarage.Message.Constants;
+import com.nghia.uit.webgarage.Model.Car;
 import com.nghia.uit.webgarage.Model.Roles;
 import com.nghia.uit.webgarage.Model.UserRole;
 import com.nghia.uit.webgarage.Model.Users;
+import com.nghia.uit.webgarage.Repository.CarRepository;
 import com.nghia.uit.webgarage.Repository.RoleRepository;
 import com.nghia.uit.webgarage.Repository.UserRepository;
 import com.nghia.uit.webgarage.Repository.UserRoleRepository;
+import com.nghia.uit.webgarage.Service.CarManagementService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
@@ -30,6 +34,8 @@ public class DataSeedingListener implements ApplicationListener<ContextRefreshed
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    @Autowired
+    private CarRepository carRepository;
 
     @Override
     public void onApplicationEvent(ContextRefreshedEvent contextRefreshedEvent) {
@@ -61,21 +67,33 @@ public class DataSeedingListener implements ApplicationListener<ContextRefreshed
             userRoleRepository.save(userRole);
         }
 
-        for(int i = 0 ; i<100;i++) {
-            if (userRepository.findByUserName("Nghia client"+String.valueOf(i)) == null&&userRoleRepository.findByUserName("Nghia client"+String.valueOf(i)).size()==0) {
-                Users admin = new Users();
-                UserRole userRole = new UserRole();
-                admin.setUserName("Nghia client"+String.valueOf(i));
-                admin.setDisplayname("Nghia client"+String.valueOf(i));
-                userRole.setUsername("Nghia client"+String.valueOf(i));
-                admin.setPassword(passwordEncoder.encode("123456"));
-                userRole.setRole("CLIENT");
-                userRepository.save(admin);
-                userRoleRepository.save(userRole);
+//        for(int i = 0 ; i<100;i++) {
+//            if (userRepository.findByUserName("Nghia client"+String.valueOf(i)) == null&&userRoleRepository.findByUserName("Nghia client"+String.valueOf(i)).size()==0) {
+//                Users admin = new Users();
+//                UserRole userRole = new UserRole();
+//                admin.setUserName("Nghia client"+String.valueOf(i));
+//                admin.setDisplayname("Nghia client"+String.valueOf(i));
+//                userRole.setUsername("Nghia client"+String.valueOf(i));
+//                admin.setPassword(passwordEncoder.encode("123456"));
+//                userRole.setRole("CLIENT");
+//                userRepository.save(admin);
+//                userRoleRepository.save(userRole);
+//            }
+//        }
+
+
+        for(int i = 0 ; i<200;i++) {
+            Car car = new Car();
+            car.setLicensePlate("ABC"+i+3);
+            if(i%3==0){
+                car.setStatus(Constants.INIT_PROCESS);
+            } else {
+                car.setStatus(Constants.PROCESSING);
             }
+
+            car.setUserID(Long.valueOf("20190511181159"));
+            carRepository.save(car);
         }
-
-
 
     }
 }
