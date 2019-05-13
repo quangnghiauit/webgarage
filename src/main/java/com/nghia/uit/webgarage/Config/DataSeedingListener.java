@@ -82,18 +82,18 @@ public class DataSeedingListener implements ApplicationListener<ContextRefreshed
 //        }
 
 
-        for(int i = 0 ; i<200;i++) {
-            Car car = new Car();
-            car.setLicensePlate("ABC"+i+3);
-            if(i%3==0){
-                car.setStatus(Constants.INIT_PROCESS);
-            } else {
-                car.setStatus(Constants.PROCESSING);
-            }
-
-            car.setUserID(Long.valueOf("20190511181159"));
-            carRepository.save(car);
-        }
+//        for(int i = 0 ; i<200;i++) {
+//            Car car = new Car();
+//            car.setLicensePlate("ABC"+i+3);
+//            if(i%3==0){
+//                car.setStatus(Constants.INIT_PROCESS);
+//            } else {
+//                car.setStatus(Constants.PROCESSING);
+//            }
+//
+//            car.setUserID(Long.valueOf("20190511181159"));
+//            carRepository.save(car);
+//        }
 
     }
 }

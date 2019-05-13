@@ -8,3 +8,13 @@
 .search-customer #pagination{
     float: right;
 }
+.search-car .search{
+    width: 30%;
+    left: 70%;
+}
+.search-car #table-cars{
+    margin-top: 10px;
+}
+.search-car #pagination{
+    float: right;
+}
