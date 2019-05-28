@@ -30,6 +30,7 @@ import ImportMaterial from '../../views/MaterialManagement/ImportMaterial/Import
 // BillManagement
 import CreateBill from '../../views/BillManagement/CreateBill/CreateBill';
 import HistoryTransBill from '../../views/BillManagement/HistoryTransBill/HistoryTransBill';
+import BillInfo from '../../views/BillManagement/BillInfo/BillInfo'
 
 // ReportManagement
 import CreateReportInventory from '../../views/ReportManagement/CreateReportInventory/CreateReportInventory';
@@ -101,6 +102,12 @@ class Full extends Component {
                                         <Route path="/admin-management/role-management" name="RoleManagement"
                                                component={RoleManagement}/>,
 
+                                        <Route path="/bill-management/create-bill" name="CreateBill"
+                                               component={CreateBill}/>,
+                                        <Route path="/bill-management/history" name="HistoryTransBill"
+                                               component={HistoryTransBill}/>,
+                                        <Route path="/bill-management/bill-info" name="BillInfo"
+                                               component={BillInfo}/>,
 
                                         <Redirect from="/" to="/dashboard"/>
                                     ]

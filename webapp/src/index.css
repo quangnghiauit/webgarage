@@ -8,6 +8,7 @@
 .search-customer #pagination{
     float: right;
 }
+
 .search-car .search{
     width: 30%;
     left: 70%;
@@ -17,4 +18,8 @@
 }
 .search-car #pagination{
     float: right;
+}
+
+.bill-info #btn-export-bill{
+    float:right;
 }
