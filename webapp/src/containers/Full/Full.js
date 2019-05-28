@@ -102,6 +102,11 @@ class Full extends Component {
                                                component={RoleManagement}/>,
 
 
+                                        <Route path="/report-management/create-report-revenue" name="CreateReportRevenue"
+                                               component={CreateReportRevenue}/>,
+                                        <Route path="/report-management/create-report-inventory" name="CreateReportInventory"
+                                               component={CreateReportInventory}/>,
+
                                         <Redirect from="/" to="/dashboard"/>
                                     ]
                                 }
