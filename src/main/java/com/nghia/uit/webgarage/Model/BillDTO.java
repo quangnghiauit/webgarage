@@ -137,6 +137,7 @@ public class BillDTO {
         }
         status = billDTO.getStatus();
         userID = billDTO.getUserID();
+        createdDate = billDTO.getCreatedDate();
         if(!detailBillDTOList.isEmpty()) {
             detailBillDTOS = detailBillDTOList;
         }

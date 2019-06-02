@@ -87,9 +87,11 @@ public class DetailBillDTO {
         if(!strMaterialName.isEmpty()) {
             materialName = strMaterialName;
         }
+        id = detailRepairBill.getId();
         materialID = detailRepairBill.getMaterialID();
         reqNum = detailRepairBill.getReqNum();
         price = detailRepairBill.getReqNum();
+        createdDate = detailRepairBill.getCreatedDate();
 
         if(reqNum > 0 && price > 0 ) {
             totalMoney = reqNum * price;
