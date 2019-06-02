@@ -19,6 +19,10 @@
     float: right;
 }
 
+.bill-info #btn-export-bill{
+    float:right;
+}
+
 .history-trans-user .search{
     width: 40%;
     left: 60%;
