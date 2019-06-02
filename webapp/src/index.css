@@ -18,3 +18,39 @@
 .search-car #pagination{
     float: right;
 }
+
+.history-trans-user .search{
+    width: 40%;
+    left: 60%;
+}
+.history-trans-user #table-cars{
+    margin-top: 10px;
+}
+.history-trans-user #pagination{
+    float: right;
+}
+.history-trans-user #list-cars{
+    height: 437px;
+}
+
+.role-management .search{
+    width: 30%;
+    left: 70%;
+}
+.role-management #table-roles{
+    margin-top: 10px;
+}
+.role-management #pagination{
+    float: right;
+}
+
+.user-management .search{
+    width: 30%;
+    left: 70%;
+}
+.user-management #table-users{
+    margin-top: 10px;
+}
+.user-management #pagination{
+    float: right;
+}

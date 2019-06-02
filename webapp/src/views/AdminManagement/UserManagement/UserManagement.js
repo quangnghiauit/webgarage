@@ -8,12 +8,16 @@ import {
     FormGroup,
     FormText,
     Input,
+    InputGroup,
     Label,
     Modal,
     ModalBody,
     ModalFooter,
     ModalHeader,
-    Table
+    Table,
+    Pagination,
+    PaginationItem,
+    PaginationLink
 } from 'reactstrap';
 import {getRole} from '../../../api/AdminManagement/RoleManagement/roleManagement'
 import {
@@ -56,6 +60,11 @@ class UserManagement extends Component {
             closeAllDelete:false,
             resultDelete:null,
 
+            curPaItem:1,
+            maxRows: 10,
+            maxPaItems: 3,
+            definePa:[],
+            filterPa:[]
         };
         this.toggleAddUser=this.toggleAddUser.bind(this);
         this.toggleUser=this.toggleUser.bind(this);
@@ -69,6 +78,11 @@ class UserManagement extends Component {
         this.toggleDelete = this.toggleDelete.bind(this);
         this.toggleNestedDelete = this.toggleNestedDelete.bind(this);
         this.toggleAllDelete = this.toggleAllDelete.bind(this);
+        
+        this.filterPa=this.filterPa.bind(this);
+        this.togglePa=this.togglePa.bind(this);
+        this.toggleNext=this.toggleNext.bind(this);
+        this.togglePre=this.togglePre.bind(this);
     }
 
     componentDidMount(){
@@ -86,10 +100,148 @@ class UserManagement extends Component {
         getUsers().then(res=>{
             this.setState({
                 listUser:res.data
+            },()=>{
+                const table=document.getElementById('table-users');
+                const tr=table.getElementsByTagName('tr');
+                if(tr.length-1>this.state.maxRows)
+                {
+                    let temp=[];
+                    for(let i=1;i<=Math.ceil((tr.length-1)/this.state.maxRows);i++)
+                        temp.push(i);
+                    this.setState({definePa:temp},
+                        ()=>{
+                            if(this.state.definePa.length-this.state.curPaItem+1>=this.state.maxPaItems)
+                            {
+                                let temp=[];
+                                for(let i=this.state.curPaItem-1;i<this.state.curPaItem+this.state.maxPaItems-1;i++)
+                                {
+                                    temp.push(this.state.definePa[i]);
+                                }
+                                this.setState({filterPa:temp});
+                            }
+                            else
+                            {
+                                let temp=[];
+                                if(this.state.definePa.length-this.state.maxPaItems>=0)
+                                    for(let i=this.state.definePa.length-this.state.maxPaItems;i<this.state.definePa.length;i++)
+                                        temp.push(this.state.definePa[i]);
+                                else{
+                                    temp=[...this.state.definePa];
+                                }
+                                this.setState({filterPa:temp});
+                            }
+                        });
+                }
+                else
+                    this.setState({definePa:[1]},
+                        ()=>{
+                            this.setState({filterPa:this.state.definePa});
+                        });
+                this.filterPa();
             })
-
         })
+    }
+    filterTable(){
+        let td,txtValue,display;
+        const filter = document.getElementById("search").value.toUpperCase();
+        const table = document.getElementById("table-users");
+        const tr = table.getElementsByTagName("tr");
+        for (let i = 0; i < tr.length; i++) {
+            td = tr[i].getElementsByTagName("td");
+            display=false;
+            for(let j=0;j<td.length;j++){
+                txtValue = td[j].textContent || td[j].innerText;
+                if (txtValue.toUpperCase().indexOf(filter) > -1)
+                {
+                    display=true;
+                    break;
+                }
+            }
+            if (display) {
+                tr[i].style.display = "";
+            } else {
+                tr[i].style.display = "none";
+            }
 
+        }
+    }
+
+    filterPa(){
+        const table=document.getElementById('table-users');
+        const tr=table.getElementsByTagName('tr');
+        for(let i=1;i<tr.length;i++)
+        {
+            if((i>=(this.state.curPaItem-1)*this.state.maxRows+1) && (i<=this.state.curPaItem*this.state.maxRows))
+                tr[i].style.display='';
+            else
+                tr[i].style.display='none';
+        }
+    }
+    togglePre(){
+        if(this.state.curPaItem > 1)
+        {
+            this.setState({
+                curPaItem:this.state.curPaItem-1
+            },()=>{
+                this.filterPa();
+                if(this.state.definePa.length-this.state.curPaItem+1>=this.state.maxPaItems)
+                {
+                    let temp=[];
+                    for(let i=this.state.curPaItem-1;i<this.state.curPaItem+this.state.maxPaItems-1;i++)
+                    {
+                        temp.push(this.state.definePa[i]);
+                    }
+                    this.setState({filterPa:temp});
+                }
+                else
+                {
+                    let temp=[];
+                    if(this.state.definePa.length-this.state.maxPaItems>=0)
+                        for(let i=this.state.definePa.length-this.state.maxPaItems;i<this.state.definePa.length;i++)
+                            temp.push(this.state.definePa[i]);
+                    else{
+                        temp=[...this.state.definePa];
+                    }
+                    this.setState({filterPa:temp});
+                }
+            });
+        }
+    }
+    toggleNext(){
+        if(this.state.curPaItem*this.state.maxRows<this.state.listUser.length)
+        {
+            this.setState({
+                curPaItem:this.state.curPaItem+1
+            },()=>{
+                this.filterPa();
+                if(this.state.definePa.length-this.state.curPaItem+1>=this.state.maxPaItems)
+                {
+                    let temp=[];
+                    for(let i=this.state.curPaItem-1;i<this.state.curPaItem+this.state.maxPaItems-1;i++)
+                    {
+                        temp.push(this.state.definePa[i]);
+                    }
+                    this.setState({filterPa:temp});
+                }
+                else
+                {
+                    let temp=[];
+                    if(this.state.definePa.length-this.state.maxPaItems>=0)
+                        for(let i=this.state.definePa.length-this.state.maxPaItems;i<this.state.definePa.length;i++)
+                            temp.push(this.state.definePa[i]);
+                    else{
+                        temp=[...this.state.definePa];
+                    }
+                    this.setState({filterPa:temp});
+                }
+            });
+        }
+    }
+    togglePa(i){
+        this.setState({
+            curPaItem:i
+        },()=>{this.filterPa()}
+        );
     }
     handleAddUser(){
         const params={
@@ -230,15 +382,32 @@ class UserManagement extends Component {
 
     render() {
         const {listRole,listUser,user,resultAdd,resultDelete,resultUpdate}=this.state;
+        const listPaItems=this.state.filterPa.map((i,index)=>
+            this.state.curPaItem===i?
+                <PaginationItem key={index} active id={'paItem'+i}>
+                    <PaginationLink onClick={()=>this.togglePa(i)}>{i}</PaginationLink>
+                </PaginationItem>
+                :
+                <PaginationItem key={index} id={'paItem'+i}>
+                    <PaginationLink onClick={()=>this.togglePa(i)}>{i}</PaginationLink>
+                </PaginationItem>
+
+        );
         return (
-            <div className="animated manage-account">
+            <div className="animated user-management">
                 <Card>
                     <CardHeader>
                         <i className="icon-menu"></i>Quản lý tài khoản
                         <Button onClick={this.toggleAddUser} color="link" size="sm">Thêm tài khoản</Button>
                     </CardHeader>
                     <CardBody>
-                        <Table responsive>
+                        <InputGroup className="search">
+                            <Input type="text" id="search" onKeyUp={this.filterTable} placeholder="Search..." title="Enter a search info" />
+                            <div className="input-group-append">
+                                <i className="fa fa-search form-control" aria-hidden="true"></i>
+                            </div>
+                        </InputGroup>
+                        <Table id="table-users" responsive>
                             <thead>
                                 <tr>
                                     <th>ID</th>
@@ -265,7 +434,15 @@ class UserManagement extends Component {
                                 }
                             </tbody>
                         </Table>
-
+                        <Pagination id="pagination">
+                            <PaginationItem>
+                                <PaginationLink previous onClick={this.togglePre}/>
+                            </PaginationItem>
+                            {listPaItems}
+                            <PaginationItem>
+                                <PaginationLink next onClick={this.toggleNext}/>
+                            </PaginationItem>
+                        </Pagination>
                     </CardBody>
                 </Card>
 

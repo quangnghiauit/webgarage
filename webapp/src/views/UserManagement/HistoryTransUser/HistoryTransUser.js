@@ -19,9 +19,11 @@ import {
     ModalBody,
     ModalFooter,
     FormText,
-    Collapse
+    Collapse,
+    Pagination,
+    PaginationLink,
+    PaginationItem
 } from 'reactstrap';
-import ScrollArea from 'react-scrollbar'
 import { TextMask, InputAdapter } from 'react-text-mask-hoc';
 import {addClient, getInfoClient, updateClient} from "../../../api/UserManagement/userManagement";
 import {addCar, getListCarByUserID, processStatusHandleCar} from "../../../api/CarManagement/carmanagement";
@@ -54,7 +56,13 @@ class HistoryTransUser extends Component {
             modalProcessStatusHandleCar: false,
             nestedModalProcessStatusHandleCar: false,
             closeAllProcessStatusHandleCar: false,
-            collapseBill:false
+            collapseBill:false,
+
+            curPaItem:1,
+            maxRows: 5,
+            maxPaItems: 3,
+            definePa:[],
+            filterPa:[]
         };
         this.toggleUpdate=this.toggleUpdate.bind(this);
         this.toggleBill=this.toggleBill.bind(this);
@@ -70,7 +78,10 @@ class HistoryTransUser extends Component {
         this.toggleProcessStatusHandleCar = this.toggleProcessStatusHandleCar.bind(this);
         this.toggleProcess = this.toggleProcess.bind(this);
 
-
+        this.filterPa=this.filterPa.bind(this);
+        this.togglePa=this.togglePa.bind(this);
+        this.toggleNext=this.toggleNext.bind(this);
+        this.togglePre=this.togglePre.bind(this);
 
     }
 
@@ -95,10 +106,150 @@ class HistoryTransUser extends Component {
         getListCarByUserID(userID).then(res => {
             this.setState({
                 listCar:res.data
+            },()=>{
+                const table=document.getElementById('table-cars');
+                const tr=table.getElementsByTagName('tr');
+                if(tr.length-1>this.state.maxRows)
+                {
+                    let temp=[];
+                    for(let i=1;i<=Math.ceil((tr.length-1)/this.state.maxRows);i++)
+                        temp.push(i);
+                    this.setState({definePa:temp},
+                        ()=>{
+                            if(this.state.definePa.length-this.state.curPaItem+1>=this.state.maxPaItems)
+                            {
+                                let temp=[];
+                                for(let i=this.state.curPaItem-1;i<this.state.curPaItem+this.state.maxPaItems-1;i++)
+                                {
+                                    temp.push(this.state.definePa[i]);
+                                }
+                                this.setState({filterPa:temp});
+                            }
+                            else
+                            {
+                                let temp=[];
+                                if(this.state.definePa.length-this.state.maxPaItems>=0)
+                                    for(let i=this.state.definePa.length-this.state.maxPaItems;i<this.state.definePa.length;i++)
+                                        temp.push(this.state.definePa[i]);
+                                else{
+                                    temp=[...this.state.definePa];
+                                }
+                                this.setState({filterPa:temp});
+                            }
+                        });
+                }
+                else
+                    this.setState({definePa:[1]},
+                        ()=>{
+                            this.setState({filterPa:this.state.definePa});
+                        });
+                this.filterPa();
             })
         })
+
+    }
+    filterTable(){
+        let td,txtValue,display;
+        const filter = document.getElementById("search").value.toUpperCase();
+        const table = document.getElementById("table-cars");
+        const tr = table.getElementsByTagName("tr");
+        for (let i = 0; i < tr.length; i++) {
+            td = tr[i].getElementsByTagName("td");
+            display=false;
+            for(let j=0;j<td.length;j++){
+                txtValue = td[j].textContent || td[j].innerText;
+                if (txtValue.toUpperCase().indexOf(filter) > -1)
+                {
+                    display=true;
+                    break;
+                }
+            }
+            if (display) {
+                tr[i].style.display = "";
+            } else {
+                tr[i].style.display = "none";
+            }
+
+        }
     }
 
+    filterPa(){
+        const table=document.getElementById('table-cars');
+        const tr=table.getElementsByTagName('tr');
+        for(let i=1;i<tr.length;i++)
+        {
+            if((i>=(this.state.curPaItem-1)*this.state.maxRows+1) && (i<=this.state.curPaItem*this.state.maxRows))
+                tr[i].style.display='';
+            else
+                tr[i].style.display='none';
+        }
+    }
+    togglePre(){
+        if(this.state.curPaItem > 1)
+        {
+            this.setState({
+                curPaItem:this.state.curPaItem-1
+            },()=>{
+                this.filterPa();
+                if(this.state.definePa.length-this.state.curPaItem+1>=this.state.maxPaItems)
+                {
+                    let temp=[];
+                    for(let i=this.state.curPaItem-1;i<this.state.curPaItem+this.state.maxPaItems-1;i++)
+                    {
+                        temp.push(this.state.definePa[i]);
+                    }
+                    this.setState({filterPa:temp});
+                }
+                else
+                {
+                    let temp=[];
+                    if(this.state.definePa.length-this.state.maxPaItems>=0)
+                        for(let i=this.state.definePa.length-this.state.maxPaItems;i<this.state.definePa.length;i++)
+                            temp.push(this.state.definePa[i]);
+                    else{
+                        temp=[...this.state.definePa];
+                    }
+                    this.setState({filterPa:temp});
+                }
+            });
+        }
+    }
+    toggleNext(){
+        if(this.state.curPaItem*this.state.maxRows<this.state.listCar.length)
+        {
+            this.setState({
+                curPaItem:this.state.curPaItem+1
+            },()=>{
+                this.filterPa();
+                if(this.state.definePa.length-this.state.curPaItem+1>=this.state.maxPaItems)
+                {
+                    let temp=[];
+                    for(let i=this.state.curPaItem-1;i<this.state.curPaItem+this.state.maxPaItems-1;i++)
+                    {
+                        temp.push(this.state.definePa[i]);
+                    }
+                    this.setState({filterPa:temp});
+                }
+                else
+                {
+                    let temp=[];
+                    if(this.state.definePa.length-this.state.maxPaItems>=0)
+                        for(let i=this.state.definePa.length-this.state.maxPaItems;i<this.state.definePa.length;i++)
+                            temp.push(this.state.definePa[i]);
+                    else{
+                        temp=[...this.state.definePa];
+                    }
+                    this.setState({filterPa:temp});
+                }
+            });
+        }
+    }
+    togglePa(i){
+        this.setState({
+            curPaItem:i
+        },()=>{this.filterPa()}
+        );
+    }
     handleUpdateUser(userID) {
         const requestParams ={
             displayname : this.state.displayname,
@@ -223,8 +374,19 @@ class HistoryTransUser extends Component {
     }
     render() {
         const {resultAdd,resultUpdateUser,listCar,resultProcessStatusHandleCar} = this.state;
+        const listPaItems=this.state.filterPa.map((i,index)=>
+            this.state.curPaItem===i?
+                <PaginationItem key={index} active id={'paItem'+i}>
+                    <PaginationLink onClick={()=>this.togglePa(i)}>{i}</PaginationLink>
+                </PaginationItem>
+                :
+                <PaginationItem key={index} id={'paItem'+i}>
+                    <PaginationLink onClick={()=>this.togglePa(i)}>{i}</PaginationLink>
+                </PaginationItem>
+
+        );
         return (
-            <div className="animated fadeIn manage-customer">
+            <div className="animated fadeIn history-trans-user">
                 <Row>
                     <Col xs="12" lg="6">
                         <Card>
@@ -232,8 +394,6 @@ class HistoryTransUser extends Component {
                                 <i className="fa fa-align-justify"></i> Thông tin khách hàng
                             </CardHeader>
                             <CardBody >
-                                <ScrollArea
-                                    className="manage-customer-info">
                                     <FormGroup>
                                         <Label htmlFor="id">Mã khách hàng</Label>
                                         <Input type="text" id="id" placeholder="Enter your id"
@@ -269,7 +429,6 @@ class HistoryTransUser extends Component {
                                                value={this.state.phoneNumber}
                                                 />
                                     </FormGroup>
-                                </ScrollArea>
                             </CardBody>
                             <CardFooter>
                                 <Button className="float-right" color="success"  onClick={()=>this.handleUpdateUser(this.state.userID)}>Cập nhật</Button>
@@ -282,10 +441,14 @@ class HistoryTransUser extends Component {
                             <CardHeader>
                                 <i className="fa fa-align-justify"></i> Danh sách xe
                             </CardHeader>
-                            <CardBody>
-                                <ScrollArea
-                                    className="manage-customer-listcar">
-                                    <Table responsive striped>
+                            <CardBody id="list-cars">
+                            <InputGroup className="search">
+                                <Input type="text" id="search" onKeyUp={this.filterTable} placeholder="Search..." title="Enter a search info" />
+                                <div className="input-group-append">
+                                    <i className="fa fa-search form-control" aria-hidden="true"></i>
+                                </div>
+                            </InputGroup>
+                                    <Table id="table-cars" responsive striped>
                                         <thead>
                                         <tr>
                                             <th>ID</th>
@@ -340,8 +503,15 @@ class HistoryTransUser extends Component {
                                         }
                                         </tbody>
                                     </Table>
-                                </ScrollArea>
-
+                                    <Pagination id="pagination">
+                                    <PaginationItem>
+                                        <PaginationLink previous onClick={this.togglePre}/>
+                                    </PaginationItem>
+                                        {listPaItems}
+                                    <PaginationItem>
+                                        <PaginationLink next onClick={this.toggleNext}/>
+                                    </PaginationItem>
+                                    </Pagination>
                             </CardBody>
                             <CardFooter>
                                 <Button className="float-right" color="success" onClick={this.toggleAdd}>Thêm xe</Button>
