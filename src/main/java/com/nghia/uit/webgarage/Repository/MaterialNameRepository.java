@@ -17,4 +17,7 @@ public interface MaterialNameRepository extends CrudRepository<MaterialName,Inte
 
     @Query(value = "select * from material_name as m where m.materialName =?1",nativeQuery = true)
     MaterialName findByName(String materialName);
+
+    @Query(value = "select * from material_name as m where m.materialID =?1",nativeQuery = true)
+    MaterialName findByMaterialID(String materialID);
 }
