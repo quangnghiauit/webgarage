@@ -145,13 +145,11 @@ class CarHandleInfo extends Component {
                                             <td>
                                                 {item.isactive == 0
                                                     ?
-                                                    <Button color="success"
-                                                            onClick={() => this.handleUserBill(item.userID)}>Không
-                                                        có</Button>
+                                                    <Badge color="success">Không
+                                                        có</Badge>
                                                     :
-                                                    <Button color="warning"
-                                                            onClick={() => this.handleUserBill(item.userID)}>Đang xử
-                                                        lý</Button>
+                                                    <Badge color="warning">Đang xử
+                                                        lý</Badge>
                                                 }
                                             </td>
                                         </tr>
