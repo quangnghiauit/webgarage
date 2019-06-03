@@ -20,16 +20,7 @@ import {
     Col, Badge, Table, Row
 } from 'reactstrap';
 import {addTransMaterial, getInfoMaterialUser, updateMaterial} from "../../../api/TransManagement/transmanagement";
-import {addClient} from "../../../api/UserManagement/userManagement";
-import {getListMaterial} from "../../../api/materialManagement/materialManagement";
-
-
-const cellEditProp = {
-    mode: 'click',
-    blurToSave: true
-};
-
-const materials=['bánh xe','lốp xe','kính'];
+import {getListMaterialName} from "../../../api/materialManagement/materialManagement";
 
 class HandlingCar extends Component {
     constructor(props) {
@@ -93,7 +84,7 @@ class HandlingCar extends Component {
     }
 
     componentDidMount() {
-        getListMaterial().then(res => {
+        getListMaterialName().then(res => {
             this.setState({
                 listMaterial:res.data
             },()=>console.log(this.state.listMaterial))
@@ -343,8 +334,7 @@ class HandlingCar extends Component {
                         <select
                             className="form-control"
                             id={"listMaterial"}
-                            onChange={(e) => this.setState({materialID: e.target.value},
-                                () => console.log('materialID: '+this.state.materialID))}>
+                            onChange={(e) => this.setState({materialID: e.target.value})}>
                             <option value={null}>Chọn loại phụ tùng</option>
                             {listMaterial.map(item => {
                                 return (
@@ -363,14 +353,14 @@ class HandlingCar extends Component {
                     <FormGroup>
                         <Label htmlFor="address">Thông tin sửa chữa</Label>
                         <Input type="text" id="infoBill" value={this.state.infoBill}
-                               onChange={(e) => this.setState({infoBill: e.target.value}, () => console.log(this.state.infoBill))}
+                               onChange={(e) => this.setState({infoBill: e.target.value})}
                                placeholder="Enter your info bill" required/>
                         <FormText className="help-block">Please enter your infoBill</FormText>
                     </FormGroup>
                     <FormGroup>
                         <Label htmlFor="reqNum">Số lượng</Label>
                         <Input type="text" id="reqNum" value={this.state.reqNum}
-                               onChange={(e) => this.setState({reqNum: e.target.value}, () => console.log(this.state.reqNum))}
+                               onChange={(e) => this.setState({reqNum: e.target.value})}
                                placeholder="Enter your reqNum" required/>
                         <FormText className="help-block">Please enter your reqNum</FormText>
                     </FormGroup>

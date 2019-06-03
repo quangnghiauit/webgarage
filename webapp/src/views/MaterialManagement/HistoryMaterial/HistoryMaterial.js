@@ -19,7 +19,11 @@ import {
     Button, Table
 } from 'reactstrap';
 import {addClient, getAllClient} from "../../../api/UserManagement/userManagement";
-import {addHistoryMaterial, getListMaterial} from "../../../api/materialManagement/materialManagement";
+import {
+    addHistoryMaterial, addMaterialName,
+    getListMaterial,
+    getListMaterialName
+} from "../../../api/materialManagement/materialManagement";
 
 class HistoryMaterial extends Component {
     constructor(props) {
@@ -27,36 +31,57 @@ class HistoryMaterial extends Component {
 
         this.state = {
             materialID:'',
+            materialName:'',
+            newMaterialName:'',
             price:'',
             numInput:'',
             listTable: [],
             resultList: [],
+            listMaterialName:[],
             resultAdd: null,
             modalAdd: false,
             nestedModalAdd: false,
             closeAllAdd: false,
+
+            resultAddName: null,
+            modalAddName: false,
+            nestedModalAddName: false,
+            closeAllAddName: false,
         }
 
+        this.toggleAddMaterials= this.toggleAddMaterials.bind(this);
         this.toggleAdd = this.toggleAdd.bind(this);
         this.toggleNestedAdd = this.toggleNestedAdd.bind(this);
         this.toggleAllAdd = this.toggleAllAdd.bind(this);
+
+        this.toggleAddName = this.toggleAddName.bind(this);
+        this.toggleNestedAddName = this.toggleNestedAddName.bind(this);
+        this.toggleAllAddName = this.toggleAllAddName.bind(this);
     }
 
     componentDidMount() {
 
         this.handleSearch()
+        this.handleGetListMaterialName()
 
     }
 
     handleSearch() {
 
         getListMaterial().then(response => {
-            console.log('bleeeeee', response)
             this.setState({
                 listTable: response.data,
                 resultList: response.data
-            }, () => console.log('hihihihi', this.state.listTable))
+            })
 
+        })
+    }
+
+    handleGetListMaterialName() {
+        getListMaterialName().then(res => {
+            this.setState({
+                listMaterialName:res.data
+            },()=>console.log(this.state.listMaterialName))
         })
     }
 
@@ -73,6 +98,12 @@ class HistoryMaterial extends Component {
             closeAllAdd: true
         });
         window.location.reload();
+    }
+
+    toggleAddMaterials() {
+        this.setState({
+            modalAdd: !this.state.modalAdd
+        });
     }
 
     handleAddMaterial() {
@@ -96,13 +127,56 @@ class HistoryMaterial extends Component {
     }
 
     toggleAdd() {
-        this.setState(prevState => ({
-            modalAdd: !prevState.modalAdd
-        }));
+        this.setState({
+            modalAdd: !this.state.modalAdd
+        });
+    }
+
+    toggleAddName() {
+        this.setState({
+            modalAddName: !this.state.modalAddName
+        });
+    }
+
+    toggleNestedAddName() {
+        this.setState({
+            nestedModalAddName: !this.state.nestedModalAddName,
+            closeAllAddName: false
+        });
+    }
+
+    toggleAllAddName() {
+        this.setState({
+            nestedModalAddName: !this.state.nestedModalAddName,
+            closeAllAddName: true
+        });
+        window.location.reload();
+    }
+
+    toggleAddNameMaterial() {
+        this.setState({
+            closeAllAdd: false,
+            modalAddName: !this.state.modalAddName
+
+        });
+    }
+
+    handleAddMaterialName() {
+        if (this.state.newMaterialName) {
+            addMaterialName(this.state.newMaterialName).then(res => {
+                console.log('truoc add', res)
+                this.setState({
+                    resultAddName: res.data
+                }, () => this.toggleNestedAddName())
+
+            })
+        } else {
+            alert("Vui lòng điền đầy đủ thông tin.")
+        }
     }
 
     render() {
-        const {resultList, resultAdd} = this.state;
+        const {resultList, resultAdd,resultAddName,listMaterialName} = this.state;
         return (
             <div className="animated import-materials">
                 <Card>
@@ -140,68 +214,55 @@ class HistoryMaterial extends Component {
                             </tbody>
                         </Table>
                     </CardBody>
-                    <CardFooter>
-                        <Button className="float-right" color="success">Lưu</Button>
-                    </CardFooter>
+                    {/*<CardFooter>*/}
+                        {/*<Button className="float-right" color="success">Lưu</Button>*/}
+                    {/*</CardFooter>*/}
                 </Card>
 
                 <Modal isOpen={this.state.modalAdd} toggle={this.toggleAdd}
                        className={'modal-info modal-lg modal-lg-custom'
                        + this.props.className}>
-                    <ModalHeader toggle={this.toggleAdd}>Thêm khách hàng</ModalHeader>
+                    <ModalHeader toggle={this.toggleAdd}>Thêm phụ tùng</ModalHeader>
                     <ModalBody>
                         <FormGroup>
-                            <Label htmlFor="name">Tên khách hàng</Label>
-                            <Input type="text" id="name" value={this.state.displayname}
-                                   onChange={(e) => this.setState({displayname: e.target.value}, () => console.log(this.state.displayname))}
-                                   placeholder="Enter your name" required/>
-                            <FormText className="help-block">Please enter your name</FormText>
+                            <Label htmlFor="name">Tên phụ tùng</Label>
+                            <Button color="success"
+                                    onClick={() => this.toggleAddNameMaterial()}>+</Button>
+                            <select
+                                className="form-control"
+                                id={"listMaterial"}
+                                onChange={(e) => this.setState({materialID: e.target.value},
+                                    () => console.log('materialID: '+this.state.materialID))}>
+                                <option value={null}>Chọn tên phụ tùng</option>
+                                {listMaterialName.map(item => {
+                                    return (
+                                        <option key={item.id} value={item.materialID}>
+                                            {
+                                                item.materialName
+                                            }
+                                        </option>
+                                    );
+                                })}
+                            </select>
                         </FormGroup>
                         <FormGroup>
-                            <Label>Số điện thoại</Label>
-                            <InputGroup>
-                                <div className="input-group-prepend">
-                                    <span className="input-group-text"><i className="fa fa-phone"></i></span>
-                                </div>
-                                <TextMask
-                                    mask={['(', '+', /[1-9]/, /\d/, ')', ' ', /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/]}
-                                    Component={InputAdapter}
-                                    value={this.state.phoneNumber}
-                                    onChange={(e) => this.setState({phoneNumber: e.target.value}, () => console.log(this.state.phoneNumber))}
-                                    className="form-control"
-                                />
-                            </InputGroup>
-                            <FormText color="muted">
-                                ex. (+84) 978-301-442
-                            </FormText>
+                            <Label htmlFor="reqNum">Số lượng</Label>
+                            <Input type="text" id="reqNum" value={this.state.numInput}
+                                   onChange={(e) => this.setState({numInput: e.target.value})}
+                                   placeholder="Enter your reqNum" required/>
+                            <FormText className="help-block">Please enter your reqNum</FormText>
                         </FormGroup>
                         <FormGroup>
-                            <Label htmlFor="address">Địa chỉ</Label>
-                            <Input type="text" id="address" value={this.state.address}
-                                   onChange={(e) => this.setState({address: e.target.value}, () => console.log(this.state.address))}
-                                   placeholder="Enter your address" required/>
-                            <FormText className="help-block">Please enter your address</FormText>
+                            <Label htmlFor="reqNum">Đơn giá</Label>
+                            <Input type="text" id="reqNum" value={this.state.price}
+                                   onChange={(e) => this.setState({price: e.target.value})}
+                                   placeholder="Enter your price" required/>
+                            <FormText className="help-block">Please enter your price</FormText>
                         </FormGroup>
-                        <FormGroup>
-                            <Label htmlFor="address">Tên đăng nhập (UserName)</Label>
-                            <Input type="text" id="username" value={this.state.userName}
-                                   onChange={(e) => this.setState({userName: e.target.value}, () => console.log(this.state.userName))}
-                                   placeholder="Enter your username" required/>
-                            <FormText className="help-block">Please enter your username</FormText>
-                        </FormGroup>
-                        <FormGroup>
-                            <Label htmlFor="email">Mật khẩu (Password)</Label>
-                            <Input type="password" id="password" name="password"
-                                   value={this.state.password}
-                                   onChange={(e) => this.setState({password: e.target.value}, () => console.log(this.state.password))}
-                                   placeholder="Enter password.."/>
-                            <FormText className="help-block">Please enter password</FormText>
-                        </FormGroup>
-
                     </ModalBody>
                     <ModalFooter>
                         <Button color="primary"
-                                onClick={() => this.handleAddUser()}>Submit</Button>{' '}
+                                onClick={() => this.handleAddMaterial()}>Submit</Button>{' '}
                         <Button color="secondary" onClick={this.toggleAdd}>Cancel</Button>
                     </ModalFooter>
                 </Modal>
@@ -216,6 +277,41 @@ class HistoryMaterial extends Component {
                     <ModalBody>
                         {resultAdd ?
                             resultAdd.returnMessage : null
+                        }
+                    </ModalBody>
+                </Modal>
+
+
+                <Modal isOpen={this.state.modalAddName} toggle={this.toggleAddName}
+                       className={'modal-info modal-lg modal-lg-custom'
+                       + this.props.className}>
+                    <ModalHeader toggle={this.toggleAddName}>Thêm tên phụ tùng mới</ModalHeader>
+                    <ModalBody>
+                        <FormGroup>
+                            <Label htmlFor="name">Tên phụ tùng mới</Label>
+                            <Input type="text" id="newMaterialName" value={this.state.newMaterialName}
+                                   onChange={(e) => this.setState({newMaterialName: e.target.value})}
+                                   placeholder="Enter your name new material" required/>
+                            <FormText className="help-block">Please enter your name new material</FormText>
+                        </FormGroup>
+                    </ModalBody>
+                    <ModalFooter>
+                        <Button color="primary"
+                                onClick={() => this.handleAddMaterialName()}>Submit</Button>{' '}
+                        <Button color="secondary" onClick={this.toggleAddName}>Cancel</Button>
+                    </ModalFooter>
+                </Modal>
+
+                <Modal isOpen={this.state.nestedModalAddName}
+                       toggle={() => this.toggleNestedAddName()}
+                       onClosed={this.state.closeAllAddName ? () => this.toggleAddName()
+                           : undefined}
+                       className={'modal-info ' + this.props.className} centered>
+                    <ModalHeader toggle={() => this.toggleAllAddName()}>Thông
+                        báo</ModalHeader>
+                    <ModalBody>
+                        {resultAddName ?
+                            "Thêm tên vật tư mới thành công" : null
                         }
                     </ModalBody>
                 </Modal>

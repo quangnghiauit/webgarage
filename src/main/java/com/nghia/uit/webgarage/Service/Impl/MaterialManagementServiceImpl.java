@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 
 @Service
 public class MaterialManagementServiceImpl implements MaterialManagementService {
@@ -61,15 +62,17 @@ public class MaterialManagementServiceImpl implements MaterialManagementService 
     public ResponseDTO addMaterial(Material material,String currentUser) {
         try {
             String strID= null;
+            String strMaterialName = null;
             if(material.getMaterialID()!=null&&material.getMaterialID()!="") {
-                List<Material> checkDuplicateMateID = materialRepository.findAllByMaterialID(material.getMaterialID());
-                if(checkDuplicateMateID!=null&&checkDuplicateMateID.size()!=0) {
-                    strID= checkDuplicateMateID.get(0).getMaterialID();
+                MaterialName checkDuplicateMateID = materialNameRepository.findByMaterialID(material.getMaterialID());
+                if(!Objects.isNull(checkDuplicateMateID)) {
+                    strID= checkDuplicateMateID.getMaterialID();
+                    strMaterialName = checkDuplicateMateID.getMaterialName();
                 }
             }
             Material material1 = new Material();
             material.setCreatedBy(currentUser);
-            material1.doMappingMaterial(material,strID);
+            material1.doMappingMaterial(material,strID,strMaterialName);
             materialRepository.save(material1);
             return new ResponseDTO().success(Constants.DONE_ADDREQUESTMATERIAL);
         } catch (Exception ex) {
@@ -84,7 +87,7 @@ public class MaterialManagementServiceImpl implements MaterialManagementService 
         try{
             if(id!=null&&id!="") {
                 Material material1 = materialRepository.findById(id);
-                material1.doMappingMaterial(material,material.getMaterialID());
+                material1.doMappingMaterial(material,material.getMaterialID(),material.getMaterialName());
                 materialRepository.save(material1);
                 return new ResponseDTO().success(Constants.DONE_UPDATEREQUESTMATERIAL);
             }

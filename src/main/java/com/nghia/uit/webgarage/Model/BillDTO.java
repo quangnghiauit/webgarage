@@ -141,6 +141,5 @@ public class BillDTO {
         if(!detailBillDTOList.isEmpty()) {
             detailBillDTOS = detailBillDTOList;
         }
-
     }
 }

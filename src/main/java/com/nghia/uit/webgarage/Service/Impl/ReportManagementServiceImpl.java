@@ -48,7 +48,6 @@ public class ReportManagementServiceImpl implements ReportManagementService {
 
                     if(!detailRepairBills.isEmpty()) {
 
-
                         for(DetailRepairBill detailRepairBill :detailRepairBills) {
                             DetailBillDTO detailBillDTO = new DetailBillDTO();
                             String strMaterialName = null;

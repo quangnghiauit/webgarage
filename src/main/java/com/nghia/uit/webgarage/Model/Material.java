@@ -117,34 +117,37 @@ public class Material {
                 '}';
     }
 
-    public void doMappingMaterial(Material material,String strID) {
+    public void doMappingMaterial(Material material,String strID,String strMaterialName) {
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         Date date = new Date();
         reqDate = dateFormat.format(date); //2019/03/13 20:08:43
         String strName = dateFormat.format(date);
 
-        StringBuilder stringBuilder = new StringBuilder();
-        String strNameSplit= material.getMaterialName();
-        String[] parts = strNameSplit.split("\\s+");
 
-        if (parts.length != 1) {
-            String firstStr = parts[0].substring(0,1).toUpperCase();
-            String lastStr = parts[1].substring(0,1).toUpperCase();
-            stringBuilder.append(firstStr).append(lastStr);
-        } else {
-            stringBuilder.append(parts[0].substring(0, 1).toUpperCase()).append("Z");
-        }
-        stringBuilder.append(ServiceUtils.convertData(strName));
-        String strMaterialID= String.valueOf(stringBuilder);
 
         if(strID!=null&&strID!="") {
             materialID=strID;
         } else {
+            StringBuilder stringBuilder = new StringBuilder();
+            String strNameSplit= material.getMaterialName();
+            String[] parts = strNameSplit.split("\\s+");
+
+            if (parts.length != 1) {
+                String firstStr = parts[0].substring(0,1).toUpperCase();
+                String lastStr = parts[1].substring(0,1).toUpperCase();
+                stringBuilder.append(firstStr).append(lastStr);
+            } else {
+                stringBuilder.append(parts[0].substring(0, 1).toUpperCase()).append("Z");
+            }
+            stringBuilder.append(ServiceUtils.convertData(strName));
+            String strMaterialID= String.valueOf(stringBuilder);
             materialID=strMaterialID;
         }
 
         materialID=material.getMaterialID();
-        materialName = material.getMaterialName();
+        if(!strMaterialName.isEmpty()) {
+            materialName = strMaterialName;
+        }
         price = material.getPrice();
         numInput = material.getNumInput();
     }

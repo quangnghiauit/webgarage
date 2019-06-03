@@ -10,7 +10,16 @@ export function getListMaterial() {
     return httpGet(BASE_URL + '/get-all-material');
 }
 
+export function getListMaterialName() {
+    return httpGet(BASE_URL + '/get-all-name-material');
+}
+
 export function addHistoryMaterial(requestParams) {
-    return httpPost(BASE_URL+'add-material',requestParams)
+    return httpPost(BASE_URL+'/add-material',requestParams)
+
+}
+
+export function addMaterialName(mateName) {
+    return httpPost(BASE_URL + '/add-name-material?mateName=' + mateName);
 
 }
