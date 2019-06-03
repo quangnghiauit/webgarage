@@ -81,7 +81,7 @@ class HistoryMaterial extends Component {
         getListMaterialName().then(res => {
             this.setState({
                 listMaterialName:res.data
-            },()=>console.log(this.state.listMaterialName))
+            })
         })
     }
 
@@ -231,8 +231,7 @@ class HistoryMaterial extends Component {
                             <select
                                 className="form-control"
                                 id={"listMaterial"}
-                                onChange={(e) => this.setState({materialID: e.target.value},
-                                    () => console.log('materialID: '+this.state.materialID))}>
+                                onChange={(e) => this.setState({materialID: e.target.value},()=>console.log(this.state.materialID))}>
                                 <option value={null}>Chọn tên phụ tùng</option>
                                 {listMaterialName.map(item => {
                                     return (

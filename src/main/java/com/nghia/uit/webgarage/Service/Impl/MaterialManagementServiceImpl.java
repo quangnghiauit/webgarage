@@ -81,10 +81,16 @@ public class MaterialManagementServiceImpl implements MaterialManagementService 
             String strID= null;
             String strMaterialName = null;
             if(material.getMaterialID()!=null&&material.getMaterialID()!="") {
-                MaterialName checkDuplicateMateID = materialNameRepository.findByMaterialID(material.getMaterialID());
-                if(!Objects.isNull(checkDuplicateMateID)) {
-                    strID= checkDuplicateMateID.getMaterialID();
-                    strMaterialName = checkDuplicateMateID.getMaterialName();
+                MaterialName materialName = materialNameRepository.findByMaterialID(material.getMaterialID());
+                if(!Objects.isNull(materialName)) {
+                    strID= materialName.getMaterialID();
+                    strMaterialName = materialName.getMaterialName();
+                    if(Integer.valueOf(material.getNumInput()) > 0) {
+                        long totalNum = materialName.getTotalNum();
+                        long numInput = Long.valueOf(material.getNumInput());
+                        materialName.setTotalNum(totalNum + numInput);
+                        materialNameRepository.save(materialName);
+                    }
                 }
             }
             Material material1 = new Material();

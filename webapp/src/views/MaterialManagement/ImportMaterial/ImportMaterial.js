@@ -19,14 +19,6 @@ import {
     Button
 } from 'reactstrap';
 
-
-const cellEditProp = {
-    mode: 'click',
-    blurToSave: true
-};
-
-const materials=['bánh xe','lốp xe','kính'];
-
 class ImportMaterial extends Component {
     constructor(props) {
         super(props);

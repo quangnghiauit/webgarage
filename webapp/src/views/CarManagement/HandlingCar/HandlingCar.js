@@ -333,7 +333,7 @@ class HandlingCar extends Component {
                         <Label htmlFor="name">Tên phụ tùng</Label>
                         <select
                             className="form-control"
-                            id={"listMaterial"}
+                            id={"listHandleMaterial"}
                             onChange={(e) => this.setState({materialID: e.target.value})}>
                             <option value={null}>Chọn loại phụ tùng</option>
                             {listMaterial.map(item => {
