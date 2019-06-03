@@ -11,6 +11,8 @@ public interface MaterialManagementService {
 
     List<Material> getAllMatetial();
 
+    List<MaterialName> getAllMaterialByAllNum();
+
     List<MaterialName> getAllNameMatetial();
 
     ResponseDTO addMateName(String mateName,String currentUser);

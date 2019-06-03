@@ -2,44 +2,70 @@ import React, {Component} from 'react';
 import { TextMask, InputAdapter } from 'react-text-mask-hoc';
 import {BootstrapTable, TableHeaderColumn} from 'react-bootstrap-table';
 import 'react-bootstrap-table/dist/react-bootstrap-table-all.min.css';
-import data from './_data';
 import {
     Card,
     CardHeader,
-    CardBody,
+    CardBody, Table,
 } from 'reactstrap';
+import {getListAllMaterialName} from "../../../api/materialManagement/materialManagement";
 
 class SearchMaterial extends Component {
     constructor(props) {
         super(props);
-
-        this.table = data.rows;
-        this.options = {
-            sortIndicator: true,
-            hideSizePerPage: true,
-            paginationSize: 3,
-            hidePageListOnlyOnePage: true,
-            clearSearch: true,
-            alwaysShowAllBtns: false,
-            withFirstAndLast: false,
-
+        this.state = {
+            listSearchMaterial: [],
         }
+
+    }
+
+    componentDidMount() {
+        this.handleSearchMaterial()
+    }
+
+    handleSearchMaterial() {
+        getListAllMaterialName().then(res => {
+            console.log(res.data)
+            this.setState({
+                listSearchMaterial:res.data
+            })
+        })
     }
 
     render() {
+        const {listSearchMaterial}= this.state;
         return (
             <div className="animated search-materials">
                 <Card>
                     <CardHeader>
-                        <i className="icon-menu"></i>Danh sách vật tư phụ tùng
+                        <i className="icon-menu"></i>Danh sách số lượng vật tư phụ tùng
                     </CardHeader>
                     <CardBody>
-                        <BootstrapTable data={this.table} version="4" striped hover pagination search options={this.options} >
-                            <TableHeaderColumn isKey dataField="id" dataSort>Mã vật tư</TableHeaderColumn>
-                            <TableHeaderColumn dataField="name" dataSort>Tên vật tư</TableHeaderColumn>
-                            <TableHeaderColumn dataField="count" >Số lượng</TableHeaderColumn>
-                            <TableHeaderColumn dataField="price" dataSort>Đơn giá</TableHeaderColumn>
-                        </BootstrapTable>
+                        <Table responsive striped>
+                            <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Mã phụ tùng</th>
+                                <th>Tên phụ tùng</th>
+                                <th>Số lượng trong kho</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {
+                                listSearchMaterial ? listSearchMaterial.map((item, index) => {
+                                    return (
+                                        <tr key={index}>
+                                            <td>{item.id}</td>
+                                            <td>{item.materialID}</td>
+                                            <td>{item.materialName}</td>
+                                            <td>{item.totalNum}</td>
+                                        </tr>
+                                    )
+
+                                }) : null
+
+                            }
+                            </tbody>
+                        </Table>
                     </CardBody>
                 </Card>
             </div>

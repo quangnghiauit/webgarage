@@ -5,6 +5,7 @@ USE `GARA`;
 
 Drop table if exists `car`;
 Drop table if exists `users`;
+Drop table if exists `material_name`;
 Drop table if exists `material`;
 Drop table if exists `revenue`;
 Drop table if exists `repairBill`;
@@ -42,7 +43,17 @@ create table `users`
     `email` varchar(50)
 );
 
-create table `material` 
+create table `material_name`
+(
+	`id` int(10) not null auto_increment primary key,
+    `materialID` varchar(20),
+    `materialName` varchar(100),
+    `totalNum` long,
+	`reqDate` timestamp,
+    `createdBy` varchar(100)
+);
+
+create table `material`
 (
 	`id` int(10) not null auto_increment primary key,
     `materialID` varchar(20),
@@ -50,8 +61,10 @@ create table `material`
     `price` long,
     `mateNum` int,
     `numInput` int,
-    `reqDate` timestamp
+    `reqDate` timestamp,
+    `createdBy` varchar(100)
 );
+
 
 
 create table `revenue`

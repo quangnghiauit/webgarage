@@ -10,6 +10,11 @@ export function getListMaterial() {
     return httpGet(BASE_URL + '/get-all-material');
 }
 
+export function getListAllMaterialName() {
+    return httpGet(BASE_URL + '/get-all-material-by-all-num');
+
+}
+
 export function getListMaterialName() {
     return httpGet(BASE_URL + '/get-all-name-material');
 }

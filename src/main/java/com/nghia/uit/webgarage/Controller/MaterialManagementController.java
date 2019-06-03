@@ -24,6 +24,11 @@ public class MaterialManagementController {
         return new ResponseEntity<>(materialManagementService.getAllMatetial(), HttpStatus.OK);
     }
 
+    @GetMapping(value = "/get-all-material-by-all-num")
+    public ResponseEntity<?> getAllMaterilaByAllNum() {
+        return new ResponseEntity<>(materialManagementService.getAllMaterialByAllNum(),HttpStatus.OK);
+    }
+
     @GetMapping(value = "/get-all-name-material")
     public @ResponseBody
     ResponseEntity<?> getAllNameMaterial() {

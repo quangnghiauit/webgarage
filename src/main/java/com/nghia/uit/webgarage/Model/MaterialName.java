@@ -22,6 +22,9 @@ public class MaterialName {
     @Column(name = "materialName")
     private String materialName;
 
+    @Column(name = "totalNum")
+    private long totalNum;
+
     @Column(name = "reqDate")
     private String reqDate;
 
@@ -66,6 +69,14 @@ public class MaterialName {
 
     public void setCreatedBy(String createdBy) {
         this.createdBy = createdBy;
+    }
+
+    public long getTotalNum() {
+        return totalNum;
+    }
+
+    public void setTotalNum(long totalNum) {
+        this.totalNum = totalNum;
     }
 
     public void doMappingMaterial(String matName) {
