@@ -226,7 +226,7 @@ class HistoryMaterial extends Component {
                     <ModalBody>
                         <FormGroup>
                             <Label htmlFor="name">Tên phụ tùng</Label>
-                            <Button color="success"
+                            <Button color="success" style={{"padding":"1px 5px 1px 5px","marginLeft":"10px"}}
                                     onClick={() => this.toggleAddNameMaterial()}>+</Button>
                             <select
                                 className="form-control"
