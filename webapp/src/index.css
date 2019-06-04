@@ -58,3 +58,14 @@
 .user-management #pagination{
     float: right;
 }
+
+.search-car-handling .search{
+    width: 30%;
+    left: 70%;
+}
+.search-car-handling #table-cars-handling{
+    margin-top: 10px;
+}
+.search-car-handling #pagination{
+    float: right;
+}
