@@ -54,7 +54,7 @@ class BillInfo extends Component {
 
     }
     render() {
-        const {repairBillID,createdDate,userID,displayname}=this.state;
+        const {list,repairBillID,createdDate,userID,displayname}=this.state;
         return (
             <div className="animated bill-info">
                 <Card>
