@@ -30,7 +30,7 @@ class CreateBill extends Component {
             this.setState({
                 list:res.data
             },()=>{
-
+                
             })
         })
     }
@@ -73,7 +73,7 @@ class CreateBill extends Component {
                                                 <td>
                                                     {
                                                         <Button color="warning" 
-                                                            onClick={this.toggleCreateBill(item.userID)}>Tạo</Button>
+                                                            onClick={()=>this.toggleCreateBill(item.repairBillID)}>Tạo</Button>
                                                     }
                                                 </td>
                                             </tr>

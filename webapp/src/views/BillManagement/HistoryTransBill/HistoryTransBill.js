@@ -9,7 +9,7 @@ import {
     InputGroup
 } from 'reactstrap';
 
-
+import {getHistoryBill} from '../../../api/BillManagement/billmanagement'
 
 
 class HistoryTransBill extends Component {
@@ -17,10 +17,28 @@ class HistoryTransBill extends Component {
         super(props);
 
         this.state={
-
+            list:[]
         }
+        this.load=this.load.bind(this);
+    }
+    componentDidCatch(){
+        this.load();
+    }
+    load(){
+        getHistoryBill().then(res=>{
+            this.setState({
+                list:res.data
+            },()=>{
+
+            })
+        })
+    }
+
+    toggleBill(id){
+        window.location.replace("http://localhost:8080/#/bill-management/bill-info/"+id)
     }
     render() {
+        const{list}=this.state;
         return (
             <div className="animated search-bill">
                 <Card>
@@ -48,7 +66,25 @@ class HistoryTransBill extends Component {
                                 </tr>
                             </thead>
                             <tbody>
-                            
+                            {
+                                list ? list.map((item,index)=>{
+                                    return(
+                                        <tr key={index}>
+                                            <td>{item.id}</td>
+                                            <td>{item.repairBillID}</td>
+                                            <td>{item.createdDate}</td>
+                                            <td>{item.userID}</td>
+                                            <td>{item.phoneNumber}</td>
+                                            <td>{item.totalMoney}</td>
+                                            <td>
+                                            {
+                                                <Button color="success" onClick={()=>this.toggleBill(item.repairBillID)}>Xem</Button>
+                                            }
+                                            </td>
+                                        </tr>
+                                    )
+                                }):null
+                            }
                             </tbody>
                         </Table>
                         

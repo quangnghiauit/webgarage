@@ -45,7 +45,7 @@ class BillInfo extends Component {
                     userID:res.data.userID,
                     displayname:res.data.fullName
                 },()=>{
-
+                    
                 })
             })
         })

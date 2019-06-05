@@ -9,3 +9,7 @@ export function getBillHandling() {
 export function getDetailBill(repairBillID) {
     return httpGet(BASE_URL+'/get-detail-bill?repairBillID='+repairBillID)
 }
+
+export function getHistoryBill() {
+    return httpGet(BASE_URL+'/get-all-bill')
+}
