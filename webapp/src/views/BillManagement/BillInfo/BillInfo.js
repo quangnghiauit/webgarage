@@ -32,9 +32,10 @@ class BillInfo extends Component {
         this.load=this.load.bind(this);
         this.exportBill=this.exportBill.bind(this);
     }
-    componentDidCatch(){
+    componentDidMount() {
         this.load();
     }
+
     load(){
         this.setState({
             repairBillID: this.props.match.params.id
@@ -69,7 +70,7 @@ class BillInfo extends Component {
             .then(()=>{
                 window.location.reload();
             })
-        
+
     }
     render() {
         const {list,repairBillID,createdDate,userID,displayname}=this.state;
@@ -137,7 +138,7 @@ class BillInfo extends Component {
                                         <td scope="row"></td>
                                         <th>
                                             {
-                                                list? list.reduce((a,b)=>a+b,0):0
+                                                list? (list.reduce((a,b)=>a+b,0)):0
                                             }
                                         </th>
                                     </tr>
@@ -146,8 +147,10 @@ class BillInfo extends Component {
                         </FormGroup>
                     </CardBody>
                     <CardFooter id='footer'>
-                    <Button id="btn-export-bill" color="success" 
+                    <Button id="btn-export-bill" color="success"
                         onClick={this.exportBill}>Xuất hóa đơn</Button>
+                        {/*<Button id="btn-export-bill" color="success"*/}
+                                {/*>Xuất hóa đơn</Button>*/}
                     </CardFooter>
                 </Card>
                 

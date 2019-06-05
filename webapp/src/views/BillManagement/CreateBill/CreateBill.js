@@ -4,7 +4,7 @@ import {
     CardHeader,
     CardBody,
     CardFooter,
-    Table,
+    Table, Button,
 } from 'reactstrap';
 import {getBillHandling} from '../../../api/BillManagement/billmanagement'
 
@@ -54,7 +54,6 @@ class CreateBill extends Component {
                                 <th>Mã khách hàng</th>
                                 <th>Tên khách hàng</th>
                                 <th>Số điện thoại</th>
-                                <th>Địa chỉ</th>
                                 <th>Ngày tạo TK</th>
                                 <th>Hóa đơn chờ</th>
                             </tr>
@@ -64,11 +63,10 @@ class CreateBill extends Component {
                                     list ? list.map((item,index)=>{
                                         return(
                                             <tr key={index}>
-                                                <td>{item.id}</td>
+                                                <td>{index + 1}</td>
                                                 <td>{item.userID}</td>
-                                                <td>{item.displayname}</td>
+                                                <td>{item.fullName}</td>
                                                 <td>{item.phoneNumber}</td>
-                                                <td>{item.address}</td>
                                                 <td>{item.createdDate}</td>
                                                 <td>
                                                     {
