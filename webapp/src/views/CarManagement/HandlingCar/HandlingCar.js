@@ -56,20 +56,6 @@ class HandlingCar extends Component {
             resultDelete: null,
         }
 
-        this.options = {
-            sortIndicator: true,
-            hideSizePerPage: true,
-            paginationSize: 3,
-            hidePageListOnlyOnePage: true,
-            clearSearch: true,
-            alwaysShowAllBtns: false,
-            withFirstAndLast: false,
-            onRowClick: function(row) {
-                alert(`You click row id: ${row.id}`);
-            }
-        }
-
-
         this.toggleAdd = this.toggleAdd.bind(this);
         this.toggleNestedAdd = this.toggleNestedAdd.bind(this);
         this.toggleAllAdd = this.toggleAllAdd.bind(this);
