@@ -6,7 +6,7 @@ import {
     CardFooter,
     Table,
 } from 'reactstrap';
-
+import {getBillHandling} from '../../../api/BillManagement/billmanagement'
 
 
 
@@ -15,10 +15,31 @@ class CreateBill extends Component {
         super(props);
 
         this.state={
+            list:[],
 
-        }
+        };
+
+        this.loadListBill=this.loadListBill.bind(this);
+        this.toggleCreateBill=this.toggleCreateBill.bind(this);
     }
+    componentDidMount(){
+        this.loadListBill()
+    }
+    loadListBill(){
+        getBillHandling().then(res=>{
+            this.setState({
+                list:res.data
+            },()=>{
+
+            })
+        })
+    }
+    toggleCreateBill(id){
+        window.location.replace("http://localhost:8080/#/bill-management/bill-info/"+id)
+    }
+
     render() {
+        const {list}=this.state;
         return (
             <div className="animated import-bill">
                 <Card>
@@ -39,7 +60,26 @@ class CreateBill extends Component {
                             </tr>
                             </thead>
                             <tbody>
-                            
+                                {
+                                    list ? list.map((item,index)=>{
+                                        return(
+                                            <tr key={index}>
+                                                <td>{item.id}</td>
+                                                <td>{item.userID}</td>
+                                                <td>{item.displayname}</td>
+                                                <td>{item.phoneNumber}</td>
+                                                <td>{item.address}</td>
+                                                <td>{item.createdDate}</td>
+                                                <td>
+                                                    {
+                                                        <Button color="warning" 
+                                                            onClick={this.toggleCreateBill(item.userID)}>Tạo</Button>
+                                                    }
+                                                </td>
+                                            </tr>
+                                        );
+                                    }):null
+                                }
                             </tbody>
                         </Table>
                         

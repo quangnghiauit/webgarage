@@ -28,12 +28,12 @@ class HistoryTransBill extends Component {
                         <i className="icon-menu"></i>Tra cứu hóa đơn
                     </CardHeader>
                     <CardBody>
-                        <InputGroup className="search">
+                        {/* <InputGroup className="search">
                             <Input type="text" id="search" onKeyUp={this.filterTable} placeholder="Search..." title="Enter a search info" />
                             <div className="input-group-append">
                                 <i className="fa fa-search form-control" aria-hidden="true"></i>
                             </div>
-                        </InputGroup>
+                        </InputGroup> */}
                         <Table id="table-bill" responsive striped>
                             <thead>
                                 <tr>

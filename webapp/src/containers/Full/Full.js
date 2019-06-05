@@ -106,7 +106,7 @@ class Full extends Component {
                                                component={CreateBill}/>,
                                         <Route path="/bill-management/history" name="HistoryTransBill"
                                                component={HistoryTransBill}/>,
-                                        <Route path="/bill-management/bill-info" name="BillInfo"
+                                        <Route path="/bill-management/bill-info/:id" name="BillInfo"
                                                component={BillInfo}/>,
 
                                         <Route path="/report-management/create-report-revenue" name="CreateReportRevenue"
