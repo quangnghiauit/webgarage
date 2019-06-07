@@ -143,21 +143,7 @@ export default {
         }
 
     ],
-
     items2: [
-        {
-            name : "Tra cứu khách hàng",
-            url:"/user-management/search",
-            icon: "icon-puzzle",
-        },
-        {
-            name : "Tra cứu xe ",
-            url:"/car-management/search",
-            icon: "icon-star",
-        }
-    ],
-
-    items3: [
         {
             name: "Tra cứu xe",
             url:"/car-management/search",
@@ -175,7 +161,7 @@ export default {
         }
 
     ],
-    items4: [
+    items3: [
         {
             name : "QUẢN LÝ PHỤ TÙNG",
             url:"/material-management",
@@ -216,7 +202,43 @@ export default {
                 }
             ]
         },
+        {
+            name : "BÁO CÁO",
+            url:"/report-management",
+            icon: "icon-calculator",
+            // roles:["ADMIN"],
+            children: [
+                {
+                    name: "Lập báo cáo tồn",
+                    url:"/report-management/create-report-inventory",
+                    icon: "icon-calculator",
+                    // roles: ["ADMIN"]
+                },
+                {
+                    name: "Lập báo cáo doanh thu",
+                    url :"/report-management/create-report-revenue",
+                    icon:"icon-calculator",
+                    // roles: ["ADMIN"]
+                }
+            ]
+        },
     ],
+
+    items4: [
+        {
+            name : "Tra cứu khách hàng",
+            url:"/user-management/search",
+            icon: "icon-puzzle",
+        },
+        {
+            name : "Tra cứu xe ",
+            url:"/car-management/search",
+            icon: "icon-star",
+        }
+    ],
+
+
+
     items5: [
         {
             name: "Danh sách xe đang xử lý",

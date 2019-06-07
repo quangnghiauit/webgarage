@@ -176,11 +176,15 @@ public class AdminUsersDTO {
                 return;
             }
             if (userRole.getRole().equals("ACCOUNTANT")) {
-                role = "Nhân viên kế toán,lễ tân";
+                role = "Nhân viên kế toán";
                 return;
             }
             if (userRole.getRole().equals("MECHANIC")) {
                 role = "Nhân viên sữa chữa";
+                return;
+            }
+            if (userRole.getRole().equals("RECEPTIONIST")) {
+                role = "Nhân viên lễ tân";
                 return;
             }
         }

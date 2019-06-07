@@ -26,9 +26,12 @@ public class HomeController {
             return new ResponseEntity<>("true", HttpStatus.OK);
         } else if (auth.getAuthorities().toString().equals("[ROLE_CLIENT]")) {
             return new ResponseEntity<>("true", HttpStatus.OK);
-        } else if (auth.getAuthorities().toString().equals("[ROLE_OPERATOR]")) {
+        } else if (auth.getAuthorities().toString().equals("[ROLE_RECEPTIONIST]")) {
             return new ResponseEntity<>("true", HttpStatus.OK);
         } else if (auth.getAuthorities().toString().equals("[ROLE_MECHANIC]")) {
+            return new ResponseEntity<>("true", HttpStatus.OK);
+        } else
+        if (auth.getAuthorities().toString().equals("[ROLE_ACCOUNTANT]")) {
             return new ResponseEntity<>("true", HttpStatus.OK);
         } else
             return new ResponseEntity<>("false", HttpStatus.OK);
