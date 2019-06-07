@@ -157,19 +157,19 @@ export default {
             children: [
                 {
                     name: "Thông tin khách hàng",
-                    url :"/user-management/user-info",
+                    url :"/client/client-info",
                     icon:"icon-puzzle",
                     // roles: ["ADMIN"]
                 },
                 {
                     name: "Thông tin xe xử lý",
-                    url :"/car-management/car-handle-info",
+                    url :"/client/car-handling",
                     icon:"icon-star",
                     // roles: ["ADMIN"]
                 },
                 {
                     name: "Lịch sử giao dịch",
-                    url :"/user-management/history",
+                    url :"/client/history",
                     icon:"icon-puzzle",
                     // roles: ["ADMIN"]
                 }

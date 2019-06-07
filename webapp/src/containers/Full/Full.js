@@ -41,6 +41,12 @@ import CreateReportRevenue from '../../views/ReportManagement/CreateReportRevenu
 import UserManagement from '../../views/AdminManagement/UserManagement/UserManagement';
 import RoleManagement from '../../views/AdminManagement/RoleManagement/RoleManagement';
 
+//Client
+import ClientInfo from '../../views/Client/ClientInfo/ClientInfo'
+import  HistoryBill from '../../views/Client/HistoryBill//HistoryBill'
+import ClientBillInfo from '../../views/Client/ClientBillInfo/ClientBillInfo'
+import CarHandling from '../../views/Client/CarHandling/CarHandling'
+import CarHandlingInfo from '../../views/Client/CarHandlingInfo/CarHandlingInfo'
 
 import {getRole} from "../../api/Role/role";
 
@@ -118,12 +124,28 @@ class Full extends Component {
                                     ]
                                 }
                                 {
+                                    this.state.roles === '[ROLE_CLIENT]' && [
+                                        <Route path="/client/client-info" name="ClientInfo"
+                                               component={ClientInfo}/>,
+                                        <Route path="/client/car-handling" name="CarHandling"
+                                               component={CarHandling}/>,
+                                        <Route path="/client/car-handling-info" name="CarHandlingInfo"
+                                               component={CarHandlingInfo}/>,
+                                        <Route path="/client/history" name="HistoryBill"
+                                               component={HistoryBill}/>,
+                                        <Route path="/client/bill-info" name="ClientBillInfo"
+                                               component={ClientBillInfo}/>,
+
+                                        <Redirect from="/" to="/dashboard"/>
+                                    ]
+                                }
+                                {
                                     this.state.roles === '[ROLE_ANONYMOUS]' && [
 
                                         <Redirect from="/" to="/login"/>
                                     ]
                                 }
-
+                                
 
                             </Switch>
                         </Container>
