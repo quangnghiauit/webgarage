@@ -15,30 +15,9 @@ export default {
             }
         },
         {
-            name : "QUẢN LÝ KHÁCH HÀNG",
-            url:"/user-management",
-            icon: "icon-puzzle",
-            // roles:["ADMIN"],
-            children: [
-                {
-                    name: "Tra cứu khách hàng",
-                    url:"/user-management/search",
-                    icon: "icon-puzzle",
-                    // roles: ["ADMIN"]
-                },
-                // {
-                //     name: "Thông tin khách hàng",
-                //     url :"/user-management/user-info",
-                //     icon:"icon-puzzle",
-                //     // roles: ["ADMIN"]
-                // },
-                // {
-                //     name: "Lịch sử giao dịch",
-                //     url :"/user-management/history",
-                //     icon:"icon-puzzle",
-                //     // roles: ["ADMIN"]
-                // }
-            ]
+            name: "TRA CỨU KHÁCH HÀNG",
+            url:"/user-management/search",
+            icon: "icon-puzzle"
         },
         {
             name : "QUẢN LÝ XE",
@@ -145,7 +124,7 @@ export default {
     ],
     items2: [
         {
-            name: "Tra cứu xe",
+            name: "Thông tin cá nhân",
             url:"/car-management/search",
             icon: "icon-star",
         },
@@ -155,7 +134,7 @@ export default {
             icon:"icon-star",
         },
         {
-            name: "Xử lý xe",
+            name: "Lịch sử giao dịch",
             url :"/car-management/car-handle-list",
             icon:"icon-star",
         }
