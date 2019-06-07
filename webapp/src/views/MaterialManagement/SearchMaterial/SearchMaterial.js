@@ -1,12 +1,6 @@
 import React, {Component} from 'react';
-import { TextMask, InputAdapter } from 'react-text-mask-hoc';
-import {BootstrapTable, TableHeaderColumn} from 'react-bootstrap-table';
 import 'react-bootstrap-table/dist/react-bootstrap-table-all.min.css';
-import {
-    Card,
-    CardHeader,
-    CardBody, Table,
-} from 'reactstrap';
+import {Card, CardBody, CardHeader, Table,} from 'reactstrap';
 import {getListAllMaterialName} from "../../../api/materialManagement/materialManagement";
 
 class SearchMaterial extends Component {
@@ -26,13 +20,13 @@ class SearchMaterial extends Component {
         getListAllMaterialName().then(res => {
             console.log(res.data)
             this.setState({
-                listSearchMaterial:res.data
+                listSearchMaterial: res.data
             })
         })
     }
 
     render() {
-        const {listSearchMaterial}= this.state;
+        const {listSearchMaterial} = this.state;
         return (
             <div className="animated search-materials">
                 <Card>

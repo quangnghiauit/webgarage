@@ -1,4 +1,4 @@
-import { httpGet, httpPost} from "../index";
+import {httpGet, httpPost} from "../index";
 
 const BASE_URL = 'api/carmanagement';
 
@@ -6,7 +6,7 @@ const BASE_URL = 'api/carmanagement';
 //     return httpGet(BASE_URL + '/getallclient');
 // }
 export function getAllCar() {
-    return httpGet(BASE_URL+'/get-all-car')
+    return httpGet(BASE_URL + '/get-all-car')
 }
 
 export function getListCarByUserID(userID) {
@@ -19,8 +19,8 @@ export function getListCarHandling() {
 }
 
 
-export function addCar(userID,requestParam) {
-    return httpPost(BASE_URL + '/addcar?userID=' + userID,requestParam)
+export function addCar(userID, requestParam) {
+    return httpPost(BASE_URL + '/addcar?userID=' + userID, requestParam)
 
 }
 

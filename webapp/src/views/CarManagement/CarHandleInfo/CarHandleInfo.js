@@ -1,27 +1,6 @@
 import React, {Component} from 'react';
-import {BootstrapTable, TableHeaderColumn} from 'react-bootstrap-table';
 import 'react-bootstrap-table/dist/react-bootstrap-table-all.min.css';
-import {TextMask, InputAdapter} from 'react-text-mask-hoc';
-import {
-    Card,
-    CardHeader,
-    CardBody,
-    CardFooter,
-    Modal,
-    ModalHeader,
-    ModalBody,
-    ModalFooter,
-    Label,
-    Input,
-    InputGroup,
-    FormGroup,
-    FormText,
-    Button,
-    Col,
-    Badge,
-    Table, Row
-} from 'reactstrap';
-import {getAllClient} from "../../../api/UserManagement/userManagement";
+import {Badge, Card, CardBody, CardFooter, CardHeader, Col, FormGroup, Input, Label, Row, Table} from 'reactstrap';
 import {getInfoMaterialUser, getInfoRepairBillID} from "../../../api/TransManagement/transmanagement";
 
 

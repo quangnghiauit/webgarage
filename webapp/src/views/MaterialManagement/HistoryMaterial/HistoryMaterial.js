@@ -1,26 +1,23 @@
 import React, {Component} from 'react';
-import {BootstrapTable, TableHeaderColumn} from 'react-bootstrap-table';
 import 'react-bootstrap-table/dist/react-bootstrap-table-all.min.css';
-import {TextMask, InputAdapter} from 'react-text-mask-hoc';
 import {
+    Button,
     Card,
-    CardHeader,
     CardBody,
-    CardFooter,
-    Modal,
-    ModalHeader,
-    ModalBody,
-    ModalFooter,
-    Label,
-    Input,
-    InputGroup,
+    CardHeader,
     FormGroup,
     FormText,
-    Button, Table
+    Input,
+    Label,
+    Modal,
+    ModalBody,
+    ModalFooter,
+    ModalHeader,
+    Table
 } from 'reactstrap';
-import {addClient, getAllClient} from "../../../api/UserManagement/userManagement";
 import {
-    addHistoryMaterial, addMaterialName,
+    addHistoryMaterial,
+    addMaterialName,
     getListMaterial,
     getListMaterialName
 } from "../../../api/materialManagement/materialManagement";
@@ -30,14 +27,14 @@ class HistoryMaterial extends Component {
         super(props);
 
         this.state = {
-            materialID:'',
-            materialName:'',
-            newMaterialName:'',
-            price:'',
-            numInput:'',
+            materialID: '',
+            materialName: '',
+            newMaterialName: '',
+            price: '',
+            numInput: '',
             listTable: [],
             resultList: [],
-            listMaterialName:[],
+            listMaterialName: [],
             resultAdd: null,
             modalAdd: false,
             nestedModalAdd: false,
@@ -49,7 +46,7 @@ class HistoryMaterial extends Component {
             closeAllAddName: false,
         }
 
-        this.toggleAddMaterials= this.toggleAddMaterials.bind(this);
+        this.toggleAddMaterials = this.toggleAddMaterials.bind(this);
         this.toggleAdd = this.toggleAdd.bind(this);
         this.toggleNestedAdd = this.toggleNestedAdd.bind(this);
         this.toggleAllAdd = this.toggleAllAdd.bind(this);
@@ -80,7 +77,7 @@ class HistoryMaterial extends Component {
     handleGetListMaterialName() {
         getListMaterialName().then(res => {
             this.setState({
-                listMaterialName:res.data
+                listMaterialName: res.data
             })
         })
     }
@@ -176,7 +173,7 @@ class HistoryMaterial extends Component {
     }
 
     render() {
-        const {resultList, resultAdd,resultAddName,listMaterialName} = this.state;
+        const {resultList, resultAdd, resultAddName, listMaterialName} = this.state;
         return (
             <div className="animated import-materials">
                 <Card>
@@ -215,7 +212,7 @@ class HistoryMaterial extends Component {
                         </Table>
                     </CardBody>
                     {/*<CardFooter>*/}
-                        {/*<Button className="float-right" color="success">Lưu</Button>*/}
+                    {/*<Button className="float-right" color="success">Lưu</Button>*/}
                     {/*</CardFooter>*/}
                 </Card>
 
@@ -226,12 +223,12 @@ class HistoryMaterial extends Component {
                     <ModalBody>
                         <FormGroup>
                             <Label htmlFor="name">Tên phụ tùng</Label>
-                            <Button color="success" style={{"padding":"1px 5px 1px 5px","marginLeft":"10px"}}
+                            <Button color="success" style={{"padding": "1px 5px 1px 5px", "marginLeft": "10px"}}
                                     onClick={() => this.toggleAddNameMaterial()}>+</Button>
                             <select
                                 className="form-control"
                                 id={"listMaterial"}
-                                onChange={(e) => this.setState({materialID: e.target.value},()=>console.log(this.state.materialID))}>
+                                onChange={(e) => this.setState({materialID: e.target.value}, () => console.log(this.state.materialID))}>
                                 <option value={null}>Chọn tên phụ tùng</option>
                                 {listMaterialName.map(item => {
                                     return (

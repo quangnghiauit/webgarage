@@ -1,22 +1,22 @@
 import React, {Component} from 'react';
 import {BootstrapTable, TableHeaderColumn} from 'react-bootstrap-table';
 import 'react-bootstrap-table/dist/react-bootstrap-table-all.min.css';
-import { TextMask, InputAdapter } from 'react-text-mask-hoc';
+import {InputAdapter, TextMask} from 'react-text-mask-hoc';
 import {
+    Button,
     Card,
-    CardHeader,
     CardBody,
     CardFooter,
-    Modal,
-    ModalHeader,
-    ModalBody,
-    ModalFooter,
-    Label,
-    Input,
-    InputGroup,
+    CardHeader,
     FormGroup,
     FormText,
-    Button
+    Input,
+    InputGroup,
+    Label,
+    Modal,
+    ModalBody,
+    ModalFooter,
+    ModalHeader
 } from 'reactstrap';
 
 class ImportMaterial extends Component {
@@ -31,18 +31,19 @@ class ImportMaterial extends Component {
             clearSearch: true,
             alwaysShowAllBtns: false,
             withFirstAndLast: false,
-            onRowClick: function(row) {
+            onRowClick: function (row) {
                 alert(`You click row id: ${row.id}`);
             }
         }
 
-        this.state={modalAddMaterials:false};
-        this.toggleAddMaterials=this.toggleAddMaterials.bind(this);
+        this.state = {modalAddMaterials: false};
+        this.toggleAddMaterials = this.toggleAddMaterials.bind(this);
     }
 
-    toggleAddMaterials(){
-        this.setState({modalAddMaterials:!this.state.modalAddMaterials});
+    toggleAddMaterials() {
+        this.setState({modalAddMaterials: !this.state.modalAddMaterials});
     }
+
     render() {
         return (
             <div className="animated import-materials">
@@ -80,10 +81,13 @@ class ImportMaterial extends Component {
                                 />
                             </InputGroup>
                         </FormGroup>
-                        <BootstrapTable cellEdit={ cellEditProp } version="4" hover pagination search insertRow options={this.options}>
-                            <TableHeaderColumn isKey dataField="materials" editable={ { type: 'select', options: { values: materials } } }>Phụ tùng</TableHeaderColumn>
-                            <TableHeaderColumn dataField="count" >Số lượng</TableHeaderColumn>
-                            <TableHeaderColumn dataField="price" >Đơn giá</TableHeaderColumn>
+                        <BootstrapTable cellEdit={cellEditProp} version="4" hover pagination search insertRow
+                                        options={this.options}>
+                            <TableHeaderColumn isKey dataField="materials"
+                                               editable={{type: 'select', options: {values: materials}}}>Phụ
+                                tùng</TableHeaderColumn>
+                            <TableHeaderColumn dataField="count">Số lượng</TableHeaderColumn>
+                            <TableHeaderColumn dataField="price">Đơn giá</TableHeaderColumn>
                         </BootstrapTable>
                     </CardBody>
                     <CardFooter>

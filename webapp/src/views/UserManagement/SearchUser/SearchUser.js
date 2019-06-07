@@ -307,7 +307,7 @@ class SearchUser extends Component {
                                 <th>Số điện thoại</th>
                                 <th>Địa chỉ</th>
                                 <th>Ngày tạo TK</th>
-                                <th>Hóa đơn chờ</th>
+                                <th>Thông tin chi tiết</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -324,7 +324,7 @@ class SearchUser extends Component {
                                             <td>
                                                 {item.isactive == 0
                                                     ?
-                                                    <Button color="success" onClick={()=> this.handleUserBill(item.userID)}>Không có</Button>
+                                                    <Button color="primary" onClick={()=> this.handleUserBill(item.userID)}>Xem</Button>
                                                     :
                                                     <Button color="warning" onClick={()=> this.handleUserBill(item.userID)}>Đang xử lý</Button>
                                                 }

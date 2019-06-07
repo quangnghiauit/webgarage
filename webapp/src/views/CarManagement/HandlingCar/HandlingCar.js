@@ -1,23 +1,23 @@
 import React, {Component} from 'react';
-import {BootstrapTable, TableHeaderColumn} from 'react-bootstrap-table';
 import 'react-bootstrap-table/dist/react-bootstrap-table-all.min.css';
-import { TextMask, InputAdapter } from 'react-text-mask-hoc';
 import {
+    Badge,
+    Button,
     Card,
-    CardHeader,
     CardBody,
     CardFooter,
-    Modal,
-    ModalHeader,
-    ModalBody,
-    ModalFooter,
-    Label,
-    Input,
-    InputGroup,
+    CardHeader,
+    Col,
     FormGroup,
     FormText,
-    Button,
-    Col, Badge, Table, Row
+    Input,
+    Label,
+    Modal,
+    ModalBody,
+    ModalFooter,
+    ModalHeader,
+    Row,
+    Table
 } from 'reactstrap';
 import {addTransMaterial, getInfoMaterialUser, updateMaterial} from "../../../api/TransManagement/transmanagement";
 import {getListMaterialName} from "../../../api/materialManagement/materialManagement";
@@ -27,7 +27,7 @@ class HandlingCar extends Component {
         super(props);
 
         this.state = {
-            id:'',
+            id: '',
             licensePlate: '',
             status: '',
             repairBillID: '',
@@ -38,7 +38,7 @@ class HandlingCar extends Component {
             materialID: '',
             reqNum: '',
 
-            listMaterial:[],
+            listMaterial: [],
 
             modalAdd: false,
             nestedModalAdd: false,
@@ -72,8 +72,8 @@ class HandlingCar extends Component {
     componentDidMount() {
         getListMaterialName().then(res => {
             this.setState({
-                listMaterial:res.data
-            },()=>console.log(this.state.listMaterial))
+                listMaterial: res.data
+            }, () => console.log(this.state.listMaterial))
         })
         this.setState({
             licensePlate: this.props.match.params.id
@@ -123,8 +123,8 @@ class HandlingCar extends Component {
             reqNum: this.state.reqNum,
         };
         console.log("param", params);
-        if (this.state.materialID&&this.state.reqNum) {
-            addTransMaterial(this.state.repairBillID,params).then(res => {
+        if (this.state.materialID && this.state.reqNum) {
+            addTransMaterial(this.state.repairBillID, params).then(res => {
                 console.log('truoc add', res)
                 this.setState({
                     resultAdd: res.data
@@ -143,8 +143,8 @@ class HandlingCar extends Component {
             reqNum: this.state.reqNum,
         };
         console.log("param", params);
-        if (this.state.materialID&&this.state.reqNum) {
-            updateMaterial(this.state.id,params).then(res => {
+        if (this.state.materialID && this.state.reqNum) {
+            updateMaterial(this.state.id, params).then(res => {
                 console.log('truoc add', res)
                 this.setState({
                     resultUpdate: res.data
@@ -164,7 +164,7 @@ class HandlingCar extends Component {
 
     toggleProcessUpdate(logid) {
         this.setState(prevState => ({
-            id:logid,
+            id: logid,
             modalUpdate: !prevState.modalUpdate
         }));
     }
@@ -210,9 +210,8 @@ class HandlingCar extends Component {
     }
 
 
-
     render() {
-        const {list,resultAdd,resultUpdate,resultDelete,listMaterial} = this.state;
+        const {list, resultAdd, resultUpdate, resultDelete, listMaterial} = this.state;
         return (
             <div className="animated handle-car">
                 <Card>
@@ -244,13 +243,13 @@ class HandlingCar extends Component {
                                     </Col>
                                 </FormGroup>
                                 {/*<FormGroup row>*/}
-                                    {/*<Label htmlFor="repairBillID" sm={2}>Hóa đơn giao dịch</Label>*/}
-                                    {/*<Col sm={7}>*/}
-                                        {/*<Input type="text" id="id"*/}
-                                               {/*onChange={(e) => this.setState({repairBillID: e.target.value}, () => console.log(this.state.repairBillID))}*/}
-                                               {/*value={this.state.repairBillID}*/}
-                                               {/*disabled/>*/}
-                                    {/*</Col>*/}
+                                {/*<Label htmlFor="repairBillID" sm={2}>Hóa đơn giao dịch</Label>*/}
+                                {/*<Col sm={7}>*/}
+                                {/*<Input type="text" id="id"*/}
+                                {/*onChange={(e) => this.setState({repairBillID: e.target.value}, () => console.log(this.state.repairBillID))}*/}
+                                {/*value={this.state.repairBillID}*/}
+                                {/*disabled/>*/}
+                                {/*</Col>*/}
                                 {/*</FormGroup>*/}
                             </Col>
                         </Row>
@@ -275,7 +274,9 @@ class HandlingCar extends Component {
                                             <td>{item.infoBill}</td>
                                             <td>{item.reqNum}</td>
                                             <td>
-                                                <Button color="warning"  onClick={()=>this.toggleProcessUpdate(item.id)}>Cập nhật</Button> {' '}
+                                                <Button color="warning"
+                                                        onClick={() => this.toggleProcessUpdate(item.id)}>Cập
+                                                    nhật</Button> {' '}
                                                 <Button color="danger" onClick={this.toggleDelete}>Xóa</Button>
 
                                             </td>
@@ -311,53 +312,52 @@ class HandlingCar extends Component {
                 </Card>
 
                 <Modal isOpen={this.state.modalAdd} toggle={this.toggleAdd}
-                               className={'modal-info modal-lg modal-lg-custom'
-                               + this.props.className}>
-                <ModalHeader toggle={this.toggleAdd}>Thêm phụ tùng</ModalHeader>
-                <ModalBody>
-                    <FormGroup>
-                        <Label htmlFor="name">Tên phụ tùng</Label>
-                        <select
-                            className="form-control"
-                            id={"listHandleMaterial"}
-                            onChange={(e) => this.setState({materialID: e.target.value})}>
-                            <option value={null}>Chọn loại phụ tùng</option>
-                            {listMaterial.map(item => {
-                                return (
-                                    <option key={item.id} value={item.materialID}>
-                                        {
-                                            item.materialName
-                                        }
-                                    </option>
-                                );
-                            })}
-                        </select>
-                    </FormGroup>
+                       className={'modal-info modal-lg modal-lg-custom'
+                       + this.props.className}>
+                    <ModalHeader toggle={this.toggleAdd}>Thêm phụ tùng</ModalHeader>
+                    <ModalBody>
+                        <FormGroup>
+                            <Label htmlFor="name">Tên phụ tùng</Label>
+                            <select
+                                className="form-control"
+                                id={"listHandleMaterial"}
+                                onChange={(e) => this.setState({materialID: e.target.value})}>
+                                <option value={null}>Chọn loại phụ tùng</option>
+                                {listMaterial.map(item => {
+                                    return (
+                                        <option key={item.id} value={item.materialID}>
+                                            {
+                                                item.materialName
+                                            }
+                                        </option>
+                                    );
+                                })}
+                            </select>
+                        </FormGroup>
 
 
+                        <FormGroup>
+                            <Label htmlFor="address">Thông tin sửa chữa</Label>
+                            <Input type="text" id="infoBill" value={this.state.infoBill}
+                                   onChange={(e) => this.setState({infoBill: e.target.value})}
+                                   placeholder="Enter your info bill" required/>
+                            <FormText className="help-block">Please enter your infoBill</FormText>
+                        </FormGroup>
+                        <FormGroup>
+                            <Label htmlFor="reqNum">Số lượng</Label>
+                            <Input type="text" id="reqNum" value={this.state.reqNum}
+                                   onChange={(e) => this.setState({reqNum: e.target.value})}
+                                   placeholder="Enter your reqNum" required/>
+                            <FormText className="help-block">Please enter your reqNum</FormText>
+                        </FormGroup>
 
-                    <FormGroup>
-                        <Label htmlFor="address">Thông tin sửa chữa</Label>
-                        <Input type="text" id="infoBill" value={this.state.infoBill}
-                               onChange={(e) => this.setState({infoBill: e.target.value})}
-                               placeholder="Enter your info bill" required/>
-                        <FormText className="help-block">Please enter your infoBill</FormText>
-                    </FormGroup>
-                    <FormGroup>
-                        <Label htmlFor="reqNum">Số lượng</Label>
-                        <Input type="text" id="reqNum" value={this.state.reqNum}
-                               onChange={(e) => this.setState({reqNum: e.target.value})}
-                               placeholder="Enter your reqNum" required/>
-                        <FormText className="help-block">Please enter your reqNum</FormText>
-                    </FormGroup>
-
-                </ModalBody>
-                <ModalFooter>
-                    <Button color="primary"
-                            onClick={() => this.handleAddMaterial()}>Submit</Button>{' '}
-                    <Button color="secondary" onClick={this.toggleAdd}>Cancel</Button>
-                </ModalFooter>
-            </Modal>
+                    </ModalBody>
+                    <ModalFooter>
+                        <Button color="primary"
+                                onClick={() => this.handleAddMaterial()}>Submit</Button>{' '}
+                        <Button color="secondary" onClick={this.toggleAdd}>Cancel</Button>
+                    </ModalFooter>
+                </Modal>
 
                 <Modal isOpen={this.state.nestedModalAdd}
                        toggle={() => this.toggleNestedAdd()}
@@ -374,8 +374,6 @@ class HandlingCar extends Component {
                 </Modal>
 
 
-
-
                 <Modal isOpen={this.state.modalUpdate} toggle={this.toggleUpdate}
                        className={'modal-info modal-lg modal-lg-custom'
                        + this.props.className}>
@@ -387,7 +385,7 @@ class HandlingCar extends Component {
                                 className="form-control"
                                 id={"listMaterial"}
                                 onChange={(e) => this.setState({materialID: e.target.value},
-                                    () => console.log('materialID: '+this.state.materialID))}>
+                                    () => console.log('materialID: ' + this.state.materialID))}>
                                 <option value={null}>Chọn loại phụ tùng</option>
                                 {listMaterial.map(item => {
                                     return (
@@ -400,7 +398,6 @@ class HandlingCar extends Component {
                                 })}
                             </select>
                         </FormGroup>
-
 
 
                         <FormGroup>
