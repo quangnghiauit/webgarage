@@ -36,7 +36,6 @@ class RevenueReport extends Component{
     }
 
     onDateChange(from, to){
-        console.log("nllllllllllllll")
         this.setState({
             startDate: from,
             endDate: to
