@@ -132,7 +132,7 @@ public class BillDTO {
     public void doMappingBill(RepairBill billDTO,String strFullName,List<DetailBillDTO> detailBillDTOList) {
         repairBillID = billDTO.getRepairBillID();
         licensePlate = billDTO.getLicensePlate();
-        if(!strFullName.isEmpty()) {
+        if(strFullName != null) {
             fullName = strFullName;
         }
         status = billDTO.getStatus();
