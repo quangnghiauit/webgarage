@@ -42,7 +42,7 @@ class UserManagement extends Component {
             displayname:'',
             role:'',
             userName:'',
-            // password:'',
+            password:'',
 
             resultAdd: null,
             modalAddUser: false,
