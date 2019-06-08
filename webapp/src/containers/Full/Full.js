@@ -33,8 +33,8 @@ import HistoryTransBill from '../../views/BillManagement/HistoryTransBill/Histor
 import BillInfo from '../../views/BillManagement/BillInfo/BillInfo'
 
 // ReportManagement
-import CreateReportInventory from '../../views/ReportManagement/CreateReportInventory/CreateReportInventory';
-import CreateReportRevenue from '../../views/ReportManagement/CreateReportRevenue/CreateReportRevenue';
+import InventoryReport from '../../views/ReportManagement/InventoryReport/InventoryReport';
+import RevenueReport from '../../views/ReportManagement/RevenueReport/RevenueReport';
 
 
 // AdminManagement
@@ -116,9 +116,9 @@ class Full extends Component {
                                                component={BillInfo}/>,
 
                                         <Route path="/report-management/create-report-revenue" name="CreateReportRevenue"
-                                               component={CreateReportRevenue}/>,
+                                               component={RevenueReport}/>,
                                         <Route path="/report-management/create-report-inventory" name="CreateReportInventory"
-                                               component={CreateReportInventory}/>,
+                                               component={InventoryReport}/>,
 
                                         <Redirect from="/" to="/dashboard"/>
                                     ]
@@ -171,9 +171,9 @@ class Full extends Component {
                                                component={BillInfo}/>,
 
                                         <Route path="/report-management/create-report-revenue" name="CreateReportRevenue"
-                                               component={CreateReportRevenue}/>,
+                                               component={RevenueReport}/>,
                                         <Route path="/report-management/create-report-inventory" name="CreateReportInventory"
-                                               component={CreateReportInventory}/>,
+                                               component={InventoryReport}/>,
 
                                         {/*<Redirect from="/" to="/dashboard"/>*/}
                                     ]

@@ -16,7 +16,7 @@ import {
     Col
 } from 'reactstrap';
 
-class CreateReportInventory extends Component{
+class InventoryReport extends Component{
     constructor(props){
         super(props);
 
@@ -54,4 +54,4 @@ class CreateReportInventory extends Component{
     }
 }
 
-export default CreateReportInventory
+export default InventoryReport

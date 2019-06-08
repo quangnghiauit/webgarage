@@ -4,6 +4,7 @@ import com.nghia.uit.webgarage.Bean.ResponseDTO;
 import com.nghia.uit.webgarage.Model.*;
 import com.nghia.uit.webgarage.Repository.*;
 import com.nghia.uit.webgarage.Service.ReportManagementService;
+import com.nghia.uit.webgarage.Service.ServiceUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -231,7 +232,10 @@ public class ReportManagementServiceImpl implements ReportManagementService {
             String startDate = requestSearchDate.getStartDate();
             String endDate = requestSearchDate.getEndDate();
 
-            List<RepairBill> repairBills = repairBillRepository.searchRevenueByDate(startDate,endDate);
+            if(startDate ==null || endDate == null ) {
+                return new ArrayList<>();
+            }
+            List<RepairBill> repairBills = repairBillRepository.searchRevenueByDate(convertDateString(startDate),convertDateString(endDate));
 
             if(repairBills.isEmpty()) {
                 return new ArrayList<>();
@@ -249,10 +253,14 @@ public class ReportManagementServiceImpl implements ReportManagementService {
             String startDate = requestSearchDate.getStartDate();
             String endDate = requestSearchDate.getEndDate();
 
+            if(startDate ==null || endDate == null ) {
+                return new ArrayList<>();
+            }
+
             List<InventoryReportDTO> inventoryReportDTOS = new ArrayList<>();
 
-            List<Material> materialList = materialRepository.searchMaterialInputByDate(startDate,endDate);
-            List<DetailRepairBill> detailRepairBills = detailRepairBillRepository.searchMaterialExportByDate(startDate,endDate);
+            List<Material> materialList = materialRepository.searchMaterialInputByDate(convertDateString(startDate),convertDateString(endDate));
+            List<DetailRepairBill> detailRepairBills = detailRepairBillRepository.searchMaterialExportByDate(convertDateString(startDate),convertDateString(endDate));
             if(materialList.isEmpty()||detailRepairBills.isEmpty()) {
                 return new ArrayList<>();
             }
@@ -305,5 +313,13 @@ public class ReportManagementServiceImpl implements ReportManagementService {
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         Date date = new Date();
         return dateFormat.format(date); //2019/03/13 20:08:43
+    }
+
+    private String convertDateString(String date) {
+        String[] strArr1 = date.split("/");
+        StringBuilder stringBuilder1 = new StringBuilder();
+        stringBuilder1.append(strArr1[2]).append("-").append(strArr1[1]).append("-").append(strArr1[0]);
+        String dateStr= String.valueOf(stringBuilder1);
+        return dateStr;
     }
 }

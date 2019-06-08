@@ -13,3 +13,11 @@ export function getDetailBill(repairBillID) {
 export function getHistoryBill() {
     return httpGet(BASE_URL + '/get-all-bill')
 }
+
+export function searchRevenue(requestParams) {
+    return httpPost(BASE_URL + '/search-revenue',requestParams);
+}
+
+export function searchInventory(requestParams) {
+    return httpPost(BASE_URL + '/search-inventory',requestParams);
+}

@@ -36,12 +36,12 @@ public class ReportManagementController {
         return new ResponseEntity<>(reportManagementService.exportBill(detailBillDTO),HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/search-revenue",method = RequestMethod.GET)
+    @RequestMapping(value = "/search-revenue",method = RequestMethod.POST)
     public ResponseEntity<?> searchRevenue(@RequestBody RequestSearchDate requestSearchDate) {
         return new ResponseEntity<>(reportManagementService.searchRevenue(requestSearchDate),HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/search-inventory",method = RequestMethod.GET)
+    @RequestMapping(value = "/search-inventory",method = RequestMethod.POST)
     public ResponseEntity<?> searchInventory(@RequestBody RequestSearchDate requestSearchDate) {
         return new ResponseEntity<>(reportManagementService.searchInventory(requestSearchDate),HttpStatus.OK);
     }
