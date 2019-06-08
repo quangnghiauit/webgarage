@@ -21,4 +21,9 @@ public interface RepairBillRepository extends CrudRepository<RepairBill, Integer
 
     @Query(value = "select * from repairbill as r where r.status in (1,2)",nativeQuery = true)
     List<RepairBill> getAllByFilter();
+
+
+    @Query(value = "select * from repairbill as r where r.status = 2 and r.createdDate >= ?1 and r.createdDate <= ?2",nativeQuery = true)
+    List<RepairBill> searchRevenueByDate(String startDate, String endDate);
+
 }

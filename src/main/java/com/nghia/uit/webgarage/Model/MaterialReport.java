@@ -8,8 +8,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 @Entity
-@Table(name = "material_name")
-public class MaterialName {
+@Table(name = "materialReport")
+public class MaterialReport {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -1,133 +1,126 @@
 import React, {Component} from 'react';
-import {BootstrapTable, TableHeaderColumn} from 'react-bootstrap-table';
 import 'react-bootstrap-table/dist/react-bootstrap-table-all.min.css';
-import { TextMask, InputAdapter } from 'react-text-mask-hoc';
 import {
+    Button,
     Card,
-    CardHeader,
     CardBody,
-    CardFooter,
-    Modal,
-    ModalHeader,
-    ModalBody,
-    ModalFooter,
-    Label,
-    Input,
-    InputGroup,
+    CardHeader,
     FormGroup,
     FormText,
-    Button,
-    Col,
-    Table,
+    Input,
+    InputGroup,
+    Label,
+    Modal,
+    ModalBody,
+    ModalFooter,
+    ModalHeader,
     Pagination,
     PaginationItem,
-    PaginationLink
+    PaginationLink,
+    Table
 } from 'reactstrap';
-import {getRole,addRole, deleteRole} from '../../../api/AdminManagement/RoleManagement/roleManagement'
+import {addRole, deleteRole, getRole} from '../../../api/AdminManagement/RoleManagement/roleManagement'
 
 
 class RoleManagement extends Component {
     constructor(props) {
         super(props);
 
-        this.state={
-            listRole:[],
-            role:'',
-            roleSelected:null,
-            resultAdd:null,
-            resultDelete:null,
-            modalAddRole:false,
-            modalDeleteRole:false,
-            nestedModalAdd:false,
-            closeAllAdd:false,
-            nestedModalDelete:false,
+        this.state = {
+            listRole: null,
+            role: '',
+            roleSelected: null,
+            resultAdd: null,
+            resultDelete: null,
+            modalAddRole: false,
+            modalDeleteRole: false,
+            nestedModalAdd: false,
+            closeAllAdd: false,
+            nestedModalDelete: false,
 
-            curPaItem:1,
+            curPaItem: 1,
             maxRows: 10,
             maxPaItems: 3,
-            definePa:[],
-            filterPa:[]
+            definePa: [],
+            filterPa: []
         };
-        this.toggleAddRole=this.toggleAddRole.bind(this);
-        this.toggleDeleteRole=this.toggleDeleteRole.bind(this);
-        this.loadRoles=this.loadRoles.bind(this);
-        this.handleAddRole=this.handleAddRole.bind(this);
-        this.toggleNestedAdd=this.toggleNestedAdd.bind(this);
-        this.toggleAllAdd=this.toggleAllAdd.bind(this);
-        this.toggleNestDelete=this.toggleNestDelete.bind(this);
-        this.handleDeleteRole=this.handleDeleteRole.bind(this);
-    
-        this.filterPa=this.filterPa.bind(this);
-        this.togglePa=this.togglePa.bind(this);
-        this.toggleNext=this.toggleNext.bind(this);
-        this.togglePre=this.togglePre.bind(this);
+        this.toggleAddRole = this.toggleAddRole.bind(this);
+        this.toggleDeleteRole = this.toggleDeleteRole.bind(this);
+        this.loadRoles = this.loadRoles.bind(this);
+        this.handleAddRole = this.handleAddRole.bind(this);
+        this.toggleNestedAdd = this.toggleNestedAdd.bind(this);
+        this.toggleAllAdd = this.toggleAllAdd.bind(this);
+        this.toggleNestDelete = this.toggleNestDelete.bind(this);
+        this.handleDeleteRole = this.handleDeleteRole.bind(this);
+
+        this.filterPa = this.filterPa.bind(this);
+        this.togglePa = this.togglePa.bind(this);
+        this.toggleNext = this.toggleNext.bind(this);
+        this.togglePre = this.togglePre.bind(this);
     }
-    componentDidMount(){
+
+    componentDidMount() {
         this.loadRoles();
     }
-    loadRoles(){
-        getRole().then(res=>{
+
+    loadRoles() {
+        getRole().then(res => {
             console.log(`getRole ${res}`);
             this.setState({
-                listRole:res.data
-            },()=>{
-                const table=document.getElementById('table-roles');
-                const tr=table.getElementsByTagName('tr');
-                if(tr.length-1>this.state.maxRows)
-                {
-                    let temp=[];
-                    for(let i=1;i<=Math.ceil((tr.length-1)/this.state.maxRows);i++)
-                        temp.push(i);
-                    this.setState({definePa:temp},
-                        ()=>{
-                            if(this.state.definePa.length-this.state.curPaItem+1>=this.state.maxPaItems)
-                            {
-                                let temp=[];
-                                for(let i=this.state.curPaItem-1;i<this.state.curPaItem+this.state.maxPaItems-1;i++)
-                                {
-                                    temp.push(this.state.definePa[i]);
-                                }
-                                this.setState({filterPa:temp});
-                            }
-                            else
-                            {
-                                let temp=[];
-                                if(this.state.definePa.length-this.state.maxPaItems>=0)
-                                    for(let i=this.state.definePa.length-this.state.maxPaItems;i<this.state.definePa.length;i++)
+                    listRole: res.data
+                }, () => {
+                    const table = document.getElementById('table-roles');
+                    const tr = table.getElementsByTagName('tr');
+                    if (tr.length - 1 > this.state.maxRows) {
+                        let temp = [];
+                        for (let i = 1; i <= Math.ceil((tr.length - 1) / this.state.maxRows); i++)
+                            temp.push(i);
+                        this.setState({definePa: temp},
+                            () => {
+                                if (this.state.definePa.length - this.state.curPaItem + 1 >= this.state.maxPaItems) {
+                                    let temp = [];
+                                    for (let i = this.state.curPaItem - 1; i < this.state.curPaItem + this.state.maxPaItems - 1; i++) {
                                         temp.push(this.state.definePa[i]);
-                                else{
-                                    temp=[...this.state.definePa];
+                                    }
+                                    this.setState({filterPa: temp});
+                                } else {
+                                    let temp = [];
+                                    if (this.state.definePa.length - this.state.maxPaItems >= 0)
+                                        for (let i = this.state.definePa.length - this.state.maxPaItems; i < this.state.definePa.length; i++)
+                                            temp.push(this.state.definePa[i]);
+                                    else {
+                                        temp = [...this.state.definePa];
+                                    }
+                                    this.setState({filterPa: temp});
                                 }
-                                this.setState({filterPa:temp});
-                            }
-                        });
+                            });
+                    } else
+                        this.setState({definePa: [1]},
+                            () => {
+                                this.setState({filterPa: this.state.definePa});
+                            });
+                    this.filterPa();
                 }
-                else
-                    this.setState({definePa:[1]},
-                        ()=>{
-                            this.setState({filterPa:this.state.definePa});
-                        });
-                this.filterPa();
-            }
             );
         })
     }
-    toggleAddRole(){
-        this.setState({modalAddRole:!this.state.modalAddRole});
+
+    toggleAddRole() {
+        this.setState({modalAddRole: !this.state.modalAddRole});
     }
-    filterTable(){
-        let td,txtValue,display;
+
+    filterTable() {
+        let td, txtValue, display;
         const filter = document.getElementById("search").value.toUpperCase();
         const table = document.getElementById("table-roles");
         const tr = table.getElementsByTagName("tr");
         for (let i = 1; i < tr.length; i++) {
             td = tr[i].getElementsByTagName("td");
-            display=false;
-            for(let j=0;j<td.length;j++){
+            display = false;
+            for (let j = 0; j < td.length; j++) {
                 txtValue = td[j].textContent || td[j].innerText;
-                if (txtValue.toUpperCase().indexOf(filter) > -1)
-                {
-                    display=true;
+                if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                    display = true;
                     break;
                 }
             }
@@ -140,84 +133,79 @@ class RoleManagement extends Component {
         }
     }
 
-    filterPa(){
-        const table=document.getElementById('table-roles');
-        const tr=table.getElementsByTagName('tr');
-        for(let i=1;i<tr.length;i++)
-        {
-            if((i>=(this.state.curPaItem-1)*this.state.maxRows+1) && (i<=this.state.curPaItem*this.state.maxRows))
-                tr[i].style.display='';
+    filterPa() {
+        const table = document.getElementById('table-roles');
+        const tr = table.getElementsByTagName('tr');
+        for (let i = 1; i < tr.length; i++) {
+            if ((i >= (this.state.curPaItem - 1) * this.state.maxRows + 1) && (i <= this.state.curPaItem * this.state.maxRows))
+                tr[i].style.display = '';
             else
-                tr[i].style.display='none';
+                tr[i].style.display = 'none';
         }
     }
-    togglePre(){
-        if(this.state.curPaItem > 1)
-        {
+
+    togglePre() {
+        if (this.state.curPaItem > 1) {
             this.setState({
-                curPaItem:this.state.curPaItem-1
-            },()=>{
+                curPaItem: this.state.curPaItem - 1
+            }, () => {
                 this.filterPa();
-                if(this.state.definePa.length-this.state.curPaItem+1>=this.state.maxPaItems)
-                {
-                    let temp=[];
-                    for(let i=this.state.curPaItem-1;i<this.state.curPaItem+this.state.maxPaItems-1;i++)
-                    {
+                if (this.state.definePa.length - this.state.curPaItem + 1 >= this.state.maxPaItems) {
+                    let temp = [];
+                    for (let i = this.state.curPaItem - 1; i < this.state.curPaItem + this.state.maxPaItems - 1; i++) {
                         temp.push(this.state.definePa[i]);
                     }
-                    this.setState({filterPa:temp});
-                }
-                else
-                {
-                    let temp=[];
-                    if(this.state.definePa.length-this.state.maxPaItems>=0)
-                        for(let i=this.state.definePa.length-this.state.maxPaItems;i<this.state.definePa.length;i++)
+                    this.setState({filterPa: temp});
+                } else {
+                    let temp = [];
+                    if (this.state.definePa.length - this.state.maxPaItems >= 0)
+                        for (let i = this.state.definePa.length - this.state.maxPaItems; i < this.state.definePa.length; i++)
                             temp.push(this.state.definePa[i]);
-                    else{
-                        temp=[...this.state.definePa];
+                    else {
+                        temp = [...this.state.definePa];
                     }
-                    this.setState({filterPa:temp});
+                    this.setState({filterPa: temp});
                 }
             });
         }
     }
-    toggleNext(){
-        if(this.state.curPaItem*this.state.maxRows<this.state.listRole.length)
-        {
+
+    toggleNext() {
+        if (this.state.curPaItem * this.state.maxRows < this.state.listRole.length) {
             this.setState({
-                curPaItem:this.state.curPaItem+1
-            },()=>{
+                curPaItem: this.state.curPaItem + 1
+            }, () => {
                 this.filterPa();
-                if(this.state.definePa.length-this.state.curPaItem+1>=this.state.maxPaItems)
-                {
-                    let temp=[];
-                    for(let i=this.state.curPaItem-1;i<this.state.curPaItem+this.state.maxPaItems-1;i++)
-                    {
+                if (this.state.definePa.length - this.state.curPaItem + 1 >= this.state.maxPaItems) {
+                    let temp = [];
+                    for (let i = this.state.curPaItem - 1; i < this.state.curPaItem + this.state.maxPaItems - 1; i++) {
                         temp.push(this.state.definePa[i]);
                     }
-                    this.setState({filterPa:temp});
-                }
-                else
-                {
-                    let temp=[];
-                    if(this.state.definePa.length-this.state.maxPaItems>=0)
-                        for(let i=this.state.definePa.length-this.state.maxPaItems;i<this.state.definePa.length;i++)
+                    this.setState({filterPa: temp});
+                } else {
+                    let temp = [];
+                    if (this.state.definePa.length - this.state.maxPaItems >= 0)
+                        for (let i = this.state.definePa.length - this.state.maxPaItems; i < this.state.definePa.length; i++)
                             temp.push(this.state.definePa[i]);
-                    else{
-                        temp=[...this.state.definePa];
+                    else {
+                        temp = [...this.state.definePa];
                     }
-                    this.setState({filterPa:temp});
+                    this.setState({filterPa: temp});
                 }
             });
         }
     }
-    togglePa(i){
+
+    togglePa(i) {
         this.setState({
-            curPaItem:i
-        },()=>{this.filterPa()}
+                curPaItem: i
+            }, () => {
+                this.filterPa()
+            }
         );
     }
-    handleAddRole(){
+
+    handleAddRole() {
         const params = this.state.role;
         console.log("param", params);
         if (this.state.role) {
@@ -232,12 +220,14 @@ class RoleManagement extends Component {
             alert("Vui lòng điền đầy đủ thông tin.")
         }
     }
+
     toggleNestedAdd() {
         this.setState({
             nestedModalAdd: !this.state.nestedModalAdd,
             closeAllAdd: false
         });
     }
+
     toggleAllAdd() {
         this.setState({
             nestedModalAdd: !this.state.nestedModalAdd,
@@ -245,41 +235,46 @@ class RoleManagement extends Component {
         });
         window.location.reload();
     }
-    toggleDeleteRole(role){
+
+    toggleDeleteRole(role) {
         this.setState({
-            modalDeleteRole:!this.state.modalDeleteRole,
-            roleSelected:role
-            },()=>{console.log("role delete ",this.state.roleSelected)}
+                modalDeleteRole: !this.state.modalDeleteRole,
+                roleSelected: role
+            }, () => {
+                console.log("role delete ", this.state.roleSelected)
+            }
         );
     }
-    handleDeleteRole(){
-        const params=this.state.roleSelected;
-        console.log("params",params);
-        deleteRole(params).then(res=>{
-            console.log('res deleteRole',res);
+
+    handleDeleteRole() {
+        const params = this.state.roleSelected;
+        console.log("params", params);
+        deleteRole(params).then(res => {
+            console.log('res deleteRole', res);
             this.setState({
-                resultDelete:res
-            },()=>this.toggleNestDelete())
+                resultDelete: res
+            }, () => this.toggleNestDelete())
         })
     }
-    toggleNestDelete(){
+
+    toggleNestDelete() {
         this.setState({
             nestedModalDelete: !this.state.nestedModalDelete,
             closeAllAdd: false
         });
     }
+
     render() {
-        const {listRole,resultAdd,resultDelete}=this.state;
-        const listPaItems=this.state.filterPa.map((i,index)=>
-            this.state.curPaItem===i?
-                <PaginationItem key={index} active id={'paItem'+i}>
-                    <PaginationLink onClick={()=>this.togglePa(i)}>{i}</PaginationLink>
+        const {listRole, resultAdd, resultDelete} = this.state;
+        const listPaItems = this.state.filterPa.map((i, index) =>
+            this.state.curPaItem === i ?
+                <PaginationItem key={index} active id={'paItem' + i}>
+                    <PaginationLink onClick={() => this.togglePa(i)}>{i}</PaginationLink>
                 </PaginationItem>
                 :
-                <PaginationItem key={index} id={'paItem'+i}>
-                    <PaginationLink onClick={()=>this.togglePa(i)}>{i}</PaginationLink>
+                <PaginationItem key={index} id={'paItem' + i}>
+                    <PaginationLink onClick={() => this.togglePa(i)}>{i}</PaginationLink>
                 </PaginationItem>
-
         );
         return (
             <div className="animated role-management">
@@ -294,8 +289,8 @@ class RoleManagement extends Component {
                                 <FormGroup>
                                     <Label htmlFor="role">Tên role</Label>
                                     <Input type="text" id="role" value={this.state.role}
-                                    onChange={(e)=>this.setState({role:e.target.value}, () => console.log(this.state.role))}
-                                    placeholder="Enter role" required/>
+                                           onChange={(e) => this.setState({role: e.target.value}, () => console.log(this.state.role))}
+                                           placeholder="Enter role" required/>
                                     <FormText className="help-block">Please enter role</FormText>
                                 </FormGroup>
                             </ModalBody>
@@ -307,33 +302,37 @@ class RoleManagement extends Component {
                     </CardHeader>
                     <CardBody>
                         <InputGroup className="search">
-                            <Input type="text" id="search" onKeyUp={this.filterTable} placeholder="Search..." title="Enter a search info" />
+                            <Input type="text" id="search" onKeyUp={this.filterTable} placeholder="Search..."
+                                   title="Enter a search info"/>
                             <div className="input-group-append">
                                 <i className="fa fa-search form-control" aria-hidden="true"></i>
                             </div>
                         </InputGroup>
                         <Table id="table-roles" responsive>
                             <thead>
-                                <tr>
-                                    <th>Role</th>
-                                    <th>Action</th>
-                                </tr>
+                            <tr>
+                                <th>Role</th>
+                                <th>Action</th>
+                            </tr>
                             </thead>
                             <tbody>
-                                {
-                                    listRole ? listRole.map((item,index)=>{
-                                        return(
-                                            <tr key={index}>
-                                                <td>{item.role}</td>
-                                                <td><Button color="primary" onClick={()=>{this.toggleDeleteRole(item.role);console.log("item",item.role)}}>Xóa</Button></td>
-                                            </tr>
-                                        )
-                                    }):null 
-                                }
+                            {
+                                listRole ? listRole.map((item, index) => {
+                                    return (
+                                        <tr key={index}>
+                                            <td>{item.role}</td>
+                                            <td><Button color="primary" onClick={() => {
+                                                this.toggleDeleteRole(item.role);
+                                                console.log("item", item.role)
+                                            }}>Xóa</Button></td>
+                                        </tr>
+                                    )
+                                }) : null
+                            }
                             </tbody>
                         </Table>
                         {
-                            this.state.listRole.length!=0 ? 
+                            this.state.listRole.length!=0 ?
                             <Pagination id="pagination">
                                 <PaginationItem>
                                     <PaginationLink previous onClick={this.togglePre}/>
@@ -360,7 +359,7 @@ class RoleManagement extends Component {
                 </Card>
                 <Modal isOpen={this.state.nestedModalAdd}
                        toggle={() => this.toggleNestedAdd()}
-                       
+
                        className={'modal-info ' + this.props.className} centered>
                     <ModalHeader toggle={() => this.toggleAllAdd()}>Thông
                         báo</ModalHeader>
@@ -372,7 +371,7 @@ class RoleManagement extends Component {
                 </Modal>
                 <Modal isOpen={this.state.nestedModalDelete}
                        toggle={() => this.toggleNestDelete()}
-                       
+
                        className={'modal-info ' + this.props.className} centered>
                     <ModalHeader toggle={() => this.toggleAllAdd()}>Thông
                         báo</ModalHeader>

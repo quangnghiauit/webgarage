@@ -1,45 +1,41 @@
 import React, {Component} from 'react';
-import {
-    Card,
-    CardHeader,
-    CardBody,
-    CardFooter,
-    Table, Button,
-} from 'reactstrap';
+import {Button, Card, CardBody, CardFooter, CardHeader, Table,} from 'reactstrap';
 import {getBillHandling} from '../../../api/BillManagement/billmanagement'
 
 
-
 class CreateBill extends Component {
-    constructor(props){
+    constructor(props) {
         super(props);
 
-        this.state={
-            list:[],
+        this.state = {
+            list: [],
 
         };
 
-        this.loadListBill=this.loadListBill.bind(this);
-        this.toggleCreateBill=this.toggleCreateBill.bind(this);
+        this.loadListBill = this.loadListBill.bind(this);
+        this.toggleCreateBill = this.toggleCreateBill.bind(this);
     }
-    componentDidMount(){
+
+    componentDidMount() {
         this.loadListBill()
     }
-    loadListBill(){
-        getBillHandling().then(res=>{
+
+    loadListBill() {
+        getBillHandling().then(res => {
             this.setState({
-                list:res.data
-            },()=>{
-                
+                list: res.data
+            }, () => {
+
             })
         })
     }
-    toggleCreateBill(id){
-        window.location.replace("http://localhost:8080/#/bill-management/bill-info/"+id)
+
+    toggleCreateBill(id) {
+        window.location.replace("http://localhost:8080/#/bill-management/bill-info/" + id)
     }
 
     render() {
-        const {list}=this.state;
+        const {list} = this.state;
         return (
             <div className="animated import-bill">
                 <Card>
@@ -59,28 +55,28 @@ class CreateBill extends Component {
                             </tr>
                             </thead>
                             <tbody>
-                                {
-                                    list ? list.map((item,index)=>{
-                                        return(
-                                            <tr key={index}>
-                                                <td>{index + 1}</td>
-                                                <td>{item.userID}</td>
-                                                <td>{item.fullName}</td>
-                                                <td>{item.phoneNumber}</td>
-                                                <td>{item.createdDate}</td>
-                                                <td>
-                                                    {
-                                                        <Button color="warning" 
-                                                            onClick={()=>this.toggleCreateBill(item.repairBillID)}>Tạo</Button>
-                                                    }
-                                                </td>
-                                            </tr>
-                                        );
-                                    }):null
-                                }
+                            {
+                                list ? list.map((item, index) => {
+                                    return (
+                                        <tr key={index}>
+                                            <td>{index + 1}</td>
+                                            <td>{item.userID}</td>
+                                            <td>{item.fullName}</td>
+                                            <td>{item.phoneNumber}</td>
+                                            <td>{item.createdDate}</td>
+                                            <td>
+                                                {
+                                                    <Button color="warning"
+                                                            onClick={() => this.toggleCreateBill(item.repairBillID)}>Tạo</Button>
+                                                }
+                                            </td>
+                                        </tr>
+                                    );
+                                }) : null
+                            }
                             </tbody>
                         </Table>
-                        
+
                     </CardBody>
                     <CardFooter>
 

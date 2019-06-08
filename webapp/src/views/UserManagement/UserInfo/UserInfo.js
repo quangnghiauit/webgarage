@@ -1,47 +1,41 @@
 import React, {Component} from 'react';
 import {
-    Row,
-    Col,
+    Button,
     Card,
-    CardHeader,
     CardBody,
     CardFooter,
-    Input,
-    InputGroup,
-    Label,
+    CardHeader,
+    Col,
     FormGroup,
-    Form,
-    Button,
-    Table,
-    Badge,
+    Input,
+    Label,
     Modal,
-    ModalHeader,
     ModalBody,
     ModalFooter,
-    FormText,
-    Collapse
+    ModalHeader,
+    Row
 } from 'reactstrap';
-import ScrollArea from 'react-scrollbar'
-import { TextMask, InputAdapter } from 'react-text-mask-hoc';
 
 class UserInfo extends Component {
-    constructor(props){
+    constructor(props) {
         super(props);
 
-        this.state={
-            modalUpdate:false,
-            collapseBill:false
+        this.state = {
+            modalUpdate: false,
+            collapseBill: false
         };
-        this.toggleUpdate=this.toggleUpdate.bind(this);
-        this.toggleBill=this.toggleBill.bind(this);
+        this.toggleUpdate = this.toggleUpdate.bind(this);
+        this.toggleBill = this.toggleBill.bind(this);
     }
 
-    toggleUpdate(){
-        this.setState({modalUpdate:!this.state.modalUpdate});
+    toggleUpdate() {
+        this.setState({modalUpdate: !this.state.modalUpdate});
     }
-    toggleBill(){
-        this.setState({collapseBill:!this.state.collapseBill});
+
+    toggleBill() {
+        this.setState({collapseBill: !this.state.collapseBill});
     }
+
     render() {
         return (
             <div className="animated fadeIn customer-info">
@@ -52,7 +46,7 @@ class UserInfo extends Component {
                             <Col xs="12" lg="4">
                                 <FormGroup>
                                     <Label htmlFor="display-name">Tên hiển thị</Label>
-                                    <Input type="text" id="display-name" placeholder="display name" />
+                                    <Input type="text" id="display-name" placeholder="display name"/>
                                 </FormGroup>
                                 <FormGroup>
                                     <Label htmlFor="address">Địa chỉ</Label>
@@ -82,7 +76,7 @@ class UserInfo extends Component {
                         </Row>
                     </CardBody>
                     <CardFooter>
-                        <Button className="float-right" color="success"  onClick={this.toggleUpdate}>Cập nhật</Button>
+                        <Button className="float-right" color="success" onClick={this.toggleUpdate}>Cập nhật</Button>
                         <Modal isOpen={this.state.modalUpdate} toggle={this.toggleUpdate}
                                className='modal-info'>
                             <ModalHeader toggle={this.toggleUpdate}>Thông báo</ModalHeader>
@@ -99,7 +93,6 @@ class UserInfo extends Component {
 }
 
 export default UserInfo;
-
 
 
 // return (

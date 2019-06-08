@@ -1,6 +1,7 @@
 package com.nghia.uit.webgarage.Repository;
 
 import com.nghia.uit.webgarage.Model.DetailRepairBill;
+import com.nghia.uit.webgarage.Model.Material;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
@@ -15,4 +16,7 @@ public interface DetailRepairBillRepository extends CrudRepository<DetailRepairB
 
     @Query(value = "select * from detailrepairbill as d where d.repairBillID =?1",nativeQuery = true)
     List<DetailRepairBill> findAllByRepairBillID(String repairBillID);
+
+    @Query(value = "select * from detailrepairbill as d where d.createdDate >= ?1 and d.createdDate <= ?2",nativeQuery = true)
+    List<DetailRepairBill> searchMaterialExportByDate(String startDate, String endDate);
 }

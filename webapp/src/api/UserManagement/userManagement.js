@@ -1,4 +1,4 @@
-import { httpGet, httpPost} from "../index";
+import {httpGet, httpPost} from "../index";
 
 const BASE_URL = 'api/clientmanagement';
 
@@ -11,14 +11,15 @@ export function getInfoClient(userID) {
 }
 
 export function addClient(requestParam) {
-    return httpPost(BASE_URL + '/addclient',requestParam)
+    return httpPost(BASE_URL + '/addclient', requestParam)
 
 }
 
-export function updateClient(userID,requestParam) {
-    return httpPost(BASE_URL + '/updateclient?userID=' + userID,requestParam)
+export function updateClient(userID, requestParam) {
+    return httpPost(BASE_URL + '/updateclient?userID=' + userID, requestParam)
 
 }
+
 // export function getInfoRole() {
 //     return httpGet(BASE_URL);
 // }

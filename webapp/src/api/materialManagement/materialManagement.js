@@ -1,4 +1,4 @@
-import { httpGet, httpPost,httpDelete} from "../index";
+import {httpGet, httpPost, httpDelete} from "../index";
 
 const BASE_URL = 'api/material-management';
 
@@ -20,7 +20,7 @@ export function getListMaterialName() {
 }
 
 export function addHistoryMaterial(requestParams) {
-    return httpPost(BASE_URL+'/add-material',requestParams)
+    return httpPost(BASE_URL + '/add-material', requestParams)
 
 }
 

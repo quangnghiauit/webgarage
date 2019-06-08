@@ -1,15 +1,16 @@
 package com.nghia.uit.webgarage.Service.Impl;
 
+import com.nghia.uit.webgarage.Bean.ResponseDTO;
 import com.nghia.uit.webgarage.Model.*;
-import com.nghia.uit.webgarage.Repository.DetailRepairBillRepository;
-import com.nghia.uit.webgarage.Repository.MaterialNameRepository;
-import com.nghia.uit.webgarage.Repository.RepairBillRepository;
-import com.nghia.uit.webgarage.Repository.UserRepository;
+import com.nghia.uit.webgarage.Repository.*;
 import com.nghia.uit.webgarage.Service.ReportManagementService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
@@ -23,10 +24,16 @@ public class ReportManagementServiceImpl implements ReportManagementService {
     private DetailRepairBillRepository detailRepairBillRepository;
 
     @Autowired
-    private MaterialNameRepository materialNameRepository;
+    private MaterialReportRepository materialReportRepository;
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private CarRepository carRepository;
+
+    @Autowired
+    private MaterialRepository materialRepository;
 
     @Override
     public List<BillDTO> getAllBillHandling() {
@@ -52,9 +59,9 @@ public class ReportManagementServiceImpl implements ReportManagementService {
                             DetailBillDTO detailBillDTO = new DetailBillDTO();
                             String strMaterialName = null;
                             if(!detailRepairBill.getMaterialID().isEmpty()) {
-                                MaterialName materialName = materialNameRepository.findByMaterialID(detailRepairBill.getMaterialID());
-                                if(!materialName.getMaterialName().isEmpty()){
-                                    strMaterialName = materialName.getMaterialName();
+                                MaterialReport materialReport = materialReportRepository.findByMaterialID(detailRepairBill.getMaterialID());
+                                if(!materialReport.getMaterialName().isEmpty()){
+                                    strMaterialName = materialReport.getMaterialName();
                                 }
                             }
                             detailBillDTO.doMappingDetailReport(detailRepairBill,strMaterialName);
@@ -105,9 +112,9 @@ public class ReportManagementServiceImpl implements ReportManagementService {
                         DetailBillDTO detailBillDTO = new DetailBillDTO();
                         String strMaterialName = null;
                         if(!detailRepairBill.getMaterialID().isEmpty()) {
-                            MaterialName materialName = materialNameRepository.findByMaterialID(detailRepairBill.getMaterialID());
-                            if(!materialName.getMaterialName().isEmpty()){
-                                strMaterialName = materialName.getMaterialName();
+                            MaterialReport materialReport = materialReportRepository.findByMaterialID(detailRepairBill.getMaterialID());
+                            if(!materialReport.getMaterialName().isEmpty()){
+                                strMaterialName = materialReport.getMaterialName();
                             }
                         }
                         detailBillDTO.doMappingDetailReport(detailRepairBill,strMaterialName);
@@ -154,9 +161,9 @@ public class ReportManagementServiceImpl implements ReportManagementService {
                             DetailBillDTO detailBillDTO = new DetailBillDTO();
                             String strMaterialName = null;
                             if(!detailRepairBill.getMaterialID().isEmpty()) {
-                                MaterialName materialName = materialNameRepository.findByMaterialID(detailRepairBill.getMaterialID());
-                                if(!materialName.getMaterialName().isEmpty()){
-                                    strMaterialName = materialName.getMaterialName();
+                                MaterialReport materialReport = materialReportRepository.findByMaterialID(detailRepairBill.getMaterialID());
+                                if(!materialReport.getMaterialName().isEmpty()){
+                                    strMaterialName = materialReport.getMaterialName();
                                 }
                             }
                             detailBillDTO.doMappingDetailReport(detailRepairBill,strMaterialName);
@@ -181,5 +188,122 @@ public class ReportManagementServiceImpl implements ReportManagementService {
         }catch (Exception ex) {
             return new ArrayList<>();
         }
+    }
+
+    @Override
+    public ResponseDTO exportBill(DetailBillDTO detailBillDTO) {
+        try {
+            long totalMoney = detailBillDTO.getTotalMoney();
+            String repairBillID = detailBillDTO.getRepairBillID();
+
+            RepairBill repairBill = repairBillRepository.findByRepairBillID(repairBillID);
+
+            if(Objects.isNull(repairBill)) {
+                return new ResponseDTO().fail("Xuất hóa đơn không thành công");
+            }
+            repairBill.setStatus(2);
+
+            if(totalMoney >= 0) {
+                repairBill.setTotalMoney(totalMoney);
+            }
+
+            repairBill.setExportDate(convertDate());
+
+            Car car = carRepository.findCarByLicensePlate(repairBill.getLicensePlate());
+            if(Objects.isNull(car))  {
+                return new ResponseDTO().fail("Xuất hóa đơn không thành công");
+            }
+
+            car.setStatus(2);
+            carRepository.save(car);
+
+
+            repairBillRepository.save(repairBill);
+            return new ResponseDTO().success("Xuất hóa đơn thành công");
+        }catch (Exception ex) {
+            return new ResponseDTO().fail("Xuất hóa đơn không thành công");
+        }
+    }
+
+    @Override
+    public List<RepairBill> searchRevenue(RequestSearchDate requestSearchDate) {
+        try {
+            String startDate = requestSearchDate.getStartDate();
+            String endDate = requestSearchDate.getEndDate();
+
+            List<RepairBill> repairBills = repairBillRepository.searchRevenueByDate(startDate,endDate);
+
+            if(repairBills.isEmpty()) {
+                return new ArrayList<>();
+            }
+            return repairBills;
+
+        } catch (Exception ex) {
+            return new ArrayList<>();
+        }
+    }
+
+    @Override
+    public List<InventoryReportDTO> searchInventory(RequestSearchDate requestSearchDate) {
+        try{
+            String startDate = requestSearchDate.getStartDate();
+            String endDate = requestSearchDate.getEndDate();
+
+            List<InventoryReportDTO> inventoryReportDTOS = new ArrayList<>();
+
+            List<Material> materialList = materialRepository.searchMaterialInputByDate(startDate,endDate);
+            List<DetailRepairBill> detailRepairBills = detailRepairBillRepository.searchMaterialExportByDate(startDate,endDate);
+            if(materialList.isEmpty()||detailRepairBills.isEmpty()) {
+                return new ArrayList<>();
+            }
+
+            List<String> listMaterialID = new ArrayList<>();
+
+            for(Material material : materialList) {
+                if(!listMaterialID.contains(material.getMaterialID())) {
+                    listMaterialID.add(material.getMaterialID());
+
+                    InventoryReportDTO inventoryReportDTO = new InventoryReportDTO();
+                    inventoryReportDTO.setMaterialID(material.getMaterialID());
+                    inventoryReportDTO.setMaterialName(material.getMaterialName());
+                    inventoryReportDTOS.add(inventoryReportDTO);
+                }
+            }
+
+            if(!listMaterialID.isEmpty() && !inventoryReportDTOS.isEmpty()) {
+                for(InventoryReportDTO inventoryReportDTO : inventoryReportDTOS) {
+                    for(Material material :materialList) {
+                        if(material.getMaterialID().equals(inventoryReportDTO.getMaterialID())) {
+                            long totalInput = inventoryReportDTO.getTotalInput();
+                            long totalMaterialInput = inventoryReportDTO.getTotalMaterialInput();
+
+                            inventoryReportDTO.setTotalInput(totalInput + 1);
+                            inventoryReportDTO.setTotalMaterialInput(totalMaterialInput + material.getNumInput());
+                            inventoryReportDTO.setLastInventory(inventoryReportDTO.getTotalMaterialInput() - inventoryReportDTO.getTotalMaterialExport());
+
+                        }
+                    }
+
+                    for(DetailRepairBill detailRepairBill : detailRepairBills) {
+                        if(detailRepairBill.getMaterialID().equals(inventoryReportDTO.getMaterialID())) {
+                            long totalMaterialExport = inventoryReportDTO.getTotalMaterialExport();
+                            inventoryReportDTO.setTotalMaterialExport(totalMaterialExport + detailRepairBill.getReqNum());
+                            inventoryReportDTO.setLastInventory(inventoryReportDTO.getTotalMaterialInput() - inventoryReportDTO.getTotalMaterialExport());
+                        }
+                    }
+                }
+            }
+
+            return inventoryReportDTOS;
+
+        }catch (Exception ex) {
+            return new ArrayList<>();
+        }
+    }
+
+    private String convertDate() {
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date date = new Date();
+        return dateFormat.format(date); //2019/03/13 20:08:43
     }
 }

@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import {Button, Card, CardBody, CardGroup, Col, Container, Input, InputGroup, Row} from 'reactstrap';
 import {getRole} from "../../../api/Role/role";
-import axios from 'axios';
 
 
 class Login extends Component {

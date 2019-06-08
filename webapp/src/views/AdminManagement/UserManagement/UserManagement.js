@@ -14,10 +14,10 @@ import {
     ModalBody,
     ModalFooter,
     ModalHeader,
-    Table,
     Pagination,
     PaginationItem,
-    PaginationLink
+    PaginationLink,
+    Table
 } from 'reactstrap';
 import {getRole} from '../../../api/AdminManagement/RoleManagement/roleManagement'
 import {
@@ -44,32 +44,32 @@ class UserManagement extends Component {
             userName:'',
             password:'',
 
-            resultAdd:null,
-            modalAddUser:false,
-            modalUser:false,
-            nestedModalAdd:false,
-            closeAllAdd:false,
+            resultAdd: null,
+            modalAddUser: false,
+            modalUser: false,
+            nestedModalAdd: false,
+            closeAllAdd: false,
 
-            modalUpdate:false,
-            nestedModalUpdate:false,
-            closeAllUpdate:false,
-            resultUpdate:null,
+            modalUpdate: false,
+            nestedModalUpdate: false,
+            closeAllUpdate: false,
+            resultUpdate: null,
 
-            modalDelete:false,
-            nestedModalDelete:false,
-            closeAllDelete:false,
-            resultDelete:null,
+            modalDelete: false,
+            nestedModalDelete: false,
+            closeAllDelete: false,
+            resultDelete: null,
 
-            curPaItem:1,
+            curPaItem: 1,
             maxRows: 10,
             maxPaItems: 3,
-            definePa:[],
-            filterPa:[]
+            definePa: [],
+            filterPa: []
         };
-        this.toggleAddUser=this.toggleAddUser.bind(this);
-        this.toggleUser=this.toggleUser.bind(this);
-        this.toggleNestedAdd=this.toggleNestedAdd.bind(this);
-        this.toggleAllAdd=this.toggleAllAdd.bind(this);
+        this.toggleAddUser = this.toggleAddUser.bind(this);
+        this.toggleUser = this.toggleUser.bind(this);
+        this.toggleNestedAdd = this.toggleNestedAdd.bind(this);
+        this.toggleAllAdd = this.toggleAllAdd.bind(this);
 
         this.toggleUpdate = this.toggleUpdate.bind(this);
         this.toggleNestedUpdate = this.toggleNestedUpdate.bind(this);
@@ -78,82 +78,78 @@ class UserManagement extends Component {
         this.toggleDelete = this.toggleDelete.bind(this);
         this.toggleNestedDelete = this.toggleNestedDelete.bind(this);
         this.toggleAllDelete = this.toggleAllDelete.bind(this);
-        
-        this.filterPa=this.filterPa.bind(this);
-        this.togglePa=this.togglePa.bind(this);
-        this.toggleNext=this.toggleNext.bind(this);
-        this.togglePre=this.togglePre.bind(this);
+
+        this.filterPa = this.filterPa.bind(this);
+        this.togglePa = this.togglePa.bind(this);
+        this.toggleNext = this.toggleNext.bind(this);
+        this.togglePre = this.togglePre.bind(this);
     }
 
-    componentDidMount(){
+    componentDidMount() {
         this.loadRole();
         this.loadUser();
     }
-    loadRole(){
-        getRole().then(res=>{
+
+    loadRole() {
+        getRole().then(res => {
             this.setState({
-                listRole:res.data
+                listRole: res.data
             });
         })
     }
-    loadUser(){
-        getUsers().then(res=>{
+
+    loadUser() {
+        getUsers().then(res => {
             this.setState({
-                listUser:res.data
-            },()=>{
-                const table=document.getElementById('table-users');
-                const tr=table.getElementsByTagName('tr');
-                if(tr.length-1>this.state.maxRows)
-                {
-                    let temp=[];
-                    for(let i=1;i<=Math.ceil((tr.length-1)/this.state.maxRows);i++)
+                listUser: res.data
+            }, () => {
+                const table = document.getElementById('table-users');
+                const tr = table.getElementsByTagName('tr');
+                if (tr.length - 1 > this.state.maxRows) {
+                    let temp = [];
+                    for (let i = 1; i <= Math.ceil((tr.length - 1) / this.state.maxRows); i++)
                         temp.push(i);
-                    this.setState({definePa:temp},
-                        ()=>{
-                            if(this.state.definePa.length-this.state.curPaItem+1>=this.state.maxPaItems)
-                            {
-                                let temp=[];
-                                for(let i=this.state.curPaItem-1;i<this.state.curPaItem+this.state.maxPaItems-1;i++)
-                                {
+                    this.setState({definePa: temp},
+                        () => {
+                            if (this.state.definePa.length - this.state.curPaItem + 1 >= this.state.maxPaItems) {
+                                let temp = [];
+                                for (let i = this.state.curPaItem - 1; i < this.state.curPaItem + this.state.maxPaItems - 1; i++) {
                                     temp.push(this.state.definePa[i]);
                                 }
-                                this.setState({filterPa:temp});
-                            }
-                            else
-                            {
-                                let temp=[];
-                                if(this.state.definePa.length-this.state.maxPaItems>=0)
-                                    for(let i=this.state.definePa.length-this.state.maxPaItems;i<this.state.definePa.length;i++)
+                                this.setState({filterPa: temp});
+                            } else {
+                                let temp = [];
+                                if (this.state.definePa.length - this.state.maxPaItems >= 0)
+                                    for (let i = this.state.definePa.length - this.state.maxPaItems; i < this.state.definePa.length; i++)
                                         temp.push(this.state.definePa[i]);
-                                else{
-                                    temp=[...this.state.definePa];
+                                else {
+                                    temp = [...this.state.definePa];
                                 }
-                                this.setState({filterPa:temp});
+                                this.setState({filterPa: temp});
                             }
                         });
-                }
-                else
-                    this.setState({definePa:[1]},
-                        ()=>{
-                            this.setState({filterPa:this.state.definePa});
+                } else
+                    this.setState({definePa: [1]},
+                        () => {
+                            this.setState({filterPa: this.state.definePa});
                         });
                 this.filterPa();
             })
         })
     }
-    filterTable(){
-        let td,txtValue,display;
+
+    filterTable() {
+        let td, txtValue, display;
         const filter = document.getElementById("search").value.toUpperCase();
         const table = document.getElementById("table-users");
         const tr = table.getElementsByTagName("tr");
         for (let i = 1; i < tr.length; i++) {
             td = tr[i].getElementsByTagName("td");
-            display=false;
-            for(let j=0;j<td.length;j++){
+            display = false;
+            for (let j = 0; j < td.length; j++) {
                 txtValue = td[j].textContent || td[j].innerText;
-                if (txtValue.toUpperCase().indexOf(filter) > -1)
-                {
-                    display=true;
+                if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                    display = true;
                     break;
                 }
             }
@@ -166,89 +162,84 @@ class UserManagement extends Component {
         }
     }
 
-    filterPa(){
-        const table=document.getElementById('table-users');
-        const tr=table.getElementsByTagName('tr');
-        for(let i=1;i<tr.length;i++)
-        {
-            if((i>=(this.state.curPaItem-1)*this.state.maxRows+1) && (i<=this.state.curPaItem*this.state.maxRows))
-                tr[i].style.display='';
+    filterPa() {
+        const table = document.getElementById('table-users');
+        const tr = table.getElementsByTagName('tr');
+        for (let i = 1; i < tr.length; i++) {
+            if ((i >= (this.state.curPaItem - 1) * this.state.maxRows + 1) && (i <= this.state.curPaItem * this.state.maxRows))
+                tr[i].style.display = '';
             else
-                tr[i].style.display='none';
+                tr[i].style.display = 'none';
         }
     }
-    togglePre(){
-        if(this.state.curPaItem > 1)
-        {
+
+    togglePre() {
+        if (this.state.curPaItem > 1) {
             this.setState({
-                curPaItem:this.state.curPaItem-1
-            },()=>{
+                curPaItem: this.state.curPaItem - 1
+            }, () => {
                 this.filterPa();
-                if(this.state.definePa.length-this.state.curPaItem+1>=this.state.maxPaItems)
-                {
-                    let temp=[];
-                    for(let i=this.state.curPaItem-1;i<this.state.curPaItem+this.state.maxPaItems-1;i++)
-                    {
+                if (this.state.definePa.length - this.state.curPaItem + 1 >= this.state.maxPaItems) {
+                    let temp = [];
+                    for (let i = this.state.curPaItem - 1; i < this.state.curPaItem + this.state.maxPaItems - 1; i++) {
                         temp.push(this.state.definePa[i]);
                     }
-                    this.setState({filterPa:temp});
-                }
-                else
-                {
-                    let temp=[];
-                    if(this.state.definePa.length-this.state.maxPaItems>=0)
-                        for(let i=this.state.definePa.length-this.state.maxPaItems;i<this.state.definePa.length;i++)
+                    this.setState({filterPa: temp});
+                } else {
+                    let temp = [];
+                    if (this.state.definePa.length - this.state.maxPaItems >= 0)
+                        for (let i = this.state.definePa.length - this.state.maxPaItems; i < this.state.definePa.length; i++)
                             temp.push(this.state.definePa[i]);
-                    else{
-                        temp=[...this.state.definePa];
+                    else {
+                        temp = [...this.state.definePa];
                     }
-                    this.setState({filterPa:temp});
+                    this.setState({filterPa: temp});
                 }
             });
         }
     }
-    toggleNext(){
-        if(this.state.curPaItem*this.state.maxRows<this.state.listUser.length)
-        {
+
+    toggleNext() {
+        if (this.state.curPaItem * this.state.maxRows < this.state.listUser.length) {
             this.setState({
-                curPaItem:this.state.curPaItem+1
-            },()=>{
+                curPaItem: this.state.curPaItem + 1
+            }, () => {
                 this.filterPa();
-                if(this.state.definePa.length-this.state.curPaItem+1>=this.state.maxPaItems)
-                {
-                    let temp=[];
-                    for(let i=this.state.curPaItem-1;i<this.state.curPaItem+this.state.maxPaItems-1;i++)
-                    {
+                if (this.state.definePa.length - this.state.curPaItem + 1 >= this.state.maxPaItems) {
+                    let temp = [];
+                    for (let i = this.state.curPaItem - 1; i < this.state.curPaItem + this.state.maxPaItems - 1; i++) {
                         temp.push(this.state.definePa[i]);
                     }
-                    this.setState({filterPa:temp});
-                }
-                else
-                {
-                    let temp=[];
-                    if(this.state.definePa.length-this.state.maxPaItems>=0)
-                        for(let i=this.state.definePa.length-this.state.maxPaItems;i<this.state.definePa.length;i++)
+                    this.setState({filterPa: temp});
+                } else {
+                    let temp = [];
+                    if (this.state.definePa.length - this.state.maxPaItems >= 0)
+                        for (let i = this.state.definePa.length - this.state.maxPaItems; i < this.state.definePa.length; i++)
                             temp.push(this.state.definePa[i]);
-                    else{
-                        temp=[...this.state.definePa];
+                    else {
+                        temp = [...this.state.definePa];
                     }
-                    this.setState({filterPa:temp});
+                    this.setState({filterPa: temp});
                 }
             });
         }
     }
-    togglePa(i){
+
+    togglePa(i) {
         this.setState({
-            curPaItem:i
-        },()=>{this.filterPa()}
+                curPaItem: i
+            }, () => {
+                this.filterPa()
+            }
         );
     }
-    handleAddUser(){
-        const params={
-            displayname:this.state.displayname,
-            role:this.state.role,
-            userName:this.state.userName,
-            password:this.state.password
+
+    handleAddUser() {
+        const params = {
+            displayname: this.state.displayname,
+            role: this.state.role,
+            userName: this.state.userName,
+            password: this.state.password
         }
         if (this.state.displayname && this.state.role
             && this.state.userName && this.state.password) {
@@ -261,12 +252,14 @@ class UserManagement extends Component {
             alert("Vui lòng điền đầy đủ thông tin.")
         }
     }
+
     toggleNestedAdd() {
         this.setState({
             nestedModalAdd: !this.state.nestedModalAdd,
             closeAllAdd: false
         });
     }
+
     toggleAllAdd() {
         this.setState({
             nestedModalAdd: !this.state.nestedModalAdd,
@@ -274,13 +267,15 @@ class UserManagement extends Component {
         });
         window.location.reload();
     }
-    toggleAddUser(){
-        this.setState({modalAddUser:!this.state.modalAddUser});
+
+    toggleAddUser() {
+        this.setState({modalAddUser: !this.state.modalAddUser});
     }
-    toggleUser(user){
+
+    toggleUser(user) {
         this.setState({
-            user:user,
-            modalUser:!this.state.modalUser
+            user: user,
+            modalUser: !this.state.modalUser
         });
     }
 
@@ -294,7 +289,7 @@ class UserManagement extends Component {
     toggleDeleteUser(id) {
         this.setState({
             modalDelete: !this.state.modalDelete,
-            userID:id
+            userID: id
         });
     }
 
@@ -314,13 +309,12 @@ class UserManagement extends Component {
     }
 
     handleDeleteUser() {
-        deleteUser(this.state.userID).then(res=>{
+        deleteUser(this.state.userID).then(res => {
             this.setState({
-                resultDelete:res.data
-            },()=>this.toggleNestedDelete())
+                resultDelete: res.data
+            }, () => this.toggleNestedDelete())
         })
     }
-
 
 
     toggleUpdate() {
@@ -330,17 +324,18 @@ class UserManagement extends Component {
     }
 
     updateUser(id) {
-        getInfoUser(id).then(res=>{
+        getInfoUser(id).then(res => {
             this.setState({
-                userID : res.data.userID,
-                userName:res.data.userName,
-                displayname:res.data.displayname,
-                role:res.data.role,
+                userID: res.data.userID,
+                userName: res.data.userName,
+                displayname: res.data.displayname,
+                role: res.data.role,
 
-            },()=>this.toggleUpdateUser())
+            }, () => this.toggleUpdateUser())
         })
 
     }
+
     toggleUpdateUser() {
         this.setState({
             modalUpdate: !this.state.modalUpdate,
@@ -363,12 +358,12 @@ class UserManagement extends Component {
     }
 
     handleUpdateUser() {
-        const params={
-            displayname:this.state.displayname,
-            role:this.state.role,
+        const params = {
+            displayname: this.state.displayname,
+            role: this.state.role,
         }
         if (this.state.displayname && this.state.role) {
-            updateUser(this.state.userID,params).then(res => {
+            updateUser(this.state.userID, params).then(res => {
                 this.setState({
                     resultUpdate: res.data
                 }, () => this.toggleNestedUpdate())
@@ -379,19 +374,17 @@ class UserManagement extends Component {
     }
 
 
-
     render() {
-        const {listRole,listUser,user,resultAdd,resultDelete,resultUpdate}=this.state;
-        const listPaItems=this.state.filterPa.map((i,index)=>
-            this.state.curPaItem===i?
-                <PaginationItem key={index} active id={'paItem'+i}>
-                    <PaginationLink onClick={()=>this.togglePa(i)}>{i}</PaginationLink>
+        const {listRole, listUser, user, resultAdd, resultDelete, resultUpdate} = this.state;
+        const listPaItems = this.state.filterPa.map((i, index) =>
+            this.state.curPaItem === i ?
+                <PaginationItem key={index} active id={'paItem' + i}>
+                    <PaginationLink onClick={() => this.togglePa(i)}>{i}</PaginationLink>
                 </PaginationItem>
                 :
-                <PaginationItem key={index} id={'paItem'+i}>
-                    <PaginationLink onClick={()=>this.togglePa(i)}>{i}</PaginationLink>
+                <PaginationItem key={index} id={'paItem' + i}>
+                    <PaginationLink onClick={() => this.togglePa(i)}>{i}</PaginationLink>
                 </PaginationItem>
-
         );
         return (
             <div className="animated user-management">
@@ -402,36 +395,40 @@ class UserManagement extends Component {
                     </CardHeader>
                     <CardBody>
                         <InputGroup className="search">
-                            <Input type="text" id="search" onKeyUp={this.filterTable} placeholder="Search..." title="Enter a search info" />
+                            <Input type="text" id="search" onKeyUp={this.filterTable} placeholder="Search..."
+                                   title="Enter a search info"/>
                             <div className="input-group-append">
                                 <i className="fa fa-search form-control" aria-hidden="true"></i>
                             </div>
                         </InputGroup>
                         <Table id="table-users" responsive>
                             <thead>
-                                <tr>
-                                    <th>ID</th>
-                                    <th>Tên đăng nhập</th>
-                                    <th>Tên hiển thị</th>
-                                    <th>Role</th>
-                                    <th>Action</th>
-                                </tr>
+                            <tr>
+                                <th>ID</th>
+                                <th>Tên đăng nhập</th>
+                                <th>Tên hiển thị</th>
+                                <th>Role</th>
+                                <th>Action</th>
+                            </tr>
                             </thead>
                             <tbody>
-                                {
-                                    listUser ? listUser.map((item,index)=>
-                                        <tr key={index}>
-                                            <td>{item.userID}</td>
-                                            <td>{item.userName}</td>
-                                            <td>{item.displayname}</td>
-                                            <td>{item.role}</td>
-                                            <td>
-                                                <Button color="primary" onClick={()=>{this.updateUser(item.userID)}}>Update</Button> {' '}
-                                                <Button color="danger" onClick={()=>this.toggleDeleteUser(item.userID)}>Delete</Button>
-                                            </td>
-                                        </tr>
-                                    ):null
-                                }
+                            {
+                                listUser ? listUser.map((item, index) =>
+                                    <tr key={index}>
+                                        <td>{item.userID}</td>
+                                        <td>{item.userName}</td>
+                                        <td>{item.displayname}</td>
+                                        <td>{item.role}</td>
+                                        <td>
+                                            <Button color="primary" onClick={() => {
+                                                this.updateUser(item.userID)
+                                            }}>Update</Button> {' '}
+                                            <Button color="danger"
+                                                    onClick={() => this.toggleDeleteUser(item.userID)}>Delete</Button>
+                                        </td>
+                                    </tr>
+                                ) : null
+                            }
                             </tbody>
                         </Table>
                         {
@@ -457,18 +454,19 @@ class UserManagement extends Component {
                         <FormGroup>
                             <Label htmlFor="name">Tên người dùng</Label>
                             <Input type="text" id="name" value={this.state.displayname}
-                                   onChange={e=>this.setState({displayname:e.target.value})}
+                                   onChange={e => this.setState({displayname: e.target.value})}
                                    placeholder="Enter your name" required/>
                             <FormText className="help-block">Please enter your name</FormText>
                         </FormGroup>
                         <FormGroup>
                             <Label htmlFor="select-role">Role</Label>
-                            <Input type="select" id="select-role" value={this.state.role} onChange={e=>this.setState({role:e.target.value})}>
+                            <Input type="select" id="select-role" value={this.state.role}
+                                   onChange={e => this.setState({role: e.target.value})}>
                                 <option value="">Select Role</option>
                                 {
-                                    listRole ? listRole.map((item,index)=>
+                                    listRole ? listRole.map((item, index) =>
                                         <option value={item.role} key={index}>{item.role}</option>
-                                    ):null
+                                    ) : null
                                 }
                             </Input>
                         </FormGroup>
@@ -489,7 +487,7 @@ class UserManagement extends Component {
                         </FormGroup>
                     </ModalBody>
                     <ModalFooter>
-                        <Button color="primary" onClick={()=>this.handleAddUser()}>Thêm</Button>{' '}
+                        <Button color="primary" onClick={() => this.handleAddUser()}>Thêm</Button>{' '}
                         <Button color="secondary" onClick={this.toggleAddUser}>Thoát</Button>
                     </ModalFooter>
                 </Modal>
@@ -503,7 +501,7 @@ class UserManagement extends Component {
                         báo</ModalHeader>
                     <ModalBody>
                         {resultAdd ?
-                            resultAdd.returnMessage:null
+                            resultAdd.returnMessage : null
                         }
                     </ModalBody>
                 </Modal>
@@ -537,46 +535,44 @@ class UserManagement extends Component {
                 </Modal>
 
 
-
-
-
                 <Modal isOpen={this.state.modalUpdate} toggle={this.toggleUpdate}
-                className='modal-info'>
-                <ModalHeader toggle={this.toggleUpdate}>Settings</ModalHeader>
-                {
-                <ModalBody>
-                <FormGroup>
-                <Label htmlFor="userID">ID</Label>
-                <Input type="text" id="user-id" placeholder={this.state.userID} disabled/>
-                </FormGroup>
-                <FormGroup>
-                <Label htmlFor="username">Tên đăng nhập</Label>
-                <Input type="text" id="username" placeholder={this.state.userName} disabled/>
-                </FormGroup>
-                <FormGroup>
-                <Label htmlFor="display-name">Tên hiển thị</Label>
-                <Input type="text" id="display-name"
-                       value={this.state.displayname}
-                       onChange={(e) => this.setState({displayname: e.target.value})}
-                       placeholder={this.state.displayname} required/>
-                </FormGroup>
-                <FormGroup>
-                <Label htmlFor="select-role">Role</Label>
-                    <Input type="select" id="select-role" value={this.state.role} onChange={e=>this.setState({role:e.target.value})}>
-                        <option value="">Select Role</option>
-                        {
-                            listRole ? listRole.map((item,index)=>
-                                <option value={item.role} key={index}>{item.role}</option>
-                            ):null
-                        }
-                    </Input>
-                </FormGroup>
-                </ModalBody>
-                }
-                <ModalFooter>
-                <Button color="primary" onClick={()=>this.handleUpdateUser()}>Cập nhật</Button>{' '}
-                <Button color="secondary" onClick={this.toggleUpdate}>Thoát</Button>
-                </ModalFooter>
+                       className='modal-info'>
+                    <ModalHeader toggle={this.toggleUpdate}>Settings</ModalHeader>
+                    {
+                        <ModalBody>
+                            <FormGroup>
+                                <Label htmlFor="userID">ID</Label>
+                                <Input type="text" id="user-id" placeholder={this.state.userID} disabled/>
+                            </FormGroup>
+                            <FormGroup>
+                                <Label htmlFor="username">Tên đăng nhập</Label>
+                                <Input type="text" id="username" placeholder={this.state.userName} disabled/>
+                            </FormGroup>
+                            <FormGroup>
+                                <Label htmlFor="display-name">Tên hiển thị</Label>
+                                <Input type="text" id="display-name"
+                                       value={this.state.displayname}
+                                       onChange={(e) => this.setState({displayname: e.target.value})}
+                                       placeholder={this.state.displayname} required/>
+                            </FormGroup>
+                            <FormGroup>
+                                <Label htmlFor="select-role">Role</Label>
+                                <Input type="select" id="select-role" value={this.state.role}
+                                       onChange={e => this.setState({role: e.target.value})}>
+                                    <option value="">Select Role</option>
+                                    {
+                                        listRole ? listRole.map((item, index) =>
+                                            <option value={item.role} key={index}>{item.role}</option>
+                                        ) : null
+                                    }
+                                </Input>
+                            </FormGroup>
+                        </ModalBody>
+                    }
+                    <ModalFooter>
+                        <Button color="primary" onClick={() => this.handleUpdateUser()}>Cập nhật</Button>{' '}
+                        <Button color="secondary" onClick={this.toggleUpdate}>Thoát</Button>
+                    </ModalFooter>
                 </Modal>
 
                 <Modal isOpen={this.state.nestedModalUpdate}

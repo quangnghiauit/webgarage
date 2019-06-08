@@ -40,6 +40,16 @@ class Sidebar extends Component {
                     this.state.items = nav.items3;
 
                     return true;
+                } else
+                if (this.state.roles === '[ROLE_RECEPTIONIST]') {
+                    this.state.items = nav.items4;
+
+                    return true;
+                } else
+                if (this.state.roles === '[ROLE_MECHANIC]') {
+                    this.state.items = nav.items5;
+
+                    return true;
                 } else return false;
             })
             .catch(error => console.log(error));

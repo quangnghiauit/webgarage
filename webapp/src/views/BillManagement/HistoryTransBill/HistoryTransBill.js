@@ -1,44 +1,39 @@
 import React, {Component} from 'react';
-import {
-    Card,
-    CardHeader,
-    CardBody,
-    CardFooter,
-    Table,
-    Input,
-    InputGroup
-} from 'reactstrap';
+import {Card, CardBody, CardFooter, CardHeader, Table} from 'reactstrap';
 
 import {getHistoryBill} from '../../../api/BillManagement/billmanagement'
 
 
 class HistoryTransBill extends Component {
-    constructor(props){
+    constructor(props) {
         super(props);
 
-        this.state={
-            list:[]
+        this.state = {
+            list: []
         }
-        this.load=this.load.bind(this);
+        this.load = this.load.bind(this);
     }
-    componentDidCatch(){
+
+    componentDidCatch() {
         this.load();
     }
-    load(){
-        getHistoryBill().then(res=>{
+
+    load() {
+        getHistoryBill().then(res => {
             this.setState({
-                list:res.data
-            },()=>{
+                list: res.data
+            }, () => {
 
             })
         })
     }
 
-    toggleBill(id){
-        window.location.replace("http://localhost:8080/#/bill-management/bill-info/"+id)
+    toggleBill(id) {
+        window.location.replace("http://localhost:8080/#/bill-management/bill-info/" + id)
     }
+
     render() {
-        const{list}=this.state;
+        const {list} = this.state;
         return (
             <div className="animated search-bill">
                 <Card>
@@ -54,21 +49,21 @@ class HistoryTransBill extends Component {
                         </InputGroup> */}
                         <Table id="table-bill" responsive striped>
                             <thead>
-                                <tr>
-                                    <th>LogID</th>
-                                    <th>Số hóa đơn</th>
-                                    <th>Ngày hóa đơn</th>
-                                    <th>Mã khách hàng</th>
-                                    <th>Tên khách hàng</th>
-                                    <th>Số điện thoại</th>
-                                    <th>Trị giá hóa đơn</th>
-                                    <th>Action</th>
-                                </tr>
+                            <tr>
+                                <th>LogID</th>
+                                <th>Số hóa đơn</th>
+                                <th>Ngày hóa đơn</th>
+                                <th>Mã khách hàng</th>
+                                <th>Tên khách hàng</th>
+                                <th>Số điện thoại</th>
+                                <th>Trị giá hóa đơn</th>
+                                <th>Action</th>
+                            </tr>
                             </thead>
                             <tbody>
                             {
-                                list ? list.map((item,index)=>{
-                                    return(
+                                list ? list.map((item, index) => {
+                                    return (
                                         <tr key={index}>
                                             <td>{item.id}</td>
                                             <td>{item.repairBillID}</td>
@@ -77,17 +72,18 @@ class HistoryTransBill extends Component {
                                             <td>{item.phoneNumber}</td>
                                             <td>{item.totalMoney}</td>
                                             <td>
-                                            {
-                                                <Button color="success" onClick={()=>this.toggleBill(item.repairBillID)}>Xem</Button>
-                                            }
+                                                {
+                                                    <Button color="success"
+                                                            onClick={() => this.toggleBill(item.repairBillID)}>Xem</Button>
+                                                }
                                             </td>
                                         </tr>
                                     )
-                                }):null
+                                }) : null
                             }
                             </tbody>
                         </Table>
-                        
+
                     </CardBody>
                     <CardFooter>
 

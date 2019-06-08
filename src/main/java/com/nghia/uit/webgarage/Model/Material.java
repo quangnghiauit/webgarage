@@ -5,8 +5,6 @@ import com.nghia.uit.webgarage.Service.ServiceUtils;
 import javax.persistence.*;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 
 @Entity
@@ -26,9 +24,6 @@ public class Material {
 
     @Column(name = "price")
     private long price;
-
-    @Column(name = "mateNum")
-    private int mateNum;
 
     @Column(name = "numInput")
     private int numInput;
@@ -72,14 +67,6 @@ public class Material {
         this.price = price;
     }
 
-    public int getMateNum() {
-        return mateNum;
-    }
-
-    public void setMateNum(int mateNum) {
-        this.mateNum = mateNum;
-    }
-
     public int getNumInput() {
         return numInput;
     }
@@ -111,7 +98,6 @@ public class Material {
                 ", materialID='" + materialID + '\'' +
                 ", materialName='" + materialName + '\'' +
                 ", price=" + price +
-                ", mateNum=" + mateNum +
                 ", numInput=" + numInput +
                 ", reqDate='" + reqDate + '\'' +
                 '}';

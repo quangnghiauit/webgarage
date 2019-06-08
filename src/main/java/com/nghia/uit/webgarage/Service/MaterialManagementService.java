@@ -1,9 +1,8 @@
 package com.nghia.uit.webgarage.Service;
 
 import com.nghia.uit.webgarage.Bean.ResponseDTO;
-import com.nghia.uit.webgarage.Model.CarHandleDTO;
 import com.nghia.uit.webgarage.Model.Material;
-import com.nghia.uit.webgarage.Model.MaterialName;
+import com.nghia.uit.webgarage.Model.MaterialReport;
 
 import java.util.List;
 
@@ -11,9 +10,9 @@ public interface MaterialManagementService {
 
     List<Material> getAllMatetial();
 
-    List<MaterialName> getAllMaterialByAllNum();
+    List<MaterialReport> getAllMaterialByAllNum();
 
-    List<MaterialName> getAllNameMatetial();
+    List<MaterialReport> getAllNameMatetial();
 
     ResponseDTO addMateName(String mateName,String currentUser);
 

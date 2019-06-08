@@ -26,29 +26,16 @@ public class HomeController {
             return new ResponseEntity<>("true", HttpStatus.OK);
         } else if (auth.getAuthorities().toString().equals("[ROLE_CLIENT]")) {
             return new ResponseEntity<>("true", HttpStatus.OK);
-        } else if (auth.getAuthorities().toString().equals("[ROLE_OPERATOR]")) {
+        } else if (auth.getAuthorities().toString().equals("[ROLE_RECEPTIONIST]")) {
             return new ResponseEntity<>("true", HttpStatus.OK);
         } else if (auth.getAuthorities().toString().equals("[ROLE_MECHANIC]")) {
             return new ResponseEntity<>("true", HttpStatus.OK);
         } else
+        if (auth.getAuthorities().toString().equals("[ROLE_ACCOUNTANT]")) {
+            return new ResponseEntity<>("true", HttpStatus.OK);
+        } else
             return new ResponseEntity<>("false", HttpStatus.OK);
     }
-
-//    @RequestMapping(value = "/login", method = RequestMethod.GET)
-//    public String login(Model model) {
-//
-//        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-//
-//        //auth.getCredentials()
-//        if (auth.getAuthorities().toString().equals("[ROLE_EXECUTIVE]")) {
-//            return "index";
-//        } else if (auth.getAuthorities().toString().equals("[ROLE_MANAGER]")) {
-//            return "index";
-//        } else if (auth.getAuthorities().toString().equals("[ROLE_WORKER]")) {
-//            return "index";
-//        }
-//        return "index";
-//    }
 
     @PostMapping("/login")
     public void login() {

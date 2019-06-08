@@ -1,6 +1,7 @@
 package com.nghia.uit.webgarage.Service;
 
-import com.nghia.uit.webgarage.Model.BillDTO;
+import com.nghia.uit.webgarage.Bean.ResponseDTO;
+import com.nghia.uit.webgarage.Model.*;
 
 import java.util.List;
 
@@ -11,4 +12,10 @@ public interface ReportManagementService {
     BillDTO getDetailBill(String repairBillID);
 
     List<BillDTO> getAllBill();
+
+    ResponseDTO exportBill(DetailBillDTO detailBillDTO);
+
+    List<RepairBill> searchRevenue(RequestSearchDate requestSearchDate);
+
+    List<InventoryReportDTO> searchInventory(RequestSearchDate requestSearchDate);
 }
