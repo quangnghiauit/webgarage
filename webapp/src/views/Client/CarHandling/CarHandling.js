@@ -402,28 +402,20 @@ class CarHandling extends Component {
                                                         ?
                                                         <Badge color="danger">Đang xử lý</Badge>
                                                         :
-                                                        <Badge color="success">Đã xử lý</Badge>
+                                                        <Badge color="primary">Đã xử lý</Badge>
                                                 )
 
                                             }</td>
                                             <td>
                                                 {
-                                                    (item.status == 0)
+                                                    (item.status == 1)
                                                         ?
-                                                        null
-                                                        :
                                                         (
-                                                            (item.status == 1)
-                                                                ? (
-                                                                    <Button color="primary" size="sm"
-                                                                            onClick={() => this.handleReviewTrans(item.licensePlate)}>Xem</Button>
-                                                                )
-
-                                                                :
-                                                                <Button color="primary" size="sm">Tiếp nhận
-                                                                    lại</Button>
+                                                            <Button color="primary" size="sm"
+                                                                    onClick={() => this.handleReviewTrans(item.licensePlate)}>Xem</Button>
                                                         )
-
+                                                        :
+                                                        null
                                                 }
                                             </td>
                                         </tr>
