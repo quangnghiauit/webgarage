@@ -225,11 +225,11 @@ class Full extends Component {
                                                component={ClientInfo}/>,
                                         <Route path="/client/car-handling" name="CarHandling"
                                                component={CarHandling}/>,
-                                        <Route path="/client/car-handling-info" name="CarHandlingInfo"
+                                        <Route path="/client/car-handling-info/:id" name="CarHandlingInfo"
                                                component={CarHandlingInfo}/>,
                                         <Route path="/client/history" name="HistoryBill"
                                                component={HistoryBill}/>,
-                                        <Route path="/client/bill-info" name="ClientBillInfo"
+                                        <Route path="/client/bill-info/:id" name="ClientBillInfo"
                                                component={ClientBillInfo}/>,
 
                                         <Redirect from="/" to="/client/client-info"/>

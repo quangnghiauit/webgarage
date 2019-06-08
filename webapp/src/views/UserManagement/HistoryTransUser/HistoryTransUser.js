@@ -145,7 +145,7 @@ class HistoryTransUser extends Component {
         const filter = document.getElementById("search").value.toUpperCase();
         const table = document.getElementById("table-cars");
         const tr = table.getElementsByTagName("tr");
-        for (let i = 0; i < tr.length; i++) {
+        for (let i = 1; i < tr.length; i++) {
             td = tr[i].getElementsByTagName("td");
             display = false;
             for (let j = 0; j < td.length; j++) {

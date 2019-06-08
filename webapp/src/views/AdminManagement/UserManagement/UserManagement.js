@@ -42,7 +42,7 @@ class UserManagement extends Component {
             displayname:'',
             role:'',
             userName:'',
-            password:'',
+            // password:'',
 
             resultAdd: null,
             modalAddUser: false,
@@ -146,7 +146,7 @@ class UserManagement extends Component {
         for (let i = 1; i < tr.length; i++) {
             td = tr[i].getElementsByTagName("td");
             display = false;
-            for (let j = 0; j < td.length; j++) {
+            for (let j = 1; j < td.length; j++) {
                 txtValue = td[j].textContent || td[j].innerText;
                 if (txtValue.toUpperCase().indexOf(filter) > -1) {
                     display = true;
