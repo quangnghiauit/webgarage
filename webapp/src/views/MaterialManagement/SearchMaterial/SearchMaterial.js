@@ -1,6 +1,4 @@
 import React, {Component} from 'react';
-import { TextMask, InputAdapter } from 'react-text-mask-hoc';
-import {BootstrapTable, TableHeaderColumn} from 'react-bootstrap-table';
 import 'react-bootstrap-table/dist/react-bootstrap-table-all.min.css';
 import {
     Card,

@@ -37,7 +37,7 @@ class UserManagement extends Component {
         this.state={
             userID:'',
             listRole:null,
-            listUser:null,
+            listUser:[],
             user:null,
             displayname:'',
             role:'',
@@ -146,7 +146,7 @@ class UserManagement extends Component {
         const filter = document.getElementById("search").value.toUpperCase();
         const table = document.getElementById("table-users");
         const tr = table.getElementsByTagName("tr");
-        for (let i = 0; i < tr.length; i++) {
+        for (let i = 1; i < tr.length; i++) {
             td = tr[i].getElementsByTagName("td");
             display=false;
             for(let j=0;j<td.length;j++){
@@ -434,15 +434,19 @@ class UserManagement extends Component {
                                 }
                             </tbody>
                         </Table>
-                        <Pagination id="pagination">
-                            <PaginationItem>
-                                <PaginationLink previous onClick={this.togglePre}/>
-                            </PaginationItem>
-                            {listPaItems}
-                            <PaginationItem>
-                                <PaginationLink next onClick={this.toggleNext}/>
-                            </PaginationItem>
-                        </Pagination>
+                        {
+                            this.state.listUser.length!=0 ?
+                            <Pagination id="pagination">
+                                <PaginationItem>
+                                    <PaginationLink previous onClick={this.togglePre}/>
+                                </PaginationItem>
+                                {listPaItems}
+                                <PaginationItem>
+                                    <PaginationLink next onClick={this.toggleNext}/>
+                                </PaginationItem>
+                            </Pagination>
+                            :null
+                        }
                     </CardBody>
                 </Card>
 

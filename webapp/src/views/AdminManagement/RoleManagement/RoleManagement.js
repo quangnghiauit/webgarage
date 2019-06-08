@@ -31,7 +31,7 @@ class RoleManagement extends Component {
         super(props);
 
         this.state={
-            listRole:null,
+            listRole:[],
             role:'',
             roleSelected:null,
             resultAdd:null,
@@ -120,7 +120,7 @@ class RoleManagement extends Component {
         const filter = document.getElementById("search").value.toUpperCase();
         const table = document.getElementById("table-roles");
         const tr = table.getElementsByTagName("tr");
-        for (let i = 0; i < tr.length; i++) {
+        for (let i = 1; i < tr.length; i++) {
             td = tr[i].getElementsByTagName("td");
             display=false;
             for(let j=0;j<td.length;j++){
@@ -332,15 +332,19 @@ class RoleManagement extends Component {
                                 }
                             </tbody>
                         </Table>
-                        <Pagination id="pagination">
-                            <PaginationItem>
-                                <PaginationLink previous onClick={this.togglePre}/>
-                            </PaginationItem>
-                            {listPaItems}
-                            <PaginationItem>
-                                <PaginationLink next onClick={this.toggleNext}/>
-                            </PaginationItem>
-                        </Pagination>
+                        {
+                            this.state.listRole.length!=0 ? 
+                            <Pagination id="pagination">
+                                <PaginationItem>
+                                    <PaginationLink previous onClick={this.togglePre}/>
+                                </PaginationItem>
+                                {listPaItems}
+                                <PaginationItem>
+                                    <PaginationLink next onClick={this.toggleNext}/>
+                                </PaginationItem>
+                            </Pagination>
+                            : null
+                        }
                         <Modal isOpen={this.state.modalDeleteRole} toggle={this.toggleDeleteRole}
                                className='modal-primary'>
                             <ModalHeader toggle={this.toggleDeleteRole}>Xóa Role</ModalHeader>

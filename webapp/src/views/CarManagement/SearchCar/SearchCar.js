@@ -19,7 +19,7 @@ class SearchCar extends Component {
     constructor(props) {
         super(props);
         this.state ={
-            listCar:null,
+            listCar:[],
 
             curPaItem:1,
             maxRows: 10,
@@ -83,7 +83,7 @@ class SearchCar extends Component {
         const filter = document.getElementById("search").value.toUpperCase();
         const table = document.getElementById("table-cars");
         const tr = table.getElementsByTagName("tr");
-        for (let i = 0; i < tr.length; i++) {
+        for (let i = 1; i < tr.length; i++) {
             td = tr[i].getElementsByTagName("td");
             display=false;
             for(let j=0;j<td.length;j++){
@@ -249,15 +249,19 @@ class SearchCar extends Component {
                             }
                             </tbody>
                         </Table>
-                        <Pagination id="pagination">
-                        <PaginationItem>
-                            <PaginationLink previous onClick={this.togglePre}/>
-                        </PaginationItem>
-                            {listPaItems}
-                        <PaginationItem>
-                            <PaginationLink next onClick={this.toggleNext}/>
-                        </PaginationItem>
-                        </Pagination>
+                        {
+                            this.state.listCar.length!=0 ?
+                            <Pagination id="pagination">
+                            <PaginationItem>
+                                <PaginationLink previous onClick={this.togglePre}/>
+                            </PaginationItem>
+                                {listPaItems}
+                            <PaginationItem>
+                                <PaginationLink next onClick={this.toggleNext}/>
+                            </PaginationItem>
+                            </Pagination>
+                            :null
+                        }
                     </CardBody>
                 </Card>
             </div>

@@ -372,7 +372,7 @@ class HistoryTransUser extends Component {
     handleReviewTrans(id) {
         window.location.replace("http://localhost:8080/#/car-management/car-handle-info/"+id);
     }
-    render() {
+    render() {console.log('---------------',this.state.listCar);
         const {resultAdd,resultUpdateUser,listCar,resultProcessStatusHandleCar} = this.state;
         const listPaItems=this.state.filterPa.map((i,index)=>
             this.state.curPaItem===i?
@@ -503,15 +503,19 @@ class HistoryTransUser extends Component {
                                         }
                                         </tbody>
                                     </Table>
-                                    <Pagination id="pagination">
-                                    <PaginationItem>
-                                        <PaginationLink previous onClick={this.togglePre}/>
-                                    </PaginationItem>
-                                        {listPaItems}
-                                    <PaginationItem>
-                                        <PaginationLink next onClick={this.toggleNext}/>
-                                    </PaginationItem>
-                                    </Pagination>
+                                    {
+                                        this.state.listCar.length !=0?
+                                        <Pagination id="pagination">
+                                        <PaginationItem>
+                                            <PaginationLink previous onClick={this.togglePre}/>
+                                        </PaginationItem>
+                                            {listPaItems}
+                                        <PaginationItem>
+                                            <PaginationLink next onClick={this.toggleNext}/>
+                                        </PaginationItem>
+                                        </Pagination>
+                                        :null
+                                    }
                             </CardBody>
                             <CardFooter>
                                 <Button className="float-right" color="success" onClick={this.toggleAdd}>Thêm xe</Button>

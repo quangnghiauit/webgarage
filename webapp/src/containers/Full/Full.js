@@ -136,7 +136,7 @@ class Full extends Component {
                                         <Route path="/client/bill-info" name="ClientBillInfo"
                                                component={ClientBillInfo}/>,
 
-                                        <Redirect from="/" to="/dashboard"/>
+                                        <Redirect from="/" to="/client/client-info"/>
                                     ]
                                 }
                                 {

@@ -74,6 +74,7 @@ class BillInfo extends Component {
     }
     render() {
         const {list,repairBillID,createdDate,userID,displayname}=this.state;
+        const sum=list? (list.reduce((a,b)=>a+b,0)):0;
         return (
             <div className="animated bill-info" id="bill-info">
                 <Card>
@@ -137,9 +138,7 @@ class BillInfo extends Component {
                                         <td scope="row"></td>
                                         <td scope="row"></td>
                                         <th>
-                                            {
-                                                list? (list.reduce((a,b)=>a+b,0)):0
-                                            }
+                                            {sum}
                                         </th>
                                     </tr>
                                 </tfoot>
