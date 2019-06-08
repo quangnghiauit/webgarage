@@ -7,7 +7,10 @@ import com.nghia.uit.webgarage.Service.ReportManagementService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
@@ -201,6 +204,8 @@ public class ReportManagementServiceImpl implements ReportManagementService {
                 repairBill.setTotalMoney(totalMoney);
             }
 
+            repairBill.setExportDate(convertDate());
+
             Car car = carRepository.findCarByLicensePlate(repairBill.getLicensePlate());
             if(Objects.isNull(car))  {
                 return new ResponseDTO().fail("Xuất hóa đơn không thành công");
@@ -215,5 +220,11 @@ public class ReportManagementServiceImpl implements ReportManagementService {
         }catch (Exception ex) {
             return new ResponseDTO().fail("Xuất hóa đơn không thành công");
         }
+    }
+
+    private String convertDate() {
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date date = new Date();
+        return dateFormat.format(date); //2019/03/13 20:08:43
     }
 }

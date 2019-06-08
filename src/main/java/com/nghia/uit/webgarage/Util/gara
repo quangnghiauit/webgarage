@@ -76,7 +76,7 @@ create table `revenue`
     `reqNumber` int,
     `totalMoney` long,
     `repairBillID` varchar(64)
-    
+
 );
 
 create table `repairBill`
@@ -87,8 +87,8 @@ create table `repairBill`
     `status` int(11) default'0',
     `createdDate` timestamp,
     `createdBy` varchar(100),
-    `regDate` varchar(100),
-    `regBy` varchar(100),
+    `exportDate` varchar(100),
+    `exportBy` varchar(100),
     `userID` long,
     `totalMoney` long
 );

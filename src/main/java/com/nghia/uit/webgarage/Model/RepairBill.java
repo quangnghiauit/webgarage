@@ -36,11 +36,11 @@ public class RepairBill {
     @Column(name = "createdBy")
     private String createdBy;
 
-    @Column(name = "regDate")
-    private Date regDate;
+    @Column(name = "exportDate")
+    private String exportDate;
 
-    @Column(name = "regBy")
-    private String regBy;
+    @Column(name = "exportBy")
+    private String exportBy;
 
     @Column(name = "userID")
     private long userID;
@@ -89,20 +89,20 @@ public class RepairBill {
         this.createdBy = createdBy;
     }
 
-    public Date getRegDate() {
-        return regDate;
+    public String getExportDate() {
+        return exportDate;
     }
 
-    public void setRegDate(Date regDate) {
-        this.regDate = regDate;
+    public void setExportDate(String exportDate) {
+        this.exportDate = exportDate;
     }
 
-    public String getRegBy() {
-        return regBy;
+    public String getExportBy() {
+        return exportBy;
     }
 
-    public void setRegBy(String regBy) {
-        this.regBy = regBy;
+    public void setExportBy(String exportBy) {
+        this.exportBy = exportBy;
     }
 
     public long getUserID() {
