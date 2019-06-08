@@ -32,6 +32,9 @@ public class ReportManagementServiceImpl implements ReportManagementService {
     @Autowired
     private CarRepository carRepository;
 
+    @Autowired
+    private MaterialRepository materialRepository;
+
     @Override
     public List<BillDTO> getAllBillHandling() {
         try {
@@ -236,6 +239,64 @@ public class ReportManagementServiceImpl implements ReportManagementService {
             return repairBills;
 
         } catch (Exception ex) {
+            return new ArrayList<>();
+        }
+    }
+
+    @Override
+    public List<InventoryReportDTO> searchInventory(RequestSearchDate requestSearchDate) {
+        try{
+            String startDate = requestSearchDate.getStartDate();
+            String endDate = requestSearchDate.getEndDate();
+
+            List<InventoryReportDTO> inventoryReportDTOS = new ArrayList<>();
+
+            List<Material> materialList = materialRepository.searchMaterialInputByDate(startDate,endDate);
+            List<DetailRepairBill> detailRepairBills = detailRepairBillRepository.searchMaterialExportByDate(startDate,endDate);
+            if(materialList.isEmpty()||detailRepairBills.isEmpty()) {
+                return new ArrayList<>();
+            }
+
+            List<String> listMaterialID = new ArrayList<>();
+
+            for(Material material : materialList) {
+                if(!listMaterialID.contains(material.getMaterialID())) {
+                    listMaterialID.add(material.getMaterialID());
+
+                    InventoryReportDTO inventoryReportDTO = new InventoryReportDTO();
+                    inventoryReportDTO.setMaterialID(material.getMaterialID());
+                    inventoryReportDTO.setMaterialName(material.getMaterialName());
+                    inventoryReportDTOS.add(inventoryReportDTO);
+                }
+            }
+
+            if(!listMaterialID.isEmpty() && !inventoryReportDTOS.isEmpty()) {
+                for(InventoryReportDTO inventoryReportDTO : inventoryReportDTOS) {
+                    for(Material material :materialList) {
+                        if(material.getMaterialID().equals(inventoryReportDTO.getMaterialID())) {
+                            long totalInput = inventoryReportDTO.getTotalInput();
+                            long totalMaterialInput = inventoryReportDTO.getTotalMaterialInput();
+
+                            inventoryReportDTO.setTotalInput(totalInput + 1);
+                            inventoryReportDTO.setTotalMaterialInput(totalMaterialInput + material.getNumInput());
+                            inventoryReportDTO.setLastInventory(inventoryReportDTO.getTotalMaterialInput() - inventoryReportDTO.getTotalMaterialExport());
+
+                        }
+                    }
+
+                    for(DetailRepairBill detailRepairBill : detailRepairBills) {
+                        if(detailRepairBill.getMaterialID().equals(inventoryReportDTO.getMaterialID())) {
+                            long totalMaterialExport = inventoryReportDTO.getTotalMaterialExport();
+                            inventoryReportDTO.setTotalMaterialExport(totalMaterialExport + detailRepairBill.getReqNum());
+                            inventoryReportDTO.setLastInventory(inventoryReportDTO.getTotalMaterialInput() - inventoryReportDTO.getTotalMaterialExport());
+                        }
+                    }
+                }
+            }
+
+            return inventoryReportDTOS;
+
+        }catch (Exception ex) {
             return new ArrayList<>();
         }
     }

@@ -7,10 +7,8 @@ Drop table if exists `car`;
 Drop table if exists `users`;
 Drop table if exists `materialReport`;
 Drop table if exists `material`;
-Drop table if exists `revenue`;
 Drop table if exists `repairBill`;
 Drop table if exists `detailRepairBill`;
-Drop table if exists `inventoryReport`;
 
 
 create table `car`
@@ -59,7 +57,6 @@ create table `material`
     `materialID` varchar(20),
     `materialName` varchar(100),
     `price` long,
-    `mateNum` int,
     `numInput` int,
     `reqDate` timestamp,
     `createdBy` varchar(100)
@@ -87,18 +84,7 @@ create table `detailRepairBill`
     `materialID` varchar(20),
     `reqNum` int,
     `createdDate` timestamp,
-    `createdBy` varchar(100)       
-);
-
-create table `inventoryReport`
-(
-	`id` int(10) not null auto_increment primary key,
-    `invReportID` long,
-    `reqDate` date,
-    `materialID` varchar(20),
-    `initInv` int,
-    `invInput` int,
-    `lastInv` int
+    `createdBy` varchar(100)
 );
 
 create table `user_role`

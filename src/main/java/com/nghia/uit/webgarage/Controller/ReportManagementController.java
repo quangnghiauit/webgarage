@@ -40,4 +40,10 @@ public class ReportManagementController {
     public ResponseEntity<?> searchRevenue(@RequestBody RequestSearchDate requestSearchDate) {
         return new ResponseEntity<>(reportManagementService.searchRevenue(requestSearchDate),HttpStatus.OK);
     }
+
+    @RequestMapping(value = "/search-inventory",method = RequestMethod.GET)
+    public ResponseEntity<?> searchInventory(@RequestBody RequestSearchDate requestSearchDate) {
+        return new ResponseEntity<>(reportManagementService.searchInventory(requestSearchDate),HttpStatus.OK);
+    }
+
 }

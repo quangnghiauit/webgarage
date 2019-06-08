@@ -1,6 +1,5 @@
 package com.nghia.uit.webgarage.Repository;
 
-import com.nghia.uit.webgarage.Model.Car;
 import com.nghia.uit.webgarage.Model.Material;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
@@ -19,6 +18,9 @@ public interface MaterialRepository extends CrudRepository<Material, Integer> {
 
     @Query(value = "select * from material as m where m.id = ?1",nativeQuery = true)
     Material findById(String id);
+
+    @Query(value = "select * from material as m where m.reqDate >= ?1 and m.reqDate <= ?2",nativeQuery = true)
+    List<Material> searchMaterialInputByDate(String startDate, String endDate);
 
 
 
