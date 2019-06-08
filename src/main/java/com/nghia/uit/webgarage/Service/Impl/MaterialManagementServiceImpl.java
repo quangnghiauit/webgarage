@@ -3,8 +3,8 @@ package com.nghia.uit.webgarage.Service.Impl;
 import com.nghia.uit.webgarage.Bean.ResponseDTO;
 import com.nghia.uit.webgarage.Message.Constants;
 import com.nghia.uit.webgarage.Model.Material;
-import com.nghia.uit.webgarage.Model.MaterialName;
-import com.nghia.uit.webgarage.Repository.MaterialNameRepository;
+import com.nghia.uit.webgarage.Model.MaterialReport;
+import com.nghia.uit.webgarage.Repository.MaterialReportRepository;
 import com.nghia.uit.webgarage.Repository.MaterialRepository;
 import com.nghia.uit.webgarage.Service.MaterialManagementService;
 import org.slf4j.Logger;
@@ -25,7 +25,7 @@ public class MaterialManagementServiceImpl implements MaterialManagementService 
     private MaterialRepository materialRepository;
 
     @Autowired
-    private MaterialNameRepository materialNameRepository;
+    private MaterialReportRepository materialReportRepository;
 
     @Override
     public List<Material> getAllMatetial() {
@@ -33,15 +33,15 @@ public class MaterialManagementServiceImpl implements MaterialManagementService 
     }
 
     @Override
-    public List<MaterialName> getAllMaterialByAllNum() {
+    public List<MaterialReport> getAllMaterialByAllNum() {
         try {
-            List<MaterialName> materialNames = materialNameRepository.findAllByFilter();
+            List<MaterialReport> materialReports = materialReportRepository.findAllByFilter();
 
-            if(materialNames.isEmpty()) {
+            if(materialReports.isEmpty()) {
                 return new ArrayList<>();
             }
 
-            return materialNames;
+            return materialReports;
 
         }catch (Exception ex) {
             return new ArrayList<>();
@@ -49,22 +49,22 @@ public class MaterialManagementServiceImpl implements MaterialManagementService 
     }
 
     @Override
-    public List<MaterialName> getAllNameMatetial() {
-        return materialNameRepository.findAllByFilter();
+    public List<MaterialReport> getAllNameMatetial() {
+        return materialReportRepository.findAllByFilter();
     }
 
     @Override
     public ResponseDTO addMateName(String mateName, String currentUser) {
         try {
             if(!mateName.isEmpty()) {
-                MaterialName checkDuplicateMateID = materialNameRepository.findByName(mateName);
+                MaterialReport checkDuplicateMateID = materialReportRepository.findByName(mateName);
                 if(checkDuplicateMateID!=null) {
                     return new ResponseDTO().fail("Dữ liệu bị trùng lặp.");
                 }
-                MaterialName materialName = new MaterialName();
-                materialName.setCreatedBy(currentUser);
-                materialName.doMappingMaterial(mateName);
-                materialNameRepository.save(materialName);
+                MaterialReport materialReport = new MaterialReport();
+                materialReport.setCreatedBy(currentUser);
+                materialReport.doMappingMaterial(mateName);
+                materialReportRepository.save(materialReport);
                 return new ResponseDTO().success(Constants.DONE_ADDREQUESTMATERIAL);
             }
             return new ResponseDTO().fail("No message");
@@ -81,15 +81,15 @@ public class MaterialManagementServiceImpl implements MaterialManagementService 
             String strID= null;
             String strMaterialName = null;
             if(material.getMaterialID()!=null&&material.getMaterialID()!="") {
-                MaterialName materialName = materialNameRepository.findByMaterialID(material.getMaterialID());
-                if(!Objects.isNull(materialName)) {
-                    strID= materialName.getMaterialID();
-                    strMaterialName = materialName.getMaterialName();
+                MaterialReport materialReport = materialReportRepository.findByMaterialID(material.getMaterialID());
+                if(!Objects.isNull(materialReport)) {
+                    strID= materialReport.getMaterialID();
+                    strMaterialName = materialReport.getMaterialName();
                     if(Integer.valueOf(material.getNumInput()) > 0) {
-                        long totalNum = materialName.getTotalNum();
+                        long totalNum = materialReport.getTotalNum();
                         long numInput = Long.valueOf(material.getNumInput());
-                        materialName.setTotalNum(totalNum + numInput);
-                        materialNameRepository.save(materialName);
+                        materialReport.setTotalNum(totalNum + numInput);
+                        materialReportRepository.save(materialReport);
                     }
                 }
             }
