@@ -42,6 +42,9 @@ class BillInfo extends Component {
         })
     }
 
+    handleExportBill() {
+
+    }
     exportBill() {
         const pdf = new PDF();
         const input = document.getElementById('bill-info');

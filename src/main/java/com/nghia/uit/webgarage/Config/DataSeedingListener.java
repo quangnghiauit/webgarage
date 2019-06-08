@@ -72,17 +72,17 @@ public class DataSeedingListener implements ApplicationListener<ContextRefreshed
         }
 
         // Admin account
-        if (userRepository.findByUserName("quangnghiaclient") == null&&userRoleRepository.findByUserName("quangnghiaclient").size()==0) {
-            Users admin = new Users();
-            UserRole userRole = new UserRole();
-            admin.setUserID(Long.valueOf("201904111812239"));
-            admin.setUserName("quangnghiaclient");
-            userRole.setUsername("quangnghiaclient");
-            admin.setPassword(passwordEncoder.encode("123456"));
-            userRole.setRole("CLIENT");
-            userRepository.save(admin);
-            userRoleRepository.save(userRole);
-        }
+//        if (userRepository.findByUserName("quangnghiaclient") == null&&userRoleRepository.findByUserName("quangnghiaclient").size()==0) {
+//            Users admin = new Users();
+//            UserRole userRole = new UserRole();
+//            admin.setUserID(Long.valueOf("201904111812239"));
+//            admin.setUserName("quangnghiaclient");
+//            userRole.setUsername("quangnghiaclient");
+//            admin.setPassword(passwordEncoder.encode("123456"));
+//            userRole.setRole("CLIENT");
+//            userRepository.save(admin);
+//            userRoleRepository.save(userRole);
+//        }
 
 //        for(int i = 0 ; i<100;i++) {
 //            if (userRepository.findByUserName("Nghia client"+String.valueOf(i)) == null&&userRoleRepository.findByUserName("Nghia client"+String.valueOf(i)).size()==0) {

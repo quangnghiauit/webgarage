@@ -24,8 +24,6 @@ class CreateBill extends Component {
         getBillHandling().then(res => {
             this.setState({
                 list: res.data
-            }, () => {
-
             })
         })
     }
@@ -49,7 +47,6 @@ class CreateBill extends Component {
                                 <th>LogID</th>
                                 <th>Mã khách hàng</th>
                                 <th>Tên khách hàng</th>
-                                <th>Số điện thoại</th>
                                 <th>Ngày tạo TK</th>
                                 <th>Hóa đơn chờ</th>
                             </tr>
@@ -62,7 +59,6 @@ class CreateBill extends Component {
                                             <td>{index + 1}</td>
                                             <td>{item.userID}</td>
                                             <td>{item.fullName}</td>
-                                            <td>{item.phoneNumber}</td>
                                             <td>{item.createdDate}</td>
                                             <td>
                                                 {
