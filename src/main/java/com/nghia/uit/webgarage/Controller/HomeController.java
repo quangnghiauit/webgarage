@@ -37,22 +37,6 @@ public class HomeController {
             return new ResponseEntity<>("false", HttpStatus.OK);
     }
 
-//    @RequestMapping(value = "/login", method = RequestMethod.GET)
-//    public String login(Model model) {
-//
-//        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-//
-//        //auth.getCredentials()
-//        if (auth.getAuthorities().toString().equals("[ROLE_EXECUTIVE]")) {
-//            return "index";
-//        } else if (auth.getAuthorities().toString().equals("[ROLE_MANAGER]")) {
-//            return "index";
-//        } else if (auth.getAuthorities().toString().equals("[ROLE_WORKER]")) {
-//            return "index";
-//        }
-//        return "index";
-//    }
-
     @PostMapping("/login")
     public void login() {
 

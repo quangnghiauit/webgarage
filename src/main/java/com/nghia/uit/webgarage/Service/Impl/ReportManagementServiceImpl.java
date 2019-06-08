@@ -1,10 +1,8 @@
 package com.nghia.uit.webgarage.Service.Impl;
 
+import com.nghia.uit.webgarage.Bean.ResponseDTO;
 import com.nghia.uit.webgarage.Model.*;
-import com.nghia.uit.webgarage.Repository.DetailRepairBillRepository;
-import com.nghia.uit.webgarage.Repository.MaterialNameRepository;
-import com.nghia.uit.webgarage.Repository.RepairBillRepository;
-import com.nghia.uit.webgarage.Repository.UserRepository;
+import com.nghia.uit.webgarage.Repository.*;
 import com.nghia.uit.webgarage.Service.ReportManagementService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -27,6 +25,9 @@ public class ReportManagementServiceImpl implements ReportManagementService {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private CarRepository carRepository;
 
     @Override
     public List<BillDTO> getAllBillHandling() {
@@ -180,6 +181,39 @@ public class ReportManagementServiceImpl implements ReportManagementService {
 
         }catch (Exception ex) {
             return new ArrayList<>();
+        }
+    }
+
+    @Override
+    public ResponseDTO exportBill(DetailBillDTO detailBillDTO) {
+        try {
+            long totalMoney = detailBillDTO.getTotalMoney();
+            String repairBillID = detailBillDTO.getRepairBillID();
+
+            RepairBill repairBill = repairBillRepository.findByRepairBillID(repairBillID);
+
+            if(Objects.isNull(repairBill)) {
+                return new ResponseDTO().fail("Xuất hóa đơn không thành công");
+            }
+            repairBill.setStatus(2);
+
+            if(totalMoney >= 0) {
+                repairBill.setTotalMoney(totalMoney);
+            }
+
+            Car car = carRepository.findCarByLicensePlate(repairBill.getLicensePlate());
+            if(Objects.isNull(car))  {
+                return new ResponseDTO().fail("Xuất hóa đơn không thành công");
+            }
+
+            car.setStatus(2);
+            carRepository.save(car);
+
+
+            repairBillRepository.save(repairBill);
+            return new ResponseDTO().success("Xuất hóa đơn thành công");
+        }catch (Exception ex) {
+            return new ResponseDTO().fail("Xuất hóa đơn không thành công");
         }
     }
 }
