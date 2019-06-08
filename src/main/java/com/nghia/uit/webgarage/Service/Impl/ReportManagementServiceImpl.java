@@ -222,6 +222,24 @@ public class ReportManagementServiceImpl implements ReportManagementService {
         }
     }
 
+    @Override
+    public List<RepairBill> searchRevenue(RequestSearchDate requestSearchDate) {
+        try {
+            String startDate = requestSearchDate.getStartDate();
+            String endDate = requestSearchDate.getEndDate();
+
+            List<RepairBill> repairBills = repairBillRepository.searchRevenueByDate(startDate,endDate);
+
+            if(repairBills.isEmpty()) {
+                return new ArrayList<>();
+            }
+            return repairBills;
+
+        } catch (Exception ex) {
+            return new ArrayList<>();
+        }
+    }
+
     private String convertDate() {
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         Date date = new Date();

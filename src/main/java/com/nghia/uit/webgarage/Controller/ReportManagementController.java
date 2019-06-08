@@ -1,6 +1,7 @@
 package com.nghia.uit.webgarage.Controller;
 
 import com.nghia.uit.webgarage.Model.DetailBillDTO;
+import com.nghia.uit.webgarage.Model.RequestSearchDate;
 import com.nghia.uit.webgarage.Service.ReportManagementService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -33,5 +34,10 @@ public class ReportManagementController {
     @RequestMapping(value = "/export-bill",method = RequestMethod.POST)
     public ResponseEntity<?> exportBill(@RequestBody DetailBillDTO detailBillDTO) {
         return new ResponseEntity<>(reportManagementService.exportBill(detailBillDTO),HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/search-revenue",method = RequestMethod.GET)
+    public ResponseEntity<?> searchRevenue(@RequestBody RequestSearchDate requestSearchDate) {
+        return new ResponseEntity<>(reportManagementService.searchRevenue(requestSearchDate),HttpStatus.OK);
     }
 }
