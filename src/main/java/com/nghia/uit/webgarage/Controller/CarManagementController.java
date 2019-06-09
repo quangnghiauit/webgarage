@@ -30,6 +30,14 @@ public class CarManagementController {
         return new ResponseEntity<>(carManagementService.getListCarByUserID(userID), HttpStatus.OK);
     }
 
+    @GetMapping(value = "/get-list-car-handling-by-userID")
+    public @ResponseBody
+    ResponseEntity<?> getAllCarHandlingByUserID(@RequestParam String userID) {
+        return new ResponseEntity<>(carManagementService.getAllCarHandlingByUserID(userID), HttpStatus.OK);
+    }
+
+
+
     @GetMapping(value = "/getcarhandling")
     public @ResponseBody
     ResponseEntity<?> getAllCarHandling() {

@@ -13,6 +13,8 @@ public interface ReportManagementService {
 
     List<BillDTO> getAllBill();
 
+    List<BillDTO> getAllBillByUser(String userID);
+
     ResponseDTO exportBill(DetailBillDTO detailBillDTO);
 
     List<RepairBill> searchRevenue(RequestSearchDate requestSearchDate);

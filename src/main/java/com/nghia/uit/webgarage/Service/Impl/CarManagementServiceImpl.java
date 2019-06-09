@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 public class CarManagementServiceImpl implements CarManagementService {
@@ -94,6 +95,24 @@ public class CarManagementServiceImpl implements CarManagementService {
 
             }
             List<Car> list = carRepository.findCarByUserID(Long.valueOf(userID));
+            if (list.size() == 0) {
+                return new ArrayList<>();
+
+            }
+            return list;
+        } catch (Exception ex) {
+            return new ArrayList<>();
+        }
+    }
+
+    @Override
+    public List<Car> getAllCarHandlingByUserID(String userID) {
+        try {
+            if (userID.isEmpty() || Objects.isNull(userID)) {
+                return new ArrayList<>();
+
+            }
+            List<Car> list = carRepository.findCarHandlingByUserID(userID);
             if (list.size() == 0) {
                 return new ArrayList<>();
 

@@ -192,6 +192,64 @@ public class ReportManagementServiceImpl implements ReportManagementService {
     }
 
     @Override
+    public List<BillDTO> getAllBillByUser(String userID) {
+        try {
+            if(userID.isEmpty()||Objects.isNull(userID)) {
+                return new ArrayList<>();
+            }
+
+            List<RepairBill> repairBills = repairBillRepository.getAllByUserID(userID);
+
+            if(repairBills.isEmpty()) {
+                return new ArrayList<>();
+            }
+
+
+            List<BillDTO> billDTOS = new ArrayList<>();
+            for(RepairBill repairBill : repairBills) {
+                BillDTO billDTO = new BillDTO();
+                List<DetailBillDTO> detailBillDTOS = new ArrayList<>();
+
+                if(!repairBill.getRepairBillID().isEmpty()) {
+                    List<DetailRepairBill> detailRepairBills = detailRepairBillRepository.findAllByRepairBillID(repairBill.getRepairBillID());
+
+                    if(!detailRepairBills.isEmpty()) {
+
+
+                        for(DetailRepairBill detailRepairBill :detailRepairBills) {
+                            DetailBillDTO detailBillDTO = new DetailBillDTO();
+                            String strMaterialName = null;
+                            if(!detailRepairBill.getMaterialID().isEmpty()) {
+                                MaterialReport materialReport = materialReportRepository.findByMaterialID(detailRepairBill.getMaterialID());
+                                if(!materialReport.getMaterialName().isEmpty()){
+                                    strMaterialName = materialReport.getMaterialName();
+                                }
+                            }
+                            detailBillDTO.doMappingDetailReport(detailRepairBill,strMaterialName);
+                            detailBillDTOS.add(detailBillDTO);
+                        }
+
+
+                    }
+                }
+                Users users = userRepository.findByUserID(String.valueOf(repairBill.getUserID()));
+                String strFullName = null;
+                if(!Objects.isNull(users)) {
+                    strFullName = users.getDisplayname();
+                }
+                billDTO.doMappingBill(repairBill,strFullName,detailBillDTOS);
+                billDTOS.add(billDTO);
+            }
+
+            return billDTOS;
+
+
+        }catch (Exception ex) {
+            return new ArrayList<>();
+        }
+    }
+
+    @Override
     public ResponseDTO exportBill(DetailBillDTO detailBillDTO) {
         try {
             long totalMoney = detailBillDTO.getTotalMoney();

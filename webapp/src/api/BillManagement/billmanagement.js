@@ -10,6 +10,10 @@ export function getDetailBill(repairBillID) {
     return httpGet(BASE_URL + '/get-detail-bill?repairBillID=' + repairBillID)
 }
 
+export function getAllBillByUser(userID) {
+    return httpGet(BASE_URL + '/get-all-bill-by-user?userID=' + userID)
+}
+
 export function getHistoryBill() {
     return httpGet(BASE_URL + '/get-all-bill')
 }

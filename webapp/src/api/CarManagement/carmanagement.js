@@ -13,6 +13,9 @@ export function getListCarByUserID(userID) {
     return httpGet(BASE_URL + '/get-list-car-by-userID?userID=' + userID);
 }
 
+export function getListCarHandlingByUserID(userID) {
+    return httpGet(BASE_URL + '/get-list-car-handling-by-userID?userID=' + userID);
+}
 
 export function getListCarHandling() {
     return httpGet(BASE_URL + '/getcarhandling');

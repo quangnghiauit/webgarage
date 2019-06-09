@@ -15,6 +15,8 @@ public interface CarManagementService {
 
     List<Car> getListCarByUserID(String userID);
 
+    List<Car> getAllCarHandlingByUserID(String userID);
+
     ResponseDTO addCar(Car car,String userID);
 
     ResponseDTO processStatusCar(String id,String currentUser);

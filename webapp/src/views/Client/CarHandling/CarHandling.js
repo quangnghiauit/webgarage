@@ -4,26 +4,16 @@ import {
     Button,
     Card,
     CardBody,
-    CardFooter,
     CardHeader,
-    Col,
-    Collapse,
-    FormGroup,
     Input,
     InputGroup,
-    Label,
-    Modal,
-    ModalBody,
-    ModalFooter,
-    ModalHeader,
     Pagination,
     PaginationItem,
     PaginationLink,
-    Row,
     Table
 } from 'reactstrap';
-import {getInfoClient, updateClient} from "../../../api/UserManagement/userManagement";
-import {addCar, getListCarByUserID, processStatusHandleCar} from "../../../api/CarManagement/carmanagement";
+import {updateClient} from "../../../api/UserManagement/userManagement";
+import {addCar, getListCarHandlingByUserID, processStatusHandleCar} from "../../../api/CarManagement/carmanagement";
 import {getUserID} from '../../../api/Client/client'
 
 class CarHandling extends Component {
@@ -92,7 +82,7 @@ class CarHandling extends Component {
     }
 
     handleGetInfoUser(userID) {
-        getListCarByUserID(userID).then(res => {
+        getListCarHandlingByUserID(userID).then(res => {
             this.setState({
                 listCar: res.data
             }, () => {

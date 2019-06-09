@@ -17,6 +17,9 @@ public interface CarRepository extends CrudRepository<Car, Integer> {
     @Query(value = "select * from car as c where c.userID =?1",nativeQuery = true)
     List<Car> findCarByUserID(long userID);
 
+    @Query(value = "select * from car as c where c.userID =?1 and c.status = 1",nativeQuery = true)
+    List<Car> findCarHandlingByUserID(String userID);
+
     @Query(value = "select * from car as c where c.id =?1",nativeQuery = true)
     Car findCarById(String id);
 

@@ -1,10 +1,9 @@
 import React, {Component} from 'react';
-import {Button, Card, CardBody, CardFooter, CardHeader, Col, FormGroup, Input, Label, Row, Table} from 'reactstrap';
+import {Card, CardBody, CardHeader, Col, FormGroup, Input, Label, Row, Table} from 'reactstrap';
 import {getDetailBill} from '../../../api/BillManagement/billmanagement'
 
 
-
-class BillInfo extends Component {
+class ClientBillInfo extends Component {
     constructor(props) {
         super(props);
 
@@ -14,6 +13,8 @@ class BillInfo extends Component {
             createdDate: null,
             userID: null,
             displayname: null,
+            sumTotalMoney : 0,
+            status: null
 
         }
         this.load = this.load.bind(this);
@@ -32,20 +33,31 @@ class BillInfo extends Component {
                     list: res.data.detailBillDTOS,
                     createdDate: res.data.createdDate,
                     userID: res.data.userID,
-                    displayname: res.data.fullName
-                }, () => {
-
-                })
+                    displayname: res.data.fullName,
+                    status:res.data.status
+                },()=>this.handleSumTotalMoney())
             })
         })
     }
 
-   
+    handleSumTotalMoney(){
+        const arrayTotalMoney = this.state.list;
+        if(arrayTotalMoney) {
+            let sum = 0;
+            arrayTotalMoney.forEach(function (object) {
+                sum += object.totalMoney
+            })
+            this.setState({
+                sumTotalMoney:sum
+            })
+
+        }
+    }
+
     render() {
         const {list,repairBillID,createdDate,userID,displayname}=this.state;
-        const sum=list? (list.reduce((a,b)=>a+b,0)):0;
         return (
-            <div className="animated client-bill-info">
+            <div className="animated bill-info" id="bill-info">
                 <Card>
                     <CardHeader>
                         <i className="icon-menu"></i>Hóa đơn
@@ -54,18 +66,18 @@ class BillInfo extends Component {
                         <Row>
                             <Col sm={6}>
                                 <FormGroup>
-                                    <Label htmlFor="id">Số hóa đơn</Label>
+                                    <Label htmlFor="id">Mã hóa đơn</Label>
                                     <Input type="text" placeholder={repairBillID} disabled/>
                                 </FormGroup>
                                 <FormGroup>
-                                    <Label htmlFor="date">Ngày lập</Label>
-                                    <Input type="text" placeholder={createdDate} disabled/>
+                                    <Label htmlFor="customer-id">Mã khách hàng</Label>
+                                    <Input type="text" id="customer-id" placeholder={userID} disabled/>
                                 </FormGroup>
                             </Col>
                             <Col sm={6}>
                                 <FormGroup>
-                                    <Label htmlFor="customer-id">Mã khách hàng</Label>
-                                    <Input type="text" id="customer-id" placeholder={userID} disabled/>
+                                    <Label htmlFor="date">Ngày lập hóa đơn</Label>
+                                    <Input type="text" placeholder={createdDate} disabled/>
                                 </FormGroup>
                                 <FormGroup>
                                     <Label htmlFor="customer-name">Tên khách hàng</Label>
@@ -78,6 +90,7 @@ class BillInfo extends Component {
                             <Table id="table-bill" responsive>
                                 <thead>
                                 <tr>
+                                    <th>STT</th>
                                     <th>Mã phụ tùng</th>
                                     <th>Tên phụ tùng</th>
                                     <th>Số lượng</th>
@@ -90,6 +103,7 @@ class BillInfo extends Component {
                                     list ? list.map((item, index) => {
                                         return (
                                             <tr key={index}>
+                                                <td>{index + 1}</td>
                                                 <td>{item.materialID}</td>
                                                 <td>{item.materialName}</td>
                                                 <td>{item.reqNum}</td>
@@ -101,15 +115,16 @@ class BillInfo extends Component {
                                 }
                                 </tbody>
                                 <tfoot>
-                                    <tr>
-                                        <th>Tổng</th>
-                                        <td scope="row"></td>
-                                        <td scope="row"></td>
-                                        <td scope="row"></td>
-                                        <th>
-                                            {sum}
-                                        </th>
-                                    </tr>
+                                <tr>
+                                    <th>Tổng giá trị hóa đơn</th>
+                                    <td scope="row"></td>
+                                    <td scope="row"></td>
+                                    <td scope="row"></td>
+                                    <td scope="row"></td>
+                                    <th>
+                                        {this.state.sumTotalMoney?this.state.sumTotalMoney:0}
+                                    </th>
+                                </tr>
                                 </tfoot>
                             </Table>
                         </FormGroup>
@@ -121,4 +136,4 @@ class BillInfo extends Component {
     }
 }
 
-export default BillInfo;
+export default ClientBillInfo;

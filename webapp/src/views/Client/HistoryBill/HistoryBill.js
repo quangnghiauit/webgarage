@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
-import {Card, CardBody, CardFooter, CardHeader, Table} from 'reactstrap';
+import {Button, Card, CardBody, CardFooter, CardHeader, Table} from 'reactstrap';
 
-import {getHistoryBill} from '../../../api/BillManagement/billmanagement'
+import {getAllBillByUser, getHistoryBill} from '../../../api/BillManagement/billmanagement'
 import {getUserID} from '../../../api/Client/client'
 
 class HistoryBill extends Component {
@@ -15,22 +15,24 @@ class HistoryBill extends Component {
         this.load = this.load.bind(this);
     }
 
-    componentDidCatch() {
+    componentDidMount() {
         this.load();
     }
 
     load() {
-        getHistoryBill().then(res => {
-            this.setState({
-                list: res.data
-            }, () => {
-            })
-        })
         getUserID().then(res=>{
             this.setState({
                 userID:res.data.userID
-            });
+            },()=>this.handleGetListBill());
         });
+    }
+    handleGetListBill() {
+        getAllBillByUser(this.state.userID).then(res => {
+            console.log("bleeeeee",res.data)
+            this.setState({
+                list:res.data
+            })
+        })
     }
 
     toggleBill(id) {
@@ -49,31 +51,42 @@ class HistoryBill extends Component {
                         <Table id="table-bill" responsive striped>
                             <thead>
                             <tr>
-                                <th>LogID</th>
-                                <th>Số hóa đơn</th>
-                                <th>Ngày hóa đơn</th>
-                                <th>Trị giá hóa đơn</th>
-                                <th>Action</th>
+                                <th>ID</th>
+                                <th>Mã hóa đơn</th>
+                                <th>Biển số xe</th>
+                                <th>Ngày tạo hóa đơn</th>
+                                <th>Trạng thái</th>
                             </tr>
                             </thead>
                             <tbody>
                             {
-                                list ? list.map((item, index) => 
-                                    item.userID==this.state.userID?
+                                list ? list.map((item, index) => {
+                                    return (
                                         <tr key={index}>
-                                            <td>{index}</td>
+                                            <td>{index + 1}</td>
                                             <td>{item.repairBillID}</td>
+                                            <td>{item.licensePlate}</td>
                                             <td>{item.createdDate}</td>
-                                            <td>{item.totalMoney}</td>
                                             <td>
                                                 {
-                                                    <Button color="success"
-                                                            onClick={() => this.toggleBill(item.repairBillID)}>Xem</Button>
+                                                    item.status == 2 ? (
+                                                        <Button color="success"
+                                                                onClick={() => this.toggleBill(item.repairBillID)}>Đã thanh toán</Button>
+                                                    ) : (
+                                                        item.status == 1 ? (
+                                                            <Button color="danger"
+                                                                    onClick={() => this.toggleBill(item.repairBillID)}>Chưa thanh toán</Button>
+                                                        ) : null
+                                                    )
+
+                                                }
+                                                {
+
                                                 }
                                             </td>
                                         </tr>
-                                        :null                                    
-                                ) : null
+                                    );
+                                }) : null
                             }
                             </tbody>
                         </Table>

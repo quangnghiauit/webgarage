@@ -31,6 +31,11 @@ public class ReportManagementController {
         return new ResponseEntity<>(reportManagementService.getAllBill(), HttpStatus.OK);
     }
 
+    @GetMapping(value = "/get-all-bill-by-user")
+    public ResponseEntity<?> getAllBillByUser(@RequestParam String userID) {
+        return new ResponseEntity<>(reportManagementService.getAllBillByUser(userID), HttpStatus.OK);
+    }
+
     @RequestMapping(value = "/export-bill",method = RequestMethod.POST)
     public ResponseEntity<?> exportBill(@RequestBody DetailBillDTO detailBillDTO) {
         return new ResponseEntity<>(reportManagementService.exportBill(detailBillDTO),HttpStatus.OK);
