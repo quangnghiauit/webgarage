@@ -11,6 +11,8 @@ import {
     Modal,
     ModalBody,
     ModalHeader,
+    Row,
+    Col
 } from 'reactstrap';
 import {getInfoClient, updateClient} from "../../../api/UserManagement/userManagement";
 import {getUserID} from '../../../api/Client/client'
@@ -23,7 +25,7 @@ class ClientInfo extends Component {
             id: '',
             userID: '',
             displayname: '',
-            // password:'',
+            username:'',
             address: '',
             email: '',
             phoneNumber: '',
@@ -70,6 +72,7 @@ class ClientInfo extends Component {
                 email: res.data.email,
                 phoneNumber: res.data.phoneNumber,
                 user: res.data,
+                username:res.data.username
             })
         })
 
@@ -81,7 +84,7 @@ class ClientInfo extends Component {
             address: this.state.address,
             email: this.state.email,
             phoneNumber: this.state.phoneNumber,
-            // password:this.state.password
+            username:this.state.username
         }
         if (this.state.displayname && this.state.phoneNumber) {
             updateClient(userID, requestParams).then(res => {
@@ -167,48 +170,53 @@ class ClientInfo extends Component {
                         <i className="fa fa-align-justify"></i> Thông tin khách hàng
                     </CardHeader>
                     <CardBody>
-                        <FormGroup>
-                            <Label htmlFor="id">Mã khách hàng</Label>
-                            <Input type="text" id="id" placeholder="Enter your id"
-                                   onChange={(e) => this.setState({userID: e.target.value})}
-                                   value={this.state.userID}
-                                   disabled/>
-                        </FormGroup>
-                        <FormGroup>
-                            <Label htmlFor="name">Tên khách hàng</Label>
-                            <Input type="text" id="name" placeholder="Enter your name"
-                                   onChange={(e) => this.setState({displayname: e.target.value})}
-                                   value={this.state.displayname}
-                            />
-                        </FormGroup>
-                        <FormGroup>
-                            <Label htmlFor="address">Địa chỉ</Label>
-                            <Input type="text" id="address" placeholder="Enter your address"
-                                   onChange={(e) => this.setState({address: e.target.value})}
-                                   value={this.state.address}
-                            />
-                        </FormGroup>
-                        <FormGroup>
-                            <Label htmlFor="email">Email</Label>
-                            <Input type="email" id="email" name="email" placeholder="Enter Email.."
-                                   onChange={(e) => this.setState({email: e.target.value})}
-                                   value={this.state.email}
-                            />
-                        </FormGroup>
-                        <FormGroup>
-                            <Label htmlFor="phone">Số điện thoại</Label>
-                            <Input type="text" id="phone" placeholder="Enter your phone"
-                                   onChange={(e) => this.setState({phoneNumber: e.target.value})}
-                                   value={this.state.phoneNumber}
-                            />
-                        </FormGroup>
-                        {/* <FormGroup>
-                            <Label htmlFor="password">Mật khẩu</Label>
-                            <Input type='text' id="password" placeholder="Enter your password"
-                                   onChange={(e) => this.setState({password: e.target.value})}
-                                   value={this.state.password}
+                        <Row>
+                            <Col sm={6}>
+                                <FormGroup>
+                                    <Label htmlFor="id">Mã khách hàng</Label>
+                                    <Input type="text" id="id" placeholder="Enter your id"
+                                           onChange={(e) => this.setState({userID: e.target.value})}
+                                           value={this.state.userID}
+                                           disabled/>
+                                </FormGroup>
+                                <FormGroup>
+                                    <Label htmlFor="name">Tên khách hàng</Label>
+                                    <Input type="text" id="name" placeholder="Enter your name"
+                                           onChange={(e) => this.setState({displayname: e.target.value})}
+                                           value={this.state.displayname}
                                     />
-                        </FormGroup> */}
+                                </FormGroup>
+                                <FormGroup>
+                                    <Label htmlFor="address">Địa chỉ</Label>
+                                    <Input type="text" id="address" placeholder="Enter your address"
+                                           onChange={(e) => this.setState({address: e.target.value})}
+                                           value={this.state.address}
+                                    />
+                                </FormGroup>
+                            </Col>
+                            <Col sm={6}>
+                                <FormGroup>
+                                    <Label htmlFor="username">UserName</Label>
+                                    <Input type='text' id="username" placeholder={this.state.username}
+                                            disabled
+                                    />
+                                </FormGroup>
+                                <FormGroup>
+                                    <Label htmlFor="email">Email</Label>
+                                    <Input type="email" id="email" name="email" placeholder="Enter Email.."
+                                           onChange={(e) => this.setState({email: e.target.value})}
+                                           value={this.state.email}
+                                    />
+                                </FormGroup>
+                                <FormGroup>
+                                    <Label htmlFor="phone">Số điện thoại</Label>
+                                    <Input type="text" id="phone" placeholder="Enter your phone"
+                                           onChange={(e) => this.setState({phoneNumber: e.target.value})}
+                                           value={this.state.phoneNumber}
+                                    />
+                                </FormGroup>
+                            </Col>
+                        </Row>
                     </CardBody>
                     <CardFooter>
                         <Button className="float-right" color="success"

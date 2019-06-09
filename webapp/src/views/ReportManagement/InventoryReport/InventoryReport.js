@@ -29,7 +29,7 @@ class InventoryReport extends Component {
 
             curPaItem: 1,
             maxRows: 20,
-            maxPaItems: 3,
+            maxPaItems: 5,
             definePa: [],
             filterPa: []
         }

@@ -23,7 +23,7 @@ class CreateBill extends Component {
 
             curPaItem: 1,
             maxRows: 10,
-            maxPaItems: 3,
+            maxPaItems: 5,
             definePa: [],
             filterPa: []
 

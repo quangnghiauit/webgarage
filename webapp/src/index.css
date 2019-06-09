@@ -90,3 +90,69 @@
 .search-car-handling #pagination{
     float: right;
 }
+
+.search-materials .search{
+    width: 30%;
+    left: 70%;
+}
+.search-materials #table-materials{
+    margin-top: 10px;
+}
+.search-materials #pagination{
+    float: right;
+}
+
+.import-materials .search{
+    width: 30%;
+    left: 70%;
+}
+.import-materials #table-import-materials{
+    margin-top: 10px;
+}
+.import-materials #pagination{
+    float: right;
+}
+
+.import-bill .search{
+    width: 30%;
+    left: 70%;
+}
+.import-bill #table-bill{
+    margin-top: 10px;
+}
+.import-bill #pagination{
+    float: right;
+}
+
+.search-bill .search{
+    width: 30%;
+    left: 70%;
+}
+.search-bill #table-bill{
+    margin-top: 10px;
+}
+.search-bill #pagination{
+    float: right;
+}
+
+.report-inventory .search{
+    width: 30%;
+    left: 70%;
+}
+.report-inventory #table-report-inventory{
+    margin-top: 10px;
+}
+.report-inventory #pagination{
+    float: right;
+}
+
+.client-search-bill .search{
+    width: 30%;
+    left: 70%;
+}
+.client-search-bill #table-bill{
+    margin-top: 10px;
+}
+.client-search-bill #pagination{
+    float: right;
+}

@@ -47,7 +47,7 @@ class HistoryMaterial extends Component {
 
             curPaItem: 1,
             maxRows: 10,
-            maxPaItems: 3,
+            maxPaItems: 5,
             definePa: [],
             filterPa: []
         }
@@ -181,7 +181,7 @@ class HistoryMaterial extends Component {
     }
 
     handlePagination() {
-        const table = document.getElementById('table-bill');
+        const table = document.getElementById('table-import-materials');
         const tr = table.getElementsByTagName('tr');
         if (tr.length - 1 > this.state.maxRows) {
             let temp = [];
@@ -217,7 +217,7 @@ class HistoryMaterial extends Component {
     filterTable() {
         let td, txtValue, display;
         const filter = document.getElementById("search").value.toUpperCase();
-        const table = document.getElementById("table-bill");
+        const table = document.getElementById("table-import-materials");
         const tr = table.getElementsByTagName("tr");
         for (let i = 1; i < tr.length; i++) {
             td = tr[i].getElementsByTagName("td");
@@ -239,7 +239,7 @@ class HistoryMaterial extends Component {
     }
 
     filterPa() {
-        const table = document.getElementById('table-bill');
+        const table = document.getElementById('table-import-materials');
         const tr = table.getElementsByTagName('tr');
         for (let i = 1; i < tr.length; i++) {
             if ((i >= (this.state.curPaItem - 1) * this.state.maxRows + 1) && (i <= this.state.curPaItem * this.state.maxRows))
@@ -338,7 +338,7 @@ class HistoryMaterial extends Component {
                                 <i className="fa fa-search form-control" aria-hidden="true"></i>
                             </div>
                         </InputGroup>
-                        <Table id="table-bill" responsive striped>
+                        <Table id="table-import-materials" responsive striped>
                             <thead>
                             <tr>
                                 <th>STT</th>
@@ -353,7 +353,7 @@ class HistoryMaterial extends Component {
                                 list ? list.map((item, index) => {
                                     return (
                                         <tr key={index}>
-                                            <td>{item.id}</td>
+                                            <td>{index+1}</td>
                                             <td>{item.materialName}</td>
                                             <td>{item.numInput}</td>
                                             <td>{item.price}</td>

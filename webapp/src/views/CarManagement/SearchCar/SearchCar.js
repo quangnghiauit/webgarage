@@ -22,7 +22,7 @@ class SearchCar extends Component {
 
             curPaItem: 1,
             maxRows: 10,
-            maxPaItems: 3,
+            maxPaItems: 5,
             definePa: [],
             filterPa: []
         }
@@ -201,7 +201,7 @@ class SearchCar extends Component {
                         <Table id="table-cars" responsive striped>
                             <thead>
                             <tr>
-                                <th>ID</th>
+                                <th>STT</th>
                                 <th>Biển số</th>
                                 <th>Tên khách hàng</th>
                                 <th>Mã khách hàng</th>
@@ -214,7 +214,7 @@ class SearchCar extends Component {
                                 listCar ? listCar.map((item, index) => {
                                     return (
                                         <tr key={index}>
-                                            <td>{item.id}</td>
+                                            <td>{index+1}</td>
                                             <td>{item.licensePlate}</td>
                                             <td>{item.displayname}</td>
                                             <td>{item.userID}</td>

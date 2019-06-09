@@ -33,7 +33,7 @@ class ListCarHandling extends Component {
 
             curPaItem: 1,
             maxRows: 10,
-            maxPaItems: 3,
+            maxPaItems: 5,
             definePa: [],
             filterPa: []
         }
@@ -232,7 +232,7 @@ class ListCarHandling extends Component {
                         <Table id="table-cars-handling" responsive striped>
                             <thead>
                             <tr>
-                                <th>ID</th>
+                                <th>STT</th>
                                 <th>Biển số xe</th>
                                 <th>Tên khách hàng</th>
                                 <th>Trạng thái</th>
@@ -244,7 +244,7 @@ class ListCarHandling extends Component {
                                 list ? list.map((item, index) => {
                                     return (
                                         <tr key={index}>
-                                            <td>{item.id}</td>
+                                            <td>{index+1}</td>
                                             <td>{item.licensePlate}</td>
                                             <td>{item.displayName}</td>
                                             <td>

@@ -53,7 +53,7 @@ class SearchUser extends Component {
             offset: '0',
             curPaItem: 1,
             maxRows: 10,
-            maxPaItems: 3,
+            maxPaItems: 5,
             definePa: [],
             filterPa: []
         };
@@ -310,7 +310,7 @@ class SearchUser extends Component {
                         <Table id="table-users" responsive striped>
                             <thead>
                             <tr>
-                                <th>LogID</th>
+                                <th>STT</th>
                                 <th>Mã khách hàng</th>
                                 <th>Tên khách hàng</th>
                                 <th>Số điện thoại</th>
@@ -324,7 +324,7 @@ class SearchUser extends Component {
                                 resultList ? resultList.map((item, index) => {
                                     return (
                                         <tr key={index}>
-                                            <td>{item.id}</td>
+                                            <td>{index+1}</td>
                                             <td>{item.userID}</td>
                                             <td>{item.displayname}</td>
                                             <td>{item.phoneNumber}</td>

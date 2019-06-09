@@ -57,7 +57,6 @@ class CarHandlingInfo extends Component {
                         <i className="icon-menu"></i>Xử lý xe
                     </CardHeader>
                     <CardBody>
-
                         <Row>
                             <Col xs="12" lg="6">
                                 <FormGroup row>
@@ -94,7 +93,7 @@ class CarHandlingInfo extends Component {
                         <Table responsive striped>
                             <thead>
                             <tr>
-                                <th>ID</th>
+                                <th>STT</th>
                                 <th>Tên phụ tùng</th>
                                 <th>Số lượng</th>
                                 <th>Đơn giá</th>
@@ -107,7 +106,7 @@ class CarHandlingInfo extends Component {
                                 list ? list.map((item, index) => {
                                     return (
                                         <tr key={index}>
-                                            <td>{item.id}</td>
+                                            <td>{index+1}</td>
                                             <td>{item.materialName}</td>
                                             <td>{item.reqNum}</td>
                                             <td>{item.price}</td>

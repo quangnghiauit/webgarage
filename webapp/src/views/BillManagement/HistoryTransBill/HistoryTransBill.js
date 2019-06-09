@@ -211,7 +211,7 @@ class HistoryTransBill extends Component {
                         <Table id="table-bill" responsive striped>
                             <thead>
                             <tr>
-                                <th>ID</th>
+                                <th>STT</th>
                                 <th>Mã hóa đơn</th>
                                 <th>Biển số xe</th>
                                 <th>Mã khách hàng</th>

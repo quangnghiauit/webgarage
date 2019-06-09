@@ -46,7 +46,7 @@ class SearchMaterial extends Component {
     }
 
     handlePagination() {
-        const table = document.getElementById('table-cars');
+        const table = document.getElementById('table-materials');
         const tr = table.getElementsByTagName('tr');
         if (tr.length - 1 > this.state.maxRows) {
             let temp = [];
@@ -83,7 +83,7 @@ class SearchMaterial extends Component {
     filterTable() {
         let td, txtValue, display;
         const filter = document.getElementById("search").value.toUpperCase();
-        const table = document.getElementById("table-cars");
+        const table = document.getElementById("table-materials");
         const tr = table.getElementsByTagName("tr");
         for (let i = 1; i < tr.length; i++) {
             td = tr[i].getElementsByTagName("td");
@@ -105,7 +105,7 @@ class SearchMaterial extends Component {
     }
 
     filterPa() {
-        const table = document.getElementById('table-cars');
+        const table = document.getElementById('table-materials');
         const tr = table.getElementsByTagName('tr');
         for (let i = 1; i < tr.length; i++) {
             if ((i >= (this.state.curPaItem - 1) * this.state.maxRows + 1) && (i <= this.state.curPaItem * this.state.maxRows))
@@ -203,7 +203,7 @@ class SearchMaterial extends Component {
                                 <i className="fa fa-search form-control" aria-hidden="true"></i>
                             </div>
                         </InputGroup>
-                        <Table id="table-cars" responsive striped>
+                        <Table id="table-materials" responsive striped>
                             <thead>
                             <tr>
                                 <th>STT</th>
