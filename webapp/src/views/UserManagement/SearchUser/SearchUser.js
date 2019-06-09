@@ -33,6 +33,7 @@ class SearchUser extends Component {
             address: '',
             userName: '',
             password: '',
+            rsPassword: 'Please enter password',
             resultAdd: null,
             idUpdate: '',
             idDelete: '',
@@ -237,6 +238,9 @@ class SearchUser extends Component {
     }
 
     handleAddUser() {
+        if(this.state.password.length<6)
+            return;
+        
         const params = {
             displayname: this.state.displayname,
             phoneNumber: this.state.phoneNumber,
@@ -260,6 +264,19 @@ class SearchUser extends Component {
         this.setState(prevState => ({
             modalAdd: !prevState.modalAdd
         }));
+    }
+
+    enterPassword(e){
+        this.setState({password:e.target.value},()=>{
+            if(this.state.password.length <6){
+                document.getElementById("password").style.color='red';
+                this.setState({rsPassword: "Vui lòng nhập độ dài password lớn hơn 6"})
+            }
+            else{
+                document.getElementById("password").style.color='black';
+                this.setState({rsPassword: "Password well !"})
+            }
+        })
     }
 
     render() {
@@ -366,7 +383,7 @@ class SearchUser extends Component {
                                     <span className="input-group-text"><i className="fa fa-phone"></i></span>
                                 </div>
                                 <TextMask
-                                    mask={['(', '+', /[1-9]/, /\d/, ')', ' ', /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/]}
+                                    mask={['0', /\d/, /\d/, /\d/, /\d/, /\d/, /\d/, /\d/, /\d/, /\d/]}
                                     Component={InputAdapter}
                                     value={this.state.phoneNumber}
                                     onChange={(e) => this.setState({phoneNumber: e.target.value})}
@@ -374,7 +391,7 @@ class SearchUser extends Component {
                                 />
                             </InputGroup>
                             <FormText color="muted">
-                                ex. (+84) 978-301-442
+                                ex. 0978301442
                             </FormText>
                         </FormGroup>
                         <FormGroup>
@@ -395,9 +412,9 @@ class SearchUser extends Component {
                             <Label htmlFor="email">Mật khẩu (Password)</Label>
                             <Input type="password" id="password" name="password"
                                    value={this.state.password}
-                                   onChange={(e) => this.setState({password: e.target.value})}
+                                   onChange={(e) =>this.enterPassword(e)}
                                    placeholder="Enter password.."/>
-                            <FormText className="help-block">Please enter password</FormText>
+                            <FormText id="password" className="help-block">{this.state.rsPassword}</FormText>
                         </FormGroup>
 
                     </ModalBody>
