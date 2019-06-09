@@ -32,7 +32,7 @@ class RevenueReport extends Component {
 
             curPaItem: 1,
             maxRows: 20,
-            maxPaItems: 3,
+            maxPaItems: 5,
             definePa: [],
             filterPa: []
         }
@@ -242,7 +242,7 @@ class RevenueReport extends Component {
                                 </Col>
                                 <Col sm={3}>
                                     <Button type="button" color="primary"
-                                            style={{width: "100px"}}
+                                            style={{width: "100px",height:"50px"}}
                                             onClick={() => this.handleSearch()}
 
                                     >

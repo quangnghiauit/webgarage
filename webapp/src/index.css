@@ -146,6 +146,17 @@
     float: right;
 }
 
+.report-revenue .search{
+    width: 30%;
+    left: 70%;
+}
+.report-revenue #table-report-revenue{
+    margin-top: 10px;
+}
+.report-revenue #pagination{
+    float: right;
+}
+
 .client-search-bill .search{
     width: 30%;
     left: 70%;
