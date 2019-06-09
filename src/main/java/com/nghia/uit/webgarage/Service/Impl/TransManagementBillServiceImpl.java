@@ -17,6 +17,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 public class TransManagementBillServiceImpl implements TransManagementBillService {
@@ -92,6 +93,7 @@ public class TransManagementBillServiceImpl implements TransManagementBillServic
                 carHandleDTO.setInfoBill(detailRepairBill.getInfoBill());
                 materialList = materialRepository.findAllByMaterialID(String.valueOf(detailRepairBill.getMaterialID()));
                 if(materialList.size()!=0) {
+                    carHandleDTO.setMaterialID(materialList.get(0).getMaterialID());
                     carHandleDTO.setMaterialName(materialList.get(0).getMaterialName());
                     carHandleDTO.setPrice(materialList.get(0).getPrice());
                     carHandleDTO.setTotalMoney(carHandleDTO.getPrice()*carHandleDTO.getReqNum());
@@ -103,6 +105,26 @@ public class TransManagementBillServiceImpl implements TransManagementBillServic
             carHandleDTOList.setCarHandleDTOList(handleDTOList);
             return carHandleDTOList;
 
+
+        }catch (Exception ex) {
+            return null;
+        }
+    }
+
+    @Override
+    public DetailRepairBill getDetailMaterial(String repairBillID, String materialID) {
+        try {
+            if(repairBillID.isEmpty()||materialID.isEmpty()) {
+                return null;
+            }
+
+            DetailRepairBill detailRepairBill = detailRepairBillRepository.getDetailMaterialByFilter(repairBillID,materialID);
+
+            if(Objects.isNull(detailRepairBill)) {
+                return  null;
+            }
+
+            return detailRepairBill;
 
         }catch (Exception ex) {
             return null;

@@ -30,6 +30,12 @@ public class TransManagementBillController {
         return new ResponseEntity<>(transManagementBillService.getInfoMaterialUser(licensePlate),HttpStatus.OK);
     }
 
+    @GetMapping(value = "/get-detail-material")
+    public @ResponseBody
+    ResponseEntity<?> getDetailMaterial(@RequestParam String repairBillID, @RequestParam String materialID){
+        return new ResponseEntity<>(transManagementBillService.getDetailMaterial(repairBillID,materialID),HttpStatus.OK);
+    }
+
     @RequestMapping(value = "/addmaterial", method = RequestMethod.POST)
     public @ResponseBody
     ResponseEntity<?> addmaterial(@RequestBody DetailRepairBill detailRepairBill, @RequestParam String repairBillID) {

@@ -19,7 +19,12 @@ import {
     Row,
     Table
 } from 'reactstrap';
-import {addTransMaterial, getInfoMaterialUser, updateMaterial} from "../../../api/TransManagement/transmanagement";
+import {
+    addTransMaterial, deleteMaterial,
+    getDetailMaterial,
+    getInfoMaterialUser,
+    updateMaterial
+} from "../../../api/TransManagement/transmanagement";
 import {getListMaterialName} from "../../../api/materialManagement/materialManagement";
 
 class HandlingCar extends Component {
@@ -39,6 +44,14 @@ class HandlingCar extends Component {
             reqNum: '',
 
             listMaterial: [],
+            detailMaterial: null,
+
+            idUpdate:null,
+            materialIDUpdate:null,
+            infoBillUpdate:null,
+            reqNumUpdate:null,
+
+            idDelete:null,
 
             modalAdd: false,
             nestedModalAdd: false,
@@ -136,24 +149,47 @@ class HandlingCar extends Component {
         }
     }
 
+    handleGetDetailMaterial(logid,repairBillID,materialID) {
+        getDetailMaterial(repairBillID,materialID).then(res => {
+            this.setState({
+                id: logid,
+                detailMaterial:res.data,
+                idUpdate:res.data.id,
+                materialIDUpdate:res.data.materialID,
+                infoBillUpdate:res.data.infoBill,
+                reqNumUpdate:res.data.reqNum,
+            },()=>this.toggleProcessUpdate())
+        })
+    }
+
     handleUpdateMaterial() {
         const params = {
-            infoBill: this.state.infoBill,
-            materialID: this.state.materialID,
-            reqNum: this.state.reqNum,
+            infoBill: this.state.infoBillUpdate,
+            materialID: this.state.materialIDUpdate,
+            reqNum: this.state.reqNumUpdate,
         };
         console.log("param", params);
-        if (this.state.materialID && this.state.reqNum) {
-            updateMaterial(this.state.id, params).then(res => {
+        const num = parseInt(this.state.reqNum);
+        if (parseInt(this.state.materialID) !==0 && num !== 0) {
+            updateMaterial(this.state.idUpdate, params).then(res => {
                 console.log('truoc add', res)
                 this.setState({
-                    resultUpdate: res.data
+                    resultUpdate: res.data,
+
                 }, () => this.toggleNestedUpdate())
 
             })
         } else {
-            alert("Vui lòng điền đầy đủ thông tin.")
+            alert("Vui lòng kiểm tra lại thông tin.")
         }
+    }
+
+    handleDeleteMaterial() {
+        deleteMaterial(this.state.idDelete).then(res => {
+            this.setState({
+                resultDelete:res.data
+            },()=> this.toggleNestedDelete())
+        })
     }
 
     toggleUpdate() {
@@ -162,9 +198,8 @@ class HandlingCar extends Component {
         }));
     }
 
-    toggleProcessUpdate(logid) {
+    toggleProcessUpdate() {
         this.setState(prevState => ({
-            id: logid,
             modalUpdate: !prevState.modalUpdate
         }));
     }
@@ -184,10 +219,13 @@ class HandlingCar extends Component {
         window.location.reload();
     }
 
-    handleDeleteMaterial(id) {
-
+    handleDelete(logid) {
+        console.log("lllllllllllll",logid)
+        this.setState({
+            idDelete:logid,
+            modalDelete: !this.state.modalDelete
+        })
     }
-
     toggleDelete() {
         this.setState(prevState => ({
             modalDelete: !prevState.modalDelete
@@ -257,7 +295,7 @@ class HandlingCar extends Component {
                         <Table responsive striped>
                             <thead>
                             <tr>
-                                <th>ID</th>
+                                <th>STT</th>
                                 <th>Tên phụ tùng</th>
                                 <th>Chi tiết sửa chữa</th>
                                 <th>Số lượng</th>
@@ -269,15 +307,15 @@ class HandlingCar extends Component {
                                 list ? list.map((item, index) => {
                                     return (
                                         <tr key={index}>
-                                            <td>{item.id}</td>
+                                            <td>{index + 1}</td>
                                             <td>{item.materialName}</td>
                                             <td>{item.infoBill}</td>
                                             <td>{item.reqNum}</td>
                                             <td>
                                                 <Button color="warning"
-                                                        onClick={() => this.toggleProcessUpdate(item.id)}>Cập
+                                                        onClick={() => this.handleGetDetailMaterial(item.id,item.repairBillID,item.materialID)}>Cập
                                                     nhật</Button> {' '}
-                                                <Button color="danger" onClick={this.toggleDelete}>Xóa</Button>
+                                                <Button color="danger" onClick={()=>this.handleDelete(item.id)}>Xóa</Button>
 
                                             </td>
                                         </tr>
@@ -384,9 +422,10 @@ class HandlingCar extends Component {
                             <select
                                 className="form-control"
                                 id={"listMaterial"}
-                                onChange={(e) => this.setState({materialID: e.target.value},
+                                value={this.state.materialIDUpdate}
+                                onChange={(e) => this.setState({materialIDUpdate: e.target.value},
                                     () => console.log('materialID: ' + this.state.materialID))}>
-                                <option value={null}>Chọn loại phụ tùng</option>
+                                <option value="">Chọn loại phụ tùng</option>
                                 {listMaterial.map(item => {
                                     return (
                                         <option key={item.id} value={item.materialID}>
@@ -399,18 +438,17 @@ class HandlingCar extends Component {
                             </select>
                         </FormGroup>
 
-
                         <FormGroup>
                             <Label htmlFor="address">Thông tin sửa chữa</Label>
-                            <Input type="text" id="infoBill" value={this.state.infoBill}
-                                   onChange={(e) => this.setState({infoBill: e.target.value}, () => console.log(this.state.infoBill))}
+                            <Input type="text" id="infoBill" value={this.state.infoBillUpdate}
+                                   onChange={(e) => this.setState({infoBillUpdate: e.target.value}, () => console.log(this.state.infoBill))}
                                    placeholder="Enter your info bill" required/>
                             <FormText className="help-block">Please enter your infoBill</FormText>
                         </FormGroup>
                         <FormGroup>
                             <Label htmlFor="reqNum">Số lượng</Label>
-                            <Input type="text" id="reqNum" value={this.state.reqNum}
-                                   onChange={(e) => this.setState({reqNum: e.target.value}, () => console.log(this.state.reqNum))}
+                            <Input type="text" id="reqNum" value={this.state.reqNumUpdate}
+                                   onChange={(e) => this.setState({reqNumUpdate: e.target.value}, () => console.log(this.state.reqNum))}
                                    placeholder="Enter your reqNum" required/>
                             <FormText className="help-block">Please enter your reqNum</FormText>
                         </FormGroup>
@@ -446,7 +484,7 @@ class HandlingCar extends Component {
                     </ModalBody>
                     <ModalFooter>
                         <Button color="primary"
-                                onClick={() => this.handleAddMaterial()}>Submit</Button>{' '}
+                                onClick={() => this.handleDeleteMaterial()}>Submit</Button>{' '}
                         <Button color="secondary" onClick={this.toggleDelete}>Cancel</Button>
                     </ModalFooter>
                 </Modal>

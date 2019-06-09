@@ -12,6 +12,8 @@ public interface TransManagementBillService {
 
     ResultCarHandleDTO getInfoMaterialUser(String licensePlate);
 
+    DetailRepairBill getDetailMaterial(String repairBillID,String materialID);
+
     ResponseDTO addMaterial(DetailRepairBill detailRepairBill, String repairBillID,String currentUser);
 
     ResponseDTO updateMaterial(DetailRepairBill detailRepairBill, String id);

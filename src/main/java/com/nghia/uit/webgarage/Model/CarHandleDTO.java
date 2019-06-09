@@ -31,6 +31,8 @@ public class CarHandleDTO {
 
     private long userID;
 
+    private String materialID;
+
     private String materialName;
 
     private int reqNum;
@@ -147,5 +149,13 @@ public class CarHandleDTO {
 
     public void setInfoBill(String infoBill) {
         this.infoBill = infoBill;
+    }
+
+    public String getMaterialID() {
+        return materialID;
+    }
+
+    public void setMaterialID(String materialID) {
+        this.materialID = materialID;
     }
 }
