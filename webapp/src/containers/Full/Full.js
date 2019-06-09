@@ -51,6 +51,7 @@ class Full extends Component {
     componentDidMount() {
         getRole()
             .then(response => {
+                // console.log("roleee",response.data)
                 this.setState({roles: response.data});
             })
             .catch(error => {
@@ -149,11 +150,33 @@ class Full extends Component {
 
                                 {
                                     this.state.roles === '[ROLE_ACCOUNTANT]' && [
+                                        <Route path="/dashboard" name="Dashboard" component={Dashboard}/>,
+
+                                        <Route path="/user-management/search" name="SearchUser"
+                                               component={SearchUser}/>,
+                                        <Route path="/user-management/history/:id" name="HistoryTransUser"
+                                               component={HistoryTransUser}/>,
+                                        <Route path="/user-management/user-info" name="UserInfo" component={UserInfo}/>,
+
+
+                                        <Route path="/car-management/search" name="SearchCar"
+                                               component={SearchCar}/>,
+                                        <Route path="/car-management/car-handle-list/:id" name="HandlingCar"
+                                               component={HandlingCar}/>,
+                                        <Route path="/car-management/car-handle-info/:id" name="CarHandleInfo"
+                                               component={CarHandleInfo}/>,
+                                        <Route path="/car-management/list-car-handling" name="ListCarHandling"
+                                               component={ListCarHandling}/>,
 
                                         <Route path="/material-management/search" name="SearchMaterial"
                                                component={SearchMaterial}/>,
                                         <Route path="/material-management/history" name="HistoryMaterial"
                                                component={HistoryMaterial}/>,
+
+                                        <Route path="/admin-management/user-management" name="UserManagement"
+                                               component={UserManagement}/>,
+                                        <Route path="/admin-management/role-management" name="RoleManagement"
+                                               component={RoleManagement}/>,
 
                                         <Route path="/bill-management/create-bill" name="CreateBill"
                                                component={CreateBill}/>,
@@ -169,7 +192,7 @@ class Full extends Component {
                                                name="CreateReportInventory"
                                                component={InventoryReport}/>,
 
-                                        {/*<Redirect from="/" to="/dashboard"/>*/}
+                                        <Redirect from="/" to="/dashboard"/>
                                     ]
                                 }
 
