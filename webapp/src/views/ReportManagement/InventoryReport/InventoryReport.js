@@ -27,7 +27,7 @@ class InventoryReport extends Component {
             // endDate: moment().format("DD/MM/YYYY"),
             startDate: null,
             endDate: null,
-            list: [],
+            list: null,
 
             curPaItem: 1,
             maxRows: 20,
