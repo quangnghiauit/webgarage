@@ -21,3 +21,7 @@ export function searchRevenue(requestParams) {
 export function searchInventory(requestParams) {
     return httpPost(BASE_URL + '/search-inventory',requestParams);
 }
+
+export function exportBill(requestParams) {
+    return httpPost(BASE_URL + '/export-bill',requestParams);
+}

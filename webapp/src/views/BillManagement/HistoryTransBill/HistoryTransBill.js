@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Card, CardBody, CardFooter, CardHeader, Table} from 'reactstrap';
+import {Button, Card, CardBody, CardFooter, CardHeader, Table} from 'reactstrap';
 
 import {getHistoryBill} from '../../../api/BillManagement/billmanagement'
 
@@ -14,7 +14,7 @@ class HistoryTransBill extends Component {
         this.load = this.load.bind(this);
     }
 
-    componentDidCatch() {
+    componentDidMount() {
         this.load();
     }
 
@@ -22,8 +22,6 @@ class HistoryTransBill extends Component {
         getHistoryBill().then(res => {
             this.setState({
                 list: res.data
-            }, () => {
-
             })
         })
     }
@@ -50,14 +48,13 @@ class HistoryTransBill extends Component {
                         <Table id="table-bill" responsive striped>
                             <thead>
                             <tr>
-                                <th>LogID</th>
-                                <th>Số hóa đơn</th>
-                                <th>Ngày hóa đơn</th>
+                                <th>ID</th>
+                                <th>Mã hóa đơn</th>
+                                <th>Biển số xe</th>
                                 <th>Mã khách hàng</th>
                                 <th>Tên khách hàng</th>
-                                <th>Số điện thoại</th>
-                                <th>Trị giá hóa đơn</th>
-                                <th>Action</th>
+                                <th>Ngày tạo hóa đơn</th>
+                                <th>Trạng thái</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -65,20 +62,31 @@ class HistoryTransBill extends Component {
                                 list ? list.map((item, index) => {
                                     return (
                                         <tr key={index}>
-                                            <td>{item.id}</td>
+                                            <td>{index + 1}</td>
                                             <td>{item.repairBillID}</td>
-                                            <td>{item.createdDate}</td>
+                                            <td>{item.licensePlate}</td>
                                             <td>{item.userID}</td>
-                                            <td>{item.phoneNumber}</td>
-                                            <td>{item.totalMoney}</td>
+                                            <td>{item.fullName}</td>
+                                            <td>{item.createdDate}</td>
                                             <td>
                                                 {
-                                                    <Button color="success"
-                                                            onClick={() => this.toggleBill(item.repairBillID)}>Xem</Button>
+                                                    item.status == 2 ? (
+                                                        <Button color="success"
+                                                                onClick={() => this.toggleBill(item.repairBillID)}>Đã thanh toán</Button>
+                                                    ) : (
+                                                        item.status == 1 ? (
+                                                            <Button color="danger"
+                                                                    onClick={() => this.toggleBill(item.repairBillID)}>Chưa thanh toán</Button>
+                                                        ) : null
+                                                    )
+
+                                                }
+                                                {
+
                                                 }
                                             </td>
                                         </tr>
-                                    )
+                                    );
                                 }) : null
                             }
                             </tbody>

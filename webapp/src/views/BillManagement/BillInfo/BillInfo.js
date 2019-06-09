@@ -1,8 +1,9 @@
 import React, {Component} from 'react';
 import {Button, Card, CardBody, CardFooter, CardHeader, Col, FormGroup, Input, Label, Row, Table} from 'reactstrap';
-import {getDetailBill} from '../../../api/BillManagement/billmanagement'
+import {exportBill, getDetailBill} from '../../../api/BillManagement/billmanagement'
 import PDF from 'jspdf'
 import html2canvas from 'html2canvas'
+import {addHistoryMaterial} from "../../../api/materialManagement/materialManagement";
 
 
 class BillInfo extends Component {
@@ -15,6 +16,9 @@ class BillInfo extends Component {
             createdDate: null,
             userID: null,
             displayname: null,
+            sumTotalMoney : 0,
+            exportfile: null,
+            status: null
 
         }
         this.load = this.load.bind(this);
@@ -34,35 +38,68 @@ class BillInfo extends Component {
                     list: res.data.detailBillDTOS,
                     createdDate: res.data.createdDate,
                     userID: res.data.userID,
-                    displayname: res.data.fullName
-                }, () => {
-
-                })
+                    displayname: res.data.fullName,
+                    status:res.data.status
+                },()=>this.handleSumTotalMoney())
             })
         })
     }
 
-    handleExportBill() {
+    handleSumTotalMoney(){
+        const arrayTotalMoney = this.state.list;
+        if(arrayTotalMoney) {
+           let sum = 0;
+           arrayTotalMoney.forEach(function (object) {
+              sum += object.totalMoney
+           })
+            this.setState({
+                sumTotalMoney:sum
+            })
 
+        }
+    }
+    handleExportBill() {
+        const params = {
+            repairBillID: this.props.match.params.id,
+            totalMoney: this.state.sumTotalMoney,
+        };
+        console.log("param", params);
+        if (this.props.match.params.id) {
+            exportBill(params).then(res => {
+                console.log('truoc add', res)
+                this.setState({
+                        exportfile: res.data.returnCode
+                },()=>this.exportBill()
+                )
+
+            })
+        } else {
+            alert("Xuất file không thành công.")
+        }
     }
     exportBill() {
-        const pdf = new PDF();
-        const input = document.getElementById('bill-info');
-        input.style.width = '210mm';
-        input.style.minHeight = '297mm';
-        input.style.marginLeft = '10px';
-        input.style.marginRight = '10px';
-        document.getElementById('footer').style.display = "none";
-        // input.style.backgroundColor='#f5f5f5';
-        html2canvas(input)
-            .then((canvas) => {
-                const imgData = canvas.toDataURL('image/png');
-                pdf.addImage(imgData, 'PNG', 0, 0);
-                pdf.save('bill_' + this.state.repairBillID + '.pdf');
-            })
-            .then(() => {
-                window.location.reload();
-            })
+        if(this.state.exportfile === "1") {
+            const pdf = new PDF();
+            const input = document.getElementById('bill-info');
+            input.style.width = '210mm';
+            input.style.minHeight = '297mm';
+            input.style.marginLeft = '10px';
+            input.style.marginRight = '10px';
+            document.getElementById('footer').style.display = "none";
+            // input.style.backgroundColor='#f5f5f5';
+            html2canvas(input)
+                .then((canvas) => {
+                    const imgData = canvas.toDataURL('image/png');
+                    pdf.addImage(imgData, 'PNG', 0, 0);
+                    pdf.save('bill_' + this.state.repairBillID + '.pdf');
+                })
+                .then(() => {
+                    window.location.reload();
+                })
+        } else {
+            alert("Xuất file không thành công.")
+        }
+
 
     }
 
@@ -79,18 +116,18 @@ class BillInfo extends Component {
                         <Row>
                             <Col sm={6}>
                                 <FormGroup>
-                                    <Label htmlFor="id">Số hóa đơn</Label>
+                                    <Label htmlFor="id">Mã hóa đơn</Label>
                                     <Input type="text" placeholder={repairBillID} disabled/>
                                 </FormGroup>
                                 <FormGroup>
-                                    <Label htmlFor="date">Ngày lập</Label>
-                                    <Input type="text" placeholder={createdDate} disabled/>
+                                    <Label htmlFor="customer-id">Mã khách hàng</Label>
+                                    <Input type="text" id="customer-id" placeholder={userID} disabled/>
                                 </FormGroup>
                             </Col>
                             <Col sm={6}>
                                 <FormGroup>
-                                    <Label htmlFor="customer-id">Mã khách hàng</Label>
-                                    <Input type="text" id="customer-id" placeholder={userID} disabled/>
+                                    <Label htmlFor="date">Ngày lập hóa đơn</Label>
+                                    <Input type="text" placeholder={createdDate} disabled/>
                                 </FormGroup>
                                 <FormGroup>
                                     <Label htmlFor="customer-name">Tên khách hàng</Label>
@@ -103,6 +140,7 @@ class BillInfo extends Component {
                             <Table id="table-bill" responsive>
                                 <thead>
                                 <tr>
+                                    <th>STT</th>
                                     <th>Mã phụ tùng</th>
                                     <th>Tên phụ tùng</th>
                                     <th>Số lượng</th>
@@ -115,6 +153,7 @@ class BillInfo extends Component {
                                     list ? list.map((item, index) => {
                                         return (
                                             <tr key={index}>
+                                                <td>{index + 1}</td>
                                                 <td>{item.materialID}</td>
                                                 <td>{item.materialName}</td>
                                                 <td>{item.reqNum}</td>
@@ -127,12 +166,13 @@ class BillInfo extends Component {
                                 </tbody>
                                 <tfoot>
                                     <tr>
-                                        <th>Tổng</th>
+                                        <th>Tổng giá trị hóa đơn</th>
+                                        <td scope="row"></td>
                                         <td scope="row"></td>
                                         <td scope="row"></td>
                                         <td scope="row"></td>
                                         <th>
-                                            {sum}
+                                            {this.state.sumTotalMoney?this.state.sumTotalMoney:0}
                                         </th>
                                     </tr>
                                 </tfoot>
@@ -140,10 +180,13 @@ class BillInfo extends Component {
                         </FormGroup>
                     </CardBody>
                     <CardFooter id='footer'>
-                        <Button id="btn-export-bill" color="success"
-                                onClick={this.exportBill}>Xuất hóa đơn</Button>
-                        {/*<Button id="btn-export-bill" color="success"*/}
-                        {/*>Xuất hóa đơn</Button>*/}
+                        {
+                            this.state.status == 1 ? (
+                                <Button id="btn-export-bill" color="success"
+                                        onClick={()=>this.handleExportBill()}>Xuất hóa đơn</Button>
+                            ) : null
+
+                        }
                     </CardFooter>
                 </Card>
 

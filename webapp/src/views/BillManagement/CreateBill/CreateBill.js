@@ -38,17 +38,19 @@ class CreateBill extends Component {
             <div className="animated import-bill">
                 <Card>
                     <CardHeader>
-                        <i className="icon-menu"></i>Lập hóa đơn
+                        <i className="icon-menu"></i>Lập hóa đơn thanh toán
                     </CardHeader>
                     <CardBody>
                         <Table id="table-users" responsive striped>
                             <thead>
                             <tr>
-                                <th>LogID</th>
+                                <th>ID</th>
+                                <th>Mã hóa đơn</th>
+                                <th>Biển số xe</th>
                                 <th>Mã khách hàng</th>
                                 <th>Tên khách hàng</th>
-                                <th>Ngày tạo TK</th>
-                                <th>Hóa đơn chờ</th>
+                                <th>Ngày tạo hóa đơn</th>
+                                <th>Trạng thái</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -57,12 +59,14 @@ class CreateBill extends Component {
                                     return (
                                         <tr key={index}>
                                             <td>{index + 1}</td>
+                                            <td>{item.repairBillID}</td>
+                                            <td>{item.licensePlate}</td>
                                             <td>{item.userID}</td>
                                             <td>{item.fullName}</td>
                                             <td>{item.createdDate}</td>
                                             <td>
                                                 {
-                                                    <Button color="warning"
+                                                    <Button color="primary"
                                                             onClick={() => this.toggleCreateBill(item.repairBillID)}>Tạo</Button>
                                                 }
                                             </td>
