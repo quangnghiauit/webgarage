@@ -118,65 +118,11 @@ class Full extends Component {
                                 }
 
                                 {
-                                    this.state.roles === '[ROLE_CLIENT]' && [
-
-                                        <Route path="/dashboard" name="Dashboard" component={Dashboard}/>,
-
-                                        <Route path="/user-management/search" name="SearchUser"
-                                               component={SearchUser}/>,
-                                        <Route path="/user-management/history/:id" name="HistoryTransUser"
-                                               component={HistoryTransUser}/>,
-                                        <Route path="/user-management/user-info" name="UserInfo" component={UserInfo}/>,
-
-
-                                        <Route path="/car-management/search" name="SearchCar"
-                                               component={SearchCar}/>,
-                                        <Route path="/car-management/car-handle-list/:id" name="HandlingCar"
-                                               component={HandlingCar}/>,
-                                        <Route path="/car-management/car-handle-info/:id" name="CarHandleInfo"
-                                               component={CarHandleInfo}/>,
-                                        <Route path="/car-management/list-car-handling" name="ListCarHandling"
-                                               component={ListCarHandling}/>,
-
-                                        <Route path="/bill-management/create-bill" name="CreateBill"
-                                               component={CreateBill}/>,
-                                        <Route path="/bill-management/history" name="HistoryTransBill"
-                                               component={HistoryTransBill}/>,
-                                        <Route path="/bill-management/bill-info/:id" name="BillInfo"
-                                               component={BillInfo}/>,
-
-                                    ]
-                                }
-
-                                {
                                     this.state.roles === '[ROLE_ACCOUNTANT]' && [
-                                        <Route path="/dashboard" name="Dashboard" component={Dashboard}/>,
-
-                                        <Route path="/user-management/search" name="SearchUser"
-                                               component={SearchUser}/>,
-                                        <Route path="/user-management/history/:id" name="HistoryTransUser"
-                                               component={HistoryTransUser}/>,
-                                        <Route path="/user-management/user-info" name="UserInfo" component={UserInfo}/>,
-
-
-                                        <Route path="/car-management/search" name="SearchCar"
-                                               component={SearchCar}/>,
-                                        <Route path="/car-management/car-handle-list/:id" name="HandlingCar"
-                                               component={HandlingCar}/>,
-                                        <Route path="/car-management/car-handle-info/:id" name="CarHandleInfo"
-                                               component={CarHandleInfo}/>,
-                                        <Route path="/car-management/list-car-handling" name="ListCarHandling"
-                                               component={ListCarHandling}/>,
-
                                         <Route path="/material-management/search" name="SearchMaterial"
                                                component={SearchMaterial}/>,
                                         <Route path="/material-management/history" name="HistoryMaterial"
                                                component={HistoryMaterial}/>,
-
-                                        <Route path="/admin-management/user-management" name="UserManagement"
-                                               component={UserManagement}/>,
-                                        <Route path="/admin-management/role-management" name="RoleManagement"
-                                               component={RoleManagement}/>,
 
                                         <Route path="/bill-management/create-bill" name="CreateBill"
                                                component={CreateBill}/>,
@@ -191,8 +137,8 @@ class Full extends Component {
                                         <Route path="/report-management/create-report-inventory"
                                                name="CreateReportInventory"
                                                component={InventoryReport}/>,
+                                        <Redirect from="/" to="/"/>
 
-                                        <Redirect from="/" to="/dashboard"/>
                                     ]
                                 }
 
@@ -208,12 +154,9 @@ class Full extends Component {
 
                                         <Route path="/car-management/search" name="SearchCar"
                                                component={SearchCar}/>,
-                                        <Route path="/car-management/car-handle-list/:id" name="HandlingCar"
-                                               component={HandlingCar}/>,
                                         <Route path="/car-management/car-handle-info/:id" name="CarHandleInfo"
                                                component={CarHandleInfo}/>,
-                                        <Route path="/car-management/list-car-handling" name="ListCarHandling"
-                                               component={ListCarHandling}/>,
+                                        <Redirect from="/" to="/"/>
 
                                     ]
                                 }
@@ -221,19 +164,14 @@ class Full extends Component {
                                 {
                                     this.state.roles === '[ROLE_MECHANIC]' && [
 
-                                        <Route path="/car-management/search" name="SearchCar"
-                                               component={SearchCar}/>,
                                         <Route path="/car-management/car-handle-list/:id" name="HandlingCar"
                                                component={HandlingCar}/>,
-                                        <Route path="/car-management/car-handle-info/:id" name="CarHandleInfo"
-                                               component={CarHandleInfo}/>,
                                         <Route path="/car-management/list-car-handling" name="ListCarHandling"
                                                component={ListCarHandling}/>,
 
                                         <Route path="/material-management/search" name="SearchMaterial"
                                                component={SearchMaterial}/>,
-                                        <Route path="/material-management/history" name="HistoryMaterial"
-                                               component={HistoryMaterial}/>,
+                                        <Redirect from="/" to="/"/>
                                     ]
                                 }
                                 {

@@ -404,7 +404,8 @@ class UserManagement extends Component {
                         <Table id="table-users" responsive>
                             <thead>
                             <tr>
-                                <th>ID</th>
+                                <th>STT</th>
+                                <th>Mã nhân viên</th>
                                 <th>Tên đăng nhập</th>
                                 <th>Tên hiển thị</th>
                                 <th>Role</th>
@@ -415,6 +416,7 @@ class UserManagement extends Component {
                             {
                                 listUser ? listUser.map((item, index) =>
                                     <tr key={index}>
+                                        <td>{index + 1}</td>
                                         <td>{item.userID}</td>
                                         <td>{item.userName}</td>
                                         <td>{item.displayname}</td>

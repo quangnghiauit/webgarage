@@ -198,6 +198,11 @@ export default {
 
     items5: [
         {
+            name: "Tra cứu phụ tùng",
+            url:"/material-management/search",
+            icon: "icon-energy",
+        },
+        {
             name: "Danh sách xe đang xử lý",
             url :"/car-management/list-car-handling",
             icon:"icon-star",
