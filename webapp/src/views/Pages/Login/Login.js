@@ -57,7 +57,6 @@ class Login extends Component {
 
     redirectCheckLogin() {
         if (this.state.checklogin === true) {
-            console.log("success login bleeeeee");
             this.props.history.push('/');
         }
 
@@ -67,14 +66,15 @@ class Login extends Component {
     componentDidMount() {
         getRole()
             .then(response => {
-                console.log("login role bleeeee", response)
                 this.setState({
                         auth: response.data
 
                     }, () => this.redirectLogin()
                 )
             })
-            .catch(error => console.log(error));
+            .catch(error => {
+
+            });
 
     }
 

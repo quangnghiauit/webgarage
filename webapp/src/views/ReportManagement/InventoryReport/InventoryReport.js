@@ -1,35 +1,33 @@
-import React,{Component} from 'react'
+import React, {Component} from 'react'
 import {
+    Button,
     Card,
-    CardHeader,
     CardBody,
-    Table,
-    Badge,
+    CardHeader,
+    Col,
+    FormGroup,
+    Label,
     Pagination,
     PaginationItem,
     PaginationLink,
-    InputGroup,
-    Input,
-    FormGroup,
-    Label,
     Row,
-    Col, Button
+    Table
 } from 'reactstrap';
 import 'react-dates/initialize';
 import 'react-dates/lib/css/_datepicker.css';
 import {DateRangePicker} from "react-dates";
-import {searchInventory, searchRevenue} from "../../../api/BillManagement/billmanagement";
+import {searchInventory} from "../../../api/BillManagement/billmanagement";
 import moment from "moment";
 
-class InventoryReport extends Component{
-    constructor(props){
+class InventoryReport extends Component {
+    constructor(props) {
         super(props);
         this.state = {
             // startDate: moment().subtract(1,'months').format("DD/MM/YYYY"),
             // endDate: moment().format("DD/MM/YYYY"),
-            startDate:null,
-            endDate:null,
-            list : [],
+            startDate: null,
+            endDate: null,
+            list: [],
 
             curPaItem: 1,
             maxRows: 10,
@@ -44,8 +42,7 @@ class InventoryReport extends Component{
         this.togglePre = this.togglePre.bind(this);
     }
 
-    onDateChange(from, to){
-        console.log("nllllllllllllll")
+    onDateChange(from, to) {
         this.setState({
             startDate: from,
             endDate: to
@@ -56,10 +53,9 @@ class InventoryReport extends Component{
         const transdatefrom = this.state.startDate;
         const transdateto = this.state.endDate;
         const params = {
-            startDate: transdatefrom ? moment(transdatefrom).format("DD/MM/YYYY"):null,
-            endDate: transdateto ? moment(transdateto).format("DD/MM/YYYY"):null,
+            startDate: transdatefrom ? moment(transdatefrom).format("DD/MM/YYYY") : null,
+            endDate: transdateto ? moment(transdateto).format("DD/MM/YYYY") : null,
         };
-        console.log("param", params);
         if (this.state.startDate && this.state.endDate) {
             searchInventory(params).then(res => {
                 this.setState({
@@ -98,8 +94,7 @@ class InventoryReport extends Component{
                     this.filterPa();
                 })
 
-            }).catch(error=>{
-                console.log(error)
+            }).catch(error => {
             });
         } else {
             alert("Vui lòng chọn mốc thời gian.")
@@ -178,7 +173,7 @@ class InventoryReport extends Component{
         );
     }
 
-    render(){
+    render() {
         const {list} = this.state;
         const listPaItems = this.state.filterPa.map((i, index) =>
             this.state.curPaItem === i ?
@@ -190,16 +185,16 @@ class InventoryReport extends Component{
                     <PaginationLink onClick={() => this.togglePa(i)}>{i}</PaginationLink>
                 </PaginationItem>
         );
-        return(
+        return (
             <div className="animated report-revenue">
                 <Card>
                     <CardHeader>
                         <i className="icon-menu"></i>Báo cáo vật tư phụ tùng tồn kho
                     </CardHeader>
                     <CardBody>
-                            <Label htmlFor="name">Thời gian báo cáo</Label>
-                            <FormGroup >
-                                <Row>
+                        <Label htmlFor="name">Thời gian báo cáo</Label>
+                        <FormGroup>
+                            <Row>
                                 <Col sm={4}>
                                     <DateRangePicker
                                         startDate={this.state.startDate}
@@ -228,17 +223,17 @@ class InventoryReport extends Component{
                                         minimumNights={0}
                                     />
                                 </Col>
-                                 <Col sm={3}> 
-                                <Button type="button" color="primary"
-                                        style={{width: "100px"}}
-                                        onClick={()=>this.handleSearch()}
+                                <Col sm={3}>
+                                    <Button type="button" color="primary"
+                                            style={{width: "100px"}}
+                                            onClick={() => this.handleSearch()}
 
-                                >
-                                    <i className="fa fa-search"></i>{'\u00A0'} Search
-                                </Button>
-                                </Col>  
-                                </Row>
-                            </FormGroup>
+                                    >
+                                        <i className="fa fa-search"></i>{'\u00A0'} Search
+                                    </Button>
+                                </Col>
+                            </Row>
+                        </FormGroup>
                         <Table id="table-report-revenue" responsive striped>
                             <thead>
                             <tr>
@@ -270,20 +265,20 @@ class InventoryReport extends Component{
 
                             }
                             </tbody>
-                            
+
                         </Table>
                         {
-                            this.state.list.length!=0 ?
-                            <Pagination id="pagination">
-                                <PaginationItem>
-                                    <PaginationLink previous onClick={this.togglePre}/>
-                                </PaginationItem>
-                                {listPaItems}
-                                <PaginationItem>
-                                    <PaginationLink next onClick={this.toggleNext}/>
-                                </PaginationItem>
-                            </Pagination>
-                            : null
+                            this.state.list.length != 0 ?
+                                <Pagination id="pagination">
+                                    <PaginationItem>
+                                        <PaginationLink previous onClick={this.togglePre}/>
+                                    </PaginationItem>
+                                    {listPaItems}
+                                    <PaginationItem>
+                                        <PaginationLink next onClick={this.toggleNext}/>
+                                    </PaginationItem>
+                                </Pagination>
+                                : null
                         }
                     </CardBody>
                 </Card>

@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {Button, Card, CardBody, CardFooter, CardHeader, Table} from 'reactstrap';
 
-import {getAllBillByUser, getHistoryBill} from '../../../api/BillManagement/billmanagement'
+import {getAllBillByUser} from '../../../api/BillManagement/billmanagement'
 import {getUserID} from '../../../api/Client/client'
 
 class HistoryBill extends Component {
@@ -10,7 +10,7 @@ class HistoryBill extends Component {
 
         this.state = {
             list: [],
-            userID:null
+            userID: null
         }
         this.load = this.load.bind(this);
     }
@@ -20,17 +20,17 @@ class HistoryBill extends Component {
     }
 
     load() {
-        getUserID().then(res=>{
+        getUserID().then(res => {
             this.setState({
-                userID:res.data.userID
-            },()=>this.handleGetListBill());
+                userID: res.data.userID
+            }, () => this.handleGetListBill());
         });
     }
+
     handleGetListBill() {
         getAllBillByUser(this.state.userID).then(res => {
-            console.log("bleeeeee",res.data)
             this.setState({
-                list:res.data
+                list: res.data
             })
         })
     }
@@ -71,11 +71,13 @@ class HistoryBill extends Component {
                                                 {
                                                     item.status == 2 ? (
                                                         <Button color="success"
-                                                                onClick={() => this.toggleBill(item.repairBillID)}>Đã thanh toán</Button>
+                                                                onClick={() => this.toggleBill(item.repairBillID)}>Đã
+                                                            thanh toán</Button>
                                                     ) : (
                                                         item.status == 1 ? (
                                                             <Button color="danger"
-                                                                    onClick={() => this.toggleBill(item.repairBillID)}>Chưa thanh toán</Button>
+                                                                    onClick={() => this.toggleBill(item.repairBillID)}>Chưa
+                                                                thanh toán</Button>
                                                         ) : null
                                                     )
 

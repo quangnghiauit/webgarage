@@ -263,6 +263,7 @@ class HistoryTransUser extends Component {
             nestedModalUpdateUser: !this.state.nestedModalUpdateUser,
         });
     }
+
     toggleAllUpdateUser() {
         this.setState({
             nestedModalUpdateUser: !this.state.nestedModalUpdateUser,
@@ -492,22 +493,22 @@ class HistoryTransUser extends Component {
 
                                         }) : null
 
-                                        }
-                                        </tbody>
-                                    </Table>
-                                    {
-                                        this.state.listCar.length !=0?
-                                        <Pagination id="pagination">
-                                        <PaginationItem>
-                                            <PaginationLink previous onClick={this.togglePre}/>
-                                        </PaginationItem>
-                                            {listPaItems}
-                                        <PaginationItem>
-                                            <PaginationLink next onClick={this.toggleNext}/>
-                                        </PaginationItem>
-                                        </Pagination>
-                                        :null
                                     }
+                                    </tbody>
+                                </Table>
+                                {
+                                    this.state.listCar.length != 0 ?
+                                        <Pagination id="pagination">
+                                            <PaginationItem>
+                                                <PaginationLink previous onClick={this.togglePre}/>
+                                            </PaginationItem>
+                                            {listPaItems}
+                                            <PaginationItem>
+                                                <PaginationLink next onClick={this.toggleNext}/>
+                                            </PaginationItem>
+                                        </Pagination>
+                                        : null
+                                }
                             </CardBody>
                             <CardFooter>
                                 <Button className="float-right" color="success" onClick={this.toggleAdd}>Thêm
@@ -589,7 +590,7 @@ class HistoryTransUser extends Component {
                             <Label htmlFor="car-id">Biển số xe</Label>
                             <Input type="text" id="car-id" placeholder="Enter your car-id"
                                    value={this.state.licensePlate}
-                                   onChange={(e) => this.setState({licensePlate: e.target.value}, () => console.log(this.state.licensePlate))}
+                                   onChange={(e) => this.setState({licensePlate: e.target.value})}
                             />
                         </FormGroup>
                     </ModalBody>

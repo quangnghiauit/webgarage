@@ -30,29 +30,26 @@ class Sidebar extends Component {
                     this.state.items = nav.items1;
 
                     return true;
-                } else
-                if (this.state.roles === '[ROLE_CLIENT]') {
+                } else if (this.state.roles === '[ROLE_CLIENT]') {
                     this.state.items = nav.items2;
 
                     return true;
-                } else
-                if (this.state.roles === '[ROLE_ACCOUNTANT]') {
+                } else if (this.state.roles === '[ROLE_ACCOUNTANT]') {
                     this.state.items = nav.items3;
 
                     return true;
-                } else
-                if (this.state.roles === '[ROLE_RECEPTIONIST]') {
+                } else if (this.state.roles === '[ROLE_RECEPTIONIST]') {
                     this.state.items = nav.items4;
 
                     return true;
-                } else
-                if (this.state.roles === '[ROLE_MECHANIC]') {
+                } else if (this.state.roles === '[ROLE_MECHANIC]') {
                     this.state.items = nav.items5;
 
                     return true;
                 } else return false;
             })
-            .catch(error => console.log(error));
+            .catch(error => {
+            });
 
 
     }
@@ -86,12 +83,10 @@ class Sidebar extends Component {
             return true;
         }
         if (!userRole) {
-            console.log("Role invalid");
             return false;
         }
         for (let i = 0; i < rolesValid.length; i++) {
             if (userRole.indexOf(rolesValid[i]) > -1) {
-                console.log("valid", rolesValid[i]);
                 return true;
             }
         }

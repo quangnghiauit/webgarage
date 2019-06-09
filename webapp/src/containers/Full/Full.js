@@ -6,44 +6,33 @@ import Sidebar from '../../components/Sidebar/';
 import Breadcrumb from '../../components/Breadcrumb/';
 import Aside from '../../components/Aside/';
 import Footer from '../../components/Footer/';
-import axios from 'axios';
 
 import Dashboard from '../../views/Dashboard/';
-
 // UserManagement
 import SearchUser from '../../views/UserManagement/SearchUser/SearchUser';
 import UserInfo from '../../views/UserManagement/UserInfo/UserInfo';
 import HistoryTransUser from '../../views/UserManagement/HistoryTransUser/HistoryTransUser';
-
 // CarManagement
 import SearchCar from '../../views/CarManagement/SearchCar/SearchCar';
 import CarHandleInfo from '../../views/CarManagement/CarHandleInfo/CarHandleInfo';
 import HandlingCar from '../../views/CarManagement/HandlingCar/HandlingCar';
 import ListCarHandling from '../../views/CarManagement/ListCarHandling/ListCarHandling';
-
-
 // MaterialManagement
 import SearchMaterial from '../../views/MaterialManagement/SearchMaterial/SearchMaterial';
 import HistoryMaterial from '../../views/MaterialManagement/HistoryMaterial/HistoryMaterial';
-import ImportMaterial from '../../views/MaterialManagement/ImportMaterial/ImportMaterial';
-
 // BillManagement
 import CreateBill from '../../views/BillManagement/CreateBill/CreateBill';
 import HistoryTransBill from '../../views/BillManagement/HistoryTransBill/HistoryTransBill';
 import BillInfo from '../../views/BillManagement/BillInfo/BillInfo'
-
 // ReportManagement
 import InventoryReport from '../../views/ReportManagement/InventoryReport/InventoryReport';
 import RevenueReport from '../../views/ReportManagement/RevenueReport/RevenueReport';
-
-
 // AdminManagement
 import UserManagement from '../../views/AdminManagement/UserManagement/UserManagement';
 import RoleManagement from '../../views/AdminManagement/RoleManagement/RoleManagement';
-
 //Client
 import ClientInfo from '../../views/Client/ClientInfo/ClientInfo'
-import  HistoryBill from '../../views/Client/HistoryBill//HistoryBill'
+import HistoryBill from '../../views/Client/HistoryBill//HistoryBill'
 import ClientBillInfo from '../../views/Client/ClientBillInfo/ClientBillInfo'
 import CarHandling from '../../views/Client/CarHandling/CarHandling'
 import CarHandlingInfo from '../../views/Client/CarHandlingInfo/CarHandlingInfo'
@@ -64,7 +53,8 @@ class Full extends Component {
             .then(response => {
                 this.setState({roles: response.data});
             })
-            .catch(error => console.log(error));
+            .catch(error => {
+            });
     }
 
     render() {
@@ -115,9 +105,11 @@ class Full extends Component {
                                         <Route path="/bill-management/bill-info/:id" name="BillInfo"
                                                component={BillInfo}/>,
 
-                                        <Route path="/report-management/create-report-revenue" name="CreateReportRevenue"
+                                        <Route path="/report-management/create-report-revenue"
+                                               name="CreateReportRevenue"
                                                component={RevenueReport}/>,
-                                        <Route path="/report-management/create-report-inventory" name="CreateReportInventory"
+                                        <Route path="/report-management/create-report-inventory"
+                                               name="CreateReportInventory"
                                                component={InventoryReport}/>,
 
                                         <Redirect from="/" to="/dashboard"/>
@@ -170,9 +162,11 @@ class Full extends Component {
                                         <Route path="/bill-management/bill-info/:id" name="BillInfo"
                                                component={BillInfo}/>,
 
-                                        <Route path="/report-management/create-report-revenue" name="CreateReportRevenue"
+                                        <Route path="/report-management/create-report-revenue"
+                                               name="CreateReportRevenue"
                                                component={RevenueReport}/>,
-                                        <Route path="/report-management/create-report-inventory" name="CreateReportInventory"
+                                        <Route path="/report-management/create-report-inventory"
+                                               name="CreateReportInventory"
                                                component={InventoryReport}/>,
 
                                         {/*<Redirect from="/" to="/dashboard"/>*/}
@@ -241,7 +235,7 @@ class Full extends Component {
                                         <Redirect from="/" to="/login"/>
                                     ]
                                 }
-                                
+
 
                             </Switch>
                         </Container>

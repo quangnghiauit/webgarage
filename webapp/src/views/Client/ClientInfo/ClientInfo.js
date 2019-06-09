@@ -1,96 +1,93 @@
 import React, {Component} from 'react';
 import {
+    Button,
     Card,
-    CardHeader,
     CardBody,
     CardFooter,
+    CardHeader,
+    FormGroup,
     Input,
     Label,
-    FormGroup,
-    Button,
-   
     Modal,
-    ModalHeader,
     ModalBody,
-   
+    ModalHeader,
 } from 'reactstrap';
-import { getInfoClient, updateClient} from "../../../api/UserManagement/userManagement";
+import {getInfoClient, updateClient} from "../../../api/UserManagement/userManagement";
 import {getUserID} from '../../../api/Client/client'
 
 class ClientInfo extends Component {
-    constructor(props){
+    constructor(props) {
         super(props);
 
-        this.state={
-            id:'',
-            userID :'',
-            displayname:'' ,
+        this.state = {
+            id: '',
+            userID: '',
+            displayname: '',
             // password:'',
-            address:'',
-            email:'',
-            phoneNumber:'',
-            user:[],
+            address: '',
+            email: '',
+            phoneNumber: '',
+            user: [],
             resultUpdateUser: null,
             nestedModalUpdateUser: false,
             closeAllUpdateUser: false,
-            modalUpdate:false,
-            listCar:[],
-            licensePlate:'',
+            modalUpdate: false,
+            listCar: [],
+            licensePlate: '',
             modalAdd: false,
             nestedModalAdd: false,
             closeAllAdd: false,
             resultAdd: null,
-            modalAddCar:false,
+            modalAddCar: false,
 
-            resultProcessStatusHandleCar:null,
+            resultProcessStatusHandleCar: null,
             modalProcessStatusHandleCar: false,
             nestedModalProcessStatusHandleCar: false,
             closeAllProcessStatusHandleCar: false,
-            collapseBill:false,
+            collapseBill: false,
 
         };
-        this.toggleUpdate=this.toggleUpdate.bind(this);
-        this.toggleBill=this.toggleBill.bind(this);
+        this.toggleUpdate = this.toggleUpdate.bind(this);
+        this.toggleBill = this.toggleBill.bind(this);
         this.toggleNestedUpdateUser = this.toggleNestedUpdateUser.bind(this);
 
     }
 
     componentDidMount() {
-        getUserID().then(res=>{
+        getUserID().then(res => {
             this.setState({
-                userID:res.data.userID
-            },()=>this.handleGetInfoUser(this.state.userID));
+                userID: res.data.userID
+            }, () => this.handleGetInfoUser(this.state.userID));
         });
     }
 
     handleGetInfoUser(userID) {
-        getInfoClient(userID).then(res=>{console.log('------',res);
+        getInfoClient(userID).then(res => {
             this.setState({
-                userID :res.data.userID,
-                displayname:res.data.displayname ,
-                address:res.data.address,
-                email:res.data.email,
-                phoneNumber:res.data.phoneNumber,
-                user : res.data,
-                // password:res.data.password
+                userID: res.data.userID,
+                displayname: res.data.displayname,
+                address: res.data.address,
+                email: res.data.email,
+                phoneNumber: res.data.phoneNumber,
+                user: res.data,
             })
         })
 
     }
-    
+
     handleUpdateUser(userID) {
-        const requestParams ={
-            displayname : this.state.displayname,
-            address:this.state.address,
-            email:this.state.email,
-            phoneNumber:this.state.phoneNumber,
+        const requestParams = {
+            displayname: this.state.displayname,
+            address: this.state.address,
+            email: this.state.email,
+            phoneNumber: this.state.phoneNumber,
             // password:this.state.password
         }
         if (this.state.displayname && this.state.phoneNumber) {
-            updateClient(userID,requestParams).then(res => {
+            updateClient(userID, requestParams).then(res => {
                 this.setState({
                     resultUpdateUser: res.data
-                },()=>this.toggleNestedUpdateUser())
+                }, () => this.toggleNestedUpdateUser())
 
             })
         } else {
@@ -100,12 +97,12 @@ class ClientInfo extends Component {
     }
 
 
-
     toggleNestedUpdateUser() {
         this.setState({
             nestedModalUpdateUser: !this.state.nestedModalUpdateUser,
         });
     }
+
     toggleAllUpdateUser() {
         this.setState({
             nestedModalUpdateUser: !this.state.nestedModalUpdateUser,
@@ -114,14 +111,12 @@ class ClientInfo extends Component {
     }
 
 
-    
-
     handleProcessStatusHandleCar() {
-        processStatusHandleCar(this.state.id).then(res =>{
+        processStatusHandleCar(this.state.id).then(res => {
             this.setState({
-                resultProcessStatusHandleCar:res.data
+                resultProcessStatusHandleCar: res.data
 
-            },()=> this.toggleNestedProcessStatusHandleCar())
+            }, () => this.toggleNestedProcessStatusHandleCar())
         })
     }
 
@@ -148,63 +143,64 @@ class ClientInfo extends Component {
 
     toggleProcess(logid) {
         this.setState(prevState => ({
-            id:logid,
+            id: logid,
             modalProcessStatusHandleCar: !prevState.modalProcessStatusHandleCar
         }));
     }
 
-    toggleUpdate(){
-        this.setState({modalUpdate:!this.state.modalUpdate});
+    toggleUpdate() {
+        this.setState({modalUpdate: !this.state.modalUpdate});
     }
-    toggleBill(){
-        this.setState({collapseBill:!this.state.collapseBill});
+
+    toggleBill() {
+        this.setState({collapseBill: !this.state.collapseBill});
     }
 
 
     render() {
-        const {resultAdd,resultUpdateUser,listCar,resultProcessStatusHandleCar} = this.state;
-        
+        const {resultAdd, resultUpdateUser, listCar, resultProcessStatusHandleCar} = this.state;
+
         return (
             <div className="animated fadeIn history-trans-user">
                 <Card>
                     <CardHeader>
                         <i className="fa fa-align-justify"></i> Thông tin khách hàng
                     </CardHeader>
-                    <CardBody >
+                    <CardBody>
                         <FormGroup>
                             <Label htmlFor="id">Mã khách hàng</Label>
                             <Input type="text" id="id" placeholder="Enter your id"
                                    onChange={(e) => this.setState({userID: e.target.value})}
                                    value={this.state.userID}
-                                    disabled/>
+                                   disabled/>
                         </FormGroup>
                         <FormGroup>
                             <Label htmlFor="name">Tên khách hàng</Label>
                             <Input type="text" id="name" placeholder="Enter your name"
                                    onChange={(e) => this.setState({displayname: e.target.value})}
                                    value={this.state.displayname}
-                                    />
+                            />
                         </FormGroup>
                         <FormGroup>
                             <Label htmlFor="address">Địa chỉ</Label>
                             <Input type="text" id="address" placeholder="Enter your address"
                                    onChange={(e) => this.setState({address: e.target.value})}
                                    value={this.state.address}
-                                    />
+                            />
                         </FormGroup>
                         <FormGroup>
                             <Label htmlFor="email">Email</Label>
                             <Input type="email" id="email" name="email" placeholder="Enter Email.."
                                    onChange={(e) => this.setState({email: e.target.value})}
                                    value={this.state.email}
-                                    />
+                            />
                         </FormGroup>
                         <FormGroup>
                             <Label htmlFor="phone">Số điện thoại</Label>
                             <Input type="text" id="phone" placeholder="Enter your phone"
                                    onChange={(e) => this.setState({phoneNumber: e.target.value})}
                                    value={this.state.phoneNumber}
-                                    />
+                            />
                         </FormGroup>
                         {/* <FormGroup>
                             <Label htmlFor="password">Mật khẩu</Label>
@@ -215,7 +211,8 @@ class ClientInfo extends Component {
                         </FormGroup> */}
                     </CardBody>
                     <CardFooter>
-                        <Button className="float-right" color="success"  onClick={()=>this.handleUpdateUser(this.state.userID)}>Cập nhật</Button>
+                        <Button className="float-right" color="success"
+                                onClick={() => this.handleUpdateUser(this.state.userID)}>Cập nhật</Button>
                     </CardFooter>
                 </Card>
                 <Modal isOpen={this.state.nestedModalUpdateUser}

@@ -109,10 +109,8 @@ class HistoryMaterial extends Component {
             price: this.state.price,
             numInput: this.state.numInput,
         };
-        console.log("param", params);
         if (this.state.materialID && this.state.price && this.state.numInput) {
             addHistoryMaterial(params).then(res => {
-                console.log('truoc add', res)
                 this.setState({
                     resultAdd: res.data
                 }, () => this.toggleNestedAdd())
@@ -161,7 +159,6 @@ class HistoryMaterial extends Component {
     handleAddMaterialName() {
         if (this.state.newMaterialName) {
             addMaterialName(this.state.newMaterialName).then(res => {
-                console.log('truoc add', res)
                 this.setState({
                     resultAddName: res.data
                 }, () => this.toggleNestedAddName())
@@ -228,7 +225,7 @@ class HistoryMaterial extends Component {
                             <select
                                 className="form-control"
                                 id={"listMaterial"}
-                                onChange={(e) => this.setState({materialID: e.target.value}, () => console.log(this.state.materialID))}>
+                                onChange={(e) => this.setState({materialID: e.target.value})}>
                                 <option value={null}>Chọn tên phụ tùng</option>
                                 {listMaterialName.map(item => {
                                     return (

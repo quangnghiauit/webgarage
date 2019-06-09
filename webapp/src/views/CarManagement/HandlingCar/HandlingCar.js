@@ -20,7 +20,8 @@ import {
     Table
 } from 'reactstrap';
 import {
-    addTransMaterial, deleteMaterial,
+    addTransMaterial,
+    deleteMaterial,
     getDetailMaterial,
     getInfoMaterialUser,
     updateMaterial
@@ -46,12 +47,12 @@ class HandlingCar extends Component {
             listMaterial: [],
             detailMaterial: null,
 
-            idUpdate:null,
-            materialIDUpdate:null,
-            infoBillUpdate:null,
-            reqNumUpdate:null,
+            idUpdate: null,
+            materialIDUpdate: null,
+            infoBillUpdate: null,
+            reqNumUpdate: null,
 
-            idDelete:null,
+            idDelete: null,
 
             modalAdd: false,
             nestedModalAdd: false,
@@ -86,24 +87,22 @@ class HandlingCar extends Component {
         getListMaterialName().then(res => {
             this.setState({
                 listMaterial: res.data
-            }, () => console.log(this.state.listMaterial))
+            })
         })
         this.setState({
             licensePlate: this.props.match.params.id
         }, () => this.handleGetInfoMaterialUser(this.state.licensePlate));
-        console.log("userIDDDDDlistcar", this.state.licensePlate)
     }
 
     handleGetInfoMaterialUser(licensePlate) {
         getInfoMaterialUser(licensePlate).then(response => {
-            console.log('bleeeeee', response)
             this.setState({
                 listTable: response.data,
                 list: response.data.carHandleDTOList,
                 repairBillID: response.data.repairBillID,
                 createdDate: response.data.createdDate,
                 status: response.data.status
-            }, () => console.log('hihihihi', this.state.listTable))
+            })
 
         })
     }
@@ -135,10 +134,8 @@ class HandlingCar extends Component {
             materialID: this.state.materialID,
             reqNum: this.state.reqNum,
         };
-        console.log("param", params);
         if (this.state.materialID && this.state.reqNum) {
             addTransMaterial(this.state.repairBillID, params).then(res => {
-                console.log('truoc add', res)
                 this.setState({
                     resultAdd: res.data
                 }, () => this.toggleNestedAdd())
@@ -149,16 +146,16 @@ class HandlingCar extends Component {
         }
     }
 
-    handleGetDetailMaterial(logid,repairBillID,materialID) {
-        getDetailMaterial(repairBillID,materialID).then(res => {
+    handleGetDetailMaterial(logid, repairBillID, materialID) {
+        getDetailMaterial(repairBillID, materialID).then(res => {
             this.setState({
                 id: logid,
-                detailMaterial:res.data,
-                idUpdate:res.data.id,
-                materialIDUpdate:res.data.materialID,
-                infoBillUpdate:res.data.infoBill,
-                reqNumUpdate:res.data.reqNum,
-            },()=>this.toggleProcessUpdate())
+                detailMaterial: res.data,
+                idUpdate: res.data.id,
+                materialIDUpdate: res.data.materialID,
+                infoBillUpdate: res.data.infoBill,
+                reqNumUpdate: res.data.reqNum,
+            }, () => this.toggleProcessUpdate())
         })
     }
 
@@ -168,11 +165,9 @@ class HandlingCar extends Component {
             materialID: this.state.materialIDUpdate,
             reqNum: this.state.reqNumUpdate,
         };
-        console.log("param", params);
         const num = parseInt(this.state.reqNum);
-        if (parseInt(this.state.materialID) !==0 && num !== 0) {
+        if (parseInt(this.state.materialID) !== 0 && num !== 0) {
             updateMaterial(this.state.idUpdate, params).then(res => {
-                console.log('truoc add', res)
                 this.setState({
                     resultUpdate: res.data,
 
@@ -187,8 +182,8 @@ class HandlingCar extends Component {
     handleDeleteMaterial() {
         deleteMaterial(this.state.idDelete).then(res => {
             this.setState({
-                resultDelete:res.data
-            },()=> this.toggleNestedDelete())
+                resultDelete: res.data
+            }, () => this.toggleNestedDelete())
         })
     }
 
@@ -220,12 +215,12 @@ class HandlingCar extends Component {
     }
 
     handleDelete(logid) {
-        console.log("lllllllllllll",logid)
         this.setState({
-            idDelete:logid,
+            idDelete: logid,
             modalDelete: !this.state.modalDelete
         })
     }
+
     toggleDelete() {
         this.setState(prevState => ({
             modalDelete: !prevState.modalDelete
@@ -263,7 +258,7 @@ class HandlingCar extends Component {
                                     <Label htmlFor="licensePlate" sm={2}>Biển Số</Label>
                                     <Col sm={6}>
                                         <Input type="text" id="id"
-                                               onChange={(e) => this.setState({licensePlate: e.target.value}, () => console.log(this.state.licensePlate))}
+                                               onChange={(e) => this.setState({licensePlate: e.target.value})}
                                                value={this.state.licensePlate}
                                                disabled/>
                                     </Col>
@@ -275,20 +270,11 @@ class HandlingCar extends Component {
                                     <Label htmlFor="createdDate" sm={2}>Ngày lập hóa đơn</Label>
                                     <Col sm={6}>
                                         <Input type="text" id="id"
-                                               onChange={(e) => this.setState({createdDate: e.target.value}, () => console.log(this.state.createdDate))}
+                                               onChange={(e) => this.setState({createdDate: e.target.value})}
                                                value={this.state.createdDate}
                                                disabled/>
                                     </Col>
                                 </FormGroup>
-                                {/*<FormGroup row>*/}
-                                {/*<Label htmlFor="repairBillID" sm={2}>Hóa đơn giao dịch</Label>*/}
-                                {/*<Col sm={7}>*/}
-                                {/*<Input type="text" id="id"*/}
-                                {/*onChange={(e) => this.setState({repairBillID: e.target.value}, () => console.log(this.state.repairBillID))}*/}
-                                {/*value={this.state.repairBillID}*/}
-                                {/*disabled/>*/}
-                                {/*</Col>*/}
-                                {/*</FormGroup>*/}
                             </Col>
                         </Row>
                         <Button color="success" onClick={this.toggleAdd}>Thêm mới</Button>
@@ -313,9 +299,10 @@ class HandlingCar extends Component {
                                             <td>{item.reqNum}</td>
                                             <td>
                                                 <Button color="warning"
-                                                        onClick={() => this.handleGetDetailMaterial(item.id,item.repairBillID,item.materialID)}>Cập
+                                                        onClick={() => this.handleGetDetailMaterial(item.id, item.repairBillID, item.materialID)}>Cập
                                                     nhật</Button> {' '}
-                                                <Button color="danger" onClick={()=>this.handleDelete(item.id)}>Xóa</Button>
+                                                <Button color="danger"
+                                                        onClick={() => this.handleDelete(item.id)}>Xóa</Button>
 
                                             </td>
                                         </tr>
@@ -423,8 +410,7 @@ class HandlingCar extends Component {
                                 className="form-control"
                                 id={"listMaterial"}
                                 value={this.state.materialIDUpdate}
-                                onChange={(e) => this.setState({materialIDUpdate: e.target.value},
-                                    () => console.log('materialID: ' + this.state.materialID))}>
+                                onChange={(e) => this.setState({materialIDUpdate: e.target.value})}>
                                 <option value="">Chọn loại phụ tùng</option>
                                 {listMaterial.map(item => {
                                     return (
@@ -441,14 +427,14 @@ class HandlingCar extends Component {
                         <FormGroup>
                             <Label htmlFor="address">Thông tin sửa chữa</Label>
                             <Input type="text" id="infoBill" value={this.state.infoBillUpdate}
-                                   onChange={(e) => this.setState({infoBillUpdate: e.target.value}, () => console.log(this.state.infoBill))}
+                                   onChange={(e) => this.setState({infoBillUpdate: e.target.value})}
                                    placeholder="Enter your info bill" required/>
                             <FormText className="help-block">Please enter your infoBill</FormText>
                         </FormGroup>
                         <FormGroup>
                             <Label htmlFor="reqNum">Số lượng</Label>
                             <Input type="text" id="reqNum" value={this.state.reqNumUpdate}
-                                   onChange={(e) => this.setState({reqNumUpdate: e.target.value}, () => console.log(this.state.reqNum))}
+                                   onChange={(e) => this.setState({reqNumUpdate: e.target.value})}
                                    placeholder="Enter your reqNum" required/>
                             <FormText className="help-block">Please enter your reqNum</FormText>
                         </FormGroup>

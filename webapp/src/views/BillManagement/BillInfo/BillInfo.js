@@ -3,7 +3,6 @@ import {Button, Card, CardBody, CardFooter, CardHeader, Col, FormGroup, Input, L
 import {exportBill, getDetailBill} from '../../../api/BillManagement/billmanagement'
 import PDF from 'jspdf'
 import html2canvas from 'html2canvas'
-import {addHistoryMaterial} from "../../../api/materialManagement/materialManagement";
 
 
 class BillInfo extends Component {
@@ -16,7 +15,7 @@ class BillInfo extends Component {
             createdDate: null,
             userID: null,
             displayname: null,
-            sumTotalMoney : 0,
+            sumTotalMoney: 0,
             exportfile: null,
             status: null
 
@@ -39,37 +38,36 @@ class BillInfo extends Component {
                     createdDate: res.data.createdDate,
                     userID: res.data.userID,
                     displayname: res.data.fullName,
-                    status:res.data.status
-                },()=>this.handleSumTotalMoney())
+                    status: res.data.status
+                }, () => this.handleSumTotalMoney())
             })
         })
     }
 
-    handleSumTotalMoney(){
+    handleSumTotalMoney() {
         const arrayTotalMoney = this.state.list;
-        if(arrayTotalMoney) {
-           let sum = 0;
-           arrayTotalMoney.forEach(function (object) {
-              sum += object.totalMoney
-           })
+        if (arrayTotalMoney) {
+            let sum = 0;
+            arrayTotalMoney.forEach(function (object) {
+                sum += object.totalMoney
+            })
             this.setState({
-                sumTotalMoney:sum
+                sumTotalMoney: sum
             })
 
         }
     }
+
     handleExportBill() {
         const params = {
             repairBillID: this.props.match.params.id,
             totalMoney: this.state.sumTotalMoney,
         };
-        console.log("param", params);
         if (this.props.match.params.id) {
             exportBill(params).then(res => {
-                console.log('truoc add', res)
                 this.setState({
                         exportfile: res.data.returnCode
-                },()=>this.exportBill()
+                    }, () => this.exportBill()
                 )
 
             })
@@ -77,8 +75,9 @@ class BillInfo extends Component {
             alert("Xuất file không thành công.")
         }
     }
+
     exportBill() {
-        if(this.state.exportfile === "1") {
+        if (this.state.exportfile === "1") {
             const pdf = new PDF();
             const input = document.getElementById('bill-info');
             input.style.width = '210mm';
@@ -104,7 +103,7 @@ class BillInfo extends Component {
     }
 
     render() {
-        const {list,repairBillID,createdDate,userID,displayname}=this.state;
+        const {list, repairBillID, createdDate, userID, displayname} = this.state;
         return (
             <div className="animated bill-info" id="bill-info">
                 <Card>
@@ -164,16 +163,16 @@ class BillInfo extends Component {
                                 }
                                 </tbody>
                                 <tfoot>
-                                    <tr>
-                                        <th>Tổng giá trị hóa đơn</th>
-                                        <td scope="row"></td>
-                                        <td scope="row"></td>
-                                        <td scope="row"></td>
-                                        <td scope="row"></td>
-                                        <th>
-                                            {this.state.sumTotalMoney?this.state.sumTotalMoney:0}
-                                        </th>
-                                    </tr>
+                                <tr>
+                                    <th>Tổng giá trị hóa đơn</th>
+                                    <td scope="row"></td>
+                                    <td scope="row"></td>
+                                    <td scope="row"></td>
+                                    <td scope="row"></td>
+                                    <th>
+                                        {this.state.sumTotalMoney ? this.state.sumTotalMoney : 0}
+                                    </th>
+                                </tr>
                                 </tfoot>
                             </Table>
                         </FormGroup>
@@ -182,7 +181,7 @@ class BillInfo extends Component {
                         {
                             this.state.status == 1 ? (
                                 <Button id="btn-export-bill" color="success"
-                                        onClick={()=>this.handleExportBill()}>Xuất hóa đơn</Button>
+                                        onClick={() => this.handleExportBill()}>Xuất hóa đơn</Button>
                             ) : null
 
                         }

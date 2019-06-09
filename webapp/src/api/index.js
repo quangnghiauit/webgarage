@@ -28,10 +28,10 @@ function callApi(url, method, body = null) {
     }
     return axios(`${HOST_PORT_FINAL}/${url}`, meta) // eslint-disable-line
         .then(response => {
-            console.log("Success!", response);
+            // console.log("Success!", response);
             return response;
         }).catch((error) => {
-            console.log("fail!", error);
+            // console.log("fail!", error);
             message.error(error.response.statusText);
             return false;
         });

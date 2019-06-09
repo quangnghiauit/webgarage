@@ -18,7 +18,6 @@ class SearchMaterial extends Component {
 
     handleSearchMaterial() {
         getListAllMaterialName().then(res => {
-            console.log(res.data)
             this.setState({
                 listSearchMaterial: res.data
             })

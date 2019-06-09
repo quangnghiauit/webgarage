@@ -15,10 +15,10 @@ import {
     ModalBody,
     ModalFooter,
     ModalHeader,
-    Table,
     Pagination,
     PaginationItem,
-    PaginationLink
+    PaginationLink,
+    Table
 } from 'reactstrap';
 import {addClient, getAllClient} from "../../../api/UserManagement/userManagement";
 
@@ -27,7 +27,7 @@ class SearchUser extends Component {
         super(props);
         this.state = {
             listTable: [],
-            userID :'',
+            userID: '',
             displayname: '',
             phoneNumber: '',
             address: '',
@@ -50,36 +50,39 @@ class SearchUser extends Component {
             nestedModalAdd: false,
             closeAllAdd: false,
             offset: '0',
-            curPaItem:1,
+            curPaItem: 1,
             maxRows: 10,
             maxPaItems: 3,
-            definePa:[],
-            filterPa:[]
+            definePa: [],
+            filterPa: []
         };
 
         this.toggleAdd = this.toggleAdd.bind(this);
         this.toggleNestedAdd = this.toggleNestedAdd.bind(this);
         this.toggleAllAdd = this.toggleAllAdd.bind(this);
-        this.filterPa=this.filterPa.bind(this);
-        this.togglePa=this.togglePa.bind(this);
-        this.toggleNext=this.toggleNext.bind(this);
-        this.togglePre=this.togglePre.bind(this);
+        this.filterPa = this.filterPa.bind(this);
+        this.togglePa = this.togglePa.bind(this);
+        this.toggleNext = this.toggleNext.bind(this);
+        this.togglePre = this.togglePre.bind(this);
     }
 
     componentDidMount() {
         this.handleSearch();
     }
-    shouldComponentUpdate(){
+
+    shouldComponentUpdate() {
         return true;
-      }
-      getSnapshotBeforeUpdate(){
-        return null;
-      }
-    handleUserBill(id) {
-        window.location.replace("http://localhost:8080/#/user-management/history/"+id);
     }
 
-    handleSearch(offset){
+    getSnapshotBeforeUpdate() {
+        return null;
+    }
+
+    handleUserBill(id) {
+        window.location.replace("http://localhost:8080/#/user-management/history/" + id);
+    }
+
+    handleSearch(offset) {
         const page = this.state.offset ? this.state.offset : '0';
         let data = [];
         getAllClient().then(response => {
@@ -87,60 +90,53 @@ class SearchUser extends Component {
                 listTable: response.data,
                 resultList: response.data
             }, () => {
-                const table=document.getElementById('table-users');
-                const tr=table.getElementsByTagName('tr');
-                if(tr.length-1>this.state.maxRows)
-                {
-                    let temp=[];
-                    for(let i=1;i<=Math.ceil((tr.length-1)/this.state.maxRows);i++)
+                const table = document.getElementById('table-users');
+                const tr = table.getElementsByTagName('tr');
+                if (tr.length - 1 > this.state.maxRows) {
+                    let temp = [];
+                    for (let i = 1; i <= Math.ceil((tr.length - 1) / this.state.maxRows); i++)
                         temp.push(i);
-                    this.setState({definePa:temp},
-                        ()=>{
-                            if(this.state.definePa.length-this.state.curPaItem+1>=this.state.maxPaItems)
-                            {
-                                let temp=[];
-                                for(let i=this.state.curPaItem-1;i<this.state.curPaItem+this.state.maxPaItems-1;i++)
-                                {
+                    this.setState({definePa: temp},
+                        () => {
+                            if (this.state.definePa.length - this.state.curPaItem + 1 >= this.state.maxPaItems) {
+                                let temp = [];
+                                for (let i = this.state.curPaItem - 1; i < this.state.curPaItem + this.state.maxPaItems - 1; i++) {
                                     temp.push(this.state.definePa[i]);
                                 }
-                                this.setState({filterPa:temp});
-                            }
-                            else
-                            {
-                                let temp=[];
-                                if(this.state.definePa.length-this.state.maxPaItems>=0)
-                                    for(let i=this.state.definePa.length-this.state.maxPaItems;i<this.state.definePa.length;i++)
+                                this.setState({filterPa: temp});
+                            } else {
+                                let temp = [];
+                                if (this.state.definePa.length - this.state.maxPaItems >= 0)
+                                    for (let i = this.state.definePa.length - this.state.maxPaItems; i < this.state.definePa.length; i++)
                                         temp.push(this.state.definePa[i]);
-                                else{
-                                    temp=[...this.state.definePa];
+                                else {
+                                    temp = [...this.state.definePa];
                                 }
-                                this.setState({filterPa:temp});
+                                this.setState({filterPa: temp});
                             }
                         });
-                }
-                else
-                    this.setState({definePa:[1]},
-                        ()=>{
-                            this.setState({filterPa:this.state.definePa});
+                } else
+                    this.setState({definePa: [1]},
+                        () => {
+                            this.setState({filterPa: this.state.definePa});
                         });
                 this.filterPa();
             })
         })
     }
 
-    filterTable(){
-        let td,txtValue,display;
+    filterTable() {
+        let td, txtValue, display;
         const filter = document.getElementById("search").value.toUpperCase();
         const table = document.getElementById("table-users");
         const tr = table.getElementsByTagName("tr");
         for (let i = 1; i < tr.length; i++) {
             td = tr[i].getElementsByTagName("td");
-            display=false;
-            for(let j=0;j<td.length;j++){
+            display = false;
+            for (let j = 0; j < td.length; j++) {
                 txtValue = td[j].textContent || td[j].innerText;
-                if (txtValue.toUpperCase().indexOf(filter) > -1)
-                {
-                    display=true;
+                if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                    display = true;
                     break;
                 }
             }
@@ -153,83 +149,78 @@ class SearchUser extends Component {
         }
     }
 
-    filterPa(){
-        const table=document.getElementById('table-users');
-        const tr=table.getElementsByTagName('tr');
-        for(let i=1;i<tr.length;i++)
-        {
-            if((i>=(this.state.curPaItem-1)*this.state.maxRows+1) && (i<=this.state.curPaItem*this.state.maxRows))
-                tr[i].style.display='';
+    filterPa() {
+        const table = document.getElementById('table-users');
+        const tr = table.getElementsByTagName('tr');
+        for (let i = 1; i < tr.length; i++) {
+            if ((i >= (this.state.curPaItem - 1) * this.state.maxRows + 1) && (i <= this.state.curPaItem * this.state.maxRows))
+                tr[i].style.display = '';
             else
-                tr[i].style.display='none';
+                tr[i].style.display = 'none';
         }
     }
-    togglePre(){
-        if(this.state.curPaItem > 1)
-        {
+
+    togglePre() {
+        if (this.state.curPaItem > 1) {
             this.setState({
-                curPaItem:this.state.curPaItem-1
-            },()=>{
+                curPaItem: this.state.curPaItem - 1
+            }, () => {
                 this.filterPa();
-                if(this.state.definePa.length-this.state.curPaItem+1>=this.state.maxPaItems)
-                {
-                    let temp=[];
-                    for(let i=this.state.curPaItem-1;i<this.state.curPaItem+this.state.maxPaItems-1;i++)
-                    {
+                if (this.state.definePa.length - this.state.curPaItem + 1 >= this.state.maxPaItems) {
+                    let temp = [];
+                    for (let i = this.state.curPaItem - 1; i < this.state.curPaItem + this.state.maxPaItems - 1; i++) {
                         temp.push(this.state.definePa[i]);
                     }
-                    this.setState({filterPa:temp});
-                }
-                else
-                {
-                    let temp=[];
-                    if(this.state.definePa.length-this.state.maxPaItems>=0)
-                        for(let i=this.state.definePa.length-this.state.maxPaItems;i<this.state.definePa.length;i++)
+                    this.setState({filterPa: temp});
+                } else {
+                    let temp = [];
+                    if (this.state.definePa.length - this.state.maxPaItems >= 0)
+                        for (let i = this.state.definePa.length - this.state.maxPaItems; i < this.state.definePa.length; i++)
                             temp.push(this.state.definePa[i]);
-                    else{
-                        temp=[...this.state.definePa];
+                    else {
+                        temp = [...this.state.definePa];
                     }
-                    this.setState({filterPa:temp});
+                    this.setState({filterPa: temp});
                 }
             });
         }
     }
-    toggleNext(){
-        if(this.state.curPaItem*this.state.maxRows<this.state.listTable.length)
-        {
+
+    toggleNext() {
+        if (this.state.curPaItem * this.state.maxRows < this.state.listTable.length) {
             this.setState({
-                curPaItem:this.state.curPaItem+1
-            },()=>{
+                curPaItem: this.state.curPaItem + 1
+            }, () => {
                 this.filterPa();
-                if(this.state.definePa.length-this.state.curPaItem+1>=this.state.maxPaItems)
-                {
-                    let temp=[];
-                    for(let i=this.state.curPaItem-1;i<this.state.curPaItem+this.state.maxPaItems-1;i++)
-                    {
+                if (this.state.definePa.length - this.state.curPaItem + 1 >= this.state.maxPaItems) {
+                    let temp = [];
+                    for (let i = this.state.curPaItem - 1; i < this.state.curPaItem + this.state.maxPaItems - 1; i++) {
                         temp.push(this.state.definePa[i]);
                     }
-                    this.setState({filterPa:temp});
-                }
-                else
-                {
-                    let temp=[];
-                    if(this.state.definePa.length-this.state.maxPaItems>=0)
-                        for(let i=this.state.definePa.length-this.state.maxPaItems;i<this.state.definePa.length;i++)
+                    this.setState({filterPa: temp});
+                } else {
+                    let temp = [];
+                    if (this.state.definePa.length - this.state.maxPaItems >= 0)
+                        for (let i = this.state.definePa.length - this.state.maxPaItems; i < this.state.definePa.length; i++)
                             temp.push(this.state.definePa[i]);
-                    else{
-                        temp=[...this.state.definePa];
+                    else {
+                        temp = [...this.state.definePa];
                     }
-                    this.setState({filterPa:temp});
+                    this.setState({filterPa: temp});
                 }
             });
         }
     }
-    togglePa(i){
+
+    togglePa(i) {
         this.setState({
-            curPaItem:i
-        },()=>{this.filterPa()}
+                curPaItem: i
+            }, () => {
+                this.filterPa()
+            }
         );
     }
+
     toggleNestedAdd() {
         this.setState({
             nestedModalAdd: !this.state.nestedModalAdd,
@@ -272,15 +263,15 @@ class SearchUser extends Component {
     }
 
     render() {
-        const {resultList, resultAdd} = this.state;console.log('render',this.state.filterPa);
-        const listPaItems=this.state.filterPa.map(function(i,index){
-            return this.state.curPaItem===i?
-                <PaginationItem key={index} active id={'paItem'+i}>
-                    <PaginationLink onClick={()=>this.togglePa(i)}>{i}</PaginationLink>
+        const {resultList, resultAdd} = this.state;
+        const listPaItems = this.state.filterPa.map(function (i, index) {
+            return this.state.curPaItem === i ?
+                <PaginationItem key={index} active id={'paItem' + i}>
+                    <PaginationLink onClick={() => this.togglePa(i)}>{i}</PaginationLink>
                 </PaginationItem>
                 :
-                <PaginationItem key={index} id={'paItem'+i}>
-                    <PaginationLink onClick={()=>this.togglePa(i)}>{i}</PaginationLink>
+                <PaginationItem key={index} id={'paItem' + i}>
+                    <PaginationLink onClick={() => this.togglePa(i)}>{i}</PaginationLink>
                 </PaginationItem>;
 
         }.bind(this));
@@ -293,7 +284,8 @@ class SearchUser extends Component {
                     </CardHeader>
                     <CardBody>
                         <InputGroup className="search">
-                            <Input type="text" id="search" onKeyUp={this.filterTable} placeholder="Search..." title="Enter a search info" />
+                            <Input type="text" id="search" onKeyUp={this.filterTable} placeholder="Search..."
+                                   title="Enter a search info"/>
                             <div className="input-group-append">
                                 <i className="fa fa-search form-control" aria-hidden="true"></i>
                             </div>
@@ -324,9 +316,12 @@ class SearchUser extends Component {
                                             <td>
                                                 {item.isactive == 0
                                                     ?
-                                                    <Button color="primary" onClick={()=> this.handleUserBill(item.userID)}>Xem</Button>
+                                                    <Button color="primary"
+                                                            onClick={() => this.handleUserBill(item.userID)}>Xem</Button>
                                                     :
-                                                    <Button color="warning" onClick={()=> this.handleUserBill(item.userID)}>Đang xử lý</Button>
+                                                    <Button color="warning"
+                                                            onClick={() => this.handleUserBill(item.userID)}>Đang xử
+                                                        lý</Button>
                                                 }
                                             </td>
                                         </tr>
@@ -338,17 +333,17 @@ class SearchUser extends Component {
                             </tbody>
                         </Table>
                         {
-                            this.state.listTable.length!=0?                    
-                            <Pagination id="pagination">
-                            <PaginationItem>
-                                <PaginationLink previous onClick={this.togglePre}/>
-                            </PaginationItem>
-                                {listPaItems}
-                            <PaginationItem>
-                                <PaginationLink next onClick={this.toggleNext}/>
-                            </PaginationItem>
-                            </Pagination>
-                            :null
+                            this.state.listTable.length != 0 ?
+                                <Pagination id="pagination">
+                                    <PaginationItem>
+                                        <PaginationLink previous onClick={this.togglePre}/>
+                                    </PaginationItem>
+                                    {listPaItems}
+                                    <PaginationItem>
+                                        <PaginationLink next onClick={this.toggleNext}/>
+                                    </PaginationItem>
+                                </Pagination>
+                                : null
                         }
                     </CardBody>
                 </Card>

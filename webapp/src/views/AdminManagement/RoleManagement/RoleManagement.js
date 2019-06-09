@@ -65,7 +65,6 @@ class RoleManagement extends Component {
 
     loadRoles() {
         getRole().then(res => {
-            console.log(`getRole ${res}`);
             this.setState({
                     listRole: res.data
                 }, () => {
@@ -207,10 +206,8 @@ class RoleManagement extends Component {
 
     handleAddRole() {
         const params = this.state.role;
-        console.log("param", params);
         if (this.state.role) {
             addRole(params).then(res => {
-                console.log('res addRole', res)
                 this.setState({
                     resultAdd: res
                 }, () => this.toggleNestedAdd())
@@ -240,17 +237,13 @@ class RoleManagement extends Component {
         this.setState({
                 modalDeleteRole: !this.state.modalDeleteRole,
                 roleSelected: role
-            }, () => {
-                console.log("role delete ", this.state.roleSelected)
             }
         );
     }
 
     handleDeleteRole() {
         const params = this.state.roleSelected;
-        console.log("params", params);
         deleteRole(params).then(res => {
-            console.log('res deleteRole', res);
             this.setState({
                 resultDelete: res
             }, () => this.toggleNestDelete())
@@ -289,7 +282,7 @@ class RoleManagement extends Component {
                                 <FormGroup>
                                     <Label htmlFor="role">Tên role</Label>
                                     <Input type="text" id="role" value={this.state.role}
-                                           onChange={(e) => this.setState({role: e.target.value}, () => console.log(this.state.role))}
+                                           onChange={(e) => this.setState({role: e.target.value})}
                                            placeholder="Enter role" required/>
                                     <FormText className="help-block">Please enter role</FormText>
                                 </FormGroup>
@@ -323,7 +316,6 @@ class RoleManagement extends Component {
                                             <td>{item.role}</td>
                                             <td><Button color="primary" onClick={() => {
                                                 this.toggleDeleteRole(item.role);
-                                                console.log("item", item.role)
                                             }}>Xóa</Button></td>
                                         </tr>
                                     )
@@ -332,17 +324,17 @@ class RoleManagement extends Component {
                             </tbody>
                         </Table>
                         {
-                            this.state.listRole.length!=0 ?
-                            <Pagination id="pagination">
-                                <PaginationItem>
-                                    <PaginationLink previous onClick={this.togglePre}/>
-                                </PaginationItem>
-                                {listPaItems}
-                                <PaginationItem>
-                                    <PaginationLink next onClick={this.toggleNext}/>
-                                </PaginationItem>
-                            </Pagination>
-                            : null
+                            this.state.listRole.length != 0 ?
+                                <Pagination id="pagination">
+                                    <PaginationItem>
+                                        <PaginationLink previous onClick={this.togglePre}/>
+                                    </PaginationItem>
+                                    {listPaItems}
+                                    <PaginationItem>
+                                        <PaginationLink next onClick={this.toggleNext}/>
+                                    </PaginationItem>
+                                </Pagination>
+                                : null
                         }
                         <Modal isOpen={this.state.modalDeleteRole} toggle={this.toggleDeleteRole}
                                className='modal-primary'>

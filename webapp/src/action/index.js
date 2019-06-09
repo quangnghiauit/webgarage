@@ -11,11 +11,11 @@ export function handleAction(dispatch, func) {
                 dispatch({
                     type: STOP_LOADING,
                 });
-                console.log(res);
+                // console.log(res);
                 if (res.status === 200) {
                     return resolve(res.data);
                 } else {
-                    console.log(res);
+                    // console.log(res);
                     message.error(res.message ? res.message : JSON.stringify(res), 3);
                     return reject();
                 }

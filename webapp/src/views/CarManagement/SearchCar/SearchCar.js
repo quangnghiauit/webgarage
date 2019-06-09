@@ -17,8 +17,8 @@ import {getAllCar} from "../../../api/CarManagement/carmanagement";
 class SearchCar extends Component {
     constructor(props) {
         super(props);
-        this.state ={
-            listCar:[],
+        this.state = {
+            listCar: [],
 
             curPaItem: 1,
             maxRows: 10,
@@ -226,7 +226,7 @@ class SearchCar extends Component {
                                                         ?
                                                         <Badge color="warning"> Đang xử lý</Badge>
                                                         :
-                                                        <Badge color="succes">Đã xử lý</Badge>
+                                                        <Badge color="success">Đã xử lý</Badge>
 
 
                                                 }
@@ -240,17 +240,17 @@ class SearchCar extends Component {
                             </tbody>
                         </Table>
                         {
-                            this.state.listCar.length!=0 ?
-                            <Pagination id="pagination">
-                            <PaginationItem>
-                                <PaginationLink previous onClick={this.togglePre}/>
-                            </PaginationItem>
-                                {listPaItems}
-                            <PaginationItem>
-                                <PaginationLink next onClick={this.toggleNext}/>
-                            </PaginationItem>
-                            </Pagination>
-                            :null
+                            this.state.listCar.length != 0 ?
+                                <Pagination id="pagination">
+                                    <PaginationItem>
+                                        <PaginationLink previous onClick={this.togglePre}/>
+                                    </PaginationItem>
+                                    {listPaItems}
+                                    <PaginationItem>
+                                        <PaginationLink next onClick={this.toggleNext}/>
+                                    </PaginationItem>
+                                </Pagination>
+                                : null
                         }
                     </CardBody>
                 </Card>

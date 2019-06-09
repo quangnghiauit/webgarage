@@ -43,23 +43,23 @@ class Header extends Component {
           <span className="navbar-toggler-icon"></span>
         </NavbarToggler>
         <Nav className="d-md-down-none" navbar>
-          <NavItem className="px-3">
-            <NavLink href="#">Dashboard</NavLink>
-          </NavItem>
-          <NavItem className="px-3">
-            <NavLink href="#">Users</NavLink>
-          </NavItem>
-          <NavItem className="px-3">
-            <NavLink href="#">Settings</NavLink>
-          </NavItem>
+          {/*<NavItem className="px-3">*/}
+            {/*<NavLink href="#">Dashboard</NavLink>*/}
+          {/*</NavItem>*/}
+          {/*<NavItem className="px-3">*/}
+            {/*<NavLink href="#">Users</NavLink>*/}
+          {/*</NavItem>*/}
+          {/*<NavItem className="px-3">*/}
+            {/*<NavLink href="#">Settings</NavLink>*/}
+          {/*</NavItem>*/}
         </Nav>
         <Nav className="ml-auto" navbar>
           {/*<HeaderDropdown notif/>*/}
           {/*<HeaderDropdown tasks/>*/}
           {/*<HeaderDropdown mssgs/>*/}
-          <NavItem className="d-md-down-none">
-            <NavLink href="#"><i className="icon-location-pin"></i></NavLink>
-          </NavItem>
+          {/*<NavItem className="d-md-down-none">*/}
+            {/*<NavLink href="#"><i className="icon-location-pin"></i></NavLink>*/}
+          {/*</NavItem>*/}
           <HeaderDropdown accnt/>
         </Nav>
 

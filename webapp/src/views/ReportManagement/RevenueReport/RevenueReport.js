@@ -1,19 +1,17 @@
-import React,{Component} from 'react'
+import React, {Component} from 'react'
 import {
+    Button,
     Card,
-    CardHeader,
     CardBody,
-    Table,
-    Badge,
+    CardHeader,
+    Col,
+    FormGroup,
+    Label,
     Pagination,
     PaginationItem,
     PaginationLink,
-    InputGroup,
-    Input,
-    FormGroup,
-    Label,
     Row,
-    Col, Button
+    Table
 } from 'reactstrap';
 import 'react-dates/initialize';
 import 'react-dates/lib/css/_datepicker.css';
@@ -21,16 +19,16 @@ import {DateRangePicker} from "react-dates";
 import {searchRevenue} from "../../../api/BillManagement/billmanagement";
 import moment from "moment";
 
-class RevenueReport extends Component{
-    constructor(props){
+class RevenueReport extends Component {
+    constructor(props) {
         super(props);
         this.state = {
             // startDate: moment().subtract(1,'months').format("DD/MM/YYYY"),
             // endDate: moment().format("DD/MM/YYYY"),
-            startDate:null,
-            endDate:null,
-            list : [],
-            sumTotalMoney : 0,
+            startDate: null,
+            endDate: null,
+            list: [],
+            sumTotalMoney: 0,
 
             curPaItem: 1,
             maxRows: 10,
@@ -45,23 +43,23 @@ class RevenueReport extends Component{
         this.togglePre = this.togglePre.bind(this);
     }
 
-    onDateChange(from, to){
+    onDateChange(from, to) {
         this.setState({
             startDate: from,
             endDate: to
         });
     };
 
-    handleSumTotalMoney(){
+    handleSumTotalMoney() {
         const arrayTotalMoney = this.state.list;
-        if(arrayTotalMoney) {
+        if (arrayTotalMoney) {
             let sum = 0;
             arrayTotalMoney.forEach(function (object) {
                 sum += object.totalMoney
             })
             this.setState({
-                sumTotalMoney:sum
-            },()=>this.handlePagination())
+                sumTotalMoney: sum
+            }, () => this.handlePagination())
 
         }
     }
@@ -70,18 +68,16 @@ class RevenueReport extends Component{
         const transdatefrom = this.state.startDate;
         const transdateto = this.state.endDate;
         const params = {
-            startDate: transdatefrom ? moment(transdatefrom).format("DD/MM/YYYY"):null,
-            endDate: transdateto ? moment(transdateto).format("DD/MM/YYYY"):null,
+            startDate: transdatefrom ? moment(transdatefrom).format("DD/MM/YYYY") : null,
+            endDate: transdateto ? moment(transdateto).format("DD/MM/YYYY") : null,
         };
-        console.log("param", params);
         if (this.state.startDate && this.state.endDate) {
             searchRevenue(params).then(res => {
                 this.setState({
                     list: res.data
-                }, ()=>this.handleSumTotalMoney())
+                }, () => this.handleSumTotalMoney())
 
-            }).catch(error=>{
-                console.log(error)
+            }).catch(error => {
             });
         } else {
             alert("Vui lòng chọn mốc thời gian.")
@@ -121,6 +117,7 @@ class RevenueReport extends Component{
                 });
         this.filterPa();
     }
+
     filterPa() {
         const table = document.getElementById('table-report-revenue');
         const tr = table.getElementsByTagName('tr');
@@ -192,8 +189,8 @@ class RevenueReport extends Component{
             }
         );
     }
-    
-    render(){
+
+    render() {
         const {list} = this.state;
         const listPaItems = this.state.filterPa.map((i, index) =>
             this.state.curPaItem === i ?
@@ -205,16 +202,16 @@ class RevenueReport extends Component{
                     <PaginationLink onClick={() => this.togglePa(i)}>{i}</PaginationLink>
                 </PaginationItem>
         );
-        return(
+        return (
             <div className="animated report-revenue">
                 <Card>
                     <CardHeader>
                         <i className="icon-menu"></i>Báo cáo doanh thu
                     </CardHeader>
                     <CardBody>
-                    <Label htmlFor="name">Thời gian báo cáo</Label>
-                            <FormGroup >
-                                <Row>
+                        <Label htmlFor="name">Thời gian báo cáo</Label>
+                        <FormGroup>
+                            <Row>
                                 <Col sm={4}>
                                     <DateRangePicker
                                         startDate={this.state.startDate}
@@ -243,17 +240,17 @@ class RevenueReport extends Component{
                                         minimumNights={0}
                                     />
                                 </Col>
-                                 <Col sm={3}> 
-                                <Button type="button" color="primary"
-                                        style={{width: "100px"}}
-                                        onClick={()=>this.handleSearch()}
+                                <Col sm={3}>
+                                    <Button type="button" color="primary"
+                                            style={{width: "100px"}}
+                                            onClick={() => this.handleSearch()}
 
-                                >
-                                    <i className="fa fa-search"></i>{'\u00A0'} Search
-                                </Button>
-                                </Col>  
-                                </Row>
-                            </FormGroup>
+                                    >
+                                        <i className="fa fa-search"></i>{'\u00A0'} Search
+                                    </Button>
+                                </Col>
+                            </Row>
+                        </FormGroup>
                         <Table id="table-report-revenue" responsive striped>
                             <thead>
                             <tr>
@@ -285,23 +282,23 @@ class RevenueReport extends Component{
                                 <td scope="row"></td>
                                 <td scope="row"></td>
                                 <th>
-                                    {this.state.sumTotalMoney?this.state.sumTotalMoney:0}
+                                    {this.state.sumTotalMoney ? this.state.sumTotalMoney : 0}
                                 </th>
                             </tr>
                             </tfoot>
                         </Table>
                         {
-                            this.state.list.length!=0 ?
-                            <Pagination id="pagination">
-                                <PaginationItem>
-                                    <PaginationLink previous onClick={this.togglePre}/>
-                                </PaginationItem>
-                                {listPaItems}
-                                <PaginationItem>
-                                    <PaginationLink next onClick={this.toggleNext}/>
-                                </PaginationItem>
-                            </Pagination>
-                            : null
+                            this.state.list.length != 0 ?
+                                <Pagination id="pagination">
+                                    <PaginationItem>
+                                        <PaginationLink previous onClick={this.togglePre}/>
+                                    </PaginationItem>
+                                    {listPaItems}
+                                    <PaginationItem>
+                                        <PaginationLink next onClick={this.toggleNext}/>
+                                    </PaginationItem>
+                                </Pagination>
+                                : null
                         }
                     </CardBody>
                 </Card>

@@ -3,14 +3,6 @@ import 'react-bootstrap-table/dist/react-bootstrap-table-all.min.css';
 import {Badge, Card, CardBody, CardFooter, CardHeader, Col, FormGroup, Input, Label, Row, Table} from 'reactstrap';
 import {getInfoMaterialUser, getInfoRepairBillID} from "../../../api/TransManagement/transmanagement";
 
-
-const cellEditProp = {
-    mode: 'click',
-    blurToSave: true
-};
-
-const materials = ['bánh xe', 'lốp xe', 'kính'];
-
 class CarHandleInfo extends Component {
     constructor(props) {
         super(props);
@@ -22,37 +14,23 @@ class CarHandleInfo extends Component {
             list: [],
         }
 
-        this.options = {
-            sortIndicator: true,
-            hideSizePerPage: true,
-            paginationSize: 3,
-            hidePageListOnlyOnePage: true,
-            clearSearch: true,
-            alwaysShowAllBtns: false,
-            withFirstAndLast: false,
-            onRowClick: function (row) {
-                alert(`You click row id: ${row.id}`);
-            }
-        }
     }
 
     componentDidMount() {
         this.setState({
             licensePlate: this.props.match.params.id
         }, () => this.handleGetInfoMaterialUser(this.state.licensePlate));
-        console.log("userIDDDDDlistcar", this.state.licensePlate)
     }
 
     handleGetInfoMaterialUser(licensePlate) {
         getInfoMaterialUser(licensePlate).then(response => {
-            console.log('bleeeeee', response)
             this.setState({
                 listTable: response.data,
                 list: response.data.carHandleDTOList,
                 repairBillID: response.data.repairBillID,
                 createdDate: response.data.createdDate,
                 status: response.data.status
-            }, () => console.log('hihihihi', this.state.listTable))
+            })
 
         })
     }
@@ -73,7 +51,7 @@ class CarHandleInfo extends Component {
                                     <Label htmlFor="licensePlate" sm={2}>Biển Số</Label>
                                     <Col sm={6}>
                                         <Input type="text" id="id"
-                                               onChange={(e) => this.setState({licensePlate: e.target.value}, () => console.log(this.state.licensePlate))}
+                                               onChange={(e) => this.setState({licensePlate: e.target.value})}
                                                value={this.state.licensePlate}
                                                disabled/>
                                     </Col>
@@ -82,7 +60,7 @@ class CarHandleInfo extends Component {
                                     <Label htmlFor="createdDate" sm={2}>Ngày lập hóa đơn</Label>
                                     <Col sm={6}>
                                         <Input type="text" id="id"
-                                               onChange={(e) => this.setState({createdDate: e.target.value}, () => console.log(this.state.createdDate))}
+                                               onChange={(e) => this.setState({createdDate: e.target.value})}
                                                value={this.state.createdDate}
                                                disabled/>
                                     </Col>
@@ -93,7 +71,7 @@ class CarHandleInfo extends Component {
                                     <Label htmlFor="repairBillID" sm={2}>Hóa đơn giao dịch</Label>
                                     <Col sm={7}>
                                         <Input type="text" id="id"
-                                               onChange={(e) => this.setState({repairBillID: e.target.value}, () => console.log(this.state.repairBillID))}
+                                               onChange={(e) => this.setState({repairBillID: e.target.value})}
                                                value={this.state.repairBillID}
                                                disabled/>
                                     </Col>
