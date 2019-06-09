@@ -333,7 +333,7 @@ class SearchUser extends Component {
                             </tbody>
                         </Table>
                         {
-                            this.state.listTable.length != 0 ?
+                            this.state.listTable ?
                                 <Pagination id="pagination">
                                     <PaginationItem>
                                         <PaginationLink previous onClick={this.togglePre}/>

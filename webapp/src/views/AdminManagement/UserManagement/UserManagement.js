@@ -434,7 +434,7 @@ class UserManagement extends Component {
                             </tbody>
                         </Table>
                         {
-                            this.state.listUser.length!=0 ?
+                            this.state.listUser ?
                             <Pagination id="pagination">
                                 <PaginationItem>
                                     <PaginationLink previous onClick={this.togglePre}/>

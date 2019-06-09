@@ -417,7 +417,7 @@ class CarHandling extends Component {
                                 </tbody>
                             </Table>
                             {
-                                this.state.listCar.length !=0?
+                                this.state.listCar?
                                 <Pagination id="pagination">
                                 <PaginationItem>
                                     <PaginationLink previous onClick={this.togglePre}/>
