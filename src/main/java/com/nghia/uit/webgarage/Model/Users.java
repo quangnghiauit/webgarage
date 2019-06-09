@@ -60,9 +60,6 @@ public class Users {
     @Column(name = "email")
     private String email;
 
-    @Column(name = "debt")
-    private long debt;
-
     public int getId() {
         return id;
     }
@@ -167,14 +164,6 @@ public class Users {
         this.email = email;
     }
 
-    public long getDebt() {
-        return debt;
-    }
-
-    public void setDebt(long debt) {
-        this.debt = debt;
-    }
-
     public int getStatus() {
         return status;
     }
@@ -199,7 +188,6 @@ public class Users {
                 ", phoneNumber='" + phoneNumber + '\'' +
                 ", address='" + address + '\'' +
                 ", email='" + email + '\'' +
-                ", debt=" + debt +
                 '}';
     }
 
@@ -220,7 +208,6 @@ public class Users {
         phoneNumber = users.getPhoneNumber();
         address = users.getAddress();
         email = users.getEmail();
-        debt = users.getDebt();
     }
 
     public void doMappingAdminUsersDTO(AdminUsersDTO users) {

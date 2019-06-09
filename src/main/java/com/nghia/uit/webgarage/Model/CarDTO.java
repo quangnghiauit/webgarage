@@ -16,8 +16,6 @@ public class CarDTO {
      * */
     private int status;
 
-    private String carBrand;
-
     public int getId() {
         return id;
     }
@@ -48,13 +46,5 @@ public class CarDTO {
 
     public void setStatus(int status) {
         this.status = status;
-    }
-
-    public String getCarBrand() {
-        return carBrand;
-    }
-
-    public void setCarBrand(String carBrand) {
-        this.carBrand = carBrand;
     }
 }

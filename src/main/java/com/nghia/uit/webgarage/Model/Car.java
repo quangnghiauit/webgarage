@@ -24,9 +24,6 @@ public class Car {
     @Column(name = "status")
     private int status;
 
-    @Column(name = "carBrand")
-    private String carBrand;
-
 
     public int getId() {
         return id;
@@ -52,14 +49,6 @@ public class Car {
         this.userID = userID;
     }
 
-    public String getCarBrand() {
-        return carBrand;
-    }
-
-    public void setCarBrand(String carBrand) {
-        this.carBrand = carBrand;
-    }
-
     public int getStatus() {
         return status;
     }
@@ -74,13 +63,11 @@ public class Car {
                 "id=" + id +
                 ", licensePlate='" + licensePlate + '\'' +
                 ", userID=" + userID +
-                ", carBrand='" + carBrand + '\'' +
                 '}';
     }
 
     public void doMappingCar(Car car) {
         licensePlate = car.getLicensePlate();
         licensePlate = car.getLicensePlate();
-        carBrand = car.getCarBrand();
     }
 }

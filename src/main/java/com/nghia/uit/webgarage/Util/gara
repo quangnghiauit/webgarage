@@ -9,16 +9,7 @@ Drop table if exists `materialReport`;
 Drop table if exists `material`;
 Drop table if exists `repairBill`;
 Drop table if exists `detailRepairBill`;
-
-
-create table `car`
-(
-	`id` int(10) not null auto_increment primary key,
-    `licensePlate` varchar(10),
-    `userID` long,
-    `status` int(11) default'0',
-    `carBrand` varchar(100)
-);
+Drop table if exists `user_role`;
 
 create table `users`
 (
@@ -37,6 +28,14 @@ create table `users`
     `address` varchar(1000),
     `email` varchar(50)
 );
+
+create table `user_role`
+(
+`id` int(10) not null auto_increment primary key,
+	`username` varchar(64) not null ,
+    `role` varchar(64) not null
+);
+
 
 create table `materialReport`
 (
@@ -57,6 +56,14 @@ create table `material`
     `numInput` int,
     `reqDate` timestamp,
     `createdBy` varchar(100)
+);
+
+create table `car`
+(
+	`id` int(10) not null auto_increment primary key,
+    `licensePlate` varchar(10),
+    `userID` long,
+    `status` int(11) default'0'
 );
 
 create table `repairBill`
@@ -84,17 +91,150 @@ create table `detailRepairBill`
     `createdBy` varchar(100)
 );
 
-create table `user_role`
-(
-`id` int(10) not null auto_increment primary key,
-	`username` varchar(64) not null ,
-    `role` varchar(64) not null
-);
+
 
 create table `roles`
 (
 `id` int(10) not null auto_increment primary key,
 	`role` varchar(128) not null,
     `allow` varchar(128),
-    `deni` varchar(128) 
+    `deni` varchar(128)
 );
+
+INSERT INTO users(userID,username,displayname,`password`,isactive,`status`,`createdDate`,`createdBy`,phoneNumber,address,email)
+VALUES ('20190609200302','NgocAnh','Nguyễn Ngọc Anh','$10$0NAsnUgMtsePYaxEAbgW2u1Pv6c29OAvbrxFhkloImdCDzdMzC7kq','0','0',now(),'quangnghiauit','0982102828','Hà Nội','ngocanh@gmail.com'),
+('20190609200303','NgocDung','Nguyễn Ngọc Dung','$10$0NAsnUgMtsePYaxEAbgW2u1Pv6c29OAvbrxFhkloImdCDzdMzC7kq','0','0',now(),'quangnghiauit','0982102212','TP HCM','ngocdung@gmail.com'),
+('20190609200304','ThanhTran','Trần Thanh Thanh','$10$0NAsnUgMtsePYaxEAbgW2u1Pv6c29OAvbrxFhkloImdCDzdMzC7kq','0','0',now(),'quangnghiauit','0982102232','TP HCM','thanhthanh98@gmail.com'),
+('20190609200305','ThanhBao','Trần Bảo Thanh','$10$0NAsnUgMtsePYaxEAbgW2u1Pv6c29OAvbrxFhkloImdCDzdMzC7kq','0','0',now(),'quangnghiauit','0982102232','TP HCM','thanhtran98@gmail.com'),
+('20190609200306','GiaBao','Ngô Gia Bảo','$10$0NAsnUgMtsePYaxEAbgW2u1Pv6c29OAvbrxFhkloImdCDzdMzC7kq','0','0',now(),'quangnghiauit','0213748282','TP HCM','giabao98@gmail.com'),
+('20190609200307','DinhKhang','Trần Đình Khang','$10$0NAsnUgMtsePYaxEAbgW2u1Pv6c29OAvbrxFhkloImdCDzdMzC7kq','0','0',now(),'quangnghiauit','0982102232','TP HCM','Khangtran98@gmail.com'),
+('20190609200308','TuThanh','Ngô Tú Thanh','$10$0NAsnUgMtsePYaxEAbgW2u1Pv6c29OAvbrxFhkloImdCDzdMzC7kq','0','0',now(),'quangnghiauit','0213748282','TP HCM','TuThanh@gmail.com'),
+('20190609200309','PhuongDuyen','Trần Ngọc Phương Duyên ','$10$0NAsnUgMtsePYaxEAbgW2u1Pv6c29OAvbrxFhkloImdCDzdMzC7kq','0','0',now(),'quangnghiauit','0213748282','TP HCM','PhuongDuyen@gmail.com'),
+('20190609200310','KhangTruong','Trương Hoàng Khang','$10$0NAsnUgMtsePYaxEAbgW2u1Pv6c29OAvbrxFhkloImdCDzdMzC7kq','0','0',now(),'quangnghiauit','0213748282','TP HCM','KhangTruong98@gmail.com'),
+('20190609200311','MinhTuan','Đỗ Minh Tuấn','$10$0NAsnUgMtsePYaxEAbgW2u1Pv6c29OAvbrxFhkloImdCDzdMzC7kq','0','0',now(),'quangnghiauit','0213748282','TP HCM','MinhTuan98@gmail.com'),
+('20190609200312','VanThu','Nguyễn Thu Vân','$10$0NAsnUgMtsePYaxEAbgW2u1Pv6c29OAvbrxFhkloImdCDzdMzC7kq','0','0',now(),'quangnghiauit','0385440984','TP HCM','VanThu@gmail.com'),
+('20190609200313','HuynhTu','Trần Ngọc Tú Huỳnh ','$10$0NAsnUgMtsePYaxEAbgW2u1Pv6c29OAvbrxFhkloImdCDzdMzC7kq','0','0',now(),'quangnghiauit','0865294462','TP HCM','HuynhTu@gmail.com'),
+('20190609200314','ThanhVu','Trương Vũ Thanh','$10$0NAsnUgMtsePYaxEAbgW2u1Pv6c29OAvbrxFhkloImdCDzdMzC7kq','0','0',now(),'quangnghiauit','0375382170','TP HCM','ThanhVu98@gmail.com'),
+('20190609200315','YThien','Đỗ Thiện Ý','$10$0NAsnUgMtsePYaxEAbgW2u1Pv6c29OAvbrxFhkloImdCDzdMzC7kq','0','0',now(),'quangnghiauit','0365843802','TP HCM','YThien98@gmail.com');
+
+#init data table `user_role`
+
+ INSERT INTO user_role (username,role)
+ values ('NgocAnh','CLIENT'),
+('NgocDung','CLIENT'),
+ ('ThanhTran','CLIENT'),
+('ThanhBao','CLIENT'),
+('GiaBao','CLIENT'),
+ ('DinhKhang','CLIENT'),
+ ('TuThanh','CLIENT'),
+('PhuongDuyen','CLIENT'),
+('KhangTruong','CLIENT'),
+('MinhTuan','CLIENT'),
+('VanThu','CLIENT'),
+('HuynhTu','CLIENT'),
+('ThanhVu','CLIENT'),
+('YThien','CLIENT');
+
+INSERT INTO `materialReport`(`materialID`,`materialName`,`totalNum`,`reqDate`,`createdBy`)
+VALUES ("KZ20190609200447","Kính",435,now(),"quangnghiauit"),
+("GZ20190609200448","Gương",124,now(),"quangnghiauit"),
+("BX20190609200449","Bánh xe",789,now(),"quangnghiauit"),
+("LX20190609200450","Lốp xe",123,now(),"quangnghiauit"),
+("BD20190609200451","Bao da",241,now(),"quangnghiauit"),
+("SE20190609200452","Săm xe",241,now(),"quangnghiauit"),
+("BD20190609200453","Bảng đồng hồ",356,now(),"quangnghiauit"),
+("DP20190609200454","Đèn pha",126,now(),"quangnghiauit"),
+("TK20190609200455","Túi khí nén",547,now(),"quangnghiauit"),
+("PT20190609200456","Phanh thủy lực",133,now(),"quangnghiauit"),
+("MZ20190609200457","Mâm",436,now(),"quangnghiauit"),
+("LT20190609200458","Lưới tản nhiệt",324,now(),"quangnghiauit");
+
+INSERT INTO `material`(`materialID`,`materialName`,`price`,`numInput`,`reqDate`,`createdBy`)
+VALUES ("KZ20190609200447","Kính",543000,56,"2019-05-08 14:40:21","quangnghiauit"),
+("KZ20190609200447","Kính",543000,65,"2019-05-18 14:40:21","quangnghiauit"),
+("KZ20190609200447","Kính",543000,87,"2019-06-08 14:40:21","quangnghiauit"),
+("GZ20190609200448","Gương",345000,43,"2019-05-12 14:40:21","quangnghiauit"),
+("GZ20190609200448","Gương",345000,53,"2019-05-28 14:40:21","quangnghiauit"),
+("GZ20190609200448","Gương",345000,13,"2019-06-08 14:40:21","quangnghiauit"),
+("BX20190609200449","Bánh xe",733000,12,"2019-05-11 14:40:21","quangnghiauit"),
+("BX20190609200449","Bánh xe",733000,12,"2019-05-28 14:40:21","quangnghiauit"),
+("BX20190609200449","Bánh xe",733000,23,"2019-06-03 14:40:21","quangnghiauit"),
+("BX20190609200449","Bánh xe",733000,457,"2019-06-08 14:40:21","quangnghiauit"),
+("LX20190609200450","Lốp xe",593000,234,"2019-05-08 14:40:21","quangnghiauit"),
+("LX20190609200450","Lốp xe",593000,234,"2019-05-10 14:40:21","quangnghiauit"),
+("LX20190609200450","Lốp xe",593000,12,"2019-06-02 14:40:21","quangnghiauit"),
+("LX20190609200450","Lốp xe",593000,23,"2019-06-04 14:40:21","quangnghiauit"),
+("BD20190609200451","Bao da",23000,23,"2019-05-03 14:40:21","quangnghiauit"),
+("BD20190609200451","Bao da",23000,345,"2019-05-06 14:40:21","quangnghiauit"),
+("BD20190609200451","Bao da",23000,34,"2019-06-04 14:40:21","quangnghiauit"),
+("BD20190609200451","Bao da",23000,35,"2019-06-05 14:40:21","quangnghiauit"),
+("SE20190609200452","Săm xe",13000,34,"2019-05-08 14:40:21","quangnghiauit"),
+("SE20190609200452","Săm xe",13000,12,"2019-05-09 14:40:21","quangnghiauit"),
+("SE20190609200452","Săm xe",13000,35,"2019-06-04 14:40:21","quangnghiauit"),
+("SE20190609200452","Săm xe",13000,45,"2019-06-05 14:40:21","quangnghiauit"),
+("BD20190609200453","Bảng đồng hồ",1500000,67,"2019-05-08 14:40:21","quangnghiauit"),
+("BD20190609200453","Bảng đồng hồ",1500000,34,"2019-05-18 14:40:21","quangnghiauit"),
+("BD20190609200453","Bảng đồng hồ",1500000,34,"2019-06-02 14:40:21","quangnghiauit"),
+("BD20190609200453","Bảng đồng hồ",1500000,54,"2019-06-05 14:40:21","quangnghiauit"),
+("DP20190609200454","Đèn pha",1100000,23,"2019-05-08 14:40:21","quangnghiauit"),
+("DP20190609200454","Đèn pha",1100000,45,"2019-05-18 14:40:21","quangnghiauit"),
+("DP20190609200454","Đèn pha",1100000,45,"2019-06-01 14:40:21","quangnghiauit"),
+("DP20190609200454","Đèn pha",1100000,56,"2019-06-08 14:40:21","quangnghiauit"),
+("TK20190609200455","Túi khí nén",3500000,56,"2019-05-08 14:40:21","quangnghiauit"),
+("TK20190609200455","Túi khí nén",3500000,54,"2019-05-18 14:40:21","quangnghiauit"),
+("TK20190609200455","Túi khí nén",3500000,33,"2019-06-03 14:40:21","quangnghiauit"),
+("TK20190609200455","Túi khí nén",3500000,78,"2019-06-08 14:40:21","quangnghiauit"),
+("PT20190609200456","Phanh thủy lực",5500000,90,"2019-05-08 14:40:21","quangnghiauit"),
+("PT20190609200456","Phanh thủy lực",5500000,90,"2019-05-18 14:40:21","quangnghiauit"),
+("PT20190609200456","Phanh thủy lực",5500000,90,"2019-06-03 14:40:21","quangnghiauit"),
+("PT20190609200456","Phanh thủy lực",5500000,90,"2019-06-08 14:40:21","quangnghiauit"),
+("MZ20190609200457","Mâm",700000,45,"2019-05-08 14:40:21","quangnghiauit"),
+("MZ20190609200457","Mâm",700000,45,"2019-05-18 14:40:21","quangnghiauit"),
+("MZ20190609200457","Mâm",700000,45,"2019-06-03 14:40:21","quangnghiauit"),
+("MZ20190609200457","Mâm",700000,45,"2019-06-08 14:40:21","quangnghiauit"),
+("LT20190609200458","Lưới tản nhiệt",670000,45,"2019-06-03 14:40:21","quangnghiauit");
+
+#init data table `car`
+INSERT INTO `car`(`licensePlate`,`userID`,`status`) VALUES ("84N4-87643",20190609265149,1);
+INSERT INTO `car`(`licensePlate`,`userID`,`status`) VALUES ("72T5-34565",20190609265149,1);
+INSERT INTO `car`(`licensePlate`,`userID`,`status`) VALUES ("96U6-86745",20190609265149,1);
+INSERT INTO `car`(`licensePlate`,`userID`,`status`) VALUES ("47K7-32546",20190609265149,1);
+INSERT INTO `car`(`licensePlate`,`userID`,`status`) VALUES ("34F8-09876",20190609265149,1);
+
+INSERT INTO `car`(`licensePlate`,`userID`,`status`) VALUES ("56N5-65466",20190609200304,1);
+INSERT INTO `car`(`licensePlate`,`userID`,`status`) VALUES ("23I6-36575",20190609200304,1);
+INSERT INTO `car`(`licensePlate`,`userID`,`status`) VALUES ("45K7-45645",20190609200304,1);
+INSERT INTO `car`(`licensePlate`,`userID`,`status`) VALUES ("34T8-76834",20190609200304,1);
+INSERT INTO `car`(`licensePlate`,`userID`,`status`) VALUES ("67K9-45665",20190609200304,1);
+INSERT INTO `car`(`licensePlate`,`userID`,`status`) VALUES ("23K7-35664",20190609200304,1);
+
+INSERT INTO `car`(`licensePlate`,`userID`,`status`) VALUES ("45F6-45664",20190609200305,1);
+INSERT INTO `car`(`licensePlate`,`userID`,`status`) VALUES ("45G6-54644",20190609200305,1);
+INSERT INTO `car`(`licensePlate`,`userID`,`status`) VALUES ("34Y7-33456",20190609200305,1);
+INSERT INTO `car`(`licensePlate`,`userID`,`status`) VALUES ("54F4-69567",20190609200305,1);
+INSERT INTO `car`(`licensePlate`,`userID`,`status`) VALUES ("54U5-56755",20190609200305,1);
+
+INSERT INTO `car`(`licensePlate`,`userID`,`status`) VALUES ("42P9-54747",20190609200306,1);
+INSERT INTO `car`(`licensePlate`,`userID`,`status`) VALUES ("75H7-56784",20190609200306,1);
+INSERT INTO `car`(`licensePlate`,`userID`,`status`) VALUES ("34Y7-34545",20190609200306,1);
+
+INSERT INTO `car`(`licensePlate`,`userID`,`status`) VALUES ("34G7-34533",20190609200307,1);
+INSERT INTO `car`(`licensePlate`,`userID`,`status`) VALUES ("56E5-23563",20190609200307,1);
+INSERT INTO `car`(`licensePlate`,`userID`,`status`) VALUES ("54F5-56754",20190609200307,1);
+
+INSERT INTO `car`(`licensePlate`,`userID`,`status`) VALUES ("45T6-34543",20190609200308,1);
+INSERT INTO `car`(`licensePlate`,`userID`,`status`) VALUES ("65F4-36473",20190609200309,1);
+INSERT INTO `car`(`licensePlate`,`userID`,`status`) VALUES ("87Y4-56865",20190609200310,1);
+INSERT INTO `car`(`licensePlate`,`userID`,`status`) VALUES ("89J5-79632",20190609200311,1);
+INSERT INTO `car`(`licensePlate`,`userID`,`status`) VALUES ("67F5-78954",20190609200312,1);
+INSERT INTO `car`(`licensePlate`,`userID`,`status`) VALUES ("87F4-56543",20190609200313,1);
+INSERT INTO `car`(`licensePlate`,`userID`,`status`) VALUES ("12K6-34632",20190609200314,1);
+INSERT INTO `car`(`licensePlate`,`userID`,`status`) VALUES ("11L9-67833",20190609200315,1);
+
+
+INSERT INTO `repairBill`(`repairBillID`,`licensePlate`,`status`,`createdDate`,`createdBy`,`exportDate`,`exportBy`,`userID`,`totalMoney`)
+VALUES ("NN20190609095630","84N4-87643",1,"2019-05-08 14:40:21","quangnghiauit",null,null,20190609265149,0);
+
+
+INSERT INTO `detailRepairBill`(`repairBillID`,`infoBill`,`materialID`,`reqNum`,`createdDate`,`createdBy`)
+VALUES ("NN20190609095630","nothing","KZ20190609200447",5,"2019-05-08 14:40:21","quangnghiauit");

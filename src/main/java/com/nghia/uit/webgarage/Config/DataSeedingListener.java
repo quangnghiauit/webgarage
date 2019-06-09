@@ -16,6 +16,10 @@ import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
+import java.security.Timestamp;
+import java.sql.Date;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.HashSet;
 import java.util.Random;
 
@@ -64,53 +68,111 @@ public class DataSeedingListener implements ApplicationListener<ContextRefreshed
             UserRole userRole = new UserRole();
             admin.setUserID(Long.valueOf("20190311181159"));
             admin.setUserName("quangnghiauit");
-            userRole.setUsername("quangnghiauit");
+            admin.setDisplayname("Nguyễn Quang Nghĩa");
             admin.setPassword(passwordEncoder.encode("123456"));
+            admin.setCreatedBy("quangnghiauit");
+            DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            java.util.Date date = new java.util.Date();
+            admin.setCreatedDate(dateFormat.format(date));
+            admin.setPhoneNumber("0976565715");
+            admin.setAddress("Quảng Bình");
+            admin.setEmail("quangnghiauit@gmail.com");
+
+            userRole.setUsername("quangnghiauit");
             userRole.setRole("ADMIN");
             userRepository.save(admin);
             userRoleRepository.save(userRole);
         }
 
-        // Admin account
-//        if (userRepository.findByUserName("quangnghiaclient") == null&&userRoleRepository.findByUserName("quangnghiaclient").size()==0) {
-//            Users admin = new Users();
-//            UserRole userRole = new UserRole();
-//            admin.setUserID(Long.valueOf("201904111812239"));
-//            admin.setUserName("quangnghiaclient");
-//            userRole.setUsername("quangnghiaclient");
-//            admin.setPassword(passwordEncoder.encode("123456"));
-//            userRole.setRole("CLIENT");
-//            userRepository.save(admin);
-//            userRoleRepository.save(userRole);
-//        }
+        //RECEPTIONIST
+        if (userRepository.findByUserName("MinhThu") == null&&userRoleRepository.findByUserName("MinhThu").size()==0) {
+            Users admin = new Users();
+            UserRole userRole = new UserRole();
+            admin.setUserID(Long.valueOf("201904111812239"));
+            admin.setUserName("MinhThu");
+            admin.setDisplayname("Trần Ngọc Minh Thư");
+            admin.setPassword(passwordEncoder.encode("123456"));
+            DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            java.util.Date date = new java.util.Date();
+            admin.setCreatedDate(dateFormat.format(date));
+            admin.setCreatedBy("quangnghiauit");
+            admin.setPhoneNumber("0862834533");
+            admin.setAddress("TP HCM");
+            admin.setEmail("MinhThu@gmail.com");
 
-//        for(int i = 0 ; i<100;i++) {
-//            if (userRepository.findByUserName("Nghia client"+String.valueOf(i)) == null&&userRoleRepository.findByUserName("Nghia client"+String.valueOf(i)).size()==0) {
-//                Users admin = new Users();
-//                UserRole userRole = new UserRole();
-//                admin.setUserName("Nghia client"+String.valueOf(i));
-//                admin.setDisplayname("Nghia client"+String.valueOf(i));
-//                userRole.setUsername("Nghia client"+String.valueOf(i));
-//                admin.setPassword(passwordEncoder.encode("123456"));
-//                userRole.setRole("CLIENT");
-//                userRepository.save(admin);
-//                userRoleRepository.save(userRole);
-//            }
-//        }
+            userRole.setUsername("MinhThu");
+            userRole.setRole("RECEPTIONIST");
+            userRepository.save(admin);
+            userRoleRepository.save(userRole);
+        }
+
+        //ACCOUNTANT
+        if (userRepository.findByUserName("NgocMinh") == null&&userRoleRepository.findByUserName("NgocMinh").size()==0) {
+            Users admin = new Users();
+            UserRole userRole = new UserRole();
+            admin.setUserID(Long.valueOf("20190609125426"));
+            admin.setUserName("NgocMinh");
+            admin.setDisplayname("Trương Ngọc Minh");
+            admin.setPassword(passwordEncoder.encode("123456"));
+            DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            java.util.Date date = new java.util.Date();
+            admin.setCreatedDate(dateFormat.format(date));
+            admin.setCreatedBy("quangnghiauit");
+            admin.setPhoneNumber("0865456043");
+            admin.setAddress("TP HCM");
+            admin.setEmail("NgocMinh@gmail.com");
+
+            userRole.setUsername("NgocMinh");
+            userRole.setRole("ACCOUNTANT");
+            userRepository.save(admin);
+            userRoleRepository.save(userRole);
+        }
+
+        //MECHANIC
+        if (userRepository.findByUserName("TinhTien") == null&&userRoleRepository.findByUserName("TinhTien").size()==0) {
+            Users admin = new Users();
+            UserRole userRole = new UserRole();
+            admin.setUserID(Long.valueOf("20190609165139"));
+            admin.setUserName("TinhTien");
+            admin.setDisplayname("Đỗ Tịnh Tiến");
+            admin.setPassword(passwordEncoder.encode("123456"));
+            DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            java.util.Date date = new java.util.Date();
+            admin.setCreatedDate(dateFormat.format(date));
+            admin.setCreatedBy("quangnghiauit");
+            admin.setPhoneNumber("0375876196");
+            admin.setAddress("Hà Nội");
+            admin.setEmail("TinhTien@gmail.com");
+
+            userRole.setUsername("TinhTien");
+            userRole.setRole("MECHANIC");
+            userRepository.save(admin);
+            userRoleRepository.save(userRole);
+        }
+
+        //CLIENT
+        if (userRepository.findByUserName("PhuongLinh") == null&&userRoleRepository.findByUserName("PhuongLinh").size()==0) {
+            Users admin = new Users();
+            UserRole userRole = new UserRole();
+            admin.setUserID(Long.valueOf("20190609265149"));
+            admin.setUserName("PhuongLinh");
+            admin.setDisplayname("Huỳnh Phương Linh");
+            admin.setPassword(passwordEncoder.encode("123456"));
+            DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            java.util.Date date = new java.util.Date();
+            admin.setCreatedDate(dateFormat.format(date));
+            admin.setCreatedBy("quangnghiauit");
+            admin.setPhoneNumber("0868089210");
+            admin.setAddress("Hà Nội");
+            admin.setEmail("PhuongLinh@gmail.com");
+
+            userRole.setUsername("PhuongLinh");
+            userRole.setRole("CLIENT");
+            userRepository.save(admin);
+            userRoleRepository.save(userRole);
+        }
 
 
-//        for(int i = 0 ; i<200;i++) {
-//            Car car = new Car();
-//            car.setLicensePlate("ABC"+i+3);
-//            if(i%3==0){
-//                car.setStatus(Constants.INIT_PROCESS);
-//            } else {
-//                car.setStatus(Constants.PROCESSING);
-//            }
-//
-//            car.setUserID(Long.valueOf("201904111812239"));
-//            carRepository.save(car);
-//        }
 
     }
 }

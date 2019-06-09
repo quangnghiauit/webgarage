@@ -200,10 +200,8 @@ public class ClientDTO {
         phoneNumber = users.getPhoneNumber();
         address = users.getAddress();
         email = users.getEmail();
-        debt = users.getDebt();
         if(car!=null) {
             licensePlate = car.getLicensePlate();
-            carBrand = car.getCarBrand();
         }
     }
 
@@ -216,7 +214,6 @@ public class ClientDTO {
         phoneNumber = users.getPhoneNumber();
         address = users.getAddress();
         email = users.getEmail();
-        debt = users.getDebt();
     }
 
 
