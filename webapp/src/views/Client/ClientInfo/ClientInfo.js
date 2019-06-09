@@ -25,7 +25,7 @@ class ClientInfo extends Component {
             id: '',
             userID: '',
             displayname: '',
-            username:'',
+            userName:'',
             address: '',
             email: '',
             phoneNumber: '',
@@ -72,7 +72,7 @@ class ClientInfo extends Component {
                 email: res.data.email,
                 phoneNumber: res.data.phoneNumber,
                 user: res.data,
-                username:res.data.username
+                userName:res.data.userName
             })
         })
 
@@ -84,7 +84,7 @@ class ClientInfo extends Component {
             address: this.state.address,
             email: this.state.email,
             phoneNumber: this.state.phoneNumber,
-            username:this.state.username
+            userName:this.state.userName
         }
         if (this.state.displayname && this.state.phoneNumber) {
             updateClient(userID, requestParams).then(res => {
@@ -197,7 +197,8 @@ class ClientInfo extends Component {
                             <Col sm={6}>
                                 <FormGroup>
                                     <Label htmlFor="username">UserName</Label>
-                                    <Input type='text' id="username" placeholder={this.state.username}
+                                    <Input type='text' id="username" placeholder={"Enter your userName"}
+                                           value={this.state.userName}
                                             disabled
                                     />
                                 </FormGroup>
