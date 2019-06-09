@@ -31,7 +31,7 @@ class RevenueReport extends Component {
             sumTotalMoney: 0,
 
             curPaItem: 1,
-            maxRows: 10,
+            maxRows: 20,
             maxPaItems: 3,
             definePa: [],
             filterPa: []
@@ -254,7 +254,7 @@ class RevenueReport extends Component {
                         <Table id="table-report-revenue" responsive striped>
                             <thead>
                             <tr>
-                                <th>ID</th>
+                                <th>STT</th>
                                 <th>Mã giao dịch</th>
                                 <th>Ngày xuất hóa đơn</th>
                                 <th>Giá trị hóa đơn</th>
@@ -288,7 +288,7 @@ class RevenueReport extends Component {
                             </tfoot>
                         </Table>
                         {
-                            this.state.list.length != 0 ?
+                            this.state.list ?
                                 <Pagination id="pagination">
                                     <PaginationItem>
                                         <PaginationLink previous onClick={this.togglePre}/>

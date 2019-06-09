@@ -12,7 +12,22 @@
     width: 30%;
     left: 70%;
 }
-
+.search-bill .search{
+    width: 30%;
+    left: 70%;
+}
+.report-inventory .search{
+    width: 30%;
+    left: 70%;
+}
+.import-materials .search{
+    width: 30%;
+    left: 70%;
+}
+.import-bill .search {
+    width: 30%;
+    left: 70%;
+}
 .search-materials .search{
     width: 30%;
     left: 70%;

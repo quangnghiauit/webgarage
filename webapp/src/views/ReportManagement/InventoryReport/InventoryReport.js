@@ -5,7 +5,7 @@ import {
     CardBody,
     CardHeader,
     Col,
-    FormGroup,
+    FormGroup, Input, InputGroup,
     Label,
     Pagination,
     PaginationItem,
@@ -30,7 +30,7 @@ class InventoryReport extends Component {
             list: [],
 
             curPaItem: 1,
-            maxRows: 10,
+            maxRows: 20,
             maxPaItems: 3,
             definePa: [],
             filterPa: []
@@ -60,39 +60,7 @@ class InventoryReport extends Component {
             searchInventory(params).then(res => {
                 this.setState({
                     list: res.data
-                }, () => {
-                    const table = document.getElementById('table-report-revenue');
-                    const tr = table.getElementsByTagName('tr');
-                    if (tr.length - 1 > this.state.maxRows) {
-                        let temp = [];
-                        for (let i = 1; i <= Math.ceil((tr.length - 1) / this.state.maxRows); i++)
-                            temp.push(i);
-                        this.setState({definePa: temp},
-                            () => {
-                                if (this.state.definePa.length - this.state.curPaItem + 1 >= this.state.maxPaItems) {
-                                    let temp = [];
-                                    for (let i = this.state.curPaItem - 1; i < this.state.curPaItem + this.state.maxPaItems - 1; i++) {
-                                        temp.push(this.state.definePa[i]);
-                                    }
-                                    this.setState({filterPa: temp});
-                                } else {
-                                    let temp = [];
-                                    if (this.state.definePa.length - this.state.maxPaItems >= 0)
-                                        for (let i = this.state.definePa.length - this.state.maxPaItems; i < this.state.definePa.length; i++)
-                                            temp.push(this.state.definePa[i]);
-                                    else {
-                                        temp = [...this.state.definePa];
-                                    }
-                                    this.setState({filterPa: temp});
-                                }
-                            });
-                    } else
-                        this.setState({definePa: [1]},
-                            () => {
-                                this.setState({filterPa: this.state.definePa});
-                            });
-                    this.filterPa();
-                })
+                }, () => this.handlePagition())
 
             }).catch(error => {
             });
@@ -101,8 +69,42 @@ class InventoryReport extends Component {
         }
     }
 
+    handlePagition() {
+        const table = document.getElementById('table-report-inventory');
+        const tr = table.getElementsByTagName('tr');
+        if (tr.length - 1 > this.state.maxRows) {
+            let temp = [];
+            for (let i = 1; i <= Math.ceil((tr.length - 1) / this.state.maxRows); i++)
+                temp.push(i);
+            this.setState({definePa: temp},
+                () => {
+                    if (this.state.definePa.length - this.state.curPaItem + 1 >= this.state.maxPaItems) {
+                        let temp = [];
+                        for (let i = this.state.curPaItem - 1; i < this.state.curPaItem + this.state.maxPaItems - 1; i++) {
+                            temp.push(this.state.definePa[i]);
+                        }
+                        this.setState({filterPa: temp});
+                    } else {
+                        let temp = [];
+                        if (this.state.definePa.length - this.state.maxPaItems >= 0)
+                            for (let i = this.state.definePa.length - this.state.maxPaItems; i < this.state.definePa.length; i++)
+                                temp.push(this.state.definePa[i]);
+                        else {
+                            temp = [...this.state.definePa];
+                        }
+                        this.setState({filterPa: temp});
+                    }
+                });
+        } else
+            this.setState({definePa: [1]},
+                () => {
+                    this.setState({filterPa: this.state.definePa});
+                });
+        this.filterPa();
+    }
+
     filterPa() {
-        const table = document.getElementById('table-report-revenue');
+        const table = document.getElementById('table-report-inventory');
         const tr = table.getElementsByTagName('tr');
         for (let i = 1; i < tr.length; i++) {
             if ((i >= (this.state.curPaItem - 1) * this.state.maxRows + 1) && (i <= this.state.curPaItem * this.state.maxRows))
@@ -173,6 +175,30 @@ class InventoryReport extends Component {
         );
     }
 
+    filterTable() {
+        let td, txtValue, display;
+        const filter = document.getElementById("search").value.toUpperCase();
+        const table = document.getElementById("table-report-inventory");
+        const tr = table.getElementsByTagName("tr");
+        for (let i = 1; i < tr.length; i++) {
+            td = tr[i].getElementsByTagName("td");
+            display = false;
+            for (let j = 0; j < td.length; j++) {
+                txtValue = td[j].textContent || td[j].innerText;
+                if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                    display = true;
+                    break;
+                }
+            }
+            if (display) {
+                tr[i].style.display = "";
+            } else {
+                tr[i].style.display = "none";
+            }
+
+        }
+    }
+
     render() {
         const {list} = this.state;
         const listPaItems = this.state.filterPa.map((i, index) =>
@@ -186,7 +212,7 @@ class InventoryReport extends Component {
                 </PaginationItem>
         );
         return (
-            <div className="animated report-revenue">
+            <div className="animated report-inventory">
                 <Card>
                     <CardHeader>
                         <i className="icon-menu"></i>Báo cáo vật tư phụ tùng tồn kho
@@ -234,10 +260,17 @@ class InventoryReport extends Component {
                                 </Col>
                             </Row>
                         </FormGroup>
-                        <Table id="table-report-revenue" responsive striped>
+                        <InputGroup className="search">
+                            <Input type="text" id="search" onKeyUp={this.filterTable} placeholder="Search..."
+                                   title="Enter a search info"/>
+                            <div className="input-group-append">
+                                <i className="fa fa-search form-control" aria-hidden="true"></i>
+                            </div>
+                        </InputGroup>
+                        <Table id="table-report-inventory" responsive striped>
                             <thead>
                             <tr>
-                                <th>ID</th>
+                                <th>STT</th>
                                 <th>Mã vật tư</th>
                                 <th>Tên vật tư</th>
                                 <th>Tổng số lần nhập vào</th>
@@ -268,7 +301,7 @@ class InventoryReport extends Component {
 
                         </Table>
                         {
-                            this.state.list.length != 0 ?
+                            this.state.list ?
                                 <Pagination id="pagination">
                                     <PaginationItem>
                                         <PaginationLink previous onClick={this.togglePre}/>

@@ -36,41 +36,43 @@ class SearchCar extends Component {
         getAllCar().then(res => {
             this.setState({
                 listCar: res.data
-            }, () => {
-                const table = document.getElementById('table-cars');
-                const tr = table.getElementsByTagName('tr');
-                if (tr.length - 1 > this.state.maxRows) {
-                    let temp = [];
-                    for (let i = 1; i <= Math.ceil((tr.length - 1) / this.state.maxRows); i++)
-                        temp.push(i);
-                    this.setState({definePa: temp},
-                        () => {
-                            if (this.state.definePa.length - this.state.curPaItem + 1 >= this.state.maxPaItems) {
-                                let temp = [];
-                                for (let i = this.state.curPaItem - 1; i < this.state.curPaItem + this.state.maxPaItems - 1; i++) {
-                                    temp.push(this.state.definePa[i]);
-                                }
-                                this.setState({filterPa: temp});
-                            } else {
-                                let temp = [];
-                                if (this.state.definePa.length - this.state.maxPaItems >= 0)
-                                    for (let i = this.state.definePa.length - this.state.maxPaItems; i < this.state.definePa.length; i++)
-                                        temp.push(this.state.definePa[i]);
-                                else {
-                                    temp = [...this.state.definePa];
-                                }
-                                this.setState({filterPa: temp});
-                            }
-                        });
-                } else
-                    this.setState({definePa: [1]},
-                        () => {
-                            this.setState({filterPa: this.state.definePa});
-                        });
-                this.filterPa();
-            })
+            }, () => this.handlePagination())
 
         })
+    }
+
+    handlePagination() {
+        const table = document.getElementById('table-cars');
+        const tr = table.getElementsByTagName('tr');
+        if (tr.length - 1 > this.state.maxRows) {
+            let temp = [];
+            for (let i = 1; i <= Math.ceil((tr.length - 1) / this.state.maxRows); i++)
+                temp.push(i);
+            this.setState({definePa: temp},
+                () => {
+                    if (this.state.definePa.length - this.state.curPaItem + 1 >= this.state.maxPaItems) {
+                        let temp = [];
+                        for (let i = this.state.curPaItem - 1; i < this.state.curPaItem + this.state.maxPaItems - 1; i++) {
+                            temp.push(this.state.definePa[i]);
+                        }
+                        this.setState({filterPa: temp});
+                    } else {
+                        let temp = [];
+                        if (this.state.definePa.length - this.state.maxPaItems >= 0)
+                            for (let i = this.state.definePa.length - this.state.maxPaItems; i < this.state.definePa.length; i++)
+                                temp.push(this.state.definePa[i]);
+                        else {
+                            temp = [...this.state.definePa];
+                        }
+                        this.setState({filterPa: temp});
+                    }
+                });
+        } else
+            this.setState({definePa: [1]},
+                () => {
+                    this.setState({filterPa: this.state.definePa});
+                });
+        this.filterPa();
     }
 
     filterTable() {

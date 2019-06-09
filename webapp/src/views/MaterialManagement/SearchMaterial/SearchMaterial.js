@@ -206,7 +206,7 @@ class SearchMaterial extends Component {
                         <Table id="table-cars" responsive striped>
                             <thead>
                             <tr>
-                                <th>ID</th>
+                                <th>STT</th>
                                 <th>Mã phụ tùng</th>
                                 <th>Tên phụ tùng</th>
                                 <th>Số lượng trong kho</th>
@@ -217,7 +217,7 @@ class SearchMaterial extends Component {
                                 listSearchMaterial ? listSearchMaterial.map((item, index) => {
                                     return (
                                         <tr key={index}>
-                                            <td>{item.id}</td>
+                                            <td>{index + 1}</td>
                                             <td>{item.materialID}</td>
                                             <td>{item.materialName}</td>
                                             <td>{item.totalNum}</td>

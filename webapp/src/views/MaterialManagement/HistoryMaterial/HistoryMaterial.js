@@ -7,12 +7,12 @@ import {
     CardHeader,
     FormGroup,
     FormText,
-    Input,
+    Input, InputGroup,
     Label,
     Modal,
     ModalBody,
     ModalFooter,
-    ModalHeader,
+    ModalHeader, Pagination, PaginationItem, PaginationLink,
     Table
 } from 'reactstrap';
 import {
@@ -33,7 +33,7 @@ class HistoryMaterial extends Component {
             price: '',
             numInput: '',
             listTable: [],
-            resultList: [],
+            list: [],
             listMaterialName: [],
             resultAdd: null,
             modalAdd: false,
@@ -44,6 +44,12 @@ class HistoryMaterial extends Component {
             modalAddName: false,
             nestedModalAddName: false,
             closeAllAddName: false,
+
+            curPaItem: 1,
+            maxRows: 10,
+            maxPaItems: 3,
+            definePa: [],
+            filterPa: []
         }
 
         this.toggleAddMaterials = this.toggleAddMaterials.bind(this);
@@ -54,6 +60,11 @@ class HistoryMaterial extends Component {
         this.toggleAddName = this.toggleAddName.bind(this);
         this.toggleNestedAddName = this.toggleNestedAddName.bind(this);
         this.toggleAllAddName = this.toggleAllAddName.bind(this);
+
+        this.filterPa = this.filterPa.bind(this);
+        this.togglePa = this.togglePa.bind(this);
+        this.toggleNext = this.toggleNext.bind(this);
+        this.togglePre = this.togglePre.bind(this);
     }
 
     componentDidMount() {
@@ -68,8 +79,8 @@ class HistoryMaterial extends Component {
         getListMaterial().then(response => {
             this.setState({
                 listTable: response.data,
-                resultList: response.data
-            })
+                list: response.data
+            }, () => this.handlePagination())
 
         })
     }
@@ -169,8 +180,149 @@ class HistoryMaterial extends Component {
         }
     }
 
+    handlePagination() {
+        const table = document.getElementById('table-bill');
+        const tr = table.getElementsByTagName('tr');
+        if (tr.length - 1 > this.state.maxRows) {
+            let temp = [];
+            for (let i = 1; i <= Math.ceil((tr.length - 1) / this.state.maxRows); i++)
+                temp.push(i);
+            this.setState({definePa: temp},
+                () => {
+                    if (this.state.definePa.length - this.state.curPaItem + 1 >= this.state.maxPaItems) {
+                        let temp = [];
+                        for (let i = this.state.curPaItem - 1; i < this.state.curPaItem + this.state.maxPaItems - 1; i++) {
+                            temp.push(this.state.definePa[i]);
+                        }
+                        this.setState({filterPa: temp});
+                    } else {
+                        let temp = [];
+                        if (this.state.definePa.length - this.state.maxPaItems >= 0)
+                            for (let i = this.state.definePa.length - this.state.maxPaItems; i < this.state.definePa.length; i++)
+                                temp.push(this.state.definePa[i]);
+                        else {
+                            temp = [...this.state.definePa];
+                        }
+                        this.setState({filterPa: temp});
+                    }
+                });
+        } else
+            this.setState({definePa: [1]},
+                () => {
+                    this.setState({filterPa: this.state.definePa});
+                });
+        this.filterPa();
+    }
+
+    filterTable() {
+        let td, txtValue, display;
+        const filter = document.getElementById("search").value.toUpperCase();
+        const table = document.getElementById("table-bill");
+        const tr = table.getElementsByTagName("tr");
+        for (let i = 1; i < tr.length; i++) {
+            td = tr[i].getElementsByTagName("td");
+            display = false;
+            for (let j = 0; j < td.length; j++) {
+                txtValue = td[j].textContent || td[j].innerText;
+                if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                    display = true;
+                    break;
+                }
+            }
+            if (display) {
+                tr[i].style.display = "";
+            } else {
+                tr[i].style.display = "none";
+            }
+
+        }
+    }
+
+    filterPa() {
+        const table = document.getElementById('table-bill');
+        const tr = table.getElementsByTagName('tr');
+        for (let i = 1; i < tr.length; i++) {
+            if ((i >= (this.state.curPaItem - 1) * this.state.maxRows + 1) && (i <= this.state.curPaItem * this.state.maxRows))
+                tr[i].style.display = '';
+            else
+                tr[i].style.display = 'none';
+        }
+    }
+
+    togglePre() {
+        if (this.state.curPaItem > 1) {
+            this.setState({
+                curPaItem: this.state.curPaItem - 1
+            }, () => {
+                this.filterPa();
+                if (this.state.definePa.length - this.state.curPaItem + 1 >= this.state.maxPaItems) {
+                    let temp = [];
+                    for (let i = this.state.curPaItem - 1; i < this.state.curPaItem + this.state.maxPaItems - 1; i++) {
+                        temp.push(this.state.definePa[i]);
+                    }
+                    this.setState({filterPa: temp});
+                } else {
+                    let temp = [];
+                    if (this.state.definePa.length - this.state.maxPaItems >= 0)
+                        for (let i = this.state.definePa.length - this.state.maxPaItems; i < this.state.definePa.length; i++)
+                            temp.push(this.state.definePa[i]);
+                    else {
+                        temp = [...this.state.definePa];
+                    }
+                    this.setState({filterPa: temp});
+                }
+            });
+        }
+    }
+
+    toggleNext() {
+        if (this.state.curPaItem * this.state.maxRows < this.state.list.length) {
+            this.setState({
+                curPaItem: this.state.curPaItem + 1
+            }, () => {
+                this.filterPa();
+                if (this.state.definePa.length - this.state.curPaItem + 1 >= this.state.maxPaItems) {
+                    let temp = [];
+                    for (let i = this.state.curPaItem - 1; i < this.state.curPaItem + this.state.maxPaItems - 1; i++) {
+                        temp.push(this.state.definePa[i]);
+                    }
+                    this.setState({filterPa: temp});
+                } else {
+                    let temp = [];
+                    if (this.state.definePa.length - this.state.maxPaItems >= 0)
+                        for (let i = this.state.definePa.length - this.state.maxPaItems; i < this.state.definePa.length; i++)
+                            temp.push(this.state.definePa[i]);
+                    else {
+                        temp = [...this.state.definePa];
+                    }
+                    this.setState({filterPa: temp});
+                }
+            });
+        }
+    }
+
+    togglePa(i) {
+        this.setState({
+                curPaItem: i
+            }, () => {
+                this.filterPa()
+            }
+        );
+    }
+
     render() {
-        const {resultList, resultAdd, resultAddName, listMaterialName} = this.state;
+        const {list, resultAdd, resultAddName, listMaterialName} = this.state;
+        const listPaItems = this.state.filterPa.map(function (i, index) {
+            return this.state.curPaItem === i ?
+                <PaginationItem key={index} active id={'paItem' + i}>
+                    <PaginationLink onClick={() => this.togglePa(i)}>{i}</PaginationLink>
+                </PaginationItem>
+                :
+                <PaginationItem key={index} id={'paItem' + i}>
+                    <PaginationLink onClick={() => this.togglePa(i)}>{i}</PaginationLink>
+                </PaginationItem>;
+
+        }.bind(this));
         return (
             <div className="animated import-materials">
                 <Card>
@@ -179,10 +331,17 @@ class HistoryMaterial extends Component {
                         <Button onClick={this.toggleAddMaterials} color="link" size="sm">Thêm phụ tùng</Button>
                     </CardHeader>
                     <CardBody>
-                        <Table responsive striped>
+                        <InputGroup className="search">
+                            <Input type="text" id="search" onKeyUp={this.filterTable} placeholder="Search..."
+                                   title="Enter a search info"/>
+                            <div className="input-group-append">
+                                <i className="fa fa-search form-control" aria-hidden="true"></i>
+                            </div>
+                        </InputGroup>
+                        <Table id="table-bill" responsive striped>
                             <thead>
                             <tr>
-                                <th>ID</th>
+                                <th>STT</th>
                                 <th>Tên phụ tùng</th>
                                 <th>Số lượng</th>
                                 <th>Đơn giá</th>
@@ -191,7 +350,7 @@ class HistoryMaterial extends Component {
                             </thead>
                             <tbody>
                             {
-                                resultList ? resultList.map((item, index) => {
+                                list ? list.map((item, index) => {
                                     return (
                                         <tr key={index}>
                                             <td>{item.id}</td>
@@ -207,10 +366,20 @@ class HistoryMaterial extends Component {
                             }
                             </tbody>
                         </Table>
+                        {
+                            this.state.list ?
+                                <Pagination id="pagination">
+                                    <PaginationItem>
+                                        <PaginationLink previous onClick={this.togglePre}/>
+                                    </PaginationItem>
+                                    {listPaItems}
+                                    <PaginationItem>
+                                        <PaginationLink next onClick={this.toggleNext}/>
+                                    </PaginationItem>
+                                </Pagination>
+                                : null
+                        }
                     </CardBody>
-                    {/*<CardFooter>*/}
-                    {/*<Button className="float-right" color="success">Lưu</Button>*/}
-                    {/*</CardFooter>*/}
                 </Card>
 
                 <Modal isOpen={this.state.modalAdd} toggle={this.toggleAdd}
