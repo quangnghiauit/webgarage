@@ -20,9 +20,6 @@ create table `car`
     `carBrand` varchar(100)
 );
 
-
-#drop table `car`;
-
 create table `users`
 (
 	`id` int(10) not null auto_increment primary key,
