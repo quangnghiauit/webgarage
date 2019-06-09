@@ -324,7 +324,7 @@ class RoleManagement extends Component {
                             </tbody>
                         </Table>
                         {
-                            this.state.listRole.length != 0 ?
+                            this.state.listRole ?
                                 <Pagination id="pagination">
                                     <PaginationItem>
                                         <PaginationLink previous onClick={this.togglePre}/>
