@@ -249,7 +249,7 @@ class InventoryReport extends Component {
                                 </Col>
                                 <Col sm={3}>
                                     <Button type="button" color="primary"
-                                            style={{width: "100px"}}
+                                            style={{width: "100px",height:"50px"}}
                                             onClick={() => this.handleSearch()}
 
                                     >
