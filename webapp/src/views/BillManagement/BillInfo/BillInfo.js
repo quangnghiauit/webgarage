@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {Button, Card, CardBody, CardFooter, CardHeader, Col, FormGroup, Input, Label, Row, Table} from 'reactstrap';
 import {exportBill, getDetailBill} from '../../../api/BillManagement/billmanagement'
-import PDF from 'jspdf'
+import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas'
 
 
@@ -78,18 +78,18 @@ class BillInfo extends Component {
 
     exportBill() {
         if (this.state.exportfile === "1") {
-            const pdf = new PDF();
             const input = document.getElementById('bill-info');
             input.style.width = '210mm';
             input.style.minHeight = '297mm';
-            input.style.marginLeft = '10px';
-            input.style.marginRight = '10px';
+            input.style.marginLeft = 'auto';
+            input.style.marginRight = 'auto';
             document.getElementById('footer').style.display = "none";
             // input.style.backgroundColor='#f5f5f5';
             html2canvas(input)
                 .then((canvas) => {
                     const imgData = canvas.toDataURL('image/png');
-                    pdf.addImage(imgData, 'PNG', 0, 0);
+                    const pdf = new jsPDF();
+                    pdf.addImage(imgData, 'JPEG', 0, 0);
                     pdf.save('bill_' + this.state.repairBillID + '.pdf');
                 })
                 .then(() => {
