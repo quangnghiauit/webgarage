@@ -20,7 +20,7 @@ class HistoryTransBill extends Component {
         super(props);
 
         this.state = {
-            list: [],
+            list: null,
             curPaItem: 1,
             maxRows: 10,
             maxPaItems: 3,

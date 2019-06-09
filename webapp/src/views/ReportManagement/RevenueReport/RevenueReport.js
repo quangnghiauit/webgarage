@@ -27,7 +27,7 @@ class RevenueReport extends Component {
             // endDate: moment().format("DD/MM/YYYY"),
             startDate: null,
             endDate: null,
-            list: [],
+            list: null,
             sumTotalMoney: 0,
 
             curPaItem: 1,

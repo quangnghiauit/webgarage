@@ -37,7 +37,7 @@ class UserManagement extends Component {
         this.state={
             userID:'',
             listRole:null,
-            listUser:[],
+            listUser:null,
             user:null,
             displayname:'',
             role:'',

@@ -19,7 +19,7 @@ class CreateBill extends Component {
         super(props);
 
         this.state = {
-            list: [],
+            list: null,
 
             curPaItem: 1,
             maxRows: 10,

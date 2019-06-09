@@ -27,7 +27,7 @@ class ListCarHandling extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            list: [],
+            list: null,
             collapseCar: false,
             modalAddMaterials: false,
 

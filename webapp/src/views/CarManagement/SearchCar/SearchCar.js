@@ -18,7 +18,7 @@ class SearchCar extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            listCar: [],
+            listCar: null,
 
             curPaItem: 1,
             maxRows: 10,
