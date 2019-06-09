@@ -105,7 +105,6 @@ class BillInfo extends Component {
 
     render() {
         const {list,repairBillID,createdDate,userID,displayname}=this.state;
-        const sum=list? (list.reduce((a,b)=>a+b,0)):0;
         return (
             <div className="animated bill-info" id="bill-info">
                 <Card>

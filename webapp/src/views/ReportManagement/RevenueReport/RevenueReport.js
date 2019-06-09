@@ -30,6 +30,7 @@ class RevenueReport extends Component{
             startDate:null,
             endDate:null,
             list : [],
+            sumTotalMoney : 0,
 
             curPaItem: 1,
             maxRows: 10,
@@ -51,6 +52,20 @@ class RevenueReport extends Component{
         });
     };
 
+    handleSumTotalMoney(){
+        const arrayTotalMoney = this.state.list;
+        if(arrayTotalMoney) {
+            let sum = 0;
+            arrayTotalMoney.forEach(function (object) {
+                sum += object.totalMoney
+            })
+            this.setState({
+                sumTotalMoney:sum
+            },()=>this.handlePagination())
+
+        }
+    }
+
     handleSearch() {
         const transdatefrom = this.state.startDate;
         const transdateto = this.state.endDate;
@@ -63,39 +78,7 @@ class RevenueReport extends Component{
             searchRevenue(params).then(res => {
                 this.setState({
                     list: res.data
-                }, () => {
-                    const table = document.getElementById('table-report-revenue');
-                    const tr = table.getElementsByTagName('tr');
-                    if (tr.length - 1 > this.state.maxRows) {
-                        let temp = [];
-                        for (let i = 1; i <= Math.ceil((tr.length - 1) / this.state.maxRows); i++)
-                            temp.push(i);
-                        this.setState({definePa: temp},
-                            () => {
-                                if (this.state.definePa.length - this.state.curPaItem + 1 >= this.state.maxPaItems) {
-                                    let temp = [];
-                                    for (let i = this.state.curPaItem - 1; i < this.state.curPaItem + this.state.maxPaItems - 1; i++) {
-                                        temp.push(this.state.definePa[i]);
-                                    }
-                                    this.setState({filterPa: temp});
-                                } else {
-                                    let temp = [];
-                                    if (this.state.definePa.length - this.state.maxPaItems >= 0)
-                                        for (let i = this.state.definePa.length - this.state.maxPaItems; i < this.state.definePa.length; i++)
-                                            temp.push(this.state.definePa[i]);
-                                    else {
-                                        temp = [...this.state.definePa];
-                                    }
-                                    this.setState({filterPa: temp});
-                                }
-                            });
-                    } else
-                        this.setState({definePa: [1]},
-                            () => {
-                                this.setState({filterPa: this.state.definePa});
-                            });
-                    this.filterPa();
-                })
+                }, ()=>this.handleSumTotalMoney())
 
             }).catch(error=>{
                 console.log(error)
@@ -105,6 +88,39 @@ class RevenueReport extends Component{
         }
     }
 
+    handlePagination() {
+        const table = document.getElementById('table-report-revenue');
+        const tr = table.getElementsByTagName('tr');
+        if (tr.length - 1 > this.state.maxRows) {
+            let temp = [];
+            for (let i = 1; i <= Math.ceil((tr.length - 1) / this.state.maxRows); i++)
+                temp.push(i);
+            this.setState({definePa: temp},
+                () => {
+                    if (this.state.definePa.length - this.state.curPaItem + 1 >= this.state.maxPaItems) {
+                        let temp = [];
+                        for (let i = this.state.curPaItem - 1; i < this.state.curPaItem + this.state.maxPaItems - 1; i++) {
+                            temp.push(this.state.definePa[i]);
+                        }
+                        this.setState({filterPa: temp});
+                    } else {
+                        let temp = [];
+                        if (this.state.definePa.length - this.state.maxPaItems >= 0)
+                            for (let i = this.state.definePa.length - this.state.maxPaItems; i < this.state.definePa.length; i++)
+                                temp.push(this.state.definePa[i]);
+                        else {
+                            temp = [...this.state.definePa];
+                        }
+                        this.setState({filterPa: temp});
+                    }
+                });
+        } else
+            this.setState({definePa: [1]},
+                () => {
+                    this.setState({filterPa: this.state.definePa});
+                });
+        this.filterPa();
+    }
     filterPa() {
         const table = document.getElementById('table-report-revenue');
         const tr = table.getElementsByTagName('tr');
@@ -263,6 +279,16 @@ class RevenueReport extends Component{
 
                             }
                             </tbody>
+                            <tfoot>
+                            <tr>
+                                <th>Tổng doanh thu</th>
+                                <td scope="row"></td>
+                                <td scope="row"></td>
+                                <th>
+                                    {this.state.sumTotalMoney?this.state.sumTotalMoney:0}
+                                </th>
+                            </tr>
+                            </tfoot>
                         </Table>
                         {
                             this.state.list.length!=0 ?
