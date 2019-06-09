@@ -23,8 +23,6 @@ class InventoryReport extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            // startDate: moment().subtract(1,'months').format("DD/MM/YYYY"),
-            // endDate: moment().format("DD/MM/YYYY"),
             startDate: null,
             endDate: null,
             list: null,
