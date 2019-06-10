@@ -59,13 +59,16 @@ public class ReportManagementServiceImpl implements ReportManagementService {
                         for(DetailRepairBill detailRepairBill :detailRepairBills) {
                             DetailBillDTO detailBillDTO = new DetailBillDTO();
                             String strMaterialName = null;
+                            Material material = new Material();
                             if(!detailRepairBill.getMaterialID().isEmpty()) {
                                 MaterialReport materialReport = materialReportRepository.findByMaterialID(detailRepairBill.getMaterialID());
+                                List<Material> materialList = materialRepository.findAllByMaterialID(detailRepairBill.getMaterialID());
+                                material = materialList.get(0);
                                 if(!materialReport.getMaterialName().isEmpty()){
                                     strMaterialName = materialReport.getMaterialName();
                                 }
                             }
-                            detailBillDTO.doMappingDetailReport(detailRepairBill,strMaterialName);
+                            detailBillDTO.doMappingDetailReport(detailRepairBill,strMaterialName,material);
                             detailBillDTOS.add(detailBillDTO);
                         }
 
@@ -112,13 +115,16 @@ public class ReportManagementServiceImpl implements ReportManagementService {
                     for(DetailRepairBill detailRepairBill :detailRepairBills) {
                         DetailBillDTO detailBillDTO = new DetailBillDTO();
                         String strMaterialName = null;
+                        Material material = new Material();
                         if(!detailRepairBill.getMaterialID().isEmpty()) {
                             MaterialReport materialReport = materialReportRepository.findByMaterialID(detailRepairBill.getMaterialID());
+                            List<Material> materialList = materialRepository.findAllByMaterialID(detailRepairBill.getMaterialID());
+                            material = materialList.get(0);
                             if(!materialReport.getMaterialName().isEmpty()){
                                 strMaterialName = materialReport.getMaterialName();
                             }
                         }
-                        detailBillDTO.doMappingDetailReport(detailRepairBill,strMaterialName);
+                        detailBillDTO.doMappingDetailReport(detailRepairBill,strMaterialName,material);
                         detailBillDTOS.add(detailBillDTO);
                     }
 
@@ -161,13 +167,16 @@ public class ReportManagementServiceImpl implements ReportManagementService {
                         for(DetailRepairBill detailRepairBill :detailRepairBills) {
                             DetailBillDTO detailBillDTO = new DetailBillDTO();
                             String strMaterialName = null;
+                            Material material = new Material();
                             if(!detailRepairBill.getMaterialID().isEmpty()) {
                                 MaterialReport materialReport = materialReportRepository.findByMaterialID(detailRepairBill.getMaterialID());
+                                List<Material> materialList = materialRepository.findAllByMaterialID(detailRepairBill.getMaterialID());
+                                material = materialList.get(0);
                                 if(!materialReport.getMaterialName().isEmpty()){
                                     strMaterialName = materialReport.getMaterialName();
                                 }
                             }
-                            detailBillDTO.doMappingDetailReport(detailRepairBill,strMaterialName);
+                            detailBillDTO.doMappingDetailReport(detailRepairBill,strMaterialName,material);
                             detailBillDTOS.add(detailBillDTO);
                         }
 
@@ -219,13 +228,16 @@ public class ReportManagementServiceImpl implements ReportManagementService {
                         for(DetailRepairBill detailRepairBill :detailRepairBills) {
                             DetailBillDTO detailBillDTO = new DetailBillDTO();
                             String strMaterialName = null;
+                            Material material = new Material();
                             if(!detailRepairBill.getMaterialID().isEmpty()) {
                                 MaterialReport materialReport = materialReportRepository.findByMaterialID(detailRepairBill.getMaterialID());
+                                List<Material> materialList = materialRepository.findAllByMaterialID(detailRepairBill.getMaterialID());
+                                material = materialList.get(0);
                                 if(!materialReport.getMaterialName().isEmpty()){
                                     strMaterialName = materialReport.getMaterialName();
                                 }
                             }
-                            detailBillDTO.doMappingDetailReport(detailRepairBill,strMaterialName);
+                            detailBillDTO.doMappingDetailReport(detailRepairBill,strMaterialName,material);
                             detailBillDTOS.add(detailBillDTO);
                         }
 

@@ -83,14 +83,16 @@ public class DetailBillDTO {
         this.totalMoney = totalMoney;
     }
 
-    public void doMappingDetailReport(DetailRepairBill detailRepairBill,String strMaterialName) {
+    public void doMappingDetailReport(DetailRepairBill detailRepairBill,String strMaterialName,Material material) {
         if(!strMaterialName.isEmpty()) {
             materialName = strMaterialName;
         }
         id = detailRepairBill.getId();
         materialID = detailRepairBill.getMaterialID();
         reqNum = detailRepairBill.getReqNum();
-        price = detailRepairBill.getReqNum();
+        if(material!=null) {
+            price = material.getPrice();
+        }
         createdDate = detailRepairBill.getCreatedDate();
 
         if(reqNum > 0 && price > 0 ) {
