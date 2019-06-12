@@ -83,7 +83,7 @@ public class DetailBillDTO {
         this.totalMoney = totalMoney;
     }
 
-    public void doMappingDetailReport(DetailRepairBill detailRepairBill,String strMaterialName,Material material) {
+    public void doMappingDetailReport(DetailRepairBill detailRepairBill,String strMaterialName,MaterialReport material) {
         if(!strMaterialName.isEmpty()) {
             materialName = strMaterialName;
         }

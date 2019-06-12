@@ -4,6 +4,7 @@ import com.nghia.uit.webgarage.Bean.ResponseDTO;
 import com.nghia.uit.webgarage.Message.Constants;
 import com.nghia.uit.webgarage.Model.*;
 import com.nghia.uit.webgarage.Repository.DetailRepairBillRepository;
+import com.nghia.uit.webgarage.Repository.MaterialReportRepository;
 import com.nghia.uit.webgarage.Repository.MaterialRepository;
 import com.nghia.uit.webgarage.Repository.RepairBillRepository;
 import com.nghia.uit.webgarage.Service.TransManagementBillService;
@@ -32,6 +33,9 @@ public class TransManagementBillServiceImpl implements TransManagementBillServic
 
     @Autowired
     private MaterialRepository materialRepository;
+
+    @Autowired
+    private MaterialReportRepository materialReportRepository;
 
     @Override
     public List<DetailRepairBill> getDetail(String repairBillID) {
@@ -133,15 +137,24 @@ public class TransManagementBillServiceImpl implements TransManagementBillServic
 
 
     @Override
-    public ResponseDTO addMaterial(DetailRepairBill detailRepairBill, String repairBillID,String currentUser) {
+    public ResponseDTO addMaterial(DetailRepairBill detailRepairBillAdd, String repairBillID,String currentUser) {
         try {
             DetailRepairBill detailRepairBill1 = new DetailRepairBill();
             detailRepairBill1.setRepairBillID(repairBillID);
             DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
             Date date = new Date();
             detailRepairBill1.setCreatedDate(dateFormat.format(date));
-            detailRepairBill.setCreatedBy(currentUser);
-            detailRepairBill1.doMappingDetail(detailRepairBill);
+            detailRepairBill1.setCreatedBy(currentUser);
+            detailRepairBill1.setInfoBill(detailRepairBillAdd.getInfoBill());
+            detailRepairBill1.setMaterialID(detailRepairBillAdd.getMaterialID());
+            MaterialReport materialReport = materialReportRepository.findByMaterialID(detailRepairBillAdd.getMaterialID());
+            if(materialReport.getTotalNum() > detailRepairBillAdd.getReqNum()) {
+                detailRepairBill1.setReqNum(detailRepairBillAdd.getReqNum());
+                materialReport.setTotalNum(materialReport.getTotalNum()-detailRepairBillAdd.getReqNum());
+                materialReportRepository.save(materialReport);
+            } else {
+                return new ResponseDTO().fail("Số lượng phụ tùng trong kho không đủ để sửa chữa.");
+            }
             detailRepairBillRepository.save(detailRepairBill1);
             return new ResponseDTO().success(Constants.DONE_ADDMATERIALSERVICE);
         } catch (Exception ex) {
@@ -151,10 +164,19 @@ public class TransManagementBillServiceImpl implements TransManagementBillServic
     }
 
     @Override
-    public ResponseDTO updateMaterial(DetailRepairBill detailRepairBill, String id) {
+    public ResponseDTO updateMaterial(DetailRepairBill detailRepairBillAdd, String id) {
         try {
             DetailRepairBill detailRepairBill1 = detailRepairBillRepository.findById(id);
-            detailRepairBill1.doMappingDetail(detailRepairBill);
+            detailRepairBill1.setInfoBill(detailRepairBillAdd.getInfoBill());
+            detailRepairBill1.setMaterialID(detailRepairBillAdd.getMaterialID());
+            MaterialReport materialReport = materialReportRepository.findByMaterialID(detailRepairBillAdd.getMaterialID());
+            if(materialReport.getTotalNum() + detailRepairBill1.getReqNum() > detailRepairBillAdd.getReqNum()) {
+                materialReport.setTotalNum(materialReport.getTotalNum()+ detailRepairBill1.getReqNum()-detailRepairBillAdd.getReqNum());
+                detailRepairBill1.setReqNum(detailRepairBillAdd.getReqNum());
+                materialReportRepository.save(materialReport);
+            } else {
+                return new ResponseDTO().fail("Số lượng phụ tùng trong kho không đủ để sửa chữa.");
+            }
             detailRepairBillRepository.save(detailRepairBill1);
             return new ResponseDTO().success(Constants.DONE_UPDATEMATERIALSERVICE);
         } catch (Exception ex) {

@@ -59,11 +59,10 @@ public class ReportManagementServiceImpl implements ReportManagementService {
                         for(DetailRepairBill detailRepairBill :detailRepairBills) {
                             DetailBillDTO detailBillDTO = new DetailBillDTO();
                             String strMaterialName = null;
-                            Material material = new Material();
+                            MaterialReport material = new MaterialReport();
                             if(!detailRepairBill.getMaterialID().isEmpty()) {
                                 MaterialReport materialReport = materialReportRepository.findByMaterialID(detailRepairBill.getMaterialID());
-                                List<Material> materialList = materialRepository.findAllByMaterialID(detailRepairBill.getMaterialID());
-                                material = materialList.get(0);
+                                material = materialReportRepository.findByMaterialID(detailRepairBill.getMaterialID());
                                 if(!materialReport.getMaterialName().isEmpty()){
                                     strMaterialName = materialReport.getMaterialName();
                                 }
@@ -115,11 +114,10 @@ public class ReportManagementServiceImpl implements ReportManagementService {
                     for(DetailRepairBill detailRepairBill :detailRepairBills) {
                         DetailBillDTO detailBillDTO = new DetailBillDTO();
                         String strMaterialName = null;
-                        Material material = new Material();
+                        MaterialReport material = new MaterialReport();
                         if(!detailRepairBill.getMaterialID().isEmpty()) {
                             MaterialReport materialReport = materialReportRepository.findByMaterialID(detailRepairBill.getMaterialID());
-                            List<Material> materialList = materialRepository.findAllByMaterialID(detailRepairBill.getMaterialID());
-                            material = materialList.get(0);
+                            material = materialReportRepository.findByMaterialID(detailRepairBill.getMaterialID());
                             if(!materialReport.getMaterialName().isEmpty()){
                                 strMaterialName = materialReport.getMaterialName();
                             }
@@ -167,11 +165,10 @@ public class ReportManagementServiceImpl implements ReportManagementService {
                         for(DetailRepairBill detailRepairBill :detailRepairBills) {
                             DetailBillDTO detailBillDTO = new DetailBillDTO();
                             String strMaterialName = null;
-                            Material material = new Material();
+                            MaterialReport material = new MaterialReport();
                             if(!detailRepairBill.getMaterialID().isEmpty()) {
                                 MaterialReport materialReport = materialReportRepository.findByMaterialID(detailRepairBill.getMaterialID());
-                                List<Material> materialList = materialRepository.findAllByMaterialID(detailRepairBill.getMaterialID());
-                                material = materialList.get(0);
+                                material = materialReportRepository.findByMaterialID(detailRepairBill.getMaterialID());
                                 if(!materialReport.getMaterialName().isEmpty()){
                                     strMaterialName = materialReport.getMaterialName();
                                 }
@@ -228,11 +225,10 @@ public class ReportManagementServiceImpl implements ReportManagementService {
                         for(DetailRepairBill detailRepairBill :detailRepairBills) {
                             DetailBillDTO detailBillDTO = new DetailBillDTO();
                             String strMaterialName = null;
-                            Material material = new Material();
+                            MaterialReport material = new MaterialReport();
                             if(!detailRepairBill.getMaterialID().isEmpty()) {
                                 MaterialReport materialReport = materialReportRepository.findByMaterialID(detailRepairBill.getMaterialID());
-                                List<Material> materialList = materialRepository.findAllByMaterialID(detailRepairBill.getMaterialID());
-                                material = materialList.get(0);
+                                material = materialReportRepository.findByMaterialID(detailRepairBill.getMaterialID());
                                 if(!materialReport.getMaterialName().isEmpty()){
                                     strMaterialName = materialReport.getMaterialName();
                                 }
