@@ -85,10 +85,11 @@ public class MaterialManagementServiceImpl implements MaterialManagementService 
                 if(!Objects.isNull(materialReport)) {
                     strID= materialReport.getMaterialID();
                     strMaterialName = materialReport.getMaterialName();
-                    if(Integer.valueOf(material.getNumInput()) > 0) {
+                    if(Integer.valueOf(material.getNumInput()) > 0 && Long.valueOf(material.getPrice()) > 0) {
                         long totalNum = materialReport.getTotalNum();
                         long numInput = Long.valueOf(material.getNumInput());
                         materialReport.setTotalNum(totalNum + numInput);
+                        materialReport.setPrice(material.getPrice());
                         materialReportRepository.save(materialReport);
                     }
                 }

@@ -209,6 +209,7 @@ class SearchMaterial extends Component {
                                 <th>STT</th>
                                 <th>Mã phụ tùng</th>
                                 <th>Tên phụ tùng</th>
+                                <th>Giá tiền</th>
                                 <th>Số lượng trong kho</th>
                             </tr>
                             </thead>
@@ -220,6 +221,7 @@ class SearchMaterial extends Component {
                                             <td>{index + 1}</td>
                                             <td>{item.materialID}</td>
                                             <td>{item.materialName}</td>
+                                            <td>{item.price}</td>
                                             <td>{item.totalNum}</td>
                                         </tr>
                                     )

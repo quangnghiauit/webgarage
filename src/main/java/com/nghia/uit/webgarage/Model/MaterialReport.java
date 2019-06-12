@@ -25,6 +25,9 @@ public class MaterialReport {
     @Column(name = "totalNum")
     private long totalNum;
 
+    @Column(name = "price")
+    private long price;
+
     @Column(name = "reqDate")
     private String reqDate;
 
@@ -77,6 +80,14 @@ public class MaterialReport {
 
     public void setTotalNum(long totalNum) {
         this.totalNum = totalNum;
+    }
+
+    public long getPrice() {
+        return price;
+    }
+
+    public void setPrice(long price) {
+        this.price = price;
     }
 
     public void doMappingMaterial(String matName) {
