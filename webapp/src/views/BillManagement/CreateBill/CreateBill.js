@@ -219,7 +219,7 @@ class CreateBill extends Component {
                                 <th>Biển số xe</th>
                                 <th>Mã khách hàng</th>
                                 <th>Tên khách hàng</th>
-                                <th>Ngày tạo hóa đơn</th>
+                                <th>Ngày tiếp nhận sửa chữa</th>
                                 <th>Trạng thái</th>
                             </tr>
                             </thead>

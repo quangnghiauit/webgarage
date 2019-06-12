@@ -18,6 +18,7 @@ import 'react-dates/lib/css/_datepicker.css';
 import {DateRangePicker} from "react-dates";
 import {searchRevenue} from "../../../api/BillManagement/billmanagement";
 import moment from "moment";
+import * as commonFunction from "../../../api/commonFunction";
 
 class RevenueReport extends Component {
     constructor(props) {
@@ -257,6 +258,7 @@ class RevenueReport extends Component {
                                 <th>STT</th>
                                 <th>Mã giao dịch</th>
                                 <th>Ngày xuất hóa đơn</th>
+                                <th>Người xuất hóa đơn</th>
                                 <th>Giá trị hóa đơn</th>
                             </tr>
                             </thead>
@@ -268,6 +270,7 @@ class RevenueReport extends Component {
                                             <td>{index + 1}</td>
                                             <td>{item.repairBillID}</td>
                                             <td>{item.exportDate}</td>
+                                            <td>{item.exportBy}</td>
                                             <td>{item.totalMoney}</td>
                                         </tr>
                                     )
@@ -281,8 +284,10 @@ class RevenueReport extends Component {
                                 <th>Tổng doanh thu</th>
                                 <td scope="row"></td>
                                 <td scope="row"></td>
+                                <td scope="row"></td>
                                 <th>
-                                    {this.state.sumTotalMoney ? this.state.sumTotalMoney : 0}
+                                    {this.state.sumTotalMoney ? (commonFunction.formatNumber(this.state.sumTotalMoney, 0,
+                                        '.', ',')) : 0}
                                 </th>
                             </tr>
                             </tfoot>

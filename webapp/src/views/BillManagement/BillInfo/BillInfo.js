@@ -3,6 +3,7 @@ import {Button, Card, CardBody, CardFooter, CardHeader, Col, FormGroup, Input, L
 import {exportBill, getDetailBill} from '../../../api/BillManagement/billmanagement'
 import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas'
+import * as commonFunction from "../../../api/commonFunction";
 
 
 class BillInfo extends Component {
@@ -170,7 +171,8 @@ class BillInfo extends Component {
                                     <td scope="row"></td>
                                     <td scope="row"></td>
                                     <th>
-                                        {this.state.sumTotalMoney ? this.state.sumTotalMoney : 0}
+                                        {this.state.sumTotalMoney ? (commonFunction.formatNumber(this.state.sumTotalMoney, 0,
+                                                '.', ',')) : 0}
                                     </th>
                                 </tr>
                                 </tfoot>

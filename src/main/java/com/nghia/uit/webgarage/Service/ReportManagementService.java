@@ -15,7 +15,7 @@ public interface ReportManagementService {
 
     List<BillDTO> getAllBillByUser(String userID);
 
-    ResponseDTO exportBill(DetailBillDTO detailBillDTO);
+    ResponseDTO exportBill(DetailBillDTO detailBillDTO,String currentUser);
 
     List<RepairBill> searchRevenue(RequestSearchDate requestSearchDate);
 

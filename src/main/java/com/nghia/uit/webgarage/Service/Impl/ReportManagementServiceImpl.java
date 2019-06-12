@@ -262,7 +262,7 @@ public class ReportManagementServiceImpl implements ReportManagementService {
     }
 
     @Override
-    public ResponseDTO exportBill(DetailBillDTO detailBillDTO) {
+    public ResponseDTO exportBill(DetailBillDTO detailBillDTO,String currentUser) {
         try {
             long totalMoney = detailBillDTO.getTotalMoney();
             String repairBillID = detailBillDTO.getRepairBillID();
@@ -273,6 +273,7 @@ public class ReportManagementServiceImpl implements ReportManagementService {
                 return new ResponseDTO().fail("Xuất hóa đơn không thành công");
             }
             repairBill.setStatus(2);
+            repairBill.setExportBy(currentUser);
 
             if(totalMoney >= 0) {
                 repairBill.setTotalMoney(totalMoney);
