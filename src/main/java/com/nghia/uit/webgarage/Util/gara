@@ -43,6 +43,7 @@ create table `materialReport`
     `materialID` varchar(20),
     `materialName` varchar(100),
     `totalNum` long,
+    `price` long,
 	`reqDate` timestamp,
     `createdBy` varchar(100)
 );
