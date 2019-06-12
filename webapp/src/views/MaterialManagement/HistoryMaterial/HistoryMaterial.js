@@ -473,7 +473,7 @@ class HistoryMaterial extends Component {
                         báo</ModalHeader>
                     <ModalBody>
                         {resultAddName ?
-                            "Thêm tên vật tư mới thành công" : null
+                            resultAddName.returnMessage : null
                         }
                     </ModalBody>
                 </Modal>

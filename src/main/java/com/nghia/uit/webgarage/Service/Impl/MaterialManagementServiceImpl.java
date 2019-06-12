@@ -59,13 +59,13 @@ public class MaterialManagementServiceImpl implements MaterialManagementService 
             if(!mateName.isEmpty()) {
                 MaterialReport checkDuplicateMateID = materialReportRepository.findByName(mateName);
                 if(checkDuplicateMateID!=null) {
-                    return new ResponseDTO().fail("Dữ liệu bị trùng lặp.");
+                    return new ResponseDTO().fail("Tên vật tư đã tồn tại.");
                 }
                 MaterialReport materialReport = new MaterialReport();
                 materialReport.setCreatedBy(currentUser);
                 materialReport.doMappingMaterial(mateName);
                 materialReportRepository.save(materialReport);
-                return new ResponseDTO().success(Constants.DONE_ADDREQUESTMATERIAL);
+                return new ResponseDTO().success("Thêm tên vật tư thành công");
             }
             return new ResponseDTO().fail("No message");
 

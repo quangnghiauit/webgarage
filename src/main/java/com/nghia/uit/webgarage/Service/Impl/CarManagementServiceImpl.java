@@ -127,6 +127,12 @@ public class CarManagementServiceImpl implements CarManagementService {
     public ResponseDTO addCar(Car car, String userID) {
         try {
             if (String.valueOf(userID) != null) {
+                if(!car.getLicensePlate().isEmpty()) {
+                    Car carByLicensePlate = carRepository.findCarByLicensePlate(car.getLicensePlate());
+                    if(carByLicensePlate !=null) {
+                        return new ResponseDTO().fail("Biển số này đã tồn tại.");
+                    }
+                }
                 car.setStatus(Constants.INIT_PROCESS);
                 car.setUserID(Long.valueOf(userID));
                 carRepository.save(car);
