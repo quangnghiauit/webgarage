@@ -21,12 +21,15 @@ import {
     Table
 } from 'reactstrap';
 import {addClient, getAllClient} from "../../../api/UserManagement/userManagement";
+import {getRole} from "../../../api/Role/role";
 
 class SearchUser extends Component {
     constructor(props) {
         super(props);
         this.state = {
             listTable: [],
+            roles: [],
+
             userID: '',
             displayname: '',
             phoneNumber: '',
@@ -68,6 +71,12 @@ class SearchUser extends Component {
     }
 
     componentDidMount() {
+        getRole()
+            .then(response => {
+                this.setState({roles: response.data});
+            })
+            .catch(error => {
+            });
         this.handleSearch();
     }
 
@@ -280,7 +289,7 @@ class SearchUser extends Component {
     }
 
     render() {
-        const {resultList, resultAdd} = this.state;
+        const {resultList, resultAdd,roles} = this.state;
         const listPaItems = this.state.filterPa.map(function (i, index) {
             return this.state.curPaItem === i ?
                 <PaginationItem key={index} active id={'paItem' + i}>
@@ -316,7 +325,10 @@ class SearchUser extends Component {
                                 <th>Số điện thoại</th>
                                 <th>Địa chỉ</th>
                                 <th>Ngày tạo TK</th>
-                                <th>Thông tin chi tiết</th>
+                                {roles !== '[ROLE_ADMIN]'? (
+                                    <th>Thông tin chi tiết</th>
+                                ):null}
+
                             </tr>
                             </thead>
                             <tbody>
@@ -330,17 +342,20 @@ class SearchUser extends Component {
                                             <td>{item.phoneNumber}</td>
                                             <td>{item.address}</td>
                                             <td>{item.createdDate}</td>
-                                            <td>
-                                                {item.isactive == 0
-                                                    ?
-                                                    <Button color="primary"
-                                                            onClick={() => this.handleUserBill(item.userID)}>Xem</Button>
-                                                    :
-                                                    <Button color="warning"
-                                                            onClick={() => this.handleUserBill(item.userID)}>Đang xử
-                                                        lý</Button>
-                                                }
-                                            </td>
+                                            {roles !== '[ROLE_ADMIN]'? (
+                                                <td>
+                                                    {item.isactive == 0
+                                                        ?
+                                                        <Button color="primary"
+                                                                onClick={() => this.handleUserBill(item.userID)}>Xem</Button>
+                                                        :
+                                                        <Button color="warning"
+                                                                onClick={() => this.handleUserBill(item.userID)}>Đang xử
+                                                            lý</Button>
+                                                    }
+                                                </td>
+                                            ):null}
+
                                         </tr>
                                     )
 

@@ -20,73 +20,19 @@ export default {
             icon: "icon-puzzle"
         },
         {
-            name : "QUẢN LÝ XE",
-            url:"/car-management",
+            name: "TRA CỨU XE",
+            url:"/car-management/search",
             icon: "icon-star",
-            children: [
-                {
-                    name: "Tra cứu xe",
-                    url:"/car-management/search",
-                    icon: "icon-star",
-                },
-                {
-                    name: "Danh sách xe đang xử lý",
-                    url :"/car-management/list-car-handling",
-                    icon:"icon-star",
-                }
-
-            ]
         },
         {
-            name : "QUẢN LÝ PHỤ TÙNG",
-            url:"/material-management",
+            name: "TRA CỨU PHỤ TÙNG",
+            url:"/material-management/search",
             icon: "icon-energy",
-            children: [
-                {
-                    name: "Tra cứu phụ tùng",
-                    url:"/material-management/search",
-                    icon: "icon-energy",
-                },
-                {
-                    name: "Lịch sử nhập phụ tùng",
-                    url :"/material-management/history",
-                    icon:"icon-energy",
-                }
-            ]
         },
         {
-            name : "QUẢN LÝ HÓA ĐƠN",
-            url:"/bill-management",
-            icon: "icon-note",
-            children: [
-                {
-                    name: "Lập hóa đơn",
-                    url:"/bill-management/create-bill",
-                    icon: "icon-note",
-                },
-                {
-                    name: "Tra cứu hóa đơn",
-                    url :"/bill-management/history",
-                    icon:"icon-note",
-                }
-            ]
-        },
-        {
-            name : "BÁO CÁO",
-            url:"/report-management",
-            icon: "icon-calculator",
-            children: [
-                {
-                    name: "Lập báo cáo tồn",
-                    url:"/report-management/create-report-inventory",
-                    icon: "icon-calculator",
-                },
-                {
-                    name: "Lập báo cáo doanh thu",
-                    url :"/report-management/create-report-revenue",
-                    icon:"icon-calculator",
-                }
-            ]
+            name: "TRA CỨU HÓA ĐƠN",
+            url :"/bill-management/history",
+            icon:"icon-note",
         },
         {
             name : "ADMIN",

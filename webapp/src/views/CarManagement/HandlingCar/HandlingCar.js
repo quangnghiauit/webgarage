@@ -267,7 +267,7 @@ class HandlingCar extends Component {
                             </Col>
                             <Col xs="12" lg="6">
                                 <FormGroup row>
-                                    <Label htmlFor="createdDate" sm={2}>Ngày lập hóa đơn</Label>
+                                    <Label htmlFor="createdDate" sm={2}>Ngày tạo phiếu sửa chữa</Label>
                                     <Col sm={6}>
                                         <Input type="text" id="id"
                                                onChange={(e) => this.setState({createdDate: e.target.value})}
@@ -319,7 +319,7 @@ class HandlingCar extends Component {
                         {
                             (this.state.status == 0)
                                 ?
-                                <Badge color="primary" pill>Chẳng có gì hihi</Badge>
+                                <Badge color="primary" pill></Badge>
                                 :
                                 (
                                     (this.state.status == 1)

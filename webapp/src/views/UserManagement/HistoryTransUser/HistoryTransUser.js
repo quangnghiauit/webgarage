@@ -482,7 +482,8 @@ class HistoryTransUser extends Component {
                                                                         )
 
                                                                         :
-                                                                        <Button color="primary" size="sm">Tiếp nhận
+                                                                        <Button color="primary" size="sm"
+                                                                                onClick={() => this.toggleProcess(item.id)}>Tiếp nhận
                                                                             lại</Button>
                                                                 )
 
@@ -518,49 +519,49 @@ class HistoryTransUser extends Component {
                     </Col>
                 </Row>
 
-                <Card>
-                    <CardHeader>
-                        <i className="fa fa-align-justify"></i> Lịch sử giao dịch
-                    </CardHeader>
-                    <CardBody>
-                        <Button color="link" onClick={this.toggleBill}>[ngày hóa đơn]</Button>
-                        <Collapse isOpen={this.state.collapseBill}>
-                            <Card>
-                                <CardBody>
-                                    <Table>
-                                        <thead>
-                                        <tr>
-                                            <th>Biển số xe</th>
-                                            <th>Phụ tùng</th>
-                                            <th>Số lượng</th>
-                                            <th>Đơn giá</th>
-                                            <th>Thành tiền</th>
-                                        </tr>
-                                        </thead>
-                                        <tbody>
-                                        <tr>
-                                            <td>HE234</td>
-                                            <td>Bánh xe</td>
-                                            <td>5</td>
-                                            <td>20</td>
-                                            <td>100</td>
-                                        </tr>
-                                        </tbody>
-                                        <tfoot>
-                                        <tr>
-                                            <th>Tổng hóa đơn</th>
-                                            <td scope="row"></td>
-                                            <td scope="row"></td>
-                                            <td scope="row"></td>
-                                            <th>0000</th>
-                                        </tr>
-                                        </tfoot>
-                                    </Table>
-                                </CardBody>
-                            </Card>
-                        </Collapse>
-                    </CardBody>
-                </Card>
+                {/*<Card>*/}
+                    {/*<CardHeader>*/}
+                        {/*<i className="fa fa-align-justify"></i> Lịch sử giao dịch*/}
+                    {/*</CardHeader>*/}
+                    {/*<CardBody>*/}
+                        {/*<Button color="link" onClick={this.toggleBill}>[ngày hóa đơn]</Button>*/}
+                        {/*<Collapse isOpen={this.state.collapseBill}>*/}
+                            {/*<Card>*/}
+                                {/*<CardBody>*/}
+                                    {/*<Table>*/}
+                                        {/*<thead>*/}
+                                        {/*<tr>*/}
+                                            {/*<th>Biển số xe</th>*/}
+                                            {/*<th>Phụ tùng</th>*/}
+                                            {/*<th>Số lượng</th>*/}
+                                            {/*<th>Đơn giá</th>*/}
+                                            {/*<th>Thành tiền</th>*/}
+                                        {/*</tr>*/}
+                                        {/*</thead>*/}
+                                        {/*<tbody>*/}
+                                        {/*<tr>*/}
+                                            {/*<td>HE234</td>*/}
+                                            {/*<td>Bánh xe</td>*/}
+                                            {/*<td>5</td>*/}
+                                            {/*<td>20</td>*/}
+                                            {/*<td>100</td>*/}
+                                        {/*</tr>*/}
+                                        {/*</tbody>*/}
+                                        {/*<tfoot>*/}
+                                        {/*<tr>*/}
+                                            {/*<th>Tổng hóa đơn</th>*/}
+                                            {/*<td scope="row"></td>*/}
+                                            {/*<td scope="row"></td>*/}
+                                            {/*<td scope="row"></td>*/}
+                                            {/*<th>0000</th>*/}
+                                        {/*</tr>*/}
+                                        {/*</tfoot>*/}
+                                    {/*</Table>*/}
+                                {/*</CardBody>*/}
+                            {/*</Card>*/}
+                        {/*</Collapse>*/}
+                    {/*</CardBody>*/}
+                {/*</Card>*/}
                 <Modal isOpen={this.state.nestedModalUpdateUser}
                        toggle={() => this.toggleNestedUpdateUser()}
                        onClosed={() => this.toggleAllUpdateUser()}

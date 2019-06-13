@@ -77,22 +77,13 @@ class Full extends Component {
                                                component={SearchUser}/>,
                                         <Route path="/user-management/history/:id" name="HistoryTransUser"
                                                component={HistoryTransUser}/>,
-                                        <Route path="/user-management/user-info" name="UserInfo" component={UserInfo}/>,
 
 
                                         <Route path="/car-management/search" name="SearchCar"
                                                component={SearchCar}/>,
-                                        <Route path="/car-management/car-handle-list/:id" name="HandlingCar"
-                                               component={HandlingCar}/>,
-                                        <Route path="/car-management/car-handle-info/:id" name="CarHandleInfo"
-                                               component={CarHandleInfo}/>,
-                                        <Route path="/car-management/list-car-handling" name="ListCarHandling"
-                                               component={ListCarHandling}/>,
 
                                         <Route path="/material-management/search" name="SearchMaterial"
                                                component={SearchMaterial}/>,
-                                        <Route path="/material-management/history" name="HistoryMaterial"
-                                               component={HistoryMaterial}/>,
 
                                         <Route path="/admin-management/user-management" name="UserManagement"
                                                component={UserManagement}/>,
@@ -105,13 +96,6 @@ class Full extends Component {
                                                component={HistoryTransBill}/>,
                                         <Route path="/bill-management/bill-info/:id" name="BillInfo"
                                                component={BillInfo}/>,
-
-                                        <Route path="/report-management/create-report-revenue"
-                                               name="CreateReportRevenue"
-                                               component={RevenueReport}/>,
-                                        <Route path="/report-management/create-report-inventory"
-                                               name="CreateReportInventory"
-                                               component={InventoryReport}/>,
 
                                         <Redirect from="/" to="/dashboard"/>
                                     ]

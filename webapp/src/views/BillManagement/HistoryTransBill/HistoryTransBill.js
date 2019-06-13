@@ -13,6 +13,7 @@ import {
 } from 'reactstrap';
 
 import {getHistoryBill} from '../../../api/BillManagement/billmanagement'
+import {getRole} from "../../../api/Role/role";
 
 
 class HistoryTransBill extends Component {
@@ -21,6 +22,8 @@ class HistoryTransBill extends Component {
 
         this.state = {
             list: null,
+            roles: [],
+
             curPaItem: 1,
             maxRows: 10,
             maxPaItems: 3,
@@ -36,6 +39,12 @@ class HistoryTransBill extends Component {
     }
 
     componentDidMount() {
+        getRole()
+            .then(response => {
+                this.setState({roles: response.data});
+            })
+            .catch(error => {
+            });
         this.load();
     }
 
@@ -182,7 +191,7 @@ class HistoryTransBill extends Component {
     }
 
     render() {
-        const {list} = this.state;
+        const {list,roles} = this.state;
         const listPaItems = this.state.filterPa.map(function (i, index) {
             return this.state.curPaItem === i ?
                 <PaginationItem key={index} active id={'paItem' + i}>
@@ -217,7 +226,9 @@ class HistoryTransBill extends Component {
                                 <th>Mã khách hàng</th>
                                 <th>Tên khách hàng</th>
                                 <th>Ngày tạo hóa đơn</th>
-                                <th>Trạng thái</th>
+                                {roles !== '[ROLE_ADMIN]'? (
+                                    <th>Trạng thái</th>
+                                ):null}
                             </tr>
                             </thead>
                             <tbody>
@@ -231,23 +242,26 @@ class HistoryTransBill extends Component {
                                             <td>{item.userID}</td>
                                             <td>{item.fullName}</td>
                                             <td>{item.createdDate}</td>
-                                            <td>
-                                                {
-                                                    item.status == 2 ? (
-                                                        <Button color="success"
-                                                                onClick={() => this.toggleBill(item.repairBillID)}>Đã thanh toán</Button>
-                                                    ) : (
-                                                        item.status == 1 ? (
-                                                            <Button color="danger"
-                                                                    onClick={() => this.toggleBill(item.repairBillID)}>Chưa thanh toán</Button>
-                                                        ) : null
-                                                    )
+                                            {roles !== '[ROLE_ADMIN]'? (
+                                                <td>
+                                                    {
+                                                        item.status == 2 ? (
+                                                            <Button color="success"
+                                                                    onClick={() => this.toggleBill(item.repairBillID)}>Đã thanh toán</Button>
+                                                        ) : (
+                                                            item.status == 1 ? (
+                                                                <Button color="danger"
+                                                                        onClick={() => this.toggleBill(item.repairBillID)}>Chưa thanh toán</Button>
+                                                            ) : null
+                                                        )
 
-                                                }
-                                                {
+                                                    }
+                                                    {
 
-                                                }
-                                            </td>
+                                                    }
+                                                </td>
+                                            ):null}
+
                                         </tr>
                                     );
                                 }) : null

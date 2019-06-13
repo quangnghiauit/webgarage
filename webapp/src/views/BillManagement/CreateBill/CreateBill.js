@@ -12,6 +12,7 @@ import {
     Table,
 } from 'reactstrap';
 import {getBillHandling} from '../../../api/BillManagement/billmanagement'
+import {getRole} from "../../../api/Role/role";
 
 
 class CreateBill extends Component {
@@ -39,6 +40,7 @@ class CreateBill extends Component {
     }
 
     componentDidMount() {
+
         this.loadListBill()
     }
 
@@ -186,6 +188,7 @@ class CreateBill extends Component {
 
     render() {
         const {list} = this.state;
+
         const listPaItems = this.state.filterPa.map(function (i, index) {
             return this.state.curPaItem === i ?
                 <PaginationItem key={index} active id={'paItem' + i}>
@@ -221,6 +224,7 @@ class CreateBill extends Component {
                                 <th>Tên khách hàng</th>
                                 <th>Ngày tiếp nhận sửa chữa</th>
                                 <th>Trạng thái</th>
+
                             </tr>
                             </thead>
                             <tbody>
@@ -235,11 +239,12 @@ class CreateBill extends Component {
                                             <td>{item.fullName}</td>
                                             <td>{item.createdDate}</td>
                                             <td>
-                                                {
-                                                    <Button color="primary"
-                                                            onClick={() => this.toggleCreateBill(item.repairBillID)}>Tạo</Button>
-                                                }
+                                                    {
+                                                        <Button color="primary"
+                                                                onClick={() => this.toggleCreateBill(item.repairBillID)}>Tạo</Button>
+                                                    }
                                             </td>
+
                                         </tr>
                                     );
                                 }) : null
