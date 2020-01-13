@@ -8,7 +8,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 @Entity
-@Table(name = "repairBill")
+//@Table(name = "repairBill")
 public class RepairBill {
 
     @Id

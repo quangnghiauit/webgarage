@@ -85,7 +85,7 @@ class Login extends Component {
 
                     <Row className="justify-content-center">
 
-                        <Col md="8">
+                        <Col md="5">
                             <CardGroup>
 
                                 <Card className="p-4">
@@ -95,9 +95,9 @@ class Login extends Component {
                                         <p className="text-muted">Sign In to your account</p>
                                         <InputGroup className="mb-3">
                                             <div className="input-group-prepend">
-                        <span className="input-group-text">
-                          <i className="icon-user"></i>
-                        </span>
+                                                <span className="input-group-text">
+                                                    <i className="icon-user"></i>
+                                                </span>
                                             </div>
 
                                             <Input
@@ -112,9 +112,9 @@ class Login extends Component {
                                         </InputGroup>
                                         <InputGroup className="mb-4">
                                             <div className="input-group-prepend">
-                        <span className="input-group-text">
-                          <i className="icon-lock"></i>
-                        </span>
+                                                <span className="input-group-text">
+                                                    <i className="icon-lock"></i>
+                                                </span>
                                             </div>
                                             <Input
                                                 placeholder="Password"
@@ -127,30 +127,14 @@ class Login extends Component {
                                                 required/>
                                         </InputGroup>
                                         <Row>
+                                            <Col xs='4'/>
                                             <Col xs="6">
                                                 <Button color="primary" className="px-4" type="submit"
                                                         value="Submit" name="action"
                                                         onClick={this.handleLogin}>Login</Button>
 
                                             </Col>
-                                            <Col xs="6" className="text-right">
-                                                <Button color="link" className="px-0">Forgot password?</Button>
-                                            </Col>
                                         </Row>
-                                    </CardBody>
-                                </Card>
-                                <Card className="text-white bg-primary py-5 d-md-down-none"
-                                      style={{width: 44 + '%'}}>
-                                    <CardBody className="text-center">
-                                        <div>
-                                            <h2>Sign up</h2>
-                                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
-                                                eiusmod tempor incididunt ut
-                                                labore et dolore magna aliqua.</p>
-
-                                            <Button color="primary" className="mt-3" href="/register" active>Register
-                                                Now!</Button>
-                                        </div>
                                     </CardBody>
                                 </Card>
 
